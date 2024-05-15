@@ -1,0 +1,16 @@
+.listContainer div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.imgListProduct {
+    width: 200px;
+}
+
+.buttonList {
+    margin-left: -2vw;
+    margin-right: -2vw;
+}
