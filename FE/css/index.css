@@ -1,6 +1,11 @@
-.bodyContainer {
-    background-color: #101010;
+.container-fluid {
+    background-color: #333333;
     color: #fbfbfb;
+
+}
+
+#bodyContainer {
+    padding: 0px;
 }
 
 html {

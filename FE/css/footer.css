@@ -1,7 +1,7 @@
 .footerContainer {
     display: flex;
     justify-content: space-around;
-    background-color: #333;
+    background-color: #1d1d1d;
 }
 
 .footerNameContainer {
