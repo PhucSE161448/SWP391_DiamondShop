@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: auto;
+    width: 100vw;
 }
 
 /* Style the links inside the navigation bar */
