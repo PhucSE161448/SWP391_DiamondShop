@@ -1,0 +1,49 @@
+.card {
+    border-radius: 0 0 10px 10px;
+    width: 231px;
+    height: 341.89px;
+    background-color: #D9D9D9;
+}
+
+.imgListProduct {
+    max-width: 231px;
+    border-radius: 10px 10px 0 0;
+}
+
+.categoryContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    padding: 0 10vw 0 10vw;
+}
+
+#productContainerId li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0 10vw 0 10vw;
+}
+
+.d-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+}

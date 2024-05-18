@@ -1,0 +1,29 @@
+.containerHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+
+.containerHeader>div {
+    padding: 10px 20px;
+}
+
+#logoHeader {
+    width: 100px;
+}
+
+input {
+    padding: 10px;
+    border-radius: 30px;
+    border: 1px solid #000;
+}
+
+input:hover {
+    border: 2px solid #000;
+}
+
+input::placeholder {
+    color: #000;
+}

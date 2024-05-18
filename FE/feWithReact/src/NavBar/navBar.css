@@ -1,0 +1,24 @@
+#navBarContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #000;
+    padding: 10px 10vw;
+    color: white;
+}
+
+#navBarContainer div a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5em;
+}
+
+#navBarContainer div a:hover,
+#navBarContainer div a:active {
+    color: #CEAA62;
+}
+
+.cartLogo {
+    height: 50px;
+    width: 50px;
+}
