@@ -1,5 +1,5 @@
 import React from 'react';
-import './content.css';
+import './Banner.css';
 import { swiffyslider } from 'swiffy-slider';
 import "swiffy-slider/css"
 export default function Banner() {
@@ -9,9 +9,9 @@ export default function Banner() {
         window.swiffyslider.init();
     });
     return (
-        <div className='swiffy-slider slider-nav-animation slider-nav-animation-fadein slider-nav-autoplay slider-nav-autopause'
+        <div className='swiffy-slider slider-nav-animation slider-nav-animation-fadein slider-nav-autoplay'
             id='swiffy-animation'>
-            <ul className='slider-container'>
+            <ul className='slider-container bannerContainer'>
                 <li><img src='src/assets/img/img2.jpg' className='imgBanner' /></li>
                 <li><img src='src/assets/img/img3.jpg' className='imgBanner' /></li>
                 <li><img src='src/assets/img/img4.png' className='imgBanner' /></li>

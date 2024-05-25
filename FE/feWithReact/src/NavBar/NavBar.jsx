@@ -2,7 +2,7 @@ import React from 'react';
 import './navBar.css';
 export default function NavBar() {
     return (
-        <nav className='navbar navbar-expand-lg bg-body-tertiary '>
+        <nav className='navbar-expand-lg bg-body-tertiary '>
             <div className='container-fluid' id='navBarContainer'>
                 <div>
                     <a href='index.html'>Home</a>

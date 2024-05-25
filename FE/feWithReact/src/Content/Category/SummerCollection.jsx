@@ -2,8 +2,8 @@ import React from 'react'
 import { swiffyslider } from 'swiffy-slider';
 import "swiffy-slider/css"
 import './Category.css'
-import { CategoryData } from './listOfCategory'
-export default function Category() {
+import { SummerCollectionData } from './listOfSummerCollection'
+export default function SummerCollection() {
     window.swiffyslider = swiffyslider;
 
     window.addEventListener("load", () => {
@@ -12,20 +12,20 @@ export default function Category() {
     return (
         <div className='container-fluid categoryContainer'>
             <div>
-                <h1 className='categoryTitle'>CATEGORY</h1>
+                <h1 className='categoryTitle'>SUMMER COLLECTION</h1>
             </div>
             <div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark ' id='centered'>
                 <ul className='slider-container productContainer slider-item-show2-sm' id='productContainerId'>
-                    {CategoryData.map((CategoryData) => (
-                        <li key={CategoryData.id}>
+                    {SummerCollectionData.map((SummerCollectionData) => (
+                        <li key={SummerCollectionData.id}>
                             <a href=''>
                                 <div className='card border-0'>
                                     <div className='ratio ratio-1x1'>
-                                        <img src={CategoryData.img} alt='' className='imgListProduct' />
+                                        <img src={SummerCollectionData.img} alt='' className='imgListProduct' />
                                     </div>
                                     <div className='card-body p-0 pt-2'>
                                         <div className='d-flex' id='textContainer'>
-                                            <h3 className='flex-grow-1'>{CategoryData.name}</h3>
+                                            <h3 className='flex-grow-1'>{SummerCollectionData.name}</h3>
                                         </div>
 
                                     </div>

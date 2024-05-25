@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Header from './header/Header.jsx'
+import Header from './Header/Header.jsx'
 import NavBar from './NavBar/NavBar.jsx'
 import Content from './Content/Content.jsx'
 function App() {
