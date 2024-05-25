@@ -1,0 +1,639 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\services\\claimsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\claimsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\interfaces\\iclaimsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iclaimsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\middlewares\\performancemiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\middlewares\\performancemiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\middlewares\\globalexceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\middlewares\\globalexceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\infrastructures\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\infrastructures\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\infrastructures\\mappers\\mapperconfigurationsprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\mappers\\mapperconfigurationsprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\commons\\pagination.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\commons\\pagination.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\commons\\appconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\commons\\appconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 565,
+          "SelectedChildIndex": 83,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:137:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:11:0:{2456bd12-ecf7-4988-a4a6-67d49173f565}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:141:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:142:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:139:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:143:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:144:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:145:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:146:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:147:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{873151d0-cf2e-48cc-b4bf-ad0394f6a3c3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c9c0ae26-aa77-11d2-b3f0-0000f87570ee}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1377497384:0:{83107a3e-496a-485e-b455-16ddb978e55e}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:15:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:16:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:17:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:14:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:13:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:12:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:11:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:10:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:9:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:8:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:7:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:6:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:5:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:4:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:16:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:17:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1928210406:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:350743133:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:6:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:27:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:23:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:29:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:12:0:{2456bd12-ecf7-4988-a4a6-67d49173f565}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:13:0:{2456bd12-ecf7-4988-a4a6-67d49173f565}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:14:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:19:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:33:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:38:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:40:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:41:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:42:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:43:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:44:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:4:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:5:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:9:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Program.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Program.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Program.cs",
+              "RelativeToolTip": "WebAPI\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.531Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IClaimsService.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Interfaces\\IClaimsService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IClaimsService.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Interfaces\\IClaimsService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IClaimsService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.562Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "WebAPI\\DependencyInjection.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\DependencyInjection.cs",
+              "RelativeToolTip": "WebAPI\\DependencyInjection.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.565Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ClaimsService.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Services\\ClaimsService.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Services\\ClaimsService.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Services\\ClaimsService.cs",
+              "RelativeToolTip": "WebAPI\\Services\\ClaimsService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PerformanceMiddleware.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\PerformanceMiddleware.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Middlewares\\PerformanceMiddleware.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\PerformanceMiddleware.cs",
+              "RelativeToolTip": "WebAPI\\Middlewares\\PerformanceMiddleware.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.57Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GlobalExceptionMiddleware.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
+              "RelativeToolTip": "WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BaseController.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Controllers\\BaseController.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Controllers\\BaseController.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Controllers\\BaseController.cs",
+              "RelativeToolTip": "WebAPI\\Controllers\\BaseController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MapperConfigurationsProfile.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
+              "RelativeDocumentMoniker": "Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
+              "RelativeToolTip": "Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "Infrastructures\\DependencyInjection.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\DependencyInjection.cs",
+              "RelativeToolTip": "Infrastructures\\DependencyInjection.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.579Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "Infrastructures\\UnitOfWork.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\UnitOfWork.cs",
+              "RelativeToolTip": "Infrastructures\\UnitOfWork.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.581Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Pagination.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Commons\\Pagination.cs",
+              "RelativeDocumentMoniker": "Application\\Commons\\Pagination.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Commons\\Pagination.cs",
+              "RelativeToolTip": "Application\\Commons\\Pagination.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.583Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AppConfiguration.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Commons\\AppConfiguration.cs",
+              "RelativeDocumentMoniker": "Application\\Commons\\AppConfiguration.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Commons\\AppConfiguration.cs",
+              "RelativeToolTip": "Application\\Commons\\AppConfiguration.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "Application\\IUnitOfWork.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\IUnitOfWork.cs",
+              "RelativeToolTip": "Application\\IUnitOfWork.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.589Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 239,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:12:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:13:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:26:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:31:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:32:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:35:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:36:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:39:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:24:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:28:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:22:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:13:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
