@@ -3,20 +3,52 @@
   "WorkspaceRootPath": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\services\\claimsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\claimsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\interfaces\\iclaimsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iclaimsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\infrastructures\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\interfaces\\icurrenttime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\interfaces\\icurrenttime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\infrastructures\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2527D4CE-DC68-4680-9EDF-9537AD6E7D3C}|Domain\\Domain.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\domain\\models\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2527D4CE-DC68-4680-9EDF-9537AD6E7D3C}|Domain\\Domain.csproj|solutionrelative:domain\\models\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\infrastructures\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\infrastructures\\swp391_diamondshopcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\swp391_diamondshopcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\interfaces\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\interfaces\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\middlewares\\performancemiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,14 +63,6 @@
       "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\infrastructures\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\infrastructures\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\infrastructures\\mappers\\mapperconfigurationsprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CCB2BA83-6399-45F4-A2F5-D43BC0DF2C8A}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\mappers\\mapperconfigurationsprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -49,10 +73,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\commons\\appconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\commons\\appconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\fpt\\swp391\\new one\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -62,7 +82,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 565,
-          "SelectedChildIndex": 83,
+          "SelectedChildIndex": 91,
           "Children": [
             {
               "$type": "Bookmark",
@@ -398,124 +418,72 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Program.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Program.cs",
-              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Program.cs",
-              "RelativeToolTip": "WebAPI\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAnAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T04:52:21.531Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "IClaimsService.cs",
-              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Interfaces\\IClaimsService.cs",
-              "RelativeDocumentMoniker": "Application\\Interfaces\\IClaimsService.cs",
-              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Interfaces\\IClaimsService.cs",
-              "RelativeToolTip": "Application\\Interfaces\\IClaimsService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "ICurrentTime.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Interfaces\\ICurrentTime.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\ICurrentTime.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Interfaces\\ICurrentTime.cs",
+              "RelativeToolTip": "Application\\Interfaces\\ICurrentTime.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T04:52:21.562Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DependencyInjection.cs",
-              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\DependencyInjection.cs",
-              "RelativeDocumentMoniker": "WebAPI\\DependencyInjection.cs",
-              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\DependencyInjection.cs",
-              "RelativeToolTip": "WebAPI\\DependencyInjection.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T04:52:21.565Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ClaimsService.cs",
-              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Services\\ClaimsService.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Services\\ClaimsService.cs",
-              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Services\\ClaimsService.cs",
-              "RelativeToolTip": "WebAPI\\Services\\ClaimsService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T04:52:21.568Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PerformanceMiddleware.cs",
-              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\PerformanceMiddleware.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Middlewares\\PerformanceMiddleware.cs",
-              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\PerformanceMiddleware.cs",
-              "RelativeToolTip": "WebAPI\\Middlewares\\PerformanceMiddleware.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T04:52:21.57Z",
+              "WhenOpened": "2024-05-25T05:10:01.293Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "GlobalExceptionMiddleware.cs",
-              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
-              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
-              "RelativeToolTip": "WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "BaseEntity.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\Models\\BaseEntity.cs",
+              "RelativeDocumentMoniker": "Domain\\Models\\BaseEntity.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\Models\\BaseEntity.cs",
+              "RelativeToolTip": "Domain\\Models\\BaseEntity.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T04:52:21.572Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "BaseController.cs",
-              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Controllers\\BaseController.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Controllers\\BaseController.cs",
-              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Controllers\\BaseController.cs",
-              "RelativeToolTip": "WebAPI\\Controllers\\BaseController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T04:52:21.574Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "MapperConfigurationsProfile.cs",
-              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
-              "RelativeDocumentMoniker": "Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
-              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
-              "RelativeToolTip": "Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T04:52:21.576Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "DependencyInjection.cs",
-              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\DependencyInjection.cs",
-              "RelativeDocumentMoniker": "Infrastructures\\DependencyInjection.cs",
-              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\DependencyInjection.cs",
-              "RelativeToolTip": "Infrastructures\\DependencyInjection.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T04:52:21.579Z",
+              "WhenOpened": "2024-05-25T05:06:56.303Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "SWP391_DiamondShopContext.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\SWP391_DiamondShopContext.cs",
+              "RelativeDocumentMoniker": "Infrastructures\\SWP391_DiamondShopContext.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\SWP391_DiamondShopContext.cs",
+              "RelativeToolTip": "Infrastructures\\SWP391_DiamondShopContext.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAowBMAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T05:05:12.805Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Repositories\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructures\\Repositories\\GenericRepository.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Repositories\\GenericRepository.cs",
+              "RelativeToolTip": "Infrastructures\\Repositories\\GenericRepository.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAFgAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T05:04:08.554Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IGenericRepository.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Interfaces\\IGenericRepository.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IGenericRepository.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Interfaces\\IGenericRepository.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IGenericRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T05:03:19.611Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "UnitOfWork.cs",
               "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\UnitOfWork.cs",
               "RelativeDocumentMoniker": "Infrastructures\\UnitOfWork.cs",
@@ -528,7 +496,137 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IClaimsService.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Interfaces\\IClaimsService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IClaimsService.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Interfaces\\IClaimsService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IClaimsService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.562Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "Infrastructures\\DependencyInjection.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\DependencyInjection.cs",
+              "RelativeToolTip": "Infrastructures\\DependencyInjection.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.579Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClaimsService.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Services\\ClaimsService.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Services\\ClaimsService.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Services\\ClaimsService.cs",
+              "RelativeToolTip": "WebAPI\\Services\\ClaimsService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Program.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Program.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Program.cs",
+              "RelativeToolTip": "WebAPI\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.531Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "GlobalExceptionMiddleware.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
+              "RelativeToolTip": "WebAPI\\Middlewares\\GlobalExceptionMiddleware.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "PerformanceMiddleware.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\PerformanceMiddleware.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Middlewares\\PerformanceMiddleware.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Middlewares\\PerformanceMiddleware.cs",
+              "RelativeToolTip": "WebAPI\\Middlewares\\PerformanceMiddleware.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.57Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "BaseController.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Controllers\\BaseController.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Controllers\\BaseController.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Controllers\\BaseController.cs",
+              "RelativeToolTip": "WebAPI\\Controllers\\BaseController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "MapperConfigurationsProfile.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
+              "RelativeDocumentMoniker": "Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
+              "RelativeToolTip": "Infrastructures\\Mappers\\MapperConfigurationsProfile.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "Application\\IUnitOfWork.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\IUnitOfWork.cs",
+              "RelativeToolTip": "Application\\IUnitOfWork.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.589Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "WebAPI\\DependencyInjection.cs",
+              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\DependencyInjection.cs",
+              "RelativeToolTip": "WebAPI\\DependencyInjection.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T04:52:21.565Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
               "Title": "Pagination.cs",
               "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Commons\\Pagination.cs",
               "RelativeDocumentMoniker": "Application\\Commons\\Pagination.cs",
@@ -541,7 +639,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 17,
               "Title": "AppConfiguration.cs",
               "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Commons\\AppConfiguration.cs",
               "RelativeDocumentMoniker": "Application\\Commons\\AppConfiguration.cs",
@@ -550,19 +648,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-25T04:52:21.586Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "IUnitOfWork.cs",
-              "DocumentMoniker": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\IUnitOfWork.cs",
-              "RelativeDocumentMoniker": "Application\\IUnitOfWork.cs",
-              "ToolTip": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\IUnitOfWork.cs",
-              "RelativeToolTip": "Application\\IUnitOfWork.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAKAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T04:52:21.589Z",
               "EditorCaption": ""
             },
             {

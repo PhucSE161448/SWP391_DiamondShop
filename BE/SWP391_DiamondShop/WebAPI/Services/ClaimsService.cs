@@ -9,9 +9,9 @@ namespace WebAPI.Services
         {
             // todo implementation to get the current userId
             var Id = httpContextAccessor.HttpContext?.User?.FindFirstValue("userId");
-            GetCurrentUserId = string.IsNullOrEmpty(Id) ? Guid.Empty : Guid.Parse(Id);
+            GetCurrentUserId = string.IsNullOrEmpty(Id) ? "" : Id;
         }
 
-        public Guid GetCurrentUserId { get; }
+        public string GetCurrentUserId { get; }
     }
 }

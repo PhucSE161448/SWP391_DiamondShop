@@ -2,19 +2,19 @@
 {
     public abstract class BaseEntity
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
-        public Guid? CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
-        public DateTime? ModificationDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
-        public Guid? ModificationBy { get; set; }
+        public string ModifiedBy { get; set; }
 
-        public DateTime? DeletionDate { get; set; }
+        public DateTime? DeletedDate { get; set; }
 
-        public Guid? DeleteBy { get; set; }
+        public string? DeletedBy { get; set; }
 
         public bool IsDeleted { get; set; }
     }
