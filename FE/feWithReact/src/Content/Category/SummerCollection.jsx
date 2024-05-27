@@ -14,8 +14,8 @@ export default function SummerCollection() {
             <div>
                 <h1 className='categoryTitle'>SUMMER COLLECTION</h1>
             </div>
-            <div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark ' id='centered'>
-                <ul className='slider-container productContainer slider-item-show2-sm' id='productContainerId'>
+            <div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm' id='centered'>
+                <ul className='slider-container productContainer ' id='productContainerId'>
                     {SummerCollectionData.map((SummerCollectionData) => (
                         <li key={SummerCollectionData.id}>
                             <a href=''>

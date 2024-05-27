@@ -26,7 +26,7 @@ export default function AboutUs() {
                     </div>
                 </div>
                 <div className='col-6 contentBannerContainerAboutUs'>
-                    <img src="src/assets/img/ImgAboutUs.png" alt="" className='imgAboutUs' />
+                    <img src="src/assets/img/ImgAboutUs.png" alt="" className='imgBanner2' />
                 </div>
             </div>
 

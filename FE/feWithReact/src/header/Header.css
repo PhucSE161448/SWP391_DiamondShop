@@ -27,3 +27,8 @@ input:hover {
 input::placeholder {
     color: #000;
 }
+
+#searchHeader {
+    max-width: 100%;
+    width: auto;
+}

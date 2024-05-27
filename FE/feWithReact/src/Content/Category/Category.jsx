@@ -14,8 +14,8 @@ export default function Category() {
             <div>
                 <h1 className='categoryTitle'>CATEGORY</h1>
             </div>
-            <div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark ' id='centered'>
-                <ul className='slider-container productContainer slider-item-show2-sm' id='productContainerId'>
+            <div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm' id='centered'>
+                <ul className='slider-container productContainer ' id='productContainerId'>
                     {CategoryData.map((CategoryData) => (
                         <li key={CategoryData.id}>
                             <a href=''>
