@@ -6,7 +6,7 @@ using WebAPI.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var configuration = builder.Configuration.Get<AppConfiguration>();
+var configuration = builder.Configuration.Get<AppConfiguration>() ?? new AppConfiguration();
 builder.Services.AddInfrastructuresService(configuration.DatabaseConnection);
 builder.Services.AddWebAPIService();
 builder.Services.AddSingleton(configuration);

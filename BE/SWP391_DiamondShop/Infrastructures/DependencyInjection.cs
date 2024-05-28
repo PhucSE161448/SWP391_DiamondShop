@@ -1,4 +1,4 @@
-﻿using Application;
+﻿using Application.Interfaces;
 using Infrastructures.Mappers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,13 +13,15 @@ namespace Infrastructures
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            // ATTENTION: if you do migration please check file README.md
-            //services.AddDbContext<AppDbContext>(option => option.UseSqlServer(databaseConnection));
 
-            // this configuration just use in-memory for fast develop
+
+
             //services.AddDbContext<AppDbContext>(option => option.UseInMemoryDatabase("test"));
-
-           // services.AddAutoMapper(typeof(MapperConfigurationsProfile).Assembly);
+            services.AddDbContext<SWP391_DiamondShopContext>(options =>
+            {
+                options.UseSqlServer(databaseConnection);
+            });
+            services.AddAutoMapper(typeof(MapperConfigurationsProfile).Assembly);
 
             return services;
         }
