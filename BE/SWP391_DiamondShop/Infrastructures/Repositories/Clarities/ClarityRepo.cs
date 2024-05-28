@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.IRepositories.Clarity;
+using Application.IRepositories.Clarities;
 using Domain.Model;
 using System;
 using System.Collections.Generic;

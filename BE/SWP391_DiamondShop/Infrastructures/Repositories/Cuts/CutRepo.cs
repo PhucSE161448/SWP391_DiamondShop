@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.IRepositories.Cut;
+using Application.IRepositories.Cuts;
 using Domain.Model;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.IRepositories.Origin;
+using Application.IRepositories.Origins;
 using Domain.Model;
 using System;
 using System.Collections.Generic;

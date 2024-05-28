@@ -1,8 +1,8 @@
 ﻿using Application.Interfaces;
 using Application.IRepositories.CaratWeights;
-using Application.IRepositories.Clarity;
-using Application.IRepositories.Cut;
-using Application.IRepositories.Origin;
+using Application.IRepositories.Clarities;
+using Application.IRepositories.Cuts;
+using Application.IRepositories.Origins;
 using System;
 using System.Collections.Generic;
 using System.Linq;

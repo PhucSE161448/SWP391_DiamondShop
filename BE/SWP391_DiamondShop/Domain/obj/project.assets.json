@@ -1981,11 +1981,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Code\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
+      "projectUniqueName": "D:\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "F:\\Code\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
+      "projectPath": "D:\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "F:\\Code\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\obj\\",
+      "outputPath": "D:\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2040,26 +2040,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[6.0.30, 6.0.30]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[6.0.30, 6.0.30]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[6.0.30, 6.0.30]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.409\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
