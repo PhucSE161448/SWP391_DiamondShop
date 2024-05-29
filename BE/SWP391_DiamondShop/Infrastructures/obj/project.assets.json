@@ -18,19 +18,6 @@
           }
         }
       },
-      "AutoMapper.Extensions.Microsoft.DependencyInjection/12.0.0": {
-        "type": "package",
-        "dependencies": {
-          "AutoMapper": "12.0.0",
-          "Microsoft.Extensions.Options": "6.0.0"
-        },
-        "compile": {
-          "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
-        }
-      },
       "Humanizer.Core/2.8.26": {
         "type": "package",
         "compile": {
@@ -943,20 +930,6 @@
         "icon.png",
         "lib/net6.0/AutoMapper.dll",
         "lib/net6.0/AutoMapper.xml"
-      ]
-    },
-    "AutoMapper.Extensions.Microsoft.DependencyInjection/12.0.0": {
-      "sha512": "XCJ4E3oKrbRl1qY9Mr+7uyC0xZj1+bqQjmQRWTiTKiVuuXTny+7YFWHi20tPjwkMukLbicN6yGlDy5PZ4wyi1w==",
-      "type": "package",
-      "path": "automapper.extensions.microsoft.dependencyinjection/12.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "README.md",
-        "automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
-        "automapper.extensions.microsoft.dependencyinjection.nuspec",
-        "icon.png",
-        "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll"
       ]
     },
     "Humanizer.Core/2.8.26": {
@@ -2461,7 +2434,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Application >= 1.0.0",
-      "AutoMapper.Extensions.Microsoft.DependencyInjection >= 12.0.0",
+      "AutoMapper >= 13.0.1",
       "Microsoft.EntityFrameworkCore.Design >= 6.0.29",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.29"
     ]
@@ -2473,11 +2446,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Infrastructures.csproj",
+      "projectUniqueName": "D:\\FPT\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Infrastructures.csproj",
       "projectName": "Infrastructures",
-      "projectPath": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Infrastructures.csproj",
+      "projectPath": "D:\\FPT\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Infrastructures.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\obj\\",
+      "outputPath": "D:\\FPT\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2498,8 +2471,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Application.csproj": {
-              "projectPath": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Application.csproj"
+            "D:\\FPT\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Application.csproj": {
+              "projectPath": "D:\\FPT\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Application.csproj"
             }
           }
         }
@@ -2519,9 +2492,9 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
-          "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+          "AutoMapper": {
             "target": "Package",
-            "version": "[12.0.0, )"
+            "version": "[13.0.1, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

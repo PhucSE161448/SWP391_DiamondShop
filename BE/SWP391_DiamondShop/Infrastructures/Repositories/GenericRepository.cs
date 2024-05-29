@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
-using Domain.Models;
+using Application.IRepositories;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

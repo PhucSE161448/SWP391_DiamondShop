@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Domain.Models;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -35,11 +35,11 @@ namespace Infrastructures
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+           /* if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(local);database=SWP391_DiamondShop;uid=sa;pwd=12345;TrustServerCertificate=True;");
-            }
+                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=12345;database=SWP391_DiamondShop");
+            }*/
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -47,8 +47,6 @@ namespace Infrastructures
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.ToTable("Account");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Address)
                     .IsRequired()
@@ -105,25 +103,19 @@ namespace Infrastructures
             {
                 entity.ToTable("CaratWeight");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.DeletedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.DeletedBy).HasMaxLength(255);
+
+                entity.Property(e => e.DeletedDate).HasColumnType("date");
 
                 entity.Property(e => e.IsDeleted)
                     .IsRequired()
                     .HasDefaultValueSql("('0')");
 
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
@@ -134,8 +126,6 @@ namespace Infrastructures
             {
                 entity.ToTable("Category");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(255);
@@ -145,21 +135,15 @@ namespace Infrastructures
             {
                 entity.ToTable("Clarity");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Color)
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.DeletedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.DeletedBy).HasMaxLength(255);
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
 
@@ -167,9 +151,7 @@ namespace Infrastructures
                     .IsRequired()
                     .HasDefaultValueSql("('0')");
 
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
@@ -184,25 +166,19 @@ namespace Infrastructures
             {
                 entity.ToTable("Cut");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.DeletedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.DeletedBy).HasMaxLength(255);
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
 
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("('0')");
-
-                entity.Property(e => e.ModifiedBy)
+                entity.Property(e => e.IsDeleted)
                     .IsRequired()
-                    .HasMaxLength(255);
+                    .HasDefaultValueSql("('0')");
+
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
@@ -215,25 +191,19 @@ namespace Infrastructures
             {
                 entity.ToTable("Diamond");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CaratWeightId).HasColumnName("CaratWeight_Id");
 
                 entity.Property(e => e.ClarityId).HasColumnName("Clarity_Id");
 
                 entity.Property(e => e.ColorId).HasColumnName("Color_Id");
 
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.CutId).HasColumnName("Cut_Id");
 
-                entity.Property(e => e.DeletedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.DeletedBy).HasMaxLength(255);
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
 
@@ -245,9 +215,7 @@ namespace Infrastructures
                     .IsRequired()
                     .HasDefaultValueSql("('0')");
 
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
@@ -282,13 +250,9 @@ namespace Infrastructures
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.AccountId).HasColumnName("Account_Id");
 
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
@@ -296,9 +260,7 @@ namespace Infrastructures
                     .IsRequired()
                     .HasDefaultValueSql("('0')");
 
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
@@ -328,7 +290,7 @@ namespace Infrastructures
             modelBuilder.Entity<OrderProduct>(entity =>
             {
                 entity.HasKey(e => new { e.ProductId, e.OrderId })
-                    .HasName("PK__OrderPro__5835C371DE913738");
+                    .HasName("PK__OrderPro__5835C3710F6F4FD7");
 
                 entity.ToTable("OrderProduct");
 
@@ -350,8 +312,6 @@ namespace Infrastructures
             modelBuilder.Entity<Origin>(entity =>
             {
                 entity.ToTable("Origin");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
@@ -380,11 +340,7 @@ namespace Infrastructures
             {
                 entity.ToTable("Payment");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
@@ -399,19 +355,13 @@ namespace Infrastructures
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CategoryId).HasColumnName("Category_Id");
 
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.DeletedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.DeletedBy).HasMaxLength(255);
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
 
@@ -424,12 +374,9 @@ namespace Infrastructures
 
                 entity.Property(e => e.IsDeleted)
                     .IsRequired()
-                    .HasColumnName("isDeleted")
                     .HasDefaultValueSql("('0')");
 
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
@@ -466,17 +413,11 @@ namespace Infrastructures
 
             modelBuilder.Entity<Promotion>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CreatedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.DeletedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.DeletedBy).HasMaxLength(255);
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
 
@@ -490,9 +431,7 @@ namespace Infrastructures
                     .IsRequired()
                     .HasDefaultValueSql("('0')");
 
-                entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
@@ -503,8 +442,6 @@ namespace Infrastructures
             {
                 entity.ToTable("Role");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(255);
@@ -513,8 +450,6 @@ namespace Infrastructures
             modelBuilder.Entity<Status>(entity =>
             {
                 entity.ToTable("Status");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.AccountId).HasColumnName("Account_Id");
 
@@ -529,16 +464,12 @@ namespace Infrastructures
 
             modelBuilder.Entity<WarrantyDocument>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedBy)
-                    .IsRequired()
                     .HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.DeletedBy)
-                    .IsRequired()
                     .HasMaxLength(255);
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
@@ -548,7 +479,6 @@ namespace Infrastructures
                     .HasDefaultValueSql("('0')");
 
                 entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
                     .HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");

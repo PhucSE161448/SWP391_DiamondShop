@@ -1981,11 +1981,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
+      "projectUniqueName": "D:\\FPT\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
+      "projectPath": "D:\\FPT\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\FPT\\SWP391\\new one\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\obj\\",
+      "outputPath": "D:\\FPT\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

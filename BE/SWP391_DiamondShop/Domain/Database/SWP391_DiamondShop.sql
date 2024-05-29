@@ -1,69 +1,70 @@
 
 
 CREATE TABLE "Clarity"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Name" NVARCHAR(255) NOT NULL,
     "Color" NVARCHAR(255) NOT NULL,
     "Price" DECIMAL(8, 2) NOT NULL,
-    "CreatedBy" NVARCHAR(255) NOT NULL,
-    "CreatedDate" DATE NOT NULL,
-    "ModifiedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedDate" DATE NOT NULL,
-    "DeletedBy" NVARCHAR(255) NOT NULL,
-    "DeletedDate" DATE NOT NULL,
+    "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "Clarity" ADD CONSTRAINT "clarity_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Cut"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Name" NVARCHAR(255) NOT NULL,
     "Price" BIGINT NOT NULL,
-    "CreatedBy" NVARCHAR(255) NOT NULL,
-    "CreatedDate" DATE NOT NULL,
-    "ModifiedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedDate" DATE NOT NULL,
-    "DeletedBy" NVARCHAR(255) NOT NULL,
-    "DeletedDate" DATE NOT NULL,
-    "IsDeleted" BIGINT NOT NULL DEFAULT '0'
+   "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
+    "IsDeleted" Bit NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "Cut" ADD CONSTRAINT "cut_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Origin"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Name" NVARCHAR(255) NOT NULL,
     "Price" DECIMAL(8, 2) NOT NULL,
-    "CreatedBy" NVARCHAR(255) NULL,
-    "CreatedDate" DATE NULL,
-    "ModifiedBy" NVARCHAR(255) NULL,
-    "ModifiedDate" DATE NULL,
-    "DeletedBy" NVARCHAR(255) NULL,
-    "DeletedDate" DATE NOT NULL,
+   "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "Origin" ADD CONSTRAINT "origin_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Category"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Name" NVARCHAR(255) NOT NULL
 );
 ALTER TABLE
     "Category" ADD CONSTRAINT "category_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "CaratWeight"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Weight" FLOAT NOT NULL,
     "Price" DECIMAL(8, 2) NOT NULL,
-    "CreatedBy" NVARCHAR(255) NOT NULL,
-    "CreatedDate" DATE NOT NULL,
-    "ModifiedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedDate" DATE NOT NULL,
-    "DeletedBy" NVARCHAR(255) NOT NULL,
+    "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "CaratWeight" ADD CONSTRAINT "caratweight_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Products"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Name" NVARCHAR(255) NOT NULL,
     "Size" DECIMAL(8, 2) NOT NULL,
     "Image_Url" NVARCHAR(255) NOT NULL,
@@ -73,38 +74,38 @@ CREATE TABLE "Products"(
     "Price" DECIMAL(8, 2) NOT NULL,
     "Wage" DECIMAL(8, 2) NOT NULL,
     "WarrantyDocuments_Id" INT NOT NULL,
-    "CreatedDate" DATE NOT NULL,
-    "CreatedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedDate" DATE NOT NULL,
-    "DeletedBy" NVARCHAR(255) NOT NULL,
-    "DeletedDate" DATE NOT NULL,
-    "isDeleted" BIT NOT NULL DEFAULT '0'
+   "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
+    "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "Products" ADD CONSTRAINT "products_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "WarrantyDocuments"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Period" INT NOT NULL,
     "TermsAndConditions" NVARCHAR(255) NOT NULL,
-    "CreatedBy" NVARCHAR(255) NOT NULL,
-    "CreatedDate" DATE NOT NULL,
-    "ModifiedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedDate" DATE NOT NULL,
-    "DeletedBy" NVARCHAR(255) NOT NULL,
-    "DeletedDate" DATE NOT NULL,
+    "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE NULL,
+    "ModifiedBy" NVARCHAR(255) NULL,
+    "ModifiedDate" DATE NULL,
+    "DeletedBy" NVARCHAR(255) Null,
+    "DeletedDate" DATE NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "WarrantyDocuments" ADD CONSTRAINT "warrantydocuments_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Role"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Name" NVARCHAR(255) NOT NULL
 );
 ALTER TABLE
     "Role" ADD CONSTRAINT "role_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "OrderProduct"(
-    "ProductId" INT NOT NULL,
+    "ProductId" INT NOT NULL ,
     "OrderId" INT NOT NULL,
     "Quantity" INT NOT NULL,
     "Price" DECIMAL(8, 2) NOT NULL,
@@ -112,21 +113,21 @@ CREATE TABLE "OrderProduct"(
 );
 
 CREATE TABLE "Orders"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Account_Id" INT NOT NULL,
     "TotalPrice" DECIMAL(8, 2) NOT NULL,
     "Status_Id" INT NOT NULL,
-    "CreatedDate" DATE NOT NULL,
-    "CreatedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedDate" DATE NOT NULL,
+	"CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0',
     "PaymentId" INT NOT NULL
 );
 ALTER TABLE
     "Orders" ADD CONSTRAINT "orders_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Account"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Name" NVARCHAR(255) NOT NULL,
     "Email" NVARCHAR(255) NOT NULL,
     "Password" NVARCHAR(255) NOT NULL,
@@ -135,27 +136,27 @@ CREATE TABLE "Account"(
     "Role_Id" INT NOT NULL,
     "Gender" BIT NOT NULL,
     "ConfirmationToken" NVARCHAR(255) NOT NULL,
-    "CreatedBy" NVARCHAR(255) NULL,
-    "CreatedDate" DATE NULL,
-    "ModifiedBy" NVARCHAR(255) NULL,
-    "ModifiedDate" DATE NULL,
-    "DeletedBy" NVARCHAR(255) NULL,
-    "DeletedDate" DATE NOT NULL,
+  "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0',
     "Point" DECIMAL(8, 2) NOT NULL
 );
 ALTER TABLE
     "Account" ADD CONSTRAINT "account_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Status"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Account_Id" INT NOT NULL,
     "Name" INT NOT NULL,
-    "CreatedDate" DATE NOT NULL
+    "CreatedDate" DATE  NULL
 );
 ALTER TABLE
     "Status" ADD CONSTRAINT "status_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Diamond"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Origin_Id" INT NOT NULL,
     "CaratWeight_Id" INT NOT NULL,
     "Color_Id" INT NOT NULL,
@@ -164,37 +165,37 @@ CREATE TABLE "Diamond"(
     "Price" DECIMAL(8, 2) NOT NULL,
     "Quantity" INT NOT NULL,
     "ImageUrl" NVARCHAR(255) NOT NULL,
-    "CreatedBy" NVARCHAR(255) NOT NULL,
-    "CreatedDate" DATE NOT NULL,
-    "ModifiedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedDate" DATE NOT NULL,
-    "DeletedBy" NVARCHAR(255) NOT NULL,
-    "DeletedDate" DATE NOT NULL,
+   "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "Diamond" ADD CONSTRAINT "diamond_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Payment"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Name" NVARCHAR(255) NOT NULL,
     "PaymentType" BIGINT NOT NULL,
     "CreatedDate" DATE NOT NULL,
-    "CreatedBy" NVARCHAR(255) NOT NULL,
+    "CreatedBy" NVARCHAR(255) NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "Payment" ADD CONSTRAINT "payment_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Promotions"(
-    "Id" INT NOT NULL,
+    "Id" INT NOT NULL Identity(1,1),
     "Discount_Percentage" DECIMAL(8, 2) NOT NULL,
     "StartDate" DATE NOT NULL,
     "EndDate" DATE NOT NULL,
-    "CreatedBy" NVARCHAR(255) NOT NULL,
-    "CreatedDate" DATE NOT NULL,
-    "ModifiedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedDate" DATE NOT NULL,
-    "DeletedBy" NVARCHAR(255) NOT NULL,
-    "DeletedDate" DATE NOT NULL,
+    "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
