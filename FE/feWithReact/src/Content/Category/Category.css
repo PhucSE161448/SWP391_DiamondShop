@@ -43,7 +43,7 @@
 }
 
 .categoryTitle {
-    font-size: 45px;
+    font-size: calc(2vw + 0.5vh);
     font-weight: bold;
     margin: 20px;
     text-align: center;

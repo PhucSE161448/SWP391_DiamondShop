@@ -1,6 +1,6 @@
 .imgBanner {
-    max-width: 100%;
-    width: auto;
+
+    width: 100%;
 }
 
 .bannerContainer {
@@ -11,8 +11,9 @@
 }
 
 .imgBanner2 {
-    max-width: 726px;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .contentBannerContainer {
@@ -23,7 +24,6 @@
     width: 50%;
     padding: 3vh 5vw;
     font-size: large;
-    align-items: flex-start;
 }
 
 #aboutUs {

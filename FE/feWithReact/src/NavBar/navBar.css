@@ -10,19 +10,33 @@
 #navBarContainer div a {
     color: white;
     text-decoration: none;
-    font-size: 1.5em;
+    font-size: calc(1vw + 0.5vh);
 }
 
 #navBarContainer div a:hover,
-#navBarContainer div a:active {
+#navBarContainer div a.active {
     color: #CEAA62;
 }
 
 .cartLogo {
-    height: 50px;
-    width: 50px;
+    width: calc(2vw + 0.5vh);
 }
 
 nav {
     padding: 0;
 }
+
+/* @media screen and (max-width: 1150px) {
+    #navBarContainer {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        background-color: hsla(0, 0%, 6%, 0.2);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        width: 80%;
+        height: 100%;
+        padding: 6rem 3rem 0;
+        transition: right 0.4s;
+    }
+} */

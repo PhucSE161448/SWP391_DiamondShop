@@ -8,10 +8,12 @@ function Header() {
                     <img src="src/assets/img/diamondLogo.png" alt="" id='logoHeader' />
                 </div>
                 <div>
-                    <h1>DIAMOND OFFCIAL STORE</h1>
+                    <h1 className='shopName'>DIAMOND OFFCIAL STORE</h1>
                 </div>
-                <div>
-                    <input type="text" placeholder="Search for items..." id='searchHeader' />
+                <div className='searchContainer'>
+                    <form action="">
+                        <input type="text" placeholder="Search for items..." id='searchHeader' className='form' />
+                    </form>
                 </div>
 
             </div>
