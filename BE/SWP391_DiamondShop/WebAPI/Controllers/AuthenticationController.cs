@@ -2,6 +2,8 @@
 using Application.ViewModels.Accounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using WebAPI.CustomActionFilter;
 
 namespace WebAPI.Controllers
 {
@@ -14,6 +16,7 @@ namespace WebAPI.Controllers
             _authenticationService = authenticationService;
         }
         [HttpPost("register")]
+        [ValidateModel]
         public async Task<IActionResult> RegisterAsync(RegisterAccountDTO registerObject)
         {
             var result = await _authenticationService.RegisterAsync(registerObject);
