@@ -465,13 +465,11 @@ namespace Infrastructures
             modelBuilder.Entity<WarrantyDocument>(entity =>
             {
                 entity.Property(e => e.CreatedBy)
-                    .IsRequired()
                     .HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.DeletedBy)
-                    .IsRequired()
                     .HasMaxLength(255);
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
@@ -481,7 +479,6 @@ namespace Infrastructures
                     .HasDefaultValueSql("('0')");
 
                 entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
                     .HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");

@@ -6,6 +6,8 @@ using Application.ViewModels.Cuts;
 using Application.ViewModels.Clarities;
 using Application.ViewModels.CaratWeights;
 using Application.ViewModels.Origins;
+using Application.ViewModels.WarrantyDocuments;
+using Application.ViewModels.Accounts;
 
 namespace Infrastructures.Mappers
 {
@@ -14,7 +16,13 @@ namespace Infrastructures.Mappers
         public MapperConfigurationsProfile()
         {
             CreateMap(typeof(Pagination<>), typeof(Pagination<>));
-          
+
+            CreateMap<Account, AccountDTO>().ReverseMap();
+            CreateMap<CreatedAccountDTO, Account>();
+            CreateMap<CreatedAccountDTO, AccountDTO>();
+            CreateMap<RegisterAccountDTO, Account>();
+            CreateMap<RegisterAccountDTO, AccountDTO>();
+
             CreateMap<Cut, CutDTO>().ReverseMap();
             CreateMap<CutDTO, UpsertCutDTO>().ReverseMap();
             CreateMap<Cut, UpsertCutDTO>().ReverseMap();
@@ -30,6 +38,10 @@ namespace Infrastructures.Mappers
             CreateMap<Origin, OriginDTO>().ReverseMap();
             CreateMap<OriginDTO, UpsertOriginDTO>().ReverseMap();
             CreateMap<Origin, UpsertOriginDTO>().ReverseMap();
+
+            CreateMap<WarrantyDocument, WarrantyDocumentDTO>().ReverseMap();
+            CreateMap<WarrantyDocumentDTO, UpsertWarrantyDocumentDTO>().ReverseMap();
+            CreateMap<WarrantyDocument, UpsertWarrantyDocumentDTO>().ReverseMap();
         }
     }
 }

@@ -88,12 +88,12 @@ CREATE TABLE "WarrantyDocuments"(
     "Id" INT NOT NULL Identity(1,1),
     "Period" INT NOT NULL,
     "TermsAndConditions" NVARCHAR(255) NOT NULL,
-    "CreatedBy" NVARCHAR(255) NOT NULL,
-    "CreatedDate" DATE NOT NULL,
-    "ModifiedBy" NVARCHAR(255) NOT NULL,
-    "ModifiedDate" DATE NOT NULL,
-    "DeletedBy" NVARCHAR(255) NOT NULL,
-    "DeletedDate" DATE NOT NULL,
+    "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE NULL,
+    "ModifiedBy" NVARCHAR(255) NULL,
+    "ModifiedDate" DATE NULL,
+    "DeletedBy" NVARCHAR(255) Null,
+    "DeletedDate" DATE NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
