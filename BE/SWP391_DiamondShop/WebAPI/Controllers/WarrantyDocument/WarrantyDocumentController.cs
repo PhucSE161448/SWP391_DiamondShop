@@ -29,7 +29,7 @@ namespace WebAPI.Controllers.WarrantyDocument
                 return Ok(result);
             }
         
-                }
+        }
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpsertWarrantyDocumentDTO updatedDTO)
         {
@@ -51,6 +51,16 @@ namespace WebAPI.Controllers.WarrantyDocument
         public async Task<IActionResult> Get(int id)
         {
             var result = await _warrantyDocumentService.GetWarrantyDocumentAsync(id);
+            return Ok(result);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _warrantyDocumentService.DeleteWarrantyDocumentAsync(id);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
             return Ok(result);
         }
     }

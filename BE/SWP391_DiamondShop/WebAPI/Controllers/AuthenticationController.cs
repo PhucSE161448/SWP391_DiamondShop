@@ -32,6 +32,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("login")]
+        [ValidateModel]
         public async Task<IActionResult> LoginAsync(AuthenAccountDTO loginObject)
         {
             var result = await _authenticationService.LoginAsync(loginObject);
