@@ -26,6 +26,8 @@ namespace Infrastructures.Repositories.Accounts
 
         public Task<bool> CheckEmailNameExited(string email) =>
             _dbContext.Accounts.AnyAsync(u => u.Email == email);
+        public Task<bool> CheckPhoneNumberExited(string phonenumber) =>
+                                        _dbContext.Accounts.AnyAsync(u => u.PhoneNumber == phonenumber);
 
         public async Task<Account> GetUserByEmailAndPasswordHash(string email, string passwordHash)
         {
