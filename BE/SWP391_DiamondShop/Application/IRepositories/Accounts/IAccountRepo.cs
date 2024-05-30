@@ -11,6 +11,7 @@ namespace Application.IRepositories.Accounts
     {
         Task<Account> GetUserByEmailAndPasswordHash(string email, string passwordHash);
         Task<bool> CheckEmailNameExited(string username);
+        Task<bool> CheckPhoneNumberExited(string phonenumber);
         Task<Account> GetUserByConfirmationToken(string token);
         Task<IEnumerable<Account>> SearchAccountByNameAsync(string name);
         Task<IEnumerable<Account>> SearchAccountByRoleNameAsync(string roleName);

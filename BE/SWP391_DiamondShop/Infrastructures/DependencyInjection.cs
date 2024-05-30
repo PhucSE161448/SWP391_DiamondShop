@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Interfaces.Account;
 using Application.Interfaces.Authenticates;
 using Application.Interfaces.CaratWeights;
 using Application.Interfaces.Clarity;
@@ -11,6 +12,7 @@ using Application.IRepositories.Clarities;
 using Application.IRepositories.Cuts;
 using Application.IRepositories.Origins;
 using Application.IRepositories.WarrantyDocuments;
+using Application.Services.Accounts;
 using Application.Services.Authenticates;
 using Application.Services.CaratWeights;
 using Application.Services.Clarities;
@@ -53,6 +55,7 @@ namespace Infrastructures
             services.AddScoped<IWarrantyDocumentService, WarrantyDocumentService>();
 
             services.AddScoped<IAccountRepo, AccountRepo>();
+            services.AddScoped<IAccountService, AccountService>();
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 
