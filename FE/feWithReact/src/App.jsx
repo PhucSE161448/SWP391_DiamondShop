@@ -1,17 +1,20 @@
 
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Pages/Home'
 import Ring from './Pages/Ring'
 import Diamond from './Pages/Diamond'
-import Login from './Login/Login'
-import SignUp from './Login/SignUp'
+import Login from './Auth/Login'
+import SignUp from './Auth/SignUp'
 import Admin from './Admin/Admin'
-function App() {
+import LogoutAndRedirect from './Auth/AuthFucntion'
+
+
+export default function App() {
 
   return (
     <>
       <BrowserRouter>
+        {/* <LogoutAndRedirect></LogoutAndRedirect> */}
         <Routes>
           <Route path='/' element={<Home />}></Route>
           <Route path='/diamond' element={<Diamond />}></Route>
@@ -24,11 +27,10 @@ function App() {
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
           <Route path='/admin' element={<Admin />}></Route>
+
         </Routes >
       </BrowserRouter >
 
     </>
   )
 }
-
-export default App
