@@ -6,15 +6,18 @@ import Diamond from './Pages/Diamond'
 import Login from './Auth/Login'
 import SignUp from './Auth/SignUp'
 import Admin from './Admin/Admin'
-import LogoutAndRedirect from './Auth/AuthFucntion'
+// import LogoutAndRedirect from './Auth/AuthFucntion'
+import { useEffect, useState } from 'react'
 
 
 export default function App() {
 
+
   return (
     <>
       <BrowserRouter>
-        {/* <LogoutAndRedirect></LogoutAndRedirect> */}
+        {/* <LogoutAndRedirect /> */}
+
         <Routes>
           <Route path='/' element={<Home />}></Route>
           <Route path='/diamond' element={<Diamond />}></Route>

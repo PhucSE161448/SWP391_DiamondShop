@@ -32,8 +32,9 @@
 #searchHeader {
     width: 15vw;
     padding: 20px;
-    border-radius: 35px;
+    border-radius: 45px;
     border: 1px solid #000;
+    font-size: calc(0.8vw + 0.5vh);
 }
 
 .searchContainer {

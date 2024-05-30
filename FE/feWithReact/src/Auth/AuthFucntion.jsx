@@ -39,7 +39,7 @@ export function validateUser(userData) {
     });
 }
 
-export default function LogoutAndRedirect() {
+export function LogoutAndRedirect() {
     let navigate = useNavigate();
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -54,4 +54,8 @@ export default function LogoutAndRedirect() {
             return () => clearTimeout(timeoutId);
         }
     }, []);
+}
+
+export function LogoutByButton() {
+    localStorage.removeItem('token');
 }

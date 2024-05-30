@@ -2,13 +2,17 @@ import React from 'react'
 import { jwtDecode } from 'jwt-decode'
 import { useNavigate, Link } from 'react-router-dom'
 import { useEffect } from 'react';
-
+import './Admin.css'
+import CaratWeight from './CaratWeight/CaratWeight'
+import Clarity from './Clarity/Clarity'
+import Cut from './Cut/Cut';
+import Origin from './Origin/Origin';
+import { LogoutByButton } from '../Auth/AuthFucntion';
 export default function Admin() {
     let navigate = useNavigate();
 
     if (localStorage.getItem('token') !== null) {
         const decodedToken = jwtDecode(localStorage.getItem('token'))
-        console.log(decodedToken)
         useEffect(() => {
             if (decodedToken.Role !== '1') {
                 navigate('/');
@@ -20,8 +24,15 @@ export default function Admin() {
             return (
                 <div>
                     <h1>admin</h1>
+                    <CaratWeight></CaratWeight>
+                    <Clarity></Clarity>
+                    <Cut></Cut>
+                    <Origin></Origin>
                     <button>
                         <Link to='/'>Home</Link>
+                    </button>
+                    <button onClick={LogoutByButton}>
+                        <Link to='/'>LOGOUT</Link>
                     </button>
                 </div>
             )
@@ -36,10 +47,4 @@ export default function Admin() {
             </div>
         )
     }
-
-
-
-
-
-
 }
