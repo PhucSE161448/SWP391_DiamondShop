@@ -27,7 +27,7 @@ namespace Application.Services.Cuts
             var _response = new ServiceResponse<IEnumerable<CutDTO>>();
             try
             {
-                var Cuts = await _unitOfWork.CutRepo.GetAllAsync();
+                var Cuts = await _unitOfWork.CutRepo.GetAllAsync(x => x.IsDeleted == false);
                 var CutDTOs = new List<CutDTO>();
                 foreach (var pro in Cuts)
                 {

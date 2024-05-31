@@ -114,7 +114,6 @@ namespace Application.Services.Authenticates
                 if (isSuccess)
                 {
                     var accountDTO = _mapper.Map<AccountDTO>(account);
-                    
                     response.Data = accountDTO; // Chuyển đổi sang AccountDTO
                     response.Success = true;
                     response.Message = "Register successfully.";
