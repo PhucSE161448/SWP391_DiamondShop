@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Code\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj": {}
+    "D:\\FPT University\\CN8\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "F:\\Code\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj": {
+    "D:\\FPT University\\CN8\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Code\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\FPT University\\CN8\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "F:\\Code\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "F:\\Code\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Domain\\obj\\",
+        "projectPath": "D:\\FPT University\\CN8\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\FPT University\\CN8\\SWP391\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -71,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.409\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

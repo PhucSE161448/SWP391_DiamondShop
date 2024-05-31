@@ -18,10 +18,11 @@ namespace Infrastructures.Mappers
             CreateMap(typeof(Pagination<>), typeof(Pagination<>));
 
             CreateMap<Account, AccountDTO>().ReverseMap();
-            CreateMap<CreatedAccountDTO, Account>();
-            CreateMap<CreatedAccountDTO, AccountDTO>();
-            CreateMap<RegisterAccountDTO, Account>();
+            CreateMap<Account, CreatedAccountDTO>().ReverseMap();
+            CreateMap<RegisterAccountDTO, Account>().ReverseMap();
             CreateMap<RegisterAccountDTO, AccountDTO>();
+
+
 
             CreateMap<Cut, CutDTO>().ReverseMap();
             CreateMap<CutDTO, UpsertCutDTO>().ReverseMap();
