@@ -35,8 +35,8 @@ export function validateUser(userData) {
             })
             .catch(error => {
                 reject(error);
-            });
-    });
+            })
+    })
 }
 
 export function LogoutAndRedirect() {
@@ -53,9 +53,9 @@ export function LogoutAndRedirect() {
             // Cleanup function to clear the timeout if the component unmounts
             return () => clearTimeout(timeoutId);
         }
-    }, []);
+    }, [])
 }
 
 export function LogoutByButton() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('token')
 }

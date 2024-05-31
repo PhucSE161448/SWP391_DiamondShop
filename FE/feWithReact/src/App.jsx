@@ -7,12 +7,13 @@ import Login from './Auth/Login'
 import SignUp from './Auth/SignUp'
 import Admin from './Admin/Admin'
 // import LogoutAndRedirect from './Auth/AuthFucntion'
-import { useEffect, useState } from 'react'
 
-
+import CaratWeight from './Admin/Elements/CaratWeight/CaratWeight'
+import Clarity from './Admin/Elements/Clarity/Clarity'
+import Cut from './Admin/Elements/Cut/Cut'
+import Origin from './Admin/Elements/Origin/Origin'
+import Account from './Admin/Elements/Account/Account'
 export default function App() {
-
-
   return (
     <>
       <BrowserRouter>
@@ -30,7 +31,11 @@ export default function App() {
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
           <Route path='/admin' element={<Admin />}></Route>
-
+          <Route path='/admin/caratWeight' element={<CaratWeight />}></Route>
+          <Route path='/admin/clarity' element={<Clarity />}></Route>
+          <Route path='//admin/cut' element={<Cut />}></Route>
+          <Route path='/admin/origin' element={<Origin />}></Route>
+          <Route path='/admin/account' element={<Account />}></Route>
         </Routes >
       </BrowserRouter >
 

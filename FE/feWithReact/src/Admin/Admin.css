@@ -1,24 +1,91 @@
-td {
-    border: 1px solid black;
-    padding: 10px;
-    width: 250px;
+table {
+    width: 50%;
 }
 
 .CRUDButton {
-    padding: 10px;
-    margin: 10px;
-    min-width: 120px;
+    margin: 10px 0;
+    display: block;
+    width: 100%;
+    border: none;
+    padding: 14px;
+    text-align: center;
 }
+
 
 .CRUDContainer {
     border: 1px solid black;
-    width: 50%;
     margin: 10px;
     padding: 10px;
+    border-radius: 20px;
 }
+
 
 .formCRUDContainer {
     border: 1px solid black;
     margin: 10px;
     padding: 10px;
+    border-radius: 20px;
+}
+
+
+.titleOfFormContainer,
+.titleOfForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonContainer {
+    display: inline;
+}
+
+.headerAdminContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formSubmit {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.submitButton {
+    margin: 5px;
+    display: block;
+    width: 100%;
+    padding: 14px;
+
+}
+
+table {
+    margin-bottom: 10px;
+}
+
+.pageAdminContainer {
+    padding: 0;
+}
+
+.logoutButton {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+    padding: 14px;
+
+}
+
+.logoutLink {
+    text-decoration: none;
+    color: #fff;
+}
+
+.form-control {
+    padding: 20px;
+    font-size: calc(0.8vw + 0.5vh);
+}
+
+.form-control::placeholder {
+    font-size: calc(0.8vw + 0.5vh);
 }

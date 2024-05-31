@@ -3,19 +3,17 @@ import { jwtDecode } from 'jwt-decode'
 import { useNavigate, Link } from 'react-router-dom'
 import { useEffect } from 'react';
 import './Admin.css'
-import CaratWeight from './CaratWeight/CaratWeight'
-import Clarity from './Clarity/Clarity'
-import Cut from './Cut/Cut';
-import Origin from './Origin/Origin';
+
 import { LogoutByButton } from '../Auth/AuthFucntion';
+import NavbarAdmin from './Navbar/NavbarAdmin';
 export default function Admin() {
     let navigate = useNavigate();
 
-    if (localStorage.getItem('token') !== null) {
+    if (localStorage.getItem('token')) {
         const decodedToken = jwtDecode(localStorage.getItem('token'))
         useEffect(() => {
             if (decodedToken.Role !== '1') {
-                navigate('/');
+                navigate('/')
             }
 
         }, [decodedToken.Role]);
@@ -23,28 +21,20 @@ export default function Admin() {
         if (decodedToken.Role === '1') {
             return (
                 <div>
-                    <h1>admin</h1>
-                    <CaratWeight></CaratWeight>
-                    <Clarity></Clarity>
-                    <Cut></Cut>
-                    <Origin></Origin>
-                    <button>
-                        <Link to='/'>Home</Link>
-                    </button>
-                    <button onClick={LogoutByButton}>
-                        <Link to='/'>LOGOUT</Link>
-                    </button>
+                    <div className='pageAdminContainer container-fluid'>
+                        <div>
+                            <NavbarAdmin></NavbarAdmin>
+                        </div>
+                        <div className='headerAdminContainer'>
+                            <h1>ADMIN PAGE</h1>
+                        </div>
+                        <button onClick={LogoutByButton} className='logoutButton btn btn-danger'>
+                            <Link to='/' className='logoutLink'>LOGOUT</Link>
+                        </button>
+                    </div>
                 </div>
+
             )
         }
-    } else {
-        return (
-            <div>
-                You dont have permission <br />
-                <button>
-                    <Link to='/'>Home</Link>
-                </button>
-            </div>
-        )
     }
 }
