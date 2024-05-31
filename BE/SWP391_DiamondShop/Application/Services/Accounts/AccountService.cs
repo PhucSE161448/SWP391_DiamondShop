@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Account;
+using Application.Ultils;
 using Application.ViewModels.Accounts;
 using AutoMapper;
 using Domain.Model;
@@ -26,7 +27,7 @@ namespace Application.Services.Accounts
             var response = new ServiceResponse<AccountDTO>();
 
             var exist = await _unitOfWork.AccountRepo.CheckEmailNameExited(createdAccountDTO.Email);
-            var existed = await _unitOfWork.AccountRepo.CheckPhoneNumberExited(createdAccountDTO.Phone);
+            var existed = await _unitOfWork.AccountRepo.CheckPhoneNumberExited(createdAccountDTO.PhoneNumber);
 
             if (exist)
             {
@@ -47,6 +48,7 @@ namespace Application.Services.Accounts
 
                 
                 account.IsDeleted = false;
+                account.ConfirmationToken = Guid.NewGuid().ToString();
 
                 await _unitOfWork.AccountRepo.AddAsync(account);
 
