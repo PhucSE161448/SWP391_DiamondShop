@@ -108,7 +108,7 @@ namespace Application.Services.Authenticates
                 account.ConfirmationToken = Guid.NewGuid().ToString();
 
                 //account.Status = "true";
-                account.RoleId = 4;
+                account.RoleId = 1;
                 await _unitOfWork.AccountRepo.AddAsync(account);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
