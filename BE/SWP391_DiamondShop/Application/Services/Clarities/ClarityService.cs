@@ -27,7 +27,7 @@ namespace Application.Services.Clarities
             var _response = new ServiceResponse<IEnumerable<ClarityDTO>>();
             try
             {
-                var Claritys = await _unitOfWork.ClarityRepo.GetAllAsync();
+                var Claritys = await _unitOfWork.ClarityRepo.GetAllAsync(x => x.IsDeleted == false);
                 var ClarityDTOs = new List<ClarityDTO>();
                 foreach (var pro in Claritys)
                 {

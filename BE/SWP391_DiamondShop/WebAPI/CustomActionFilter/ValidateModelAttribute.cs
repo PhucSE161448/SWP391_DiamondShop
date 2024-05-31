@@ -7,7 +7,7 @@ namespace WebAPI.CustomActionFilter
     {
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            if (context.ModelState.IsValid)
+            if (!context.ModelState.IsValid)
             {
                 context.Result = new BadRequestResult();
             }
