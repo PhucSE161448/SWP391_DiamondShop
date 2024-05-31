@@ -5,12 +5,14 @@ using Application.Interfaces.CaratWeights;
 using Application.Interfaces.Clarity;
 using Application.Interfaces.Cut;
 using Application.Interfaces.Origin;
+using Application.Interfaces.Products;
 using Application.Interfaces.WarrantyDocument;
 using Application.IRepositories.Accounts;
 using Application.IRepositories.CaratWeights;
 using Application.IRepositories.Clarities;
 using Application.IRepositories.Cuts;
 using Application.IRepositories.Origins;
+using Application.IRepositories.Products;
 using Application.IRepositories.WarrantyDocuments;
 using Application.Services.Accounts;
 using Application.Services.Authenticates;
@@ -18,6 +20,7 @@ using Application.Services.CaratWeights;
 using Application.Services.Clarities;
 using Application.Services.Cuts;
 using Application.Services.Origins;
+using Application.Services.Products;
 using Application.Services.WarrantyDocuments;
 using Infrastructures.Mappers;
 using Infrastructures.Repositories.Accounts;
@@ -25,6 +28,7 @@ using Infrastructures.Repositories.CaratWeights;
 using Infrastructures.Repositories.Clarities;
 using Infrastructures.Repositories.Cuts;
 using Infrastructures.Repositories.Origins;
+using Infrastructures.Repositories.Products;
 using Infrastructures.Repositories.WarrantyDocuments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,6 +60,9 @@ namespace Infrastructures
 
             services.AddScoped<IAccountRepo, AccountRepo>();
             services.AddScoped<IAccountService, AccountService>();
+
+            services.AddScoped<IProductRepo, ProductRepo>();
+            services.AddScoped<IProductService, ProductService>();
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 
