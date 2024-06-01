@@ -15,7 +15,7 @@ namespace WebAPI.Controllers
         {
             _authenticationService = authenticationService;
         }
-        [HttpPost("register")]
+        [HttpPost]
         [ValidateModel]
         public async Task<IActionResult> RegisterAsync(RegisterAccountDTO registerObject)
         {
@@ -31,7 +31,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPost("login")]
+        [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> LoginAsync(AuthenAccountDTO loginObject)
         {
             var result = await _authenticationService.LoginAsync(loginObject);

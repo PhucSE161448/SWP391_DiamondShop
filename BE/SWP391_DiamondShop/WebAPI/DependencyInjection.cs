@@ -15,10 +15,11 @@ namespace WebAPI
             services.AddSwaggerGen();
             services.AddHealthChecks();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IClaimsService, ClaimsService>();
             services.AddSingleton<GlobalExceptionMiddleware>();
             services.AddSingleton<PerformanceMiddleware>();
             services.AddSingleton<Stopwatch>();
-            services.AddScoped<IClaimsService, ClaimsService>();
+
             services.AddHttpContextAccessor();
            
             return services;

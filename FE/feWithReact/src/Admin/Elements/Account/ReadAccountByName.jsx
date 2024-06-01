@@ -50,6 +50,44 @@ export default function ReadAccountByName() {
         }
     }
 
+    function checkData() {
+        if (data !== null) {
+            return (
+                <div>
+                    <table className='table table-striped table-bordered '>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Gender</th>
+                                <th>Phone number</th>
+                                <th>Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data && data.map((item) => (
+                                <tr>
+                                    <td>{item.id}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.email}</td>
+                                    <td>{item.gender ? 'Male' : 'Female'}</td>
+                                    <td>{item.phoneNumber}</td>
+                                    <td>{getRoleName(item.roleId)}</td>
+                                </tr>
+                            ))}
+
+                        </tbody>
+                    </table>
+                </div>
+            )
+        } else {
+            return (
+                <h3>This account doesn't exist or be deleted</h3>
+            )
+        }
+    }
+
     return (
         <div>
             <button className='CRUDButton btn btn-primary btn-lg' onClick={handleClick}>{context}</button>
@@ -65,39 +103,10 @@ export default function ReadAccountByName() {
                             <input type="button" value="Clear" onClick={handleClear} className='btn btn-danger btn-lg submitButton' />
                         </div>
                     </form>
-
-                    {data &&
-                        <div>
-                            <table className='table table-striped table-bordered '>
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Gender</th>
-                                        <th>Phone number</th>
-                                        <th>Role</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {data && data.map((item) => (
-                                        <tr>
-                                            <td>{item.id}</td>
-                                            <td>{item.name}</td>
-                                            <td>{item.email}</td>
-                                            <td>{item.gender ? 'Male' : 'Female'}</td>
-                                            <td>{item.phoneNumber}</td>
-                                            <td>{getRoleName(item.roleId)}</td>
-                                        </tr>
-                                    ))}
-
-                                </tbody>
-                            </table>
-                        </div>
-                    }
+                    {checkData()}
                 </div>
             }
 
-        </div>
+        </div >
     )
 }

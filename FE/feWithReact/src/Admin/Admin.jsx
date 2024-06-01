@@ -28,9 +28,12 @@ export default function Admin() {
                         <div className='headerAdminContainer'>
                             <h1>ADMIN PAGE</h1>
                         </div>
-                        <button onClick={LogoutByButton} className='logoutButton btn btn-danger'>
-                            <Link to='/' className='logoutLink'>LOGOUT</Link>
-                        </button>
+                        <Link to='/' className='logoutLink'>
+                            <button onClick={LogoutByButton} className='logoutButton btn btn-danger'>
+                               LOGOUT
+                            </button>
+                        </Link>
+                        
                     </div>
                 </div>
 

@@ -50,6 +50,47 @@ export default function ReadAccountByID() {
         }
     }
 
+    function checkData() {
+        if (data !== null) {
+            if (data.isDeleted) {
+                return (<h3>This account is deleted</h3>)
+            } else {
+                return (
+                    <div>
+                        <table className='table table-striped table-bordered '>
+                            <thead>
+                                <tr>
+                                    <th>Id</th >
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>Phone number</th>
+                                    <th>Role</th>
+                                </tr >
+                            </thead >
+                            <tbody>
+                                {console.log(data)}
+                                <tr key={data.id}>
+                                    <td>{data.id}</td>
+                                    <td>{data.name}</td>
+                                    <td>{data.email}</td>
+                                    <td>{data.gender ? 'Male' : 'Female'}</td>
+                                    <td>{data.phoneNumber}</td>
+                                    <td>{getRoleName(data.roleId)}</td>
+                                </tr>
+
+                            </tbody>
+                        </table >
+                    </div >
+                )
+            }
+        } else {
+            return (
+                <h4>Account doesn't exits</h4>
+            )
+        }
+    }
+
     return (
         <div>
             <button className='CRUDButton btn btn-primary btn-lg' onClick={handleClick}>{context}</button>
@@ -66,33 +107,7 @@ export default function ReadAccountByID() {
                         </div>
                     </form>
 
-                    {data &&
-                        <div>
-                            <table className='table table-striped table-bordered '>
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Gender</th>
-                                        <th>Phone number</th>
-                                        <th>Role</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr key={data.id}>
-                                        <td>{data.id}</td>
-                                        <td>{data.name}</td>
-                                        <td>{data.email}</td>
-                                        <td>{data.gender ? 'Male' : 'Female'}</td>
-                                        <td>{data.phoneNumber}</td>
-                                        <td>{getRoleName(data.roleId)}</td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    }
+                    {checkData()}
                 </div>
             }
 

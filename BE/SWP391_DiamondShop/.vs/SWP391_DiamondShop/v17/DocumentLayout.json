@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\taiLieuHoc\\SEM5\\SWP391\\ProjectDiamondShop\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|d:\\tailieuhoc\\sem5\\swp391\\projectdiamondshop\\swp391_diamondshop\\be\\swp391_diamondshop\\application\\viewmodels\\accounts\\accountdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98423A1E-EC87-42D1-8044-6C9837A5DCA4}|Application\\Application.csproj|solutionrelative:application\\viewmodels\\accounts\\accountdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|d:\\tailieuhoc\\sem5\\swp391\\projectdiamondshop\\swp391_diamondshop\\be\\swp391_diamondshop\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E92B71D7-DCFD-4DE0-8341-1C98E9ED6D2F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -351,12 +355,25 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AccountDTO.cs",
+              "DocumentMoniker": "D:\\taiLieuHoc\\SEM5\\SWP391\\ProjectDiamondShop\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\ViewModels\\Accounts\\AccountDTO.cs",
+              "RelativeDocumentMoniker": "Application\\ViewModels\\Accounts\\AccountDTO.cs",
+              "ToolTip": "D:\\taiLieuHoc\\SEM5\\SWP391\\ProjectDiamondShop\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\ViewModels\\Accounts\\AccountDTO.cs",
+              "RelativeToolTip": "Application\\ViewModels\\Accounts\\AccountDTO.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAxwBMAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-01T03:06:07Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\taiLieuHoc\\SEM5\\SWP391\\ProjectDiamondShop\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Program.cs",
               "RelativeDocumentMoniker": "WebAPI\\Program.cs",
               "ToolTip": "D:\\taiLieuHoc\\SEM5\\SWP391\\ProjectDiamondShop\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\WebAPI\\Program.cs",
               "RelativeToolTip": "WebAPI\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFAAAAADAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-29T11:06:56.252Z",
               "EditorCaption": ""

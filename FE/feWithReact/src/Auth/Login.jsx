@@ -33,9 +33,8 @@ export default function Login() {
         }, 0);
       }
     });
-    console.log("email", email);
-    console.log("password", password);
   };
+  
   if (localStorage.getItem('token')) {
     const decodedToken = jwtDecode(localStorage.getItem('token'))
     useEffect(() => {

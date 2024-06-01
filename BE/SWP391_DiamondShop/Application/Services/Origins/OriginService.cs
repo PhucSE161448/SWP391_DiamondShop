@@ -27,7 +27,7 @@ namespace Application.Services.Origins
             var _response = new ServiceResponse<IEnumerable<OriginDTO>>();
             try
             {
-                var Origins = await _unitOfWork.OriginRepo.GetAllAsync();
+                var Origins = await _unitOfWork.OriginRepo.GetAllAsync(x => x.IsDeleted == false);
                 var OriginDTOs = new List<OriginDTO>();
                 foreach (var pro in Origins)
                 {

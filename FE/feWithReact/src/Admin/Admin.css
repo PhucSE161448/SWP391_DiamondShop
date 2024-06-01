@@ -27,7 +27,6 @@ table {
     border-radius: 20px;
 }
 
-
 .titleOfFormContainer,
 .titleOfForm {
     display: flex;
@@ -88,4 +87,14 @@ table {
 
 .form-control::placeholder {
     font-size: calc(0.8vw + 0.5vh);
+}
+
+.refreshButtonConainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.refreshButton {
+    margin-bottom: 10px;
 }
