@@ -35,6 +35,24 @@ namespace Infrastructures.Repositories.Products
             query = orderByDesc == true ? query.OrderByDescending(GetSortProperty(sortBy)) : query.OrderBy(GetSortProperty(sortBy));
             return await query.ToPaginationAsync(pageNumber, pageSize);
         }
+
+        public async Task<Product?> GetProductDetailById(int id)
+        {
+           var product = await _dbContext.Products
+                                        .Include(p => p.Category)
+                                        .Include(p => p.Diamond)
+                                            .ThenInclude(pp => pp.Clarity)
+                                        .Include(p => p.Diamond)
+                                            .ThenInclude(pp => pp.Cut)
+                                        .Include (p => p.Diamond)
+                                            .ThenInclude(pp => pp.CaratWeight)
+                                        .Include(p => p.Diamond)
+                                            .ThenInclude(pp => pp.Origin)
+                                        .Include(p => p.WarrantyDocuments)
+                                        .FirstOrDefaultAsync(x => x.Id == id);
+            return product;
+        }
+
         private Expression<Func<Product, object>> GetSortProperty(string sortColumn)
         {
             return sortColumn.ToLower() switch

@@ -19,5 +19,12 @@ namespace WebAPI.Controllers.Product
         {
             return Ok(await service.GetPagedProducts(queryProductDTO));
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductDetailById(int id)
+        {
+            var response = await service.GetProductDetailById(id);
+           return Ok(response);
+           
+        }
     }
 }

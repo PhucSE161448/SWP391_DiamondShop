@@ -10,7 +10,7 @@ namespace Application.ViewModels
     (
         int PageNumber = 1,
         int PageSize = 10,
-        string SortBy = "id",
+        string SortBy = "id", 
         bool OrderByDesc = false
     );
 }

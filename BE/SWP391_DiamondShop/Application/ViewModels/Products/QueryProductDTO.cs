@@ -12,13 +12,8 @@ namespace Application.ViewModels.Products
         public QueryDTO queryDTO { get; set; } = new QueryDTO();
         public decimal StartPrice {  get; set; }
         public decimal EndPrice { get; set; }
-        public List<int> CategoryIds { get; set; }
-        public List<int> DiamondIds { get; set; }
+        public List<int> CategoryIds { get; set; } = new List<int>();
+        public List<int> DiamondIds { get; set; } = new List<int>();
         public string? Name {  get; set; }
-        public QueryProductDTO()
-        {
-            CategoryIds = new List<int>();
-            DiamondIds = new List<int>();
-        }
     }
 }
