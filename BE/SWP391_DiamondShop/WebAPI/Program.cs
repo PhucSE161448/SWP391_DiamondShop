@@ -62,7 +62,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+app.UseCors(options =>
+    options.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -74,7 +78,7 @@ app.UseMiddleware<PerformanceMiddleware>();
 app.MapHealthChecks("/healthchecks");
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

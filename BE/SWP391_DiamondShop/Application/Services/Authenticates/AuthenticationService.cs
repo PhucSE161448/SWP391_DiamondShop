@@ -108,13 +108,12 @@ namespace Application.Services.Authenticates
                 account.ConfirmationToken = Guid.NewGuid().ToString();
 
                 //account.Status = "true";
-                account.RoleId = 4;
+                account.RoleId = 1;
                 await _unitOfWork.AccountRepo.AddAsync(account);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
                     var accountDTO = _mapper.Map<AccountDTO>(account);
-                    
                     response.Data = accountDTO; // Chuyển đổi sang AccountDTO
                     response.Success = true;
                     response.Message = "Register successfully.";

@@ -27,7 +27,7 @@ namespace Application.Services.CaratWeights
             var _response = new ServiceResponse<IEnumerable<CaratWeightDTO>>();
             try
             {
-                var CaratWeights = await _unitOfWork.CaratWeightRepo.GetAllAsync();
+                var CaratWeights = await _unitOfWork.CaratWeightRepo.GetAllAsync(x => x.IsDeleted == false);
                 var CaratWeightDTOs = new List<CaratWeightDTO>();
                 foreach (var pro in CaratWeights)
                 {
