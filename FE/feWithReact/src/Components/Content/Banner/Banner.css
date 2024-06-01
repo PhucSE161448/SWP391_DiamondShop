@@ -1,0 +1,65 @@
+.imgBanner {
+
+    width: 100%;
+}
+
+.bannerContainer {
+    height: auto;
+    align-items: center;
+    background-color: #000;
+    color: white;
+}
+
+.imgBanner2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.contentBannerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    padding: 3vh 5vw;
+    font-size: large;
+}
+
+#aboutUs {
+    color: #CEAA62;
+}
+
+.contentBannerContainer h1 {
+    color: white;
+}
+
+.contentBannerContainer:hover,
+.contentBannerContainer:hover h1 {
+    cursor: pointer;
+    background-color: #d9d9d9;
+    color: black;
+}
+
+.contentBannerContainer h1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#storeName {
+    font-size: 2rem;
+}
+
+.contentBannerContainerAboutUs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    padding: 3vh 5vw;
+    font-size: large;
+    align-items: flex-start;
+}

@@ -76,7 +76,13 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<PerformanceMiddleware>();
 app.MapHealthChecks("/healthchecks");
-
+app.UseCors(builder =>
+{
+    builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+});
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
