@@ -8,9 +8,6 @@ using Application.ViewModels.CaratWeights;
 using Application.ViewModels.Origins;
 using Application.ViewModels.WarrantyDocuments;
 using Application.ViewModels.Accounts;
-using Application.ViewModels.Products;
-using Application.ViewModels.Categories;
-using Application.ViewModels.Diamonds;
 
 namespace Infrastructures.Mappers
 {
@@ -46,13 +43,6 @@ namespace Infrastructures.Mappers
             CreateMap<WarrantyDocument, WarrantyDocumentDTO>().ReverseMap();
             CreateMap<WarrantyDocumentDTO, UpsertWarrantyDocumentDTO>().ReverseMap();
             CreateMap<WarrantyDocument, UpsertWarrantyDocumentDTO>().ReverseMap();
-
-            CreateMap<GetProductPaginationDTO, Product>().ReverseMap();
-            CreateMap<GetProductDetailDTO, Product>().ReverseMap();
-
-            CreateMap<CategoryDTO, Category>().ReverseMap();
-
-            CreateMap<DiamondDTO, Diamond>().ReverseMap();
         }
     }
 }

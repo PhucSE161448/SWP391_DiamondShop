@@ -1,10 +1,8 @@
-﻿using Application.IRepositories;
-using Application.IRepositories.Accounts;
+﻿using Application.IRepositories.Accounts;
 using Application.IRepositories.CaratWeights;
 using Application.IRepositories.Clarities;
 using Application.IRepositories.Cuts;
 using Application.IRepositories.Origins;
-using Application.IRepositories.Products;
 using Application.IRepositories.WarrantyDocuments;
 using System;
 using System.Collections.Generic;
@@ -23,7 +21,6 @@ namespace Application.Interfaces
         public IWarrantyDocumentRepo WarrantyDocumentRepo { get; }
 
         public IAccountRepo AccountRepo { get; }
-        public IProductRepo ProductRepo { get; }
         public Task<int> SaveChangeAsync();
     }
 }
