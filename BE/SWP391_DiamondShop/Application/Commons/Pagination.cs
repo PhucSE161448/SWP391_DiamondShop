@@ -1,6 +1,6 @@
 ﻿namespace Application.Commons
 {
-    public class Pagination<T>
+    public class Pagination<T> where T : class
     {
         public int TotalItemsCount { get; set; }
         public int PageSize { get; set; }
@@ -23,6 +23,6 @@
         /// </summary>
         public bool Next => PageIndex + 1 < TotalPagesCount;
         public bool Previous => PageIndex > 0;
-        public ICollection<T> Items { get; set; }
+        public ICollection<T>? Items { get; set; }
     }
 }
