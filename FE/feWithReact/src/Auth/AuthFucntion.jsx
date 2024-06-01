@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export function validateUser(userData) {
-    let BaseUrl = "https://localhost:7122/api/Authentication/Login/login";
+    let BaseUrl = "https://localhost:7122/api/Authentication/Login/";
     return new Promise((resolve, reject) => {
         fetch(BaseUrl, {
             method: "POST",
