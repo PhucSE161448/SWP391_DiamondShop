@@ -1,0 +1,96 @@
+.pageLoginContainer {
+    background-image: url("src/assets/img/backgroundForLogin.jpg");
+    background-size: cover;
+    height: 100vh;
+}
+
+.loginContainer {
+    background-color: #d9d9d9;
+    width: 40%;
+    height: 60%;
+    border-radius: 50px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5vh;
+    position: absolute;
+    justify-content: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loginInputContainer {
+    width: 75%;
+
+}
+
+.loginInputContainer form input {
+    width: 100%;
+    margin: 0.5vh;
+    padding: 1.5vh;
+    border-radius: 20px;
+    font-size: calc(0.5vw + 1vh);
+}
+
+input::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+    font-size: calc(0.5vw + 1vh);
+}
+
+.backToHomePageLink {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.forgotPassword {
+    display: flex;
+    flex-direction: row;
+}
+
+.loginContainer h1 {
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    font-size: calc(1.5vw + 1.5vh);
+}
+
+.loginButton,
+.signUpButton {
+    color: #fff;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1vh;
+    border-radius: 50px;
+    font-size: calc(0.5vw + 1.3vh);
+    border: #d9d9d9;
+    margin: 10px 0 10px 0;
+}
+
+.loginButton {
+    background-color: #003468;
+    margin-bottom: 10px;
+}
+
+.signUpButton {
+    background-color: #ad2a36;
+}
+
+.linkForgotPassword,
+.linkBackHome {
+    font-size: calc(0.5vw + 1vh);
+}
+
+.signupLink {
+    color: #fff;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}

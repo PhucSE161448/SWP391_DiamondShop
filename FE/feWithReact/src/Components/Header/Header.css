@@ -1,0 +1,42 @@
+.containerHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+
+.shopName {
+    font-size: calc(2vw + 0.5vh);
+}
+
+.containerHeader>div {
+    padding: 10px 20px;
+}
+
+#logoHeader {
+    max-width: 100px;
+    width: calc(10vw + 0.5vh);
+}
+
+
+#searchHeader:hover {
+    border: 2px solid #000;
+}
+
+#searchHeader::placeholder {
+    color: #000;
+    font-size: calc(0.8vw + 0.5vh);
+}
+
+#searchHeader {
+    width: 15vw;
+    padding: 20px;
+    border-radius: 45px;
+    border: 1px solid #000;
+    font-size: calc(0.8vw + 0.5vh);
+}
+
+.searchContainer {
+    width: 20vw;
+}
