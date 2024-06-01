@@ -31,8 +31,6 @@ namespace Application.Ultils
             var categoryIds = queryProductDTO.CategoryIds;
             var name = queryProductDTO.Name;
             var diamondIds = queryProductDTO.DiamondIds;
-            if (startPrice < endPrice)
-                query = query.Where(p => p.Price >= startPrice && p.Price <= endPrice);
             if (!categoryIds.IsNullOrEmpty())
                 query = query.Where(p =>  categoryIds.Contains(p.CategoryId));
             if (!string.IsNullOrEmpty(name))

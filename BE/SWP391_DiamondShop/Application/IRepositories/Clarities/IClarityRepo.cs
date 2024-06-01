@@ -9,5 +9,6 @@ namespace Application.IRepositories.Clarities
 {
     public interface IClarityRepo : IGenericRepository<Clarity>
     {
+
     }
 }

@@ -11,10 +11,10 @@ namespace Domain.Model
         }
 
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         public long PaymentType { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         public bool? IsDeleted { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }

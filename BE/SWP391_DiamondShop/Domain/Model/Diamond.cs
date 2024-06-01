@@ -7,24 +7,27 @@ namespace Domain.Model
     {
         public Diamond()
         {
+            Images = new HashSet<Image>();
+            OrderItems = new HashSet<OrderItem>();
+            ProductParts = new HashSet<ProductPart>();
             Products = new HashSet<Product>();
         }
 
         public int Id { get; set; }
         public int OriginId { get; set; }
         public int CaratWeightId { get; set; }
-        public int ColorId { get; set; }
         public int ClarityId { get; set; }
         public int CutId { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-        public string ImageUrl { get; set; }
 
-
-        public virtual CaratWeight CaratWeight { get; set; }
-        public virtual Clarity Clarity { get; set; }
-        public virtual Cut Cut { get; set; }
-        public virtual Origin Origin { get; set; }
+        public virtual CaratWeight CaratWeight { get; set; } = null!;
+        public virtual Clarity Clarity { get; set; } = null!;
+        public virtual Cut Cut { get; set; } = null!;
+        public virtual Origin Origin { get; set; } = null!;
+        public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<ProductPart> ProductParts { get; set; }
         public virtual ICollection<Product> Products { get; set; }
     }
 }

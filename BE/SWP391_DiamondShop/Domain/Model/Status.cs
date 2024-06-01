@@ -15,7 +15,7 @@ namespace Domain.Model
         public int Name { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        public virtual Account Account { get; set; }
+        public virtual Account Account { get; set; } = null!;
         public virtual ICollection<Order> Orders { get; set; }
     }
 }

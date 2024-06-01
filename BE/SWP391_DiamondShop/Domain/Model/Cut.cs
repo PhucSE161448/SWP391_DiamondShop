@@ -11,8 +11,8 @@ namespace Domain.Model
         }
 
         public int Id { get; set; }
-        public string Name { get; set; }
-        public long Price { get; set; }
+        public string Name { get; set; } = null!;
+        public decimal Price { get; set; }
 
 
         public virtual ICollection<Diamond> Diamonds { get; set; }

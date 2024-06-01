@@ -58,7 +58,6 @@ namespace Infrastructures.Repositories.Products
             return sortColumn.ToLower() switch
             {
                 "modifiedDate" => p => (p.ModifiedDate == null) ? p.Id : p.ModifiedDate,
-                "price" => p => p.Price,
                 "name" => p => p.Name,  
                 _ => p => p.Id
             };
