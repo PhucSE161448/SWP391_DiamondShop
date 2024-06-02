@@ -29,6 +29,9 @@ namespace Infrastructures.Repositories.Products
                                           .Where(p => p.IsDeleted == false)
                                           .Include(p => p.Category)
                                           .Include(p => p.Diamond)
+                                          .Include(P => P.ProductParts)
+                                          .Include(P => P.ProductSizes)
+                                          .Include(P => P.Images)
                                           .AsSplitQuery()
                                           .AsQueryable();
             query = query.ApplyProductFilter(queryProductDTO);
@@ -40,14 +43,20 @@ namespace Infrastructures.Repositories.Products
         {
            var product = await _dbContext.Products
                                         .Include(p => p.Category)
-                                        .Include(p => p.Diamond)
-                                            .ThenInclude(pp => pp.Clarity)
-                                        .Include(p => p.Diamond)
-                                            .ThenInclude(pp => pp.Cut)
-                                        .Include (p => p.Diamond)
-                                            .ThenInclude(pp => pp.CaratWeight)
-                                        .Include(p => p.Diamond)
-                                            .ThenInclude(pp => pp.Origin)
+                                        .Include(P => P.ProductSizes)
+                                        .Include(P => P.Images)
+                                        .Include(p => p.ProductParts)
+                                            .ThenInclude(pp => pp.Diamond)
+                                            .ThenInclude(ppp => ppp.Clarity)
+                                        .Include(p => p.ProductParts)
+                                            .ThenInclude(pp => pp.Diamond)
+                                            .ThenInclude(ppp => ppp.Cut)
+                                        .Include (p => p.ProductParts)
+                                            .ThenInclude(pp => pp.Diamond)
+                                            .ThenInclude(ppp => ppp.CaratWeight)
+                                        .Include(p => p.ProductParts)
+                                            .ThenInclude(pp => pp.Diamond)
+                                            .ThenInclude(ppp => ppp.Origin)
                                         .Include(p => p.WarrantyDocuments)
                                         .FirstOrDefaultAsync(x => x.Id == id);
             return product;
@@ -58,7 +67,8 @@ namespace Infrastructures.Repositories.Products
             return sortColumn.ToLower() switch
             {
                 "modifiedDate" => p => (p.ModifiedDate == null) ? p.Id : p.ModifiedDate,
-                "name" => p => p.Name,  
+                "name" => p => p.Name,
+                "price" => p => p.ProductSizes.OrderBy(pp => pp.Size).Select(pp => pp.Price).FirstOrDefault(),
                 _ => p => p.Id
             };
         }
