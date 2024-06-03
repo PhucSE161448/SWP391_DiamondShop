@@ -11,6 +11,9 @@ using Application.ViewModels.Accounts;
 using Application.ViewModels.Products;
 using Application.ViewModels.Categories;
 using Application.ViewModels.Diamonds;
+using Application.ViewModels.ProductSize;
+using Application.ViewModels.Images;
+using Application.ViewModels.ProductParts;
 
 namespace Infrastructures.Mappers
 {
@@ -53,6 +56,14 @@ namespace Infrastructures.Mappers
             CreateMap<CategoryDTO, Category>().ReverseMap();
 
             CreateMap<DiamondDTO, Diamond>().ReverseMap();
+            CreateMap<GetDiamondPaginationDTO, Diamond>().ReverseMap();
+            CreateMap<GetDiamondDetailDTO, Diamond>().ReverseMap();
+
+            CreateMap<ProductSize, ProductSizeDTO>().ReverseMap();
+
+            CreateMap<ProductPart, ProductPartDTO>().ReverseMap();
+
+            CreateMap<Image, ImageDTO>().ReverseMap();
         }
     }
 }

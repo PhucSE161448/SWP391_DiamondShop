@@ -1,8 +1,8 @@
 ﻿using Application.ViewModels.CaratWeights;
 using Application.ViewModels.Clarities;
 using Application.ViewModels.Cuts;
+using Application.ViewModels.Images;
 using Application.ViewModels.Origins;
-using Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.ViewModels.Diamonds
 {
-    public class DiamondDTO
+    public class GetDiamondDetailDTO
     {
         public int Id { get; set; }
         public OriginDTO? Origin { get; set; }
@@ -20,5 +20,6 @@ namespace Application.ViewModels.Diamonds
         public CutDTO? Cut { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
+        public ICollection<ImageDTO> Images { get; set; } = new List<ImageDTO>();
     }
 }

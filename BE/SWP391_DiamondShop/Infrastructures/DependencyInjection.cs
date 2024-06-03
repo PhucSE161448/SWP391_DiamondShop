@@ -4,6 +4,7 @@ using Application.Interfaces.Authenticates;
 using Application.Interfaces.CaratWeights;
 using Application.Interfaces.Clarity;
 using Application.Interfaces.Cut;
+using Application.Interfaces.Diamond;
 using Application.Interfaces.Origin;
 using Application.Interfaces.Products;
 using Application.Interfaces.WarrantyDocument;
@@ -11,6 +12,7 @@ using Application.IRepositories.Accounts;
 using Application.IRepositories.CaratWeights;
 using Application.IRepositories.Clarities;
 using Application.IRepositories.Cuts;
+using Application.IRepositories.Diamonds;
 using Application.IRepositories.Origins;
 using Application.IRepositories.Products;
 using Application.IRepositories.WarrantyDocuments;
@@ -19,6 +21,7 @@ using Application.Services.Authenticates;
 using Application.Services.CaratWeights;
 using Application.Services.Clarities;
 using Application.Services.Cuts;
+using Application.Services.Diamonds;
 using Application.Services.Origins;
 using Application.Services.Products;
 using Application.Services.WarrantyDocuments;
@@ -27,6 +30,7 @@ using Infrastructures.Repositories.Accounts;
 using Infrastructures.Repositories.CaratWeights;
 using Infrastructures.Repositories.Clarities;
 using Infrastructures.Repositories.Cuts;
+using Infrastructures.Repositories.Diamonds;
 using Infrastructures.Repositories.Origins;
 using Infrastructures.Repositories.Products;
 using Infrastructures.Repositories.WarrantyDocuments;
@@ -63,6 +67,9 @@ namespace Infrastructures
 
             services.AddScoped<IProductRepo, ProductRepo>();
             services.AddScoped<IProductService, ProductService>();
+
+            services.AddScoped<IDiamondRepo, DiamondRepo>();
+            services.AddScoped<IDiamondService, DiamondService>();
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 
