@@ -15,7 +15,7 @@ namespace WebAPI.Controllers.Product
             service = _service;
         }
         [HttpGet]
-        public async Task<ActionResult<Pagination<GetProductPaginationDTO>>> GetPagedProducts([FromQuery] QueryProductDTO queryProductDTO)
+        public async Task<IActionResult> GetPagedProducts([FromQuery] QueryProductDTO queryProductDTO)
         {
             return Ok(await service.GetPagedProducts(queryProductDTO));
         }

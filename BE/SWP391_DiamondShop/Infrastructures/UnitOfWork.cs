@@ -3,6 +3,7 @@ using Application.IRepositories.Accounts;
 using Application.IRepositories.CaratWeights;
 using Application.IRepositories.Clarities;
 using Application.IRepositories.Cuts;
+using Application.IRepositories.Diamonds;
 using Application.IRepositories.Origins;
 using Application.IRepositories.Products;
 using Application.IRepositories.WarrantyDocuments;
@@ -25,9 +26,12 @@ namespace Infrastructures
         private readonly IWarrantyDocumentRepo warrantyDocumentRepo;
         private readonly IAccountRepo accountRepo;
         private readonly IProductRepo productRepo;
+        private readonly IDiamondRepo diamondRepo;
         public UnitOfWork(SWP391_DiamondShopContext _context, ICaratWeightRepo _caratWeightRepo,
             IClarityRepo _clarityRepo, ICutRepo _cutRepo,
-            IOriginRepo _originRepo, IWarrantyDocumentRepo _warrantyDocumentRepo, IAccountRepo _accountRepo, IProductRepo _productRepo)
+            IOriginRepo _originRepo, IWarrantyDocumentRepo _warrantyDocumentRepo,
+            IAccountRepo _accountRepo, IProductRepo _productRepo,
+            IDiamondRepo _diamondRepo)
         {
             context = _context;
             caratWeightRepo = _caratWeightRepo;
@@ -37,6 +41,7 @@ namespace Infrastructures
             warrantyDocumentRepo = _warrantyDocumentRepo;
             accountRepo = _accountRepo;
             productRepo = _productRepo;
+            diamondRepo = _diamondRepo;
         }
 
         public ICutRepo CutRepo => cutRepo;
@@ -46,6 +51,8 @@ namespace Infrastructures
         public IWarrantyDocumentRepo WarrantyDocumentRepo => warrantyDocumentRepo;
         public IAccountRepo AccountRepo => accountRepo;
         public IProductRepo ProductRepo => productRepo;
+        public IDiamondRepo DiamondRepo => diamondRepo;
+
         public async Task<int> SaveChangeAsync()
         {
             return await context.SaveChangesAsync();
