@@ -4,13 +4,10 @@ import ReadCW from './ReadCW';
 import ReadCWByID from './ReadCWByID';
 import UpdateCW from './UpdateCW';
 import DelelteCW from './DelelteCW';
-import NavbarAdmin from '../../Navbar/NavbarAdmin';
+
 export default function CaratWeight() {
     return (
-        <div >
-            <div>
-                <NavbarAdmin></NavbarAdmin>
-            </div>
+        <div className='contentAdminContainer'>
             <div className='CRUDContainer'>
                 <div className='titleOfFormContainer'>
                     <h2>CaratWeight</h2>

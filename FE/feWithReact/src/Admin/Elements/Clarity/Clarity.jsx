@@ -4,13 +4,10 @@ import ReadClarity from './ReadClarity';
 import ReadClarityByID from './ReadClarityByID';
 import UpdateClarity from './UpdateClarity';
 import DelelteClarity from './DelelteClarity';
-import NavbarAdmin from '../../Navbar/NavbarAdmin';
+
 export default function Clarity() {
     return (
-        <div >
-            <div>
-                <NavbarAdmin></NavbarAdmin>
-            </div>
+        <div className='contentAdminContainer'>
             <div className='CRUDContainer '>
                 <div className='titleOfFormContainer'>
                     <h2>Clarity</h2>

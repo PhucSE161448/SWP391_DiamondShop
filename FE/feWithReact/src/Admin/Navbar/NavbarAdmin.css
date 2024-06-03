@@ -1,14 +1,36 @@
 #navbarAdminContainer {
-    display: flex;
-    justify-content: space-around;
     align-items: center;
     background-color: #000;
-    padding: 10px 10vw;
+    padding: 10px;
     color: white;
+    height: 100vh;
+    margin: 0;
 }
 
-#navbarAdminContainer div a {
+.listNavAdmin a {
     color: white;
     text-decoration: none;
     font-size: calc(1vw + 0.5vh);
+}
+
+.listNavAdmin {
+    padding-bottom: 10px;
+}
+
+.adminNavContainer {
+    width: 15vw;
+    float: left;
+}
+
+#childrenOfList {
+    margin-left: 25px;
+}
+
+#childrenOfList>li {
+    text-decoration: none;
+    list-style-type: none;
+}
+
+.listElements {
+    margin-bottom: 10px;
 }

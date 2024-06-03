@@ -4,9 +4,10 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useEffect } from 'react';
 import './Admin.css'
 
-import { LogoutByButton } from '../Auth/AuthFucntion';
+import { Route, Routes } from 'react-router-dom';
+
 import NavbarAdmin from './Navbar/NavbarAdmin';
-export default function Admin() {
+export default function AdminNav() {
     let navigate = useNavigate();
 
     if (localStorage.getItem('token')) {
@@ -20,23 +21,12 @@ export default function Admin() {
 
         if (decodedToken.Role === '1') {
             return (
-                <div>
-                    <div className='pageAdminContainer container-fluid'>
-                        <div>
-                            <NavbarAdmin></NavbarAdmin>
-                        </div>
-                        <div className='headerAdminContainer'>
-                            <h1>ADMIN PAGE</h1>
-                        </div>
-                        <Link to='/' className='logoutLink'>
-                            <button onClick={LogoutByButton} className='logoutButton btn btn-danger'>
-                               LOGOUT
-                            </button>
-                        </Link>
-                        
-                    </div>
+                <div className='pageAdminContainer'>
+                    {/* <div>
+                        <h1>ADMIN PAGE</h1>
+                    </div> */}
+                    <NavbarAdmin></NavbarAdmin>
                 </div>
-
             )
         }
     }

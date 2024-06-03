@@ -4,13 +4,9 @@ import ReadOrigin from './ReadOrigin';
 import ReadOriginByID from './ReadOriginByID';
 import UpdateOrigin from './UpdateOrigin';
 import DelelteOrigin from './DelelteOrigin';
-import NavbarAdmin from '../../Navbar/NavbarAdmin';
 export default function Origin() {
     return (
-        <div >
-            <div>
-                <NavbarAdmin></NavbarAdmin>
-            </div>
+        <div className='contentAdminContainer'>
             <div className='CRUDContainer'>
                 <div className='titleOfFormContainer'>
                     <h2>Origin</h2>

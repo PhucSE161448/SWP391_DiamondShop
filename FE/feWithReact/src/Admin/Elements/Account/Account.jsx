@@ -9,10 +9,7 @@ import DelelteAccount from './DeleteAccount';
 import NavbarAdmin from '../../Navbar/NavbarAdmin';
 export default function Account() {
     return (
-        <div >
-            <div>
-                <NavbarAdmin></NavbarAdmin>
-            </div>
+        <div className='contentAdminContainer'>
             <div className='CRUDContainer '>
                 <div className='titleOfFormContainer'>
                     <h2>Account</h2>
@@ -26,7 +23,6 @@ export default function Account() {
                     <DelelteAccount></DelelteAccount>
                 </div>
             </div>
-
         </div>
     )
 }
