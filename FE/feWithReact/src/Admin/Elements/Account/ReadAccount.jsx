@@ -12,13 +12,13 @@ export default function ReadAccount() {
     function getRoleName(roleId) {
         switch (roleId) {
             case 1:
-                return 'Admin';
+                return 'Admin'
             case 2:
-                return 'Sale staff';
+                return 'Sale staff'
             case 3:
-                return 'Delivery staff';
+                return 'Delivery staff'
             case 4:
-                return 'Customer';
+                return 'Customer'
         }
     }
 
@@ -38,7 +38,7 @@ export default function ReadAccount() {
                 .then(responseData => {
                     setData(responseData.data); // Access the array using the key
                 })
-                .catch((error) => console.error('Error:', error));
+                .catch((error) => console.error('Error:', error))
         }, []);
 
         return (

@@ -25,7 +25,7 @@ export default function ReadCut() {
                     setData(responseData.data); // Access the array using the key
                 })
                 .catch((error) => console.error('Error:', error))
-        }, []);
+        }, [])
 
         return (
             <div>

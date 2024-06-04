@@ -9,7 +9,7 @@ export default function ReadOrigin() {
         setContext(prevContext => prevContext === 'SHOW ALL' ? 'Click here to close SHOW ALL' : 'SHOW ALL')
     }
     function Read() {
-        const [data, setData] = useState(null);
+        const [data, setData] = useState(null)
 
 
         useEffect(() => {
