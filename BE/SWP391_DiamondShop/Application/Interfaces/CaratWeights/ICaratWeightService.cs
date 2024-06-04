@@ -10,10 +10,10 @@ namespace Application.Interfaces.CaratWeights
 {
     public interface ICaratWeightService
     {
-        Task<ServiceResponse<IEnumerable<CaratWeightDTO>>> GetAllCaratWeightAsync();
-        Task<ServiceResponse<CaratWeightDTO>> GetCaratWeightAsync(int id);
-        Task<ServiceResponse<CaratWeightDTO>> CreateCaratWeightAsync(UpsertCaratWeightDTO CreatedCaratWeightDTO);
-        Task<ServiceResponse<CaratWeightDTO>> UpdateCaratWeightAsync(int id, UpsertCaratWeightDTO CaratWeightDTO);
-        Task<ServiceResponse<bool>> DeleteCaratWeightAsync(int id);
+        Task<IEnumerable<CaratWeightDTO>> GetAllCaratWeightAsync();
+        Task<CaratWeightDTO> GetCaratWeightAsync(int id);
+        Task<CaratWeightDTO> CreateCaratWeightAsync(UpsertCaratWeightDTO CreatedCaratWeightDTO);
+        Task<CaratWeightDTO> UpdateCaratWeightAsync(int id, UpsertCaratWeightDTO CaratWeightDTO);
+        Task DeleteCaratWeightAsync(int id);
     }
 }

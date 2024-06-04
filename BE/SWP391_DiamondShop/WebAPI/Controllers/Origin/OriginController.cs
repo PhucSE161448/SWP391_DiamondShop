@@ -31,35 +31,20 @@ namespace WebAPI.Controllers.Origin
         public async Task<IActionResult> Create([FromForm] UpsertOriginDTO createdDTO)
         {
             var result = await service.CreateOriginAsync(createdDTO);
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return Ok(result);
-            }
+            return Created(nameof(Create), result);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] UpsertOriginDTO DTO)
         {
             var result = await service.UpdateOriginAsync(id, DTO);
-            if (!result.Success)
-            {
-                return NotFound(result);
-            }
             return Ok(result);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await service.DeleteOriginAsync(id);
-            if (!result.Success)
-            {
-                return NotFound(result);
-            }
-            return Ok(result);
+            await service.DeleteOriginAsync(id);
+            return NoContent();
         }
     }
 }

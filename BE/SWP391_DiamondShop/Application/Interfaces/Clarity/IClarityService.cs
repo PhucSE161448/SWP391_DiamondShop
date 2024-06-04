@@ -10,10 +10,10 @@ namespace Application.Interfaces.Clarity
 {
     public interface IClarityService
     {
-        Task<ServiceResponse<IEnumerable<ClarityDTO>>> GetAllClarityAsync();
-        Task<ServiceResponse<ClarityDTO>> GetClarityAsync(int id);
-        Task<ServiceResponse<ClarityDTO>> CreateClarityAsync(UpsertClarityDTO CreatedClarityDTO);
-        Task<ServiceResponse<ClarityDTO>> UpdateClarityAsync(int id, UpsertClarityDTO ClarityDTO);
-        Task<ServiceResponse<bool>> DeleteClarityAsync(int id);
+        Task<IEnumerable<ClarityDTO>> GetAllClarityAsync();
+        Task<ClarityDTO> GetClarityAsync(int id);
+        Task<ClarityDTO> CreateClarityAsync(UpsertClarityDTO CreatedClarityDTO);
+        Task<ClarityDTO> UpdateClarityAsync(int id, UpsertClarityDTO ClarityDTO);
+        Task DeleteClarityAsync(int id);
     }
 }

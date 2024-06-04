@@ -21,14 +21,7 @@ namespace WebAPI.Controllers
         {
             var result = await _authenticationService.RegisterAsync(registerObject);
 
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return Ok(result);
-            }
+            return Ok(result);
         }
 
         [HttpPost]
@@ -37,21 +30,7 @@ namespace WebAPI.Controllers
         {
             var result = await _authenticationService.LoginAsync(loginObject);
 
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return Ok(
-                    new
-                    {
-                        success = result.Success,
-                        message = result.Message,
-                        token = result.Data
-                    }
-                );
-            }
+            return Ok(result);
         }
     }
 }

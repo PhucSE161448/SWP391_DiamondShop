@@ -349,7 +349,7 @@ namespace Infrastructures
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasIndex(e => e.WarrantyDocumentsId, "UQ__Products__0133729A298F561C")
+                entity.HasIndex(e => e.WarrantyDocumentsId, "UQ__Products__0133729A11AC3642")
                     .IsUnique();
 
                 entity.Property(e => e.CategoryId).HasColumnName("Category_Id");
@@ -361,8 +361,6 @@ namespace Infrastructures
                 entity.Property(e => e.DeletedBy).HasMaxLength(255);
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
-
-                entity.Property(e => e.DiamondId).HasColumnName("Diamond_Id");
 
                 entity.Property(e => e.IsDeleted)
                     .IsRequired()
@@ -381,12 +379,6 @@ namespace Infrastructures
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("products_category_id_foreign");
-
-                entity.HasOne(d => d.Diamond)
-                    .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.DiamondId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("products_diamond_id_foreign");
 
                 entity.HasOne(d => d.WarrantyDocuments)
                     .WithOne(p => p.Product)

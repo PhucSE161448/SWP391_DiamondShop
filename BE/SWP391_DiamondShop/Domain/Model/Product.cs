@@ -18,11 +18,9 @@ namespace Domain.Model
         public bool Gender { get; set; }
         public int Quantity { get; set; }
         public int CategoryId { get; set; }
-        public int DiamondId { get; set; }
         public int? WarrantyDocumentsId { get; set; }
 
         public virtual Category Category { get; set; } = null!;
-        public virtual Diamond Diamond { get; set; } = null!;
         public virtual WarrantyDocument? WarrantyDocuments { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }

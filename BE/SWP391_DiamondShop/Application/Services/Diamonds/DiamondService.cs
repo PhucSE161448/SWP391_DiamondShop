@@ -1,4 +1,5 @@
 ﻿using Application.Commons;
+using Application.Exceptions;
 using Application.Interfaces;
 using Application.Interfaces.Diamond;
 using Application.ViewModels.Diamonds;
@@ -24,77 +25,23 @@ namespace Application.Services.Diamonds
             _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<GetDiamondDetailDTO>> GetDiamondDetailById(int id)
+        public async Task<GetDiamondDetailDTO> GetDiamondDetailById(int id)
         {
-            var _response = new ServiceResponse<GetDiamondDetailDTO>();
-            try
+            var diamond = await _unitOfWork.DiamondRepo.GetDiamondDetailById(id);
+            if (diamond is null)
             {
-                var product = await _unitOfWork.DiamondRepo.GetDiamondDetailById(id);
-                if (product != null)
-                {
-                    _response.Success = true;
-                    _response.Message = "Diamond retrieved successfully";
-                    _response.Data = _mapper.Map<GetDiamondDetailDTO>(product);
-                }
-                else
-                {
-                    _response.Success = true;
-                    _response.Message = "Diamond not found";
-                }
+                throw new NotFoundException("Product is not existed");
             }
-            catch (DbException ex)
-            {
-                _response.Success = false;
-                _response.Message = "Database error occurred.";
-                _response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                _response.Success = false;
-                _response.Data = null;
-                _response.Message = "Error";
-                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-            }
-            return _response;
+            return _mapper.Map<GetDiamondDetailDTO>(diamond);
         }
 
-        public async Task<ServiceResponse<Pagination<GetDiamondPaginationDTO>>> GetPageDiamonds(QueryDiamondDTO queryDiamondDTO)
+        public async Task<Pagination<GetDiamondPaginationDTO>> GetPageDiamonds(QueryDiamondDTO queryDiamondDTO)
         {
-            var _response = new ServiceResponse<Pagination<GetDiamondPaginationDTO>>();
-            try
+            if (queryDiamondDTO.StartPrice > queryDiamondDTO.EndPrice)
             {
-                var diamond = await _unitOfWork.DiamondRepo.GetPagedDiamonds(queryDiamondDTO);
-                if (queryDiamondDTO.StartPrice > queryDiamondDTO.EndPrice)
-                {
-                    _response.Success = true;
-                    _response.Message = "End Price must larger than Start Price";
-                }
-                else if (diamond == null)
-                {
-                    _response.Success = true;
-                    _response.Message = "List is empty";
-                }
-                else
-                {
-                    _response.Success = true;
-                    _response.Message = "Diamond retrieved successfully";
-                    _response.Data = _mapper.Map<Pagination<GetDiamondPaginationDTO>>(await _unitOfWork.DiamondRepo.GetPagedDiamonds(queryDiamondDTO));
-                }
+                throw new BadRequestException("Start price must be less than end price");
             }
-            catch (DbException ex)
-            {
-                _response.Success = false;
-                _response.Message = "Database error occurred.";
-                _response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                _response.Success = false;
-                _response.Data = null;
-                _response.Message = "Error";
-                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-            }
-            return _response;
+            return _mapper.Map<Pagination<GetDiamondPaginationDTO>>(await _unitOfWork.DiamondRepo.GetPagedDiamonds(queryDiamondDTO));
         }
     }
 }

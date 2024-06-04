@@ -10,10 +10,10 @@ namespace Application.Interfaces.Origin
 {
     public interface IOriginService
     {
-        Task<ServiceResponse<IEnumerable<OriginDTO>>> GetAllOriginAsync();
-        Task<ServiceResponse<OriginDTO>> GetOriginAsync(int id);
-        Task<ServiceResponse<OriginDTO>> CreateOriginAsync(UpsertOriginDTO CreatedOriginDTO);
-        Task<ServiceResponse<OriginDTO>> UpdateOriginAsync(int id, UpsertOriginDTO OriginDTO);
-        Task<ServiceResponse<bool>> DeleteOriginAsync(int id);
+        Task<IEnumerable<OriginDTO>> GetAllOriginAsync();
+        Task<OriginDTO> GetOriginAsync(int id);
+        Task<OriginDTO> CreateOriginAsync(UpsertOriginDTO CreatedOriginDTO);
+        Task<OriginDTO> UpdateOriginAsync(int id, UpsertOriginDTO OriginDTO);
+        Task DeleteOriginAsync(int id);
     }
 }

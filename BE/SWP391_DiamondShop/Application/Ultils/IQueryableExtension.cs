@@ -40,8 +40,6 @@ namespace Application.Ultils
                 query = query.Where(p =>  categoryIds.Contains(p.CategoryId));
             if (!string.IsNullOrEmpty(name))
                 query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
-            if (!diamondIds.IsNullOrEmpty())
-                query = query.Where(p => diamondIds.Contains(p.DiamondId) && p.ProductParts.Any(pp => diamondIds.Contains(pp.DiamondId)));
             return query;
         }
         public static IQueryable<Diamond> ApplyDiamondsFilter(this IQueryable<Diamond> query, QueryDiamondDTO queryDiamondDTO)

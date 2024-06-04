@@ -29,35 +29,20 @@ namespace WebAPI.Controllers.Cut
         public async Task<IActionResult> Create([FromForm] UpsertCutDTO createdDTO)
         {
             var result = await service.CreateCutAsync(createdDTO);
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return Ok(result);
-            }
+            return Created(nameof(Create), result);  
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] UpsertCutDTO DTO)
         {
             var result = await service.UpdateCutAsync(id, DTO);
-            if (!result.Success)
-            {
-                return NotFound(result);
-            }
             return Ok(result);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await service.DeleteCutAsync(id);
-            if (!result.Success)
-            {
-                return NotFound(result);
-            }
-            return Ok(result);
+            await service.DeleteCutAsync(id);
+            return NoContent();
         }
     }
 }

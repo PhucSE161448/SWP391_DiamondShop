@@ -2445,11 +2445,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\taiLieuHoc\\SEM5\\SWP391\\ProjectDiamondShop\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Infrastructures.csproj",
+      "projectUniqueName": "D:\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Infrastructures\\Infrastructures.csproj",
       "projectName": "Infrastructures",
-      "projectPath": "D:\\taiLieuHoc\\SEM5\\SWP391\\ProjectDiamondShop\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\Infrastructures.csproj",
+      "projectPath": "D:\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Infrastructures\\Infrastructures.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "D:\\taiLieuHoc\\SEM5\\SWP391\\ProjectDiamondShop\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Infrastructures\\obj\\",
+      "outputPath": "D:\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Infrastructures\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -2467,8 +2467,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\taiLieuHoc\\SEM5\\SWP391\\ProjectDiamondShop\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Application.csproj": {
-              "projectPath": "D:\\taiLieuHoc\\SEM5\\SWP391\\ProjectDiamondShop\\SWP391_DiamondShop\\BE\\SWP391_DiamondShop\\Application\\Application.csproj"
+            "D:\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Application\\Application.csproj": {
+              "projectPath": "D:\\C#\\SWP391\\BE\\SWP391_DiamondShop\\Application\\Application.csproj"
             }
           }
         }

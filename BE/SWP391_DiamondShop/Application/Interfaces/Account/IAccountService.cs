@@ -10,11 +10,11 @@ namespace Application.Interfaces.Account
 {
     public interface IAccountService
     {
-        Task<ServiceResponse<IEnumerable<AccountDTO>>> GetUserAsync();
-        Task<ServiceResponse<AccountDTO>> GetUserByIdAsync(int id);
-        Task<ServiceResponse<AccountDTO>> UpdateUserAsync(int id, AccountDTO userDTO);
-        Task<ServiceResponse<bool>> DeleteUserAsync(int id);
-        Task<ServiceResponse<IEnumerable<AccountDTO>>> SearchUserByNameAsync(string name);
-        Task<ServiceResponse<AccountDTO>> CreateAccountAsync(CreatedAccountDTO createdAccountDTO);
+        Task<IEnumerable<AccountDTO>> GetUserAsync();
+        Task<AccountDTO> GetUserByIdAsync(int id);
+        Task<AccountDTO> UpdateUserAsync(int id, UpdatedAccountDTO accountDto);
+        Task DeleteUserAsync(int id);
+        Task<IEnumerable<AccountDTO>> SearchUserByNameAsync(string name);
+        Task<AccountDTO> CreateAccountAsync(CreatedAccountDTO createdAccountDTO);
     }
 }
