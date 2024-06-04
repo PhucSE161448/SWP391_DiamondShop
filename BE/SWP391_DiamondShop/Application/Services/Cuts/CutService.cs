@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using Application.Interfaces.Cut;
 using Application.ViewModels.Cuts;
 using AutoMapper;
@@ -22,197 +23,64 @@ namespace Application.Services.Cuts
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<ServiceResponse<IEnumerable<CutDTO>>> GetAllCutAsync()
+        public async Task<IEnumerable<CutDTO>> GetAllCutAsync()
         {
-            var _response = new ServiceResponse<IEnumerable<CutDTO>>();
-            try
+            var Cuts = await _unitOfWork.CutRepo.GetAllAsync(x => x.IsDeleted == false);
+            var CutDTOs = new List<CutDTO>();
+            foreach (var pro in Cuts)
             {
-                var Cuts = await _unitOfWork.CutRepo.GetAllAsync(x => x.IsDeleted == false);
-                var CutDTOs = new List<CutDTO>();
-                foreach (var pro in Cuts)
-                {
-                    CutDTOs.Add(_mapper.Map<CutDTO>(pro));
-                }
-                if (CutDTOs.Count != 0)
-                {
-                    _response.Success = true;
-                    _response.Message = "Cut retrieved successfully";
-                    _response.Data = CutDTOs;
-                }
-                else
-                {
-                    _response.Success = true;
-                    _response.Message = "Cut not found";
-                }
+                CutDTOs.Add(_mapper.Map<CutDTO>(pro));
             }
-            catch (DbException ex)
-            {
-                _response.Success = false;
-                _response.Message = "Database error occurred.";
-                _response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                _response.Success = false;
-                _response.Data = null;
-                _response.Message = "Error";
-                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-            }
-            return _response;
+            return CutDTOs;
+            
         }
 
-        public async Task<ServiceResponse<CutDTO>> GetCutAsync(int id)
+        public async Task<CutDTO> GetCutAsync(int id)
         {
-            var _response = new ServiceResponse<CutDTO>();
-            try
+            var Cuts = await _unitOfWork.CutRepo.GetAsync(x => x.Id == id);
+            if (Cuts == null)
             {
-                var Cuts = await _unitOfWork.CutRepo.GetAsync(x => x.Id == id);
-                if (Cuts != null)
-                {
-                    _response.Success = true;
-                    _response.Message = "Cut retrieved successfully";
-                    _response.Data = _mapper.Map<CutDTO>(Cuts);
-                }
-                else
-                {
-                    _response.Success = true;
-                    _response.Message = "Cut not found";
-                }
+                throw new NotFoundException("Cut not found");
             }
-            catch (DbException ex)
-            {
-                _response.Success = false;
-                _response.Message = "Database error occurred.";
-                _response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                _response.Success = false;
-                _response.Data = null;
-                _response.Message = "Error";
-                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-            }
-            return _response;
+            return _mapper.Map<CutDTO>(Cuts);
         }
-        public async Task<ServiceResponse<CutDTO>> CreateCutAsync(UpsertCutDTO CreatedCutDTO)
+        public async Task<CutDTO> CreateCutAsync(UpsertCutDTO CreatedCutDTO)
         {
-            var response = new ServiceResponse<CutDTO>();
-            try
-            {
-                var Cut = _mapper.Map<Cut>(CreatedCutDTO);
-                await _unitOfWork.CutRepo.AddAsync(Cut);
-                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                if (isSuccess)
-                {
-                    var CutDTO = _mapper.Map<CutDTO>(Cut);
-                    response.Data = CutDTO;
-                    response.Success = true;
-                    response.Message = "Cut created successfully";
-                }
-                else
-                {
-                    response.Success = false;
-                    response.Message = "Create Cut failed";
-                }
-
-            }
-            catch (DbException ex)
-            {
-                response.Success = false;
-                response.Message = "Database error occurred.";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            return response;
+            var Cut = _mapper.Map<Cut>(CreatedCutDTO);
+            await _unitOfWork.CutRepo.AddAsync(Cut);
+            await _unitOfWork.SaveChangeAsync();
+            return _mapper.Map<CutDTO>(Cut);
         }
 
-        public async Task<ServiceResponse<bool>> DeleteCutAsync(int id)
+        public async Task DeleteCutAsync(int id)
         {
-            var response = new ServiceResponse<bool>();
             var exist = await _unitOfWork.CutRepo.GetByIdAsync(id);
             if (exist == null)
             {
-                response.Success = false;
-                response.Message = "Cut not found";
-                return response;
+                throw new NotFoundException("Category not found");
             }
-            try
+            if (exist.IsDeleted)
             {
-                _unitOfWork.CutRepo.SoftRemove(exist);
-                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                if (isSuccess)
-                {
-                    response.Success = true;
-                    response.Message = "Cut deleted successfully";
-                }
-                else
-                {
-                    response.Success = false;
-                    response.Message = "Delete Cut failed";
-                }
+                throw new BadRequestException("Cut is already deleted");
             }
-            catch (DbException ex)
-            {
-                response.Success = false;
-                response.Message = "Database error occurred.";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            return response;
+            _unitOfWork.CutRepo.SoftRemove(exist);
+            await _unitOfWork.SaveChangeAsync();
+            
         }
 
 
 
-        public async Task<ServiceResponse<CutDTO>> UpdateCutAsync(int id, UpsertCutDTO CutDTO)
+        public async Task<CutDTO> UpdateCutAsync(int id, UpsertCutDTO CutDTO)
         {
-            var response = new ServiceResponse<CutDTO>();
             var exist = await _unitOfWork.CutRepo.GetByIdAsync(id);
             if (exist == null)
             {
-                response.Success = false;
-                response.Message = "Cut not found";
-                return response;
+                throw new NotFoundException("Category not found");
             }
-            try
-            {
-                var Cut = _mapper.Map(CutDTO, exist);
-                _unitOfWork.CutRepo.Update(Cut);
-                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                if (isSuccess)
-                {
-                    response.Success = true;
-                    response.Message = "Cut updated successfully";
-                    response.Data = _mapper.Map<CutDTO>(Cut);
-                }
-                else
-                {
-                    response.Success = false;
-                    response.Message = "Update Cut failed";
-                }
-            }
-            catch (DbException ex)
-            {
-                response.Success = false;
-                response.Message = "Database error occurred.";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            return response;
+            var Cut = _mapper.Map(CutDTO, exist);
+            _unitOfWork.CutRepo.Update(Cut);
+            await _unitOfWork.SaveChangeAsync();
+            return _mapper.Map<CutDTO>(Cut);
         }
     }
 }

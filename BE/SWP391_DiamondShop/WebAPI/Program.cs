@@ -75,7 +75,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseMiddleware<GlobalExceptionMiddleware>();
-app.UseMiddleware<PerformanceMiddleware>();
+//app.UseMiddleware<PerformanceMiddleware>();
 app.MapHealthChecks("/healthchecks");
 
 app.UseHttpsRedirection();

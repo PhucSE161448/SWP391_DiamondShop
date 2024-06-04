@@ -1,6 +1,8 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using Application.Interfaces.CaratWeights;
 using Application.ViewModels.CaratWeights;
+using Application.ViewModels.Cuts;
 using AutoMapper;
 using Domain.Model;
 using System;
@@ -22,197 +24,63 @@ namespace Application.Services.CaratWeights
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<ServiceResponse<IEnumerable<CaratWeightDTO>>> GetAllCaratWeightAsync()
+        public async Task<IEnumerable<CaratWeightDTO>> GetAllCaratWeightAsync()
         {
-            var _response = new ServiceResponse<IEnumerable<CaratWeightDTO>>();
-            try
+            var CaratWeights = await _unitOfWork.CaratWeightRepo.GetAllAsync(x => x.IsDeleted == false);
+            var CaratWeightDTOs = new List<CaratWeightDTO>();
+            foreach (var pro in CaratWeights)
             {
-                var CaratWeights = await _unitOfWork.CaratWeightRepo.GetAllAsync(x => x.IsDeleted == false);
-                var CaratWeightDTOs = new List<CaratWeightDTO>();
-                foreach (var pro in CaratWeights)
-                {
-                    CaratWeightDTOs.Add(_mapper.Map<CaratWeightDTO>(pro));
-                }
-                if (CaratWeightDTOs.Count != 0)
-                {
-                    _response.Success = true;
-                    _response.Message = "CaratWeight retrieved successfully";
-                    _response.Data = CaratWeightDTOs;
-                }
-                else
-                {
-                    _response.Success = true;
-                    _response.Message = "CaratWeight not found";
-                }
+                CaratWeightDTOs.Add(_mapper.Map<CaratWeightDTO>(pro));
             }
-            catch (DbException ex)
-            {
-                _response.Success = false;
-                _response.Message = "Database error occurred.";
-                _response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                _response.Success = false;
-                _response.Data = null;
-                _response.Message = "Error";
-                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-            }
-            return _response;
-        }
+            return CaratWeightDTOs;
+        }  
 
-        public async Task<ServiceResponse<CaratWeightDTO>> GetCaratWeightAsync(int id)
+        public async Task<CaratWeightDTO> GetCaratWeightAsync(int id)
         {
-            var _response = new ServiceResponse<CaratWeightDTO>();
-            try
+            var CaratWeights = await _unitOfWork.CaratWeightRepo.GetAsync(x => x.Id == id);
+            if (CaratWeights == null)
             {
-                var CaratWeights = await _unitOfWork.CaratWeightRepo.GetAsync(x => x.Id == id);
-                if (CaratWeights != null)
-                {
-                    _response.Success = true;
-                    _response.Message = "CaratWeight retrieved successfully";
-                    _response.Data = _mapper.Map<CaratWeightDTO>(CaratWeights);
-                }
-                else
-                {
-                    _response.Success = true;
-                    _response.Message = "CaratWeight not found";
-                }
+                throw new NotFoundException("Carat Weight not found");
             }
-            catch (DbException ex)
-            {
-                _response.Success = false;
-                _response.Message = "Database error occurred.";
-                _response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                _response.Success = false;
-                _response.Data = null;
-                _response.Message = "Error";
-                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-            }
-            return _response;
+            return _mapper.Map<CaratWeightDTO>(CaratWeights);
         }
-        public async Task<ServiceResponse<CaratWeightDTO>> CreateCaratWeightAsync(UpsertCaratWeightDTO CreatedCaratWeightDTO)
+        public async Task<CaratWeightDTO> CreateCaratWeightAsync(UpsertCaratWeightDTO CreatedCaratWeightDTO)
         {
             var response = new ServiceResponse<CaratWeightDTO>();
-            try
-            {
-                var CaratWeight = _mapper.Map<CaratWeight>(CreatedCaratWeightDTO);
-                await _unitOfWork.CaratWeightRepo.AddAsync(CaratWeight);
-                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                if (isSuccess)
-                {
-                    var CaratWeightDTO = _mapper.Map<CaratWeightDTO>(CaratWeight);
-                    response.Data = CaratWeightDTO;
-                    response.Success = true;
-                    response.Message = "CaratWeight created successfully";
-                }
-                else
-                {
-                    response.Success = false;
-                    response.Message = "Create CaratWeight failed";
-                }
-
-            }
-            catch (DbException ex)
-            {
-                response.Success = false;
-                response.Message = "Database error occurred.";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            return response;
+            var CaratWeight = _mapper.Map<CaratWeight>(CreatedCaratWeightDTO);
+            await _unitOfWork.CaratWeightRepo.AddAsync(CaratWeight);
+            await _unitOfWork.SaveChangeAsync();
+            return _mapper.Map<CaratWeightDTO>(CaratWeight);
         }
 
-        public async Task<ServiceResponse<bool>> DeleteCaratWeightAsync(int id)
+        public async Task DeleteCaratWeightAsync(int id)
         {
-            var response = new ServiceResponse<bool>();
             var exist = await _unitOfWork.CaratWeightRepo.GetByIdAsync(id);
             if (exist == null)
             {
-                response.Success = false;
-                response.Message = "CaratWeight not found";
-                return response;
+                throw new NotFoundException("Carat Weight not found");
             }
-            try
+            if (exist.IsDeleted)
             {
-                _unitOfWork.CaratWeightRepo.SoftRemove(exist);
-                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                if (isSuccess)
-                {
-                    response.Success = true;
-                    response.Message = "CaratWeight deleted successfully";
-                }
-                else
-                {
-                    response.Success = false;
-                    response.Message = "Delete CaratWeight failed";
-                }
+                throw new BadRequestException("Carat Weight is already deleted");
             }
-            catch (DbException ex)
-            {
-                response.Success = false;
-                response.Message = "Database error occurred.";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            return response;
+            _unitOfWork.CaratWeightRepo.SoftRemove(exist);
+            await _unitOfWork.SaveChangeAsync();
         }
 
 
 
-        public async Task<ServiceResponse<CaratWeightDTO>> UpdateCaratWeightAsync(int id, UpsertCaratWeightDTO CaratWeightDTO)
+        public async Task<CaratWeightDTO> UpdateCaratWeightAsync(int id, UpsertCaratWeightDTO CaratWeightDTO)
         {
-            var response = new ServiceResponse<CaratWeightDTO>();
             var exist = await _unitOfWork.CaratWeightRepo.GetByIdAsync(id);
             if (exist == null)
             {
-                response.Success = false;
-                response.Message = "CaratWeight not found";
-                return response;
+                throw new NotFoundException("Carat Weight not found");
             }
-            try
-            {
-                var CaratWeight = _mapper.Map(CaratWeightDTO, exist);
-                _unitOfWork.CaratWeightRepo.Update(CaratWeight);
-                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                if (isSuccess)
-                {
-                    response.Success = true;
-                    response.Message = "CaratWeight updated successfully";
-                    response.Data = _mapper.Map<CaratWeightDTO>(CaratWeight);
-                }
-                else
-                {
-                    response.Success = false;
-                    response.Message = "Update CaratWeight failed";
-                }
-            }
-            catch (DbException ex)
-            {
-                response.Success = false;
-                response.Message = "Database error occurred.";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            return response;
+            var CaratWeight = _mapper.Map(CaratWeightDTO, exist);
+            _unitOfWork.CaratWeightRepo.Update(CaratWeight);
+            await _unitOfWork.SaveChangeAsync();
+            return _mapper.Map<CaratWeightDTO>(CaratWeight);
         }
     }
 }

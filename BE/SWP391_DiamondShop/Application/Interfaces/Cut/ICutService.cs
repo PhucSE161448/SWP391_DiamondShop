@@ -10,10 +10,10 @@ namespace Application.Interfaces.Cut
 {
     public interface ICutService
     {
-        Task<ServiceResponse<IEnumerable<CutDTO>>> GetAllCutAsync();
-        Task<ServiceResponse<CutDTO>> GetCutAsync(int id);
-        Task<ServiceResponse<CutDTO>> CreateCutAsync(UpsertCutDTO CreatedCutDTO);
-        Task<ServiceResponse<CutDTO>> UpdateCutAsync(int id, UpsertCutDTO CutDTO);
-        Task<ServiceResponse<bool>> DeleteCutAsync(int id);
+        Task<IEnumerable<CutDTO>> GetAllCutAsync();
+        Task<CutDTO> GetCutAsync(int id);
+        Task<CutDTO> CreateCutAsync(UpsertCutDTO CreatedCutDTO);
+        Task<CutDTO> UpdateCutAsync(int id, UpsertCutDTO CutDTO);
+        Task DeleteCutAsync(int id);
     }
 }
