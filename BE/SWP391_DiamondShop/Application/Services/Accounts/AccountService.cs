@@ -24,10 +24,10 @@ namespace Application.Services.Accounts
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<AccountDTO> CreateAccountAsync(CreatedAccountDTO createdAccountDTO)
+        public async Task<AccountDTO> CreateAccountAsync(CreatedAccountDTO createdAccountDto)
         {
-            var exist = await _unitOfWork.AccountRepo.CheckEmailNameExited(createdAccountDTO.Email!);
-            var existed = await _unitOfWork.AccountRepo.CheckPhoneNumberExited(createdAccountDTO.PhoneNumber!);
+            var exist = await _unitOfWork.AccountRepo.CheckEmailNameExited(createdAccountDto.Email!);
+            var existed = await _unitOfWork.AccountRepo.CheckPhoneNumberExited(createdAccountDto.PhoneNumber!);
 
             if (exist)
             {
@@ -37,8 +37,10 @@ namespace Application.Services.Accounts
             {
                 throw new BadRequestException("Phone is existed");
             }
-            var account = _mapper.Map<Account>(createdAccountDTO);
-            account.IsDeleted = false;
+            var account = _mapper.Map<Account>(createdAccountDto);
+            account.Password = HashPassword.HashWithSHA256(
+                createdAccountDto.Password!
+            );
             account.ConfirmationToken = Guid.NewGuid().ToString();
             await _unitOfWork.AccountRepo.AddAsync(account);
             await _unitOfWork.SaveChangeAsync();
@@ -64,15 +66,15 @@ namespace Application.Services.Accounts
         public async Task<IEnumerable<AccountDTO>> GetUserAsync()
         {
             var accounts = await _unitOfWork.AccountRepo.GetAllAsync();
-            var accountDTOs = new List<AccountDTO>();
+            var accountDtos = new List<AccountDTO>();
             foreach (var user in accounts)
             {
                 if (user.IsDeleted == false)
                 {
-                    accountDTOs.Add(_mapper.Map<AccountDTO>(user));
+                    accountDtos.Add(_mapper.Map<AccountDTO>(user));
                 }
             }
-            return accountDTOs;
+            return accountDtos;
         }
 
         public async Task<AccountDTO> GetUserByIdAsync(int id)
@@ -100,7 +102,7 @@ namespace Application.Services.Accounts
             return userDTOs;
         }
 
-        public async Task<AccountDTO> UpdateUserAsync(int id, AccountDTO userDTO)
+        public async Task<AccountDTO> UpdateUserAsync(int id, UpdatedAccountDTO accountDTO)
         {
             var existingUser = await _unitOfWork.AccountRepo.GetByIdAsync(id);
             if (existingUser == null)
@@ -111,11 +113,15 @@ namespace Application.Services.Accounts
             {
                 throw new BadRequestException("Account is deleted in system");
             }
-            var updated = _mapper.Map(userDTO, existingUser);
-            //updated.PasswordHash = Utils.HashPassword.HashWithSHA256(accountDTO.PasswordHash);
-            _unitOfWork.AccountRepo.Update(updated);
+
+            existingUser.Email = accountDTO.Email;
+            existingUser.Address = accountDTO.Address;
+            existingUser.Gender = accountDTO.Gender;
+            existingUser.Name = accountDTO.Name;
+            existingUser.PhoneNumber = accountDTO.PhoneNumber;
+            _unitOfWork.AccountRepo.Update(existingUser);
             await _unitOfWork.SaveChangeAsync();
-            return _mapper.Map<AccountDTO>(updated);
+            return _mapper.Map<AccountDTO>(existingUser);
         }
     }
 }

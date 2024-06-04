@@ -69,7 +69,6 @@ CREATE TABLE "Products"(
 	"Gender" bit Not Null,
     "Quantity" INT NOT NULL,
     "Category_Id" INT NOT NULL,
-    "Diamond_Id" INT NOT NULL,
     "WarrantyDocuments_Id" INT Unique NULL,
     "CreatedBy" NVARCHAR(255) NULL,
     "CreatedDate" DATE  NULL,
@@ -249,7 +248,5 @@ ALTER TABLE
     "Status" ADD CONSTRAINT "status_account_id_foreign" FOREIGN KEY("Account_Id") REFERENCES "Account"("Id");
 ALTER TABLE
     "Diamond" ADD CONSTRAINT "diamond_origin_id_foreign" FOREIGN KEY("Origin_Id") REFERENCES "Origin"("Id");
-ALTER TABLE
-    "Products" ADD CONSTRAINT "products_diamond_id_foreign" FOREIGN KEY("Diamond_Id") REFERENCES "Diamond"("Id");
 ALTER TABLE
     "Orders" ADD CONSTRAINT "orders_account_id_foreign" FOREIGN KEY("Account_Id") REFERENCES "Account"("Id");

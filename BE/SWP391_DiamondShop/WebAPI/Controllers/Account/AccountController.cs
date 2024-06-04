@@ -20,8 +20,8 @@ namespace WebAPI.Controllers.Account
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountById(int id)
         {
-            var findaccountUser = await _accountService.GetUserByIdAsync(id);
-            return Ok(findaccountUser);
+            var findAccountUser = await _accountService.GetUserByIdAsync(id);
+            return Ok(findAccountUser);
         }
         //[Authorize(Roles = "Admin")]
         [HttpGet("{name}")]
@@ -33,15 +33,12 @@ namespace WebAPI.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreatedAccountDTO createdAccountDTO)
         {
-            //Dòng này kiểm tra xem dữ liệu đầu vào (trong trường hợp này là createdAccountDTO)
-            //đã được kiểm tra tính hợp lệ bằng các quy tắc mô hình (model validation) hay chưa.
-            //Nếu dữ liệu hợp lệ, nó tiếp tục kiểm tra và xử lý.
             var response = await _accountService.CreateAccountAsync(createdAccountDTO);
             return Created(nameof(CreateUser), response);
         }
         //[Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] AccountDTO accountDTO)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdatedAccountDTO accountDTO)
         {
             var updatedUser = await _accountService.UpdateUserAsync(id, accountDTO);
             return Ok(updatedUser);

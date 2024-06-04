@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain.Model
 {
-    public partial class Payment
+    public partial class Payment : BaseEntity
     {
         public Payment()
         {
@@ -13,9 +13,6 @@ namespace Domain.Model
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public long PaymentType { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string? CreatedBy { get; set; }
-        public bool? IsDeleted { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
     }

@@ -14,6 +14,7 @@ namespace Domain.Model
         public double Weight { get; set; }
         public decimal Price { get; set; }
 
+
         public virtual ICollection<Diamond> Diamonds { get; set; }
     }
 }
