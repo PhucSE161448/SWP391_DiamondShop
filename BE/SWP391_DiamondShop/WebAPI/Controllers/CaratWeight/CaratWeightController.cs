@@ -28,35 +28,20 @@ namespace WebAPI.Controllers.CaratWeight
         public async Task<IActionResult> Create([FromForm] UpsertCaratWeightDTO createdDTO)
         {
             var result = await service.CreateCaratWeightAsync(createdDTO);
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-            else
-            {
-                return Ok(result);
-            }
+            return Created(nameof(Create), result);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] UpsertCaratWeightDTO DTO)
         {
             var result = await service.UpdateCaratWeightAsync(id, DTO);
-            if (!result.Success)
-            {
-                return NotFound(result);
-            }
             return Ok(result);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await service.DeleteCaratWeightAsync(id);
-            if (!result.Success)
-            {
-                return NotFound(result);
-            }
-            return Ok(result);
+            await service.DeleteCaratWeightAsync(id);
+            return NoContent();
         }
     }
 }

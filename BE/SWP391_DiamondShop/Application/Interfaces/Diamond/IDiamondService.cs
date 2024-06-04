@@ -12,7 +12,7 @@ namespace Application.Interfaces.Diamond
 {
     public interface IDiamondService 
     {
-        Task<ServiceResponse<Pagination<GetDiamondPaginationDTO>>> GetPageDiamonds(QueryDiamondDTO queryDiamondDTO);
-        Task<ServiceResponse<GetDiamondDetailDTO>> GetDiamondDetailById(int id);
+        Task<Pagination<GetDiamondPaginationDTO>> GetPageDiamonds(QueryDiamondDTO queryDiamondDTO);
+        Task<GetDiamondDetailDTO> GetDiamondDetailById(int id);
     }
 }

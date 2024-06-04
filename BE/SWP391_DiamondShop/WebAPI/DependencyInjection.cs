@@ -21,7 +21,7 @@ namespace WebAPI
             services.AddHealthChecks();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IClaimsService, ClaimsService>();
-            services.AddSingleton<GlobalExceptionMiddleware>();
+            //services.AddSingleton<GlobalExceptionMiddleware>();
             services.AddSingleton<PerformanceMiddleware>();
             services.AddSingleton<Stopwatch>();
 

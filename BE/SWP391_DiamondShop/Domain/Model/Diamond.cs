@@ -10,7 +10,6 @@ namespace Domain.Model
             Images = new HashSet<Image>();
             OrderItems = new HashSet<OrderItem>();
             ProductParts = new HashSet<ProductPart>();
-            Products = new HashSet<Product>();
         }
 
         public int Id { get; set; }
@@ -28,6 +27,5 @@ namespace Domain.Model
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual ICollection<ProductPart> ProductParts { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
     }
 }

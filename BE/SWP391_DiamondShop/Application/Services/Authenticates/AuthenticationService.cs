@@ -1,9 +1,12 @@
 ﻿using Application.Commons;
+using Application.Exceptions;
 using Application.Interfaces;
 using Application.Interfaces.Authenticates;
 using Application.Ultils;
 using Application.ViewModels.Accounts;
+using Application.ViewModels.Auths;
 using AutoMapper;
+using Domain.Enums;
 using Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -31,114 +34,47 @@ namespace Application.Services.Authenticates
             this._configuration = configuration;
             this._mapper = mapper;
         }
-        public async Task<ServiceResponse<string>> LoginAsync(AuthenAccountDTO accountDto)
+        public async Task<GetAuthTokenDTO> LoginAsync(AuthenAccountDTO accountDto)
         {
-            var response = new ServiceResponse<string>();
-            try
+            var hashedPassword = HashPassword.HashWithSHA256(accountDto.Password!);
+            var user = await _unitOfWork.AccountRepo.GetUserByEmailAndPasswordHash(
+                accountDto.Email!,
+                hashedPassword
+            );
+            if (user == null)
             {
-                var hashedPassword = HashPassword.HashWithSHA256(accountDto.Password);
-                var user = await _unitOfWork.AccountRepo.GetUserByEmailAndPasswordHash(
-                    accountDto.Email,
-                    hashedPassword
-                );
-
-                if (user == null)
-                {
-                    response.Success = false;
-                    response.Message = "Invalid username or password";
-                    return response;
-                }
-                if (user.IsDeleted == true)
-                {
-                    response.Success = true;
-                    response.Message = "Account is deleted";
-                    return response;
-                }
-                //if (user.IsConfirmed == false)
-                //{
-                //    response.Success = true;
-                //    response.Message = "Please confirm via link in your email box";
-                //    return response;
-                //}
-                var token = user.GenerateJsonWebToken(
+                throw new BadRequestException("Invalid username or password");
+            }
+            if (user.IsDeleted == true)
+            {
+                throw new BadRequestException("Account is deleted");
+            }
+            var token = user.GenerateJsonWebToken(
                     _configuration,
                     _configuration.JWTSection.SecretKey,
                     _currentTime.GetCurrentTime()
                 );
-
-                response.Success = true;
-                response.Message = "Login successfully.";
-                response.Data = token;
-            }
-            catch (DbException ex)
-            {
-                response.Success = false;
-                response.Message = "Database error occurred.";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-
-            return response;
+            return new GetAuthTokenDTO { AccessToken = token };
         }
 
-        public async Task<ServiceResponse<AccountDTO>> RegisterAsync(RegisterAccountDTO registerAccountDTO)
+        public async Task<AccountDTO> RegisterAsync(RegisterAccountDTO registerAccountDTO)
         {
-            var response = new ServiceResponse<AccountDTO>();
-
-            try
+            var exist = await _unitOfWork.AccountRepo.CheckEmailNameExited(registerAccountDTO.Email);
+            if (exist)
             {
-                var exist = await _unitOfWork.AccountRepo.CheckEmailNameExited(registerAccountDTO.Email);
-                if (exist)
-                {
-                    response.Success = false;
-                    response.Message = "Email is existed";
-                    return response;
-                }
-
-                var account = _mapper.Map<Account>(registerAccountDTO);
-                account.Password = HashPassword.HashWithSHA256(
-                    registerAccountDTO.Password
-                );
-                // Tạo token ngẫu nhiên
-                account.ConfirmationToken = Guid.NewGuid().ToString();
-
-                //account.Status = "true";
-                account.RoleId = 1;
-                await _unitOfWork.AccountRepo.AddAsync(account);
-                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                if (isSuccess)
-                {
-                    var accountDTO = _mapper.Map<AccountDTO>(account);
-                    response.Data = accountDTO; // Chuyển đổi sang AccountDTO
-                    response.Success = true;
-                    response.Message = "Register successfully.";
-                }
-                else
-                {
-                    response.Success = false;
-                    response.Message = "Error saving the account.";
-                }
+                throw new NotFoundException("Email is existed");
             }
-            catch (DbException ex)
-            {
-                response.Success = false;
-                response.Message = "Database error occurred.";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-
-            return response;
+            var account = _mapper.Map<Account>(registerAccountDTO);
+            account.Password = HashPassword.HashWithSHA256(
+                registerAccountDTO.Password!
+            );
+            account.ConfirmationToken = Guid.NewGuid().ToString();
+            account.RoleId = (int)Roles.Customer;
+            await _unitOfWork.AccountRepo.AddAsync(account);
+            await _unitOfWork.SaveChangeAsync();
+            return _mapper.Map<AccountDTO>(account);
         }
+        
     }
 }
 

@@ -11,7 +11,7 @@ namespace Application.Interfaces.Products
 {
     public interface IProductService
     {
-        Task<ServiceResponse<GetProductDetailDTO>> GetProductDetailById(int id);
-        Task<ServiceResponse<Pagination<GetProductPaginationDTO>>> GetPagedProducts(QueryProductDTO queryProductDTO);
+        Task<GetProductDetailDTO> GetProductDetailById(int id);
+        Task<Pagination<GetProductPaginationDTO>> GetPagedProducts(QueryProductDTO queryProductDTO);
     }
 }

@@ -9,6 +9,6 @@ namespace Application.ViewModels.Cuts
     public class UpsertCutDTO
     {
         public string Name { get; set; }
-        public long Price { get; set; }
+        public decimal Price { get; set; }
     }
 }
