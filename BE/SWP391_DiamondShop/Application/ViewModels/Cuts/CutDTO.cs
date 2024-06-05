@@ -11,5 +11,6 @@ namespace Application.ViewModels.Cuts
         public int Id { get; set; }
         public string Name { get; set; }
         public long Price { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

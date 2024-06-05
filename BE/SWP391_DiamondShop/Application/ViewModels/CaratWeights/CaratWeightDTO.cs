@@ -11,6 +11,6 @@ namespace Application.ViewModels.CaratWeights
         public int Id { get; set; }
         public double Weight { get; set; }
         public decimal Price { get; set; }
-        public bool IsDelete { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

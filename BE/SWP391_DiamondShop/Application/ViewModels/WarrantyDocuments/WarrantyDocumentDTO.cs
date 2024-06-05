@@ -11,5 +11,6 @@ namespace Application.ViewModels.WarrantyDocuments
         public int Id { get; set; }
         public int Period { get; set; }
         public string TermsAndConditions { get; set; }
+        public bool IsDeleted { get; set; }
     }   
 }

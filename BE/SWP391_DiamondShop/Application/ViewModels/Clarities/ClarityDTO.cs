@@ -12,5 +12,6 @@ namespace Application.ViewModels.Clarities
         public string Name { get; set; }
         public string Color { get; set; }
         public decimal Price { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

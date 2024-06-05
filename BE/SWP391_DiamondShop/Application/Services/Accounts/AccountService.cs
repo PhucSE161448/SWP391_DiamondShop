@@ -114,12 +114,12 @@ namespace Application.Services.Accounts
                 throw new BadRequestException("Account is deleted in system");
             }
 
-            existingUser.Email = accountDTO.Email;
-            existingUser.Address = accountDTO.Address;
-            existingUser.Gender = accountDTO.Gender;
-            existingUser.Name = accountDTO.Name;
-            existingUser.PhoneNumber = accountDTO.PhoneNumber;
-            _unitOfWork.AccountRepo.Update(existingUser);
+            //existingUser.Email = accountDTO.Email;
+            //existingUser.Address = accountDTO.Address;
+            //existingUser.Gender = accountDTO.Gender;
+            //existingUser.Name = accountDTO.Name;
+            //existingUser.PhoneNumber = accountDTO.PhoneNumber;
+            _unitOfWork.AccountRepo.Update(_mapper.Map(accountDTO, existingUser));
             await _unitOfWork.SaveChangeAsync();
             return _mapper.Map<AccountDTO>(existingUser);
         }

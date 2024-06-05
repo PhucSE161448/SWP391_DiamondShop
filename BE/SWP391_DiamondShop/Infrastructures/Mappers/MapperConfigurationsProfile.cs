@@ -27,7 +27,7 @@ namespace Infrastructures.Mappers
             CreateMap<Account, CreatedAccountDTO>().ReverseMap();
             CreateMap<RegisterAccountDTO, Account>().ReverseMap();
             CreateMap<RegisterAccountDTO, AccountDTO>();
-
+            CreateMap<Account, UpdatedAccountDTO>().ReverseMap();
 
 
             CreateMap<Cut, CutDTO>().ReverseMap();
