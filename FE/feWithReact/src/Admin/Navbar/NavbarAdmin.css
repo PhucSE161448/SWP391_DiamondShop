@@ -30,6 +30,15 @@
     list-style-type: none;
 }
 
-.listElements {
+.list {
     margin-bottom: 10px;
+    transition: opacity 0.5s ease;
+    visibility: visible;
+    opacity: 0;
+
+}
+
+.list.hidden {
+    /* visibility: hidden; */
+    opacity: 1;
 }
