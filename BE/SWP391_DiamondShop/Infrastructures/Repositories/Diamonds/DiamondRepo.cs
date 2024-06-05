@@ -47,8 +47,8 @@ namespace Infrastructures.Repositories.Diamonds
                                           .AsSplitQuery()
                                           .AsQueryable();
             query = query.ApplyDiamondsFilter(queryDiamondDTO);
-            query = orderByDesc ? query.OrderBy(GetSortProperty(sortBy))
-                                : query.OrderBy(GetSortProperty(sortBy));
+            query = orderByDesc == true ? query.OrderByDescending(GetSortProperty(sortBy))
+                                        : query.OrderBy(GetSortProperty(sortBy));
             return await query.ToPaginationAsync(pageNumber, pageSize);
         }
         private Expression<Func<Diamond, object>> GetSortProperty(string sortColumn)

@@ -54,10 +54,15 @@ namespace Infrastructures.Mappers
             CreateMap<GetProductDetailDTO, Product>().ReverseMap();
 
             CreateMap<CategoryDTO, Category>().ReverseMap();
+            CreateMap<Category, CreatedAccountDTO>().ReverseMap();
+            CreateMap<Category, UpdateCategoryDTO>().ReverseMap();
 
             CreateMap<DiamondDTO, Diamond>().ReverseMap();
             CreateMap<GetDiamondPaginationDTO, Diamond>().ReverseMap();
             CreateMap<GetDiamondDetailDTO, Diamond>().ReverseMap();
+            CreateMap<Diamond, CreateDiamondDTO>().ReverseMap();
+            CreateMap<UpdateDiamondDTO, Diamond>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<ProductSize, ProductSizeDTO>().ReverseMap();
 

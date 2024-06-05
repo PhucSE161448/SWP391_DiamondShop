@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.IRepositories.Categories;
 
 namespace Application.Interfaces
 {
@@ -25,6 +26,7 @@ namespace Application.Interfaces
         public IDiamondRepo DiamondRepo { get; }
         public IAccountRepo AccountRepo { get; }
         public IProductRepo ProductRepo { get; }
+        public ICategoryRepo CategoryRepo { get; }
         public Task<int> SaveChangeAsync();
     }
 }
