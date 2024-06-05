@@ -6,7 +6,7 @@ export default function UpdateCW() {
     const [priceCW, setPriceCW] = useState('')
     const [showUpdateCW, setShowUpdateCW] = useState(false)
     const [context, setContext] = useState('UPDATE')
-
+    const [dataCW, setDataCW] = useState(null)
     const handleClick = () => {
         setShowUpdateCW(!showUpdateCW)
         setContext(prevContext => prevContext === 'UPDATE' ? 'Click again to close' : 'UPDATE')
@@ -21,7 +21,7 @@ export default function UpdateCW() {
         setIdCW('')
         setWeightCW('')
         setPriceCW('')
-        setDataCW('')
+        setDataCW(null)
     }
     function UpdateCaratWeight(Id, Weight, Price) {
         const url = 'https://localhost:7122/api/CaratWeight/Update/' + idCW;
@@ -32,24 +32,14 @@ export default function UpdateCW() {
         fetch(url, {
             method: 'PUT',
             headers: {
-                'Accept': '*/*'
+                'Accept': '*/*',
             },
             body: formData
         })
             .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                if (data.success) {
-                    window.alert('UPDATE SUCCESSFUL')
-                    setWeightCW('')
-                    setPriceCW('')
-                } else {
-                    window.alert('FAIL')
-                    setWeightCW('')
-                    setPriceCW('')
-                }
+            .then(responseData => {
+                setDataCW(responseData)
             })
-            .catch((error) => console.error('Error:', error))
     }
     return (
         <div>
@@ -67,6 +57,11 @@ export default function UpdateCW() {
                         <div className='col-4'>
                             <input type="text" value={priceCW} onChange={e => setPriceCW(e.target.value)} className='form-control' placeholder='Price' />
                         </div>
+                        {
+                            dataCW ? (dataCW.StatusCode === 404 ? (<h3>Carat weight doesnt exist</h3>) :
+                                <h3>Update successful</h3>
+                            ) : null
+                        }
                         <div className='formSubmit'>
                             <input type="submit" value="Submit" className='btn btn-primary btn-lg submitButton' />
                             <input type="button" value="Clear" onClick={handleClear} className='btn btn-danger btn-lg submitButton' />

@@ -24,16 +24,19 @@ export default function DelelteAccount() {
                     'Accept': '*/*'
                 },
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    if (data.success) {
-                        window.alert('DELETE SUCCESSFUL')
-                    } else {
-                        window.alert('FAIL')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
                     }
                 })
-                .catch((error) => console.error('Error:', error))
+                .then(() => {
+                    window.alert('DELETE SUCCESSFUL')
+
+                })
+                .catch(error => {
+                    console.error('Error:', error)
+                    window.alert('FAIL')
+                })
         }
     }
 

@@ -5,6 +5,7 @@ export default function CreateAccount() {
     const [emailAccount, setEmailAccount] = useState('')
     const [genderAccount, setGenderAccount] = useState(true)
     const [passwordAccount, setPasswordAccount] = useState('')
+    const [addressAccount, setAddressAccount] = useState('')
     const [phoneAccount, setPhoneAccount] = useState('')
     const [roleAccount, setRoleAccount] = useState(1)
     const [showCreateAccount, setShowCreateAccount] = useState(false)
@@ -18,7 +19,7 @@ export default function CreateAccount() {
     const handleSubmit = (event) => {
         event.preventDefault()
         // Gọi hàm CreateCaratWeight, truyền weight và price như là các đối số
-        CreateAccount(emailAccount, passwordAccount, nameAccount, genderAccount, passwordAccount, roleAccount)
+        CreateAccount(emailAccount, passwordAccount, nameAccount, addressAccount, genderAccount, passwordAccount, roleAccount)
     }
 
     const handleClear = () => {
@@ -26,34 +27,40 @@ export default function CreateAccount() {
         setEmailAccount('')
     }
 
-    function CreateAccount(Email, Password, Name, Gender, Phone, Role) {
+    function CreateAccount(Email, Password, Name, Address, Gender, Phone, Role) {
         const url = 'https://localhost:7122/api/Account/CreateUser'
         const data = {
             name: Name,
             email: Email,
+            address: Address,
             gender: Gender,
             password: Password,
-            phone: Phone,
-            role: Role
+            phoneNumber: Phone,
+            roleId: Role
         }
+        console.log(data)
         fetch(url, {
             method: 'POST',
             headers: {
+                'Content-Type': 'application/json-patch+json',
                 'Accept': '*/*',
-                'Content-Type': 'application/json'
+
             },
             body: JSON.stringify(data)
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                if (data.success) {
-                    window.alert('CREATE SUCCESSFUL')
-                } else {
-                    window.alert('FAIL')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
+                return response.json();
             })
-            .catch((error) => console.error('Error:', error))
+            .then(() => {
+                window.alert('CREATE SUCCESSFUL')
+
+            })
+            .catch(() =>
+                window.alert('FAIL')
+            )
     }
 
     return (
@@ -74,21 +81,24 @@ export default function CreateAccount() {
                                 </div>
                             </div><br />
                             <div className='row'>
-                                <div className='col-4'>
+                                <div className='col-3'>
                                     <input type="text" value={nameAccount} onChange={e => setnameAccount(e.target.value)} placeholder='Name' className='form-control' />
                                 </div>
-                                <div className='col-4'>
+                                <div className='col-3'>
                                     <select value={genderAccount} onChange={e => setGenderAccount(e.target.value === "true")} className='form-control'>
                                         <option value={true}>Male</option>
                                         <option value={false}>Female</option>
                                     </select>
                                 </div>
-                                <div className='col-4'>
+                                <div className='col-3'>
                                     <input type="text" value={phoneAccount} onChange={e => setPhoneAccount(e.target.value)} placeholder='Phone' className='form-control' />
                                 </div>
+                                <div className='col-3'>
+                                    <input type="text" value={addressAccount} onChange={e => setAddressAccount(e.target.value)} placeholder='Address' className='form-control' />
+                                </div>
                             </div> <br />
-                            <div>
-                                <div>
+                            <div className='row'>
+                                <div className='col-12'>
                                     <select value={roleAccount.toString()} onChange={e => setRoleAccount(parseInt(e.target.value, 10))} className='form-control'>
                                         <option value="1">Admin</option>
                                         <option value="2">Sale staff</option>
@@ -96,6 +106,7 @@ export default function CreateAccount() {
                                         <option value="4">Customer</option>
                                     </select>
                                 </div>
+
                             </div>
 
                             <div className='formSubmit' >

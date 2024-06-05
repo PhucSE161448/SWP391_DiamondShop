@@ -13,7 +13,7 @@ export default function ReadAccountByName() {
 
     const handleClear = () => {
         setNameAccount('')
-        setData('')
+        setData(null)
     }
 
     const handleSubmit = (event) => {
@@ -31,7 +31,7 @@ export default function ReadAccountByName() {
             })
                 .then(response => response.json())
                 .then(responseData => {
-                    setData(responseData.data);
+                    setData(responseData)
                 })
                 .catch((error) => console.error('Error:', error))
         }
@@ -52,39 +52,49 @@ export default function ReadAccountByName() {
 
     function checkData() {
         if (data !== null) {
-            return (
-                <div>
-                    <table className='table table-striped table-bordered '>
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Gender</th>
-                                <th>Phone number</th>
-                                <th>Role</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data && data.map((item) => (
-                                <tr>
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.email}</td>
-                                    <td>{item.gender ? 'Male' : 'Female'}</td>
-                                    <td>{item.phoneNumber}</td>
-                                    <td>{getRoleName(item.roleId)}</td>
-                                </tr>
-                            ))}
+            if (data.isDeleted) {
+                return (<h3>This account is deleted</h3>)
+            } else {
+                return (
+                    <div>
+                        {
+                            data.StatusCode === 404 ? (<h3>Account not found</h3>) : (
+                                <table className='table table-striped table-bordered '>
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th >
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Gender</th>
+                                            <th>Phone number</th>
+                                            <th>Role</th>
+                                        </tr >
+                                    </thead >
+                                    <tbody>
+                                        {data.map(account => {
+                                            if (account.isDeleted) {
+                                                return (<tr><td colSpan="4">This account is deleted</td></tr>)
+                                            } else {
+                                                return (
+                                                    <tr>
+                                                        <td>{account.id}</td>
+                                                        <td>{account.name}</td>
+                                                        <td>{account.email}</td>
+                                                        <td>{account.gender ? "Male" : "Female"}</td>
+                                                        <td>{account.phoneNumber}</td>
+                                                        <td>{getRoleName(account.roleId)}</td>
+                                                    </tr>
+                                                );
+                                            }
+                                        })}
+                                    </tbody>
+                                </table >
+                            )
+                        }
 
-                        </tbody>
-                    </table>
-                </div>
-            )
-        } else {
-            return (
-                <h3>This account doesn't exist or be deleted</h3>
-            )
+                    </div >
+                )
+            }
         }
     }
 

@@ -14,14 +14,11 @@ export default function ReadCWByID() {
 
     const handleClear = () => {
         setIdCW('')
-        setDataCW('')
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        if (idCW === '') {
-            setDataCW('')
-        }
+
         if (idCW) {
             const url = 'https://localhost:7122/api/CaratWeight/Get/' + idCW
             fetch(url, {
@@ -32,7 +29,7 @@ export default function ReadCWByID() {
             })
                 .then(response => response.json())
                 .then(responseData => {
-                    setDataCW(responseData.data)
+                    setDataCW(responseData)
                 })
                 .catch((error) => console.error('Error:', error))
         }
@@ -55,27 +52,29 @@ export default function ReadCWByID() {
                             <input type="button" value="Clear" onClick={handleClear} className='btn btn-danger btn-lg submitButton' />
                         </div>
                     </form>
-                    {dataCW &&
-                        <div >
-                            <table className='table table-striped table-bordered'>
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Weight</th>
-                                        <th>Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr key={dataCW.id}>
-                                        <td>{dataCW.id}</td>
-                                        <td> {dataCW.weight}</td>
-                                        <td> {dataCW.price}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
+                    {
+                        dataCW ? (dataCW.StatusCode === 404 ? (<h3>Clarity not found</h3>) : (
+                            <div >
+                                <table className='table table-striped table-bordered'>
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Weight</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr key={dataCW.id}>
+                                            <td>{dataCW.id}</td>
+                                            <td> {dataCW.weight}</td>
+                                            <td> {dataCW.price}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        )) : (<div></div>)
                     }
+
                 </div>
             }
         </div>

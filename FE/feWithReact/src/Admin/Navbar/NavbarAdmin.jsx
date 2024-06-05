@@ -18,7 +18,7 @@ export default function NavbarAdmin() {
                 <ul className='container-fluid' id='navbarAdminContainer'>
                     <CustomLink to="/">Home</CustomLink>
                     <CustomLink to="/admin">Admin</CustomLink>
-                    <li onMouseEnter={hoverTheList} onMouseLeave={unhoverTheList} className='listElements listNavAdmin'> Elements <CaretDownOutlined />
+                    <li onMouseEnter={hoverTheList} onMouseLeave={unhoverTheList} className='listElements'> <a>Element</a> <CaretDownOutlined />
                         {hidden &&
                             <div id='childrenOfList'>
                                 <CustomLink to="caratWeight">Carat Weight</CustomLink>

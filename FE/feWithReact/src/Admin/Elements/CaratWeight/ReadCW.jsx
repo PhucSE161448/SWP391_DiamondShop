@@ -20,7 +20,7 @@ export default function ReadCW() {
         })
             .then(response => response.json())
             .then(responseData => {
-                setData(responseData.data); // Access the array using the key
+                setData(responseData) // Access the array using the key
             })
             .catch((error) => console.error('Error:', error))
 

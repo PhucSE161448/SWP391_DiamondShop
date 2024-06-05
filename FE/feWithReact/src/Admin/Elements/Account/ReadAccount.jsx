@@ -36,38 +36,41 @@ export default function ReadAccount() {
             })
                 .then(response => response.json())
                 .then(responseData => {
-                    setData(responseData.data); // Access the array using the key
+                    setData(responseData); // Access the array using the key
                 })
                 .catch((error) => console.error('Error:', error))
         }, []);
 
         return (
             <div>
-                <table className='table table-striped table-bordered '>
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Gender</th>
-                            <th>Phone number</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                {
+                    data && data.StatusCode === 404 ? (<h3>Account not found</h3>) : (
+                        <table className='table table-striped table-bordered '>
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>Phone number</th>
+                                    <th>Role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                        {data && data.map((data) => (
-                            <tr key={data.id}>
-                                <td>{data.id}</td>
-                                <td>{data.name}</td>
-                                <td>{data.email}</td>
-                                <td>{data.gender ? 'Male' : 'Female'}</td>
-                                <td>{data.phoneNumber}</td>
-                                <td>{getRoleName(data.roleId)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                                {data && data.map((data) => (
+                                    <tr key={data.id}>
+                                        <td>{data.id}</td>
+                                        <td>{data.name}</td>
+                                        <td>{data.email}</td>
+                                        <td>{data.gender ? 'Male' : 'Female'}</td>
+                                        <td>{data.phoneNumber}</td>
+                                        <td>{getRoleName(data.roleId)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>)
+                }
             </div>
         );
     }

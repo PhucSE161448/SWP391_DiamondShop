@@ -7,7 +7,7 @@ export default function UpdateClarity() {
     const [priceClarity, setpriceClarity] = useState('')
     const [showUpdateCW, setShowUpdateCW] = useState(false)
     const [context, setContext] = useState('UPDATE')
-
+    const [dataClarity, setDataClarity] = useState(null)
     const handleClick = () => {
         setShowUpdateCW(!showUpdateCW)
         setContext(prevContext => prevContext === 'UPDATE' ? 'Click again to close UPDATE' : 'UPDATE')
@@ -41,23 +41,9 @@ export default function UpdateClarity() {
             body: formData
         })
             .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                if (data.success) {
-                    window.alert('UPDATE SUCCESSFUL')
-                    setIdClarity('')
-                    setnameClarity('')
-                    setColorClarity('')
-                    setpriceClarity('')
-                } else {
-                    window.alert('FAIL')
-                    setIdClarity('')
-                    setnameClarity('')
-                    setColorClarity('')
-                    setpriceClarity('')
-                }
+            .then(responseData => {
+                setDataClarity(responseData)
             })
-            .catch((error) => console.error('Error:', error));
     }
     return (
         <>
@@ -78,6 +64,16 @@ export default function UpdateClarity() {
                         <div className='col-3'>
                             <input type="text" value={priceClarity} onChange={e => setpriceClarity(e.target.value)} className='form-control' placeholder='Price' />
                         </div>
+                        {
+                            dataClarity ? (dataClarity.StatusCode === 404 ? (<h3>Clarity doesnt exist</h3>) : (
+                                dataClarity.status === 400 ? (
+                                    <h3>
+                                        {dataClarity.errors.Price}
+                                    </h3>
+                                ) : (<h3>Update successful</h3>))
+
+                            ) : null
+                        }
                         <div className='formSubmit'>
                             <input type="submit" value="Submit" className='btn btn-primary btn-lg submitButton' />
                             <input type="button" value="Clear" onClick={handleClear} className='btn btn-danger btn-lg submitButton' />

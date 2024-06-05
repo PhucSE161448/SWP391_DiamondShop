@@ -38,22 +38,24 @@ export default function CreateClarity() {
             },
             body: formData
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                if (data.success) {
-                    window.alert('CREATE SUCCESSFUL')
-                    setnameClarity('')
-                    setColorClarity('')
-                    setpriceClarity('')
-                } else {
-                    window.alert('FAIL')
-                    setnameClarity('')
-                    setColorClarity('')
-                    setpriceClarity('')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
+                return response.json();
             })
-            .catch((error) => console.error('Error:', error));
+            .then(() => {
+                window.alert('CREATE SUCCESSFUL')
+                setnameClarity('')
+                setColorClarity('')
+                setpriceClarity('')
+            })
+            .catch(() => {
+                window.alert('FAIL')
+                setnameClarity('')
+                setColorClarity('')
+                setpriceClarity('')
+            })
     }
 
     return (

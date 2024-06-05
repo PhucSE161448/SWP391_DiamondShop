@@ -2,39 +2,28 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export function validateUser(userData) {
-    let BaseUrl = "https://localhost:7122/api/Authentication/Login/";
+    let BaseUrl = "https://localhost:7122/api/Authentication/Login/"
     return new Promise((resolve, reject) => {
         fetch(BaseUrl, {
             method: "POST",
             headers: {
                 Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+                "Content-Type": "application/json-patch+json",
             },
             body: JSON.stringify(userData)
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok')
+                }
+                return response.json()
+            })
             .then(responseJson => {
-                // So sánh username và password với dữ liệu từ API
-                let successValue
-                let token
-                if (typeof responseJson === 'string') {
-                    const obj = JSON.parse(responseJson)
-                    successValue = obj.success // replace 'success' with the actual property name
-                    token = obj.token
-                } else if (typeof responseJson === 'object' && responseJson !== null) {
-                    successValue = responseJson.success // replace 'success' with the actual property name
-                    token = responseJson.token
-                }
-                if (successValue === true) {
-                    resolve(token)
-                } else {
-                    reject("Error: Operation was not successful")
-                }
-
+                localStorage.setItem('token', responseJson.accessToken)
+                resolve()
             })
             .catch(error => {
-                reject(error);
+                reject(error)
             })
     })
 }

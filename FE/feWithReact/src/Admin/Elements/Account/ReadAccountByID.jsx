@@ -13,7 +13,7 @@ export default function ReadAccountByID() {
 
     const handleClear = () => {
         setIdAccount('')
-        setData('')
+        setData(null)
     }
 
     const handleSubmit = (event) => {
@@ -31,7 +31,7 @@ export default function ReadAccountByID() {
             })
                 .then(response => response.json())
                 .then(responseData => {
-                    setData(responseData.data);
+                    setData(responseData);
                 })
                 .catch((error) => console.error('Error:', error))
         }
@@ -57,37 +57,36 @@ export default function ReadAccountByID() {
             } else {
                 return (
                     <div>
-                        <table className='table table-striped table-bordered '>
-                            <thead>
-                                <tr>
-                                    <th>Id</th >
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Gender</th>
-                                    <th>Phone number</th>
-                                    <th>Role</th>
-                                </tr >
-                            </thead >
-                            <tbody>
-                                {console.log(data)}
-                                <tr key={data.id}>
-                                    <td>{data.id}</td>
-                                    <td>{data.name}</td>
-                                    <td>{data.email}</td>
-                                    <td>{data.gender ? 'Male' : 'Female'}</td>
-                                    <td>{data.phoneNumber}</td>
-                                    <td>{getRoleName(data.roleId)}</td>
-                                </tr>
+                        {
+                            data.StatusCode === 404 ? (<h3>Account not found</h3>) : (
+                                <table className='table table-striped table-bordered '>
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th >
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Gender</th>
+                                            <th>Phone number</th>
+                                            <th>Role</th>
+                                        </tr >
+                                    </thead >
+                                    <tbody>
+                                        <tr key={data.id}>
+                                            <td>{data.id}</td>
+                                            <td>{data.name}</td>
+                                            <td>{data.email}</td>
+                                            <td>{data.gender ? 'Male' : 'Female'}</td>
+                                            <td>{data.phoneNumber}</td>
+                                            <td>{getRoleName(data.roleId)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table >
+                            )
+                        }
 
-                            </tbody>
-                        </table >
                     </div >
                 )
             }
-        } else {
-            return (
-                <h4>Account doesn't exits</h4>
-            )
         }
     }
 
