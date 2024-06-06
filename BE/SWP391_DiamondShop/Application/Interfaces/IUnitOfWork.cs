@@ -1,10 +1,6 @@
 ﻿using Application.IRepositories;
 using Application.IRepositories.Accounts;
-using Application.IRepositories.CaratWeights;
-using Application.IRepositories.Clarities;
-using Application.IRepositories.Cuts;
 using Application.IRepositories.Diamonds;
-using Application.IRepositories.Origins;
 using Application.IRepositories.Products;
 using Application.IRepositories.WarrantyDocuments;
 using System;
@@ -18,10 +14,6 @@ namespace Application.Interfaces
 {
     public interface IUnitOfWork
     {
-        public ICaratWeightRepo CaratWeightRepo { get; }
-        public IClarityRepo ClarityRepo { get; }
-        public ICutRepo CutRepo { get; }
-        public IOriginRepo OriginRepo { get; }
         public IWarrantyDocumentRepo WarrantyDocumentRepo { get; }
         public IDiamondRepo DiamondRepo { get; }
         public IAccountRepo AccountRepo { get; }

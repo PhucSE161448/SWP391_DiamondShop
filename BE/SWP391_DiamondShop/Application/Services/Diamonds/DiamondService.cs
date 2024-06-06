@@ -38,26 +38,26 @@ namespace Application.Services.Diamonds
 
         public async Task<GetDiamondIdDTO> CreateDiamond(CreateDiamondDTO createDiamondDto)
         {
-            var clarity = await _unitOfWork.ClarityRepo.GetByIdAsync(createDiamondDto.ClarityId);
-            var cut = await _unitOfWork.CutRepo.GetByIdAsync(createDiamondDto.CutId);
-            var origin = await _unitOfWork.OriginRepo.GetByIdAsync(createDiamondDto.OriginId);
-            var caratWeight = await _unitOfWork.CaratWeightRepo.GetByIdAsync(createDiamondDto.CaratWeightId);
-            if (clarity is null)
-            {
-                throw new NotFoundException("Clarity is not existed");
-            }
-            if (cut is null)
-            {
-                throw new NotFoundException("Cut is not existed");
-            }
-            if (origin is null)
-            {
-                throw new NotFoundException("Origin is not existed");
-            }
-            if (caratWeight is null)
-            {
-                throw new NotFoundException("Carat Weight is not existed");
-            }
+            // var clarity = await _unitOfWork.ClarityRepo.GetByIdAsync(createDiamondDto.ClarityId);
+            // var cut = await _unitOfWork.CutRepo.GetByIdAsync(createDiamondDto.CutId);
+            // var origin = await _unitOfWork.OriginRepo.GetByIdAsync(createDiamondDto.OriginId);
+            // var caratWeight = await _unitOfWork.CaratWeightRepo.GetByIdAsync(createDiamondDto.CaratWeightId);
+            // if (clarity is null)
+            // {
+            //     throw new NotFoundException("Clarity is not existed");
+            // }
+            // if (cut is null)
+            // {
+            //     throw new NotFoundException("Cut is not existed");
+            // }
+            // if (origin is null)
+            // {
+            //     throw new NotFoundException("Origin is not existed");
+            // }
+            // if (caratWeight is null)
+            // {
+            //     throw new NotFoundException("Carat Weight is not existed");
+            // }
             var diamond = _mapper.Map<Diamond>(createDiamondDto);
             await _unitOfWork.DiamondRepo.AddAsync(diamond);
             await _unitOfWork.SaveChangeAsync();
@@ -67,30 +67,30 @@ namespace Application.Services.Diamonds
         public async Task UpdateDiamond(int id, UpdateDiamondDTO updateDiamondDto)
         {
             var diamond = await _unitOfWork.DiamondRepo.GetByIdAsync(id);
-            var clarity = await _unitOfWork.ClarityRepo.GetByIdAsync(updateDiamondDto.ClarityId);
-            var cut = await _unitOfWork.CutRepo.GetByIdAsync(updateDiamondDto.CutId);
-            var origin = await _unitOfWork.OriginRepo.GetByIdAsync(updateDiamondDto.OriginId);
-            var caratWeight = await _unitOfWork.CaratWeightRepo.GetByIdAsync(updateDiamondDto.CaratWeightId);
-            if (diamond is null)
-            {
-                throw new NotFoundException("Diamond is not existed");
-            }
-            if (clarity is null)
-            {
-                throw new NotFoundException("Clarity is not existed");
-            }
-            if (cut is null)
-            {
-                throw new NotFoundException("Cut is not existed");
-            }
-            if (origin is null)
-            {
-                throw new NotFoundException("Origin is not existed");
-            }
-            if (caratWeight is null)
-            {
-                throw new NotFoundException("Carat Weight is not existed");
-            }
+            // var clarity = await _unitOfWork.ClarityRepo.GetByIdAsync(updateDiamondDto.ClarityId);
+            // var cut = await _unitOfWork.CutRepo.GetByIdAsync(updateDiamondDto.CutId);
+            // var origin = await _unitOfWork.OriginRepo.GetByIdAsync(updateDiamondDto.OriginId);
+            // var caratWeight = await _unitOfWork.CaratWeightRepo.GetByIdAsync(updateDiamondDto.CaratWeightId);
+            // if (diamond is null)
+            // {
+            //     throw new NotFoundException("Diamond is not existed");
+            // }
+            // if (clarity is null)
+            // {
+            //     throw new NotFoundException("Clarity is not existed");
+            // }
+            // if (cut is null)
+            // {
+            //     throw new NotFoundException("Cut is not existed");
+            // }
+            // if (origin is null)
+            // {
+            //     throw new NotFoundException("Origin is not existed");
+            // }
+            // if (caratWeight is null)
+            // {
+            //     throw new NotFoundException("Carat Weight is not existed");
+            //}
             _unitOfWork.DiamondRepo.Update(_mapper.Map(updateDiamondDto, diamond));
             await _unitOfWork.SaveChangeAsync();
         }

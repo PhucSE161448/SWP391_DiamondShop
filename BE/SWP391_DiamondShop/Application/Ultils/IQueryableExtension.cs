@@ -56,27 +56,27 @@ namespace Application.Ultils
             {
                 query = query.Where(p => p.Price >= startPrice && p.Price <= endPrice);
             }
-            if (!string.IsNullOrEmpty(color))
-            {
-                query = query.Where(p => !string.IsNullOrEmpty(p.Clarity.Color) && p.Clarity.Color.ToLower().Contains(color.ToLower()));
-            }
-            if (!string.IsNullOrEmpty(origin))
-            {
-                query = query.Where(p => !string.IsNullOrEmpty(p.Origin.Name) && p.Origin.Name.ToLower().Contains(origin.ToLower()));
-            }
-            if (!string.IsNullOrEmpty(caratWeight))
-            {
-                query = query.Where(p => !string.IsNullOrEmpty(p.CaratWeight.Weight.ToString())
-                                        && p.CaratWeight.Weight.ToString().Contains(caratWeight.ToLower()));
-            }
-            if (!string.IsNullOrEmpty(clarity))
-            {
-                query = query.Where(p => !string.IsNullOrEmpty(p.Clarity.Name) && p.Clarity.Name.ToLower().Contains(clarity.ToLower()));
-            }
-            if (!string.IsNullOrEmpty(cut))
-            {
-                query = query.Where(p => !string.IsNullOrEmpty(p.Cut.Name) && p.Cut.Name.ToLower().Contains(cut.ToLower()));
-            }
+            // if (!string.IsNullOrEmpty(color))
+            // {
+            //     query = query.Where(p => !string.IsNullOrEmpty(p.Clarity.Color) && p.Clarity.Color.ToLower().Contains(color.ToLower()));
+            // }
+            // if (!string.IsNullOrEmpty(origin))
+            // {
+            //     query = query.Where(p => !string.IsNullOrEmpty(p.Origin.Name) && p.Origin.Name.ToLower().Contains(origin.ToLower()));
+            // }
+            // if (!string.IsNullOrEmpty(caratWeight))
+            // {
+            //     query = query.Where(p => !string.IsNullOrEmpty(p.CaratWeight.Weight.ToString())
+            //                             && p.CaratWeight.Weight.ToString().Contains(caratWeight.ToLower()));
+            // }
+            // if (!string.IsNullOrEmpty(clarity))
+            // {
+            //     query = query.Where(p => !string.IsNullOrEmpty(p.Clarity.Name) && p.Clarity.Name.ToLower().Contains(clarity.ToLower()));
+            // }
+            // if (!string.IsNullOrEmpty(cut))
+            // {
+            //     query = query.Where(p => !string.IsNullOrEmpty(p.Cut.Name) && p.Cut.Name.ToLower().Contains(cut.ToLower()));
+            // }
             return query;
         }
     }

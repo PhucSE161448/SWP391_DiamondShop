@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain.Model
 {
-    public partial class WarrantyDocument : BaseEntity
+    public partial class WarrantyDocument: BaseEntity
     {
         public int Id { get; set; }
         public int Period { get; set; }

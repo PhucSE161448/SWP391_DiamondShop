@@ -3,7 +3,6 @@ using Application.Interfaces;
 using Application.Interfaces.Account;
 using Application.Ultils;
 using Application.ViewModels.Accounts;
-using Application.ViewModels.CaratWeights;
 using AutoMapper;
 using Domain.Model;
 using System;

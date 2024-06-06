@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.WarrantyDocument;
-using Application.ViewModels.CaratWeights;
 using Application.ViewModels.WarrantyDocuments;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

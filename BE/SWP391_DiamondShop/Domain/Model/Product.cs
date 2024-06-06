@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain.Model
 {
-    public partial class Product : BaseEntity
+    public partial class Product: BaseEntity
     {
         public Product()
         {
@@ -19,7 +19,6 @@ namespace Domain.Model
         public int Quantity { get; set; }
         public int CategoryId { get; set; }
         public int? WarrantyDocumentsId { get; set; }
-
 
         public virtual Category Category { get; set; }
         public virtual WarrantyDocument WarrantyDocuments { get; set; }
