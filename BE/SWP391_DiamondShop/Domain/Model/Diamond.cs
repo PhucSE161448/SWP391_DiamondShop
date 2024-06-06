@@ -17,13 +17,14 @@ namespace Domain.Model
         public int CaratWeightId { get; set; }
         public int ClarityId { get; set; }
         public int CutId { get; set; }
+        public string Name { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
 
-        public virtual CaratWeight CaratWeight { get; set; } = null!;
-        public virtual Clarity Clarity { get; set; } = null!;
-        public virtual Cut Cut { get; set; } = null!;
-        public virtual Origin Origin { get; set; } = null!;
+        public virtual CaratWeight CaratWeight { get; set; }
+        public virtual Clarity Clarity { get; set; }
+        public virtual Cut Cut { get; set; }
+        public virtual Origin Origin { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual ICollection<ProductPart> ProductParts { get; set; }

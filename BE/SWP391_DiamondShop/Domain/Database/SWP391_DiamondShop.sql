@@ -45,7 +45,14 @@ ALTER TABLE
     "Origin" ADD CONSTRAINT "origin_id_primary" PRIMARY KEY("Id");
 CREATE TABLE "Category"(
     "Id" INT NOT NULL Identity(1,1),
-    "Name" NVARCHAR(255) NOT NULL
+    "Name" NVARCHAR(255) NOT NULL,
+	"CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
+    "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "Category" ADD CONSTRAINT "category_id_primary" PRIMARY KEY("Id");
@@ -141,7 +148,7 @@ ALTER TABLE
 CREATE TABLE "Status"(
     "Id" INT NOT NULL Identity(1,1),
     "Account_Id" INT NOT NULL,
-    "Name" INT NOT NULL,
+    "Name" Nvarchar(255) NOT NULL,
     "CreatedDate" DATE  NULL
 );
 ALTER TABLE
@@ -152,6 +159,7 @@ CREATE TABLE "Diamond"(
     "CaratWeight_Id" INT NOT NULL,
     "Clarity_Id" INT NOT NULL,
     "Cut_Id" INT NOT NULL,
+	"Name" NVARCHAR(255) Not Null,
     "Price" DECIMAL(8, 2) NOT NULL,
     "Quantity" INT NOT NULL,
    "CreatedBy" NVARCHAR(255) NULL,
@@ -171,6 +179,13 @@ ALTER TABLE
 
 	DiamondId Int foreign key references [Diamond](Id),
 	ProductId Int foreign key references [Products](Id),
+	"CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
+    "IsDeleted" BIT NOT NULL DEFAULT '0',
 	constraint CHK_Picture_ForeignKey check (
         (ProductId IS NOT NULL AND DiamondId IS NULL) 
         OR (ProductId IS NULL AND DiamondId IS NOT NULL)
@@ -181,15 +196,26 @@ ALTER TABLE
     "ProductId" INT NOT NULL,
     "Size" DECIMAL(8, 2) NOT NULL,
     "Price" DECIMAL(8, 2) NOT NULL,
+	"CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
+    "IsDeleted" BIT NOT NULL DEFAULT '0',
     PRIMARY KEY ("Id"),
     FOREIGN KEY ("ProductId") REFERENCES "Products"("Id")
 );
 CREATE TABLE "Payment"(
     "Id" INT NOT NULL Identity(1,1),
     "Name" NVARCHAR(255) NOT NULL,
-    "PaymentType" BIGINT NOT NULL,
-    "CreatedDate" DATE NOT NULL,
+    "PaymentType" Nvarchar(255) NOT NULL,
     "CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
     "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 ALTER TABLE
@@ -213,7 +239,14 @@ create table [ProductPart]
 	IsMain bit,
 
 	ProductId int not null foreign key references [Products](Id),
-	DiamondId int not null foreign key references [Diamond](Id)
+	DiamondId int not null foreign key references [Diamond](Id),
+	"CreatedBy" NVARCHAR(255) NULL,
+    "CreatedDate" DATE  NULL,
+    "ModifiedBy" NVARCHAR(255)  NULL,
+    "ModifiedDate" DATE  NULL,
+    "DeletedBy" NVARCHAR(255)  NULL,
+    "DeletedDate" DATE  NULL,
+    "IsDeleted" BIT NOT NULL DEFAULT '0'
 );
 CREATE TABLE OrderItems (
     OrderItemId INT PRIMARY KEY,

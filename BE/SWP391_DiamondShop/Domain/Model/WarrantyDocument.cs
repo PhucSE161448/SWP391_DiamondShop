@@ -7,8 +7,8 @@ namespace Domain.Model
     {
         public int Id { get; set; }
         public int Period { get; set; }
-        public string TermsAndConditions { get; set; } = null!;
+        public string TermsAndConditions { get; set; }
 
-        public virtual Product? Product { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
