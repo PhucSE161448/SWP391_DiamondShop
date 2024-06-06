@@ -2,6 +2,7 @@
 using Application.Interfaces.Account;
 using Application.Interfaces.Authenticates;
 using Application.Interfaces.CaratWeights;
+using Application.Interfaces.Categories;
 using Application.Interfaces.Clarity;
 using Application.Interfaces.Cut;
 using Application.Interfaces.Diamond;
@@ -10,6 +11,7 @@ using Application.Interfaces.Products;
 using Application.Interfaces.WarrantyDocument;
 using Application.IRepositories.Accounts;
 using Application.IRepositories.CaratWeights;
+using Application.IRepositories.Categories;
 using Application.IRepositories.Clarities;
 using Application.IRepositories.Cuts;
 using Application.IRepositories.Diamonds;
@@ -19,6 +21,7 @@ using Application.IRepositories.WarrantyDocuments;
 using Application.Services.Accounts;
 using Application.Services.Authenticates;
 using Application.Services.CaratWeights;
+using Application.Services.Categories;
 using Application.Services.Clarities;
 using Application.Services.Cuts;
 using Application.Services.Diamonds;
@@ -28,6 +31,7 @@ using Application.Services.WarrantyDocuments;
 using Infrastructures.Mappers;
 using Infrastructures.Repositories.Accounts;
 using Infrastructures.Repositories.CaratWeights;
+using Infrastructures.Repositories.Categories;
 using Infrastructures.Repositories.Clarities;
 using Infrastructures.Repositories.Cuts;
 using Infrastructures.Repositories.Diamonds;
@@ -72,6 +76,9 @@ namespace Infrastructures
             services.AddScoped<IDiamondService, DiamondService>();
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+            services.AddScoped<ICategoryRepo, CategoryRepo>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddSingleton<ICurrentTime, CurrentTime>();
             //services.AddDbContext<AppDbContext>(option => option.UseInMemoryDatabase("test"));
