@@ -44,7 +44,7 @@ export default function DelelteClarity() {
 							data ? (data.StatusCode === 404 ? (<h3>{data.ErrorMessage}</h3>) : (
 								data.StatusCode === 400 ? (<h3>{data.ErrorMessage}</h3>) : (
 									<h3>Delete successful</h3>
-								))) : null
+								)``)) : null
 						}
 						<div className='formSubmit' >
 							<input type="submit" value="Submit" className='btn btn-primary btn-lg submitButton' />
