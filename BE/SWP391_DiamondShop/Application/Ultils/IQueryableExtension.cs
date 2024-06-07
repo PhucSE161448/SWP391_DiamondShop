@@ -40,6 +40,8 @@ namespace Application.Ultils
                 query = query.Where(p =>  categoryIds.Contains(p.CategoryId));
             if (!string.IsNullOrEmpty(name))
                 query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
+            if (!diamondIds.IsNullOrEmpty())
+                query = query.Where(p => p.ProductParts.Any(pp => diamondIds.Contains(pp.DiamondId)));
             return query;
         }
         public static IQueryable<Diamond> ApplyDiamondsFilter(this IQueryable<Diamond> query, QueryDiamondDTO queryDiamondDTO)
@@ -48,35 +50,28 @@ namespace Application.Ultils
             var endPrice = queryDiamondDTO.EndPrice;
             var name = queryDiamondDTO.Name;
             var color = queryDiamondDTO.Color;
-            var origin = queryDiamondDTO.Origin;
-            var caratWeight = queryDiamondDTO.CaratWeight;
             var clarity = queryDiamondDTO.Clarity;
             var cut = queryDiamondDTO.Cut;
             if (startPrice < endPrice)
             {
                 query = query.Where(p => p.Price >= startPrice && p.Price <= endPrice);
             }
-            // if (!string.IsNullOrEmpty(color))
-            // {
-            //     query = query.Where(p => !string.IsNullOrEmpty(p.Clarity.Color) && p.Clarity.Color.ToLower().Contains(color.ToLower()));
-            // }
-            // if (!string.IsNullOrEmpty(origin))
-            // {
-            //     query = query.Where(p => !string.IsNullOrEmpty(p.Origin.Name) && p.Origin.Name.ToLower().Contains(origin.ToLower()));
-            // }
-            // if (!string.IsNullOrEmpty(caratWeight))
-            // {
-            //     query = query.Where(p => !string.IsNullOrEmpty(p.CaratWeight.Weight.ToString())
-            //                             && p.CaratWeight.Weight.ToString().Contains(caratWeight.ToLower()));
-            // }
-            // if (!string.IsNullOrEmpty(clarity))
-            // {
-            //     query = query.Where(p => !string.IsNullOrEmpty(p.Clarity.Name) && p.Clarity.Name.ToLower().Contains(clarity.ToLower()));
-            // }
-            // if (!string.IsNullOrEmpty(cut))
-            // {
-            //     query = query.Where(p => !string.IsNullOrEmpty(p.Cut.Name) && p.Cut.Name.ToLower().Contains(cut.ToLower()));
-            // }
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(color))
+            {
+                query = query.Where(p => !string.IsNullOrEmpty(p.Color) && p.Color.ToLower().Contains(color.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(clarity))
+            {
+                query = query.Where(p => !string.IsNullOrEmpty(p.Clarity) && p.Clarity.ToLower().Contains(clarity.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(cut))
+            {
+                query = query.Where(p => !string.IsNullOrEmpty(p.Cut) && p.Cut.ToLower().Contains(cut.ToLower()));
+            }
             return query;
         }
     }

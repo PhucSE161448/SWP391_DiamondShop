@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.IRepositories.Categories;
+using Application.IRepositories.ProductParts;
+using Application.IRepositories.ProductSizes;
 
 namespace Application.Interfaces
 {
@@ -19,6 +21,8 @@ namespace Application.Interfaces
         public IAccountRepo AccountRepo { get; }
         public IProductRepo ProductRepo { get; }
         public ICategoryRepo CategoryRepo { get; }
+        public IProductPartRepo ProductPartRepo { get; }
+        public IProductSizeRepo ProductSizeRepo { get; }
         public Task<int> SaveChangeAsync();
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.ViewModels.ProductSize
+namespace Application.ViewModels.ProductSizes
 {
     public class ProductSizeDTO
     {

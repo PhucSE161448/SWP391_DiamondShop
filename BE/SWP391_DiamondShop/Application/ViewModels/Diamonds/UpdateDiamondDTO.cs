@@ -1,11 +1,24 @@
-﻿namespace Application.ViewModels.Diamonds;
+﻿using System.ComponentModel.DataAnnotations;
+using Domain.Enums;
+
+namespace Application.ViewModels.Diamonds;
 
 public class UpdateDiamondDTO
 {
-    public int OriginId { get; set; }
-    public int CaratWeightId { get; set; }
-    public int ClarityId { get; set; }
-    public int CutId { get; set; }
-    public decimal Price { get; set; }
-    public int Quantity { get; set; }
+    [EnumDataType(typeof(DiamondColor))]
+    public string? Color { get; set; }
+        
+    public string? Origin { get; set; }
+
+    public string? CaratWeight { get; set; }
+
+    [EnumDataType(typeof(DiamondClarity))]  
+    public string? Clarity { get; set; }
+
+    [EnumDataType(typeof(DiamondCut))]
+    public string? Cut { get; set; }
+
+    public decimal? Price { get; set; }
+
+    public int? Quantity { get; set; }
 }

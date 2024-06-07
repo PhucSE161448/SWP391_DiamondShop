@@ -28,9 +28,10 @@ namespace Infrastructures.Repositories.Products
             var query = _dbContext.Products.AsNoTracking()
                                           .Where(p => p.IsDeleted == false)
                                           .Include(p => p.Category)
-                                          .Include(P => P.ProductParts)
-                                          .Include(P => P.ProductSizes)
-                                          .Include(P => P.Images)
+                                          .Include(p => p.ProductParts)
+                                          .Include(p => p.ProductSizes)
+                                          .Include(p => p.Images)
+                                          .Include(p => p.WarrantyDocuments)
                                           .AsSplitQuery()
                                           .AsQueryable();
             query = query.ApplyProductFilter(queryProductDTO);
@@ -42,22 +43,11 @@ namespace Infrastructures.Repositories.Products
         {
            var product = await _dbContext.Products
                                         .Include(p => p.Category)
-                                        .Include(P => P.ProductSizes)
-                                        .Include(P => P.Images)
+                                        .Include(p => p.ProductSizes)
+                                        .Include(p => p.Images)
                                         .Include(p => p.ProductParts)
-                                            .ThenInclude(pp => pp.Diamond)
-                                            .ThenInclude(ppp => ppp.Clarity)
-                                        .Include(p => p.ProductParts)
-                                            .ThenInclude(pp => pp.Diamond)
-                                            .ThenInclude(ppp => ppp.Cut)
-                                        .Include (p => p.ProductParts)
-                                            .ThenInclude(pp => pp.Diamond)
-                                            .ThenInclude(ppp => ppp.CaratWeight)
-                                        .Include(p => p.ProductParts)
-                                            .ThenInclude(pp => pp.Diamond)
-                                            .ThenInclude(ppp => ppp.Origin)
                                         .Include(p => p.WarrantyDocuments)
-                                        .FirstOrDefaultAsync(x => x.Id == id);
+                                        .SingleOrDefaultAsync(x => x.Id == id);
             return product;
         }
 
