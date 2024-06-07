@@ -1,7 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Interfaces;
 using Application.Interfaces.WarrantyDocument;
-using Application.ViewModels.CaratWeights;
 using Application.ViewModels.WarrantyDocuments;
 using AutoMapper;
 using Domain.Model;

@@ -12,10 +12,10 @@ namespace Domain.Model
 
         public int Id { get; set; }
         public int AccountId { get; set; }
-        public int Name { get; set; }
+        public string Name { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        public virtual Account Account { get; set; } = null!;
+        public virtual Account Account { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }
 }

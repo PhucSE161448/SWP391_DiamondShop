@@ -12,18 +12,18 @@ namespace Domain.Model
         }
 
         public int Id { get; set; }
-        public string Name { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
-        public string Address { get; set; } = null!;
-        public string PhoneNumber { get; set; } = null!;
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
         public decimal Point { get; set; }
         public int RoleId { get; set; }
         public bool Gender { get; set; }
-        public string ConfirmationToken { get; set; } = null!;
+        public string ConfirmationToken { get; set; }
 
 
-        public virtual Role Role { get; set; } = null!;
+        public virtual Role Role { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Status> Statuses { get; set; }
     }

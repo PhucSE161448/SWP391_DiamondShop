@@ -1,5 +1,4 @@
 ﻿using Application.Commons;
-using Application.Interfaces.Origin;
 using Application.Interfaces.Products;
 using Application.ViewModels.Products;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +12,19 @@ namespace WebAPI.Controllers.Product
         public ProductController(IProductService _service)
         {
             service = _service;
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO createProductDto)
+        {
+            return Created(nameof(CreateProduct), await service.CreateProduct(createProductDto));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDTO updateProductDto)
+        {
+            await service.UpdateProduct(id, updateProductDto);
+            return NoContent();
         }
         [HttpGet]
         public async Task<IActionResult> GetPagedProducts([FromQuery] QueryProductDTO queryProductDTO)

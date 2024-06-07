@@ -17,32 +17,28 @@ namespace Infrastructures
         {
         }
 
-        public virtual DbSet<Account> Accounts { get; set; } = null!;
-        public virtual DbSet<CaratWeight> CaratWeights { get; set; } = null!;
-        public virtual DbSet<Category> Categories { get; set; } = null!;
-        public virtual DbSet<Clarity> Clarities { get; set; } = null!;
-        public virtual DbSet<Cut> Cuts { get; set; } = null!;
-        public virtual DbSet<Diamond> Diamonds { get; set; } = null!;
-        public virtual DbSet<Image> Images { get; set; } = null!;
-        public virtual DbSet<Order> Orders { get; set; } = null!;
-        public virtual DbSet<OrderItem> OrderItems { get; set; } = null!;
-        public virtual DbSet<Origin> Origins { get; set; } = null!;
-        public virtual DbSet<Payment> Payments { get; set; } = null!;
-        public virtual DbSet<Product> Products { get; set; } = null!;
-        public virtual DbSet<ProductPart> ProductParts { get; set; } = null!;
-        public virtual DbSet<ProductSize> ProductSizes { get; set; } = null!;
-        public virtual DbSet<Promotion> Promotions { get; set; } = null!;
-        public virtual DbSet<Role> Roles { get; set; } = null!;
-        public virtual DbSet<Status> Statuses { get; set; } = null!;
-        public virtual DbSet<WarrantyDocument> WarrantyDocuments { get; set; } = null!;
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Diamond> Diamonds { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderItem> OrderItems { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductPart> ProductParts { get; set; }
+        public virtual DbSet<ProductSize> ProductSizes { get; set; }
+        public virtual DbSet<Promotion> Promotions { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Status> Statuses { get; set; }
+        public virtual DbSet<WarrantyDocument> WarrantyDocuments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            /*if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=12345;database=SWP391_DiamondShop;TrustServerCertificate=True");
-            }*/
+//             if (!optionsBuilder.IsConfigured)
+//             {
+// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//                 optionsBuilder.UseSqlServer("Server=(local);database=SWP391_DiamondShop;uid=sa;pwd=12345;TrustServerCertificate=True;");
+//             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,9 +47,13 @@ namespace Infrastructures
             {
                 entity.ToTable("Account");
 
-                entity.Property(e => e.Address).HasMaxLength(255);
+                entity.Property(e => e.Address)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
-                entity.Property(e => e.ConfirmationToken).HasMaxLength(255);
+                entity.Property(e => e.ConfirmationToken)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
@@ -63,7 +63,9 @@ namespace Infrastructures
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
 
-                entity.Property(e => e.Email).HasMaxLength(255);
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.IsDeleted)
                     .IsRequired()
@@ -73,11 +75,17 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name).HasMaxLength(255);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
-                entity.Property(e => e.Password).HasMaxLength(255);
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
-                entity.Property(e => e.PhoneNumber).HasMaxLength(255);
+                entity.Property(e => e.PhoneNumber)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.Point).HasColumnType("decimal(8, 2)");
 
@@ -90,42 +98,10 @@ namespace Infrastructures
                     .HasConstraintName("account_role_id_foreign");
             });
 
-            modelBuilder.Entity<CaratWeight>(entity =>
-            {
-                entity.ToTable("CaratWeight");
-
-                entity.Property(e => e.CreatedBy).HasMaxLength(255);
-
-                entity.Property(e => e.CreatedDate).HasColumnType("date");
-
-                entity.Property(e => e.DeletedBy).HasMaxLength(255);
-
-                entity.Property(e => e.DeletedDate).HasColumnType("date");
-
-                entity.Property(e => e.IsDeleted)
-                    .IsRequired()
-                    .HasDefaultValueSql("('0')");
-
-                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
-
-                entity.Property(e => e.ModifiedDate).HasColumnType("date");
-
-                entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
-            });
-
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.ToTable("Category");
 
-                entity.Property(e => e.Name).HasMaxLength(255);
-            });
-
-            modelBuilder.Entity<Clarity>(entity =>
-            {
-                entity.ToTable("Clarity");
-
-                entity.Property(e => e.Color).HasMaxLength(255);
-
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
@@ -142,49 +118,34 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name).HasMaxLength(255);
-
-                entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
-            });
-
-            modelBuilder.Entity<Cut>(entity =>
-            {
-                entity.ToTable("Cut");
-
-                entity.Property(e => e.CreatedBy).HasMaxLength(255);
-
-                entity.Property(e => e.CreatedDate).HasColumnType("date");
-
-                entity.Property(e => e.DeletedBy).HasMaxLength(255);
-
-                entity.Property(e => e.DeletedDate).HasColumnType("date");
-
-                entity.Property(e => e.IsDeleted)
+                entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasDefaultValueSql("('0')");
-
-                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
-
-                entity.Property(e => e.ModifiedDate).HasColumnType("date");
-
-                entity.Property(e => e.Name).HasMaxLength(255);
-
-                entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Diamond>(entity =>
             {
                 entity.ToTable("Diamond");
 
-                entity.Property(e => e.CaratWeightId).HasColumnName("CaratWeight_Id");
+                entity.Property(e => e.CaratWeight)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
-                entity.Property(e => e.ClarityId).HasColumnName("Clarity_Id");
+                entity.Property(e => e.Clarity)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Color)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.CutId).HasColumnName("Cut_Id");
+                entity.Property(e => e.Cut)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.DeletedBy).HasMaxLength(255);
 
@@ -198,48 +159,46 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.OriginId).HasColumnName("Origin_Id");
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Origin)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
-
-                entity.HasOne(d => d.CaratWeight)
-                    .WithMany(p => p.Diamonds)
-                    .HasForeignKey(d => d.CaratWeightId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("diamond_caratweight_id_foreign");
-
-                entity.HasOne(d => d.Clarity)
-                    .WithMany(p => p.Diamonds)
-                    .HasForeignKey(d => d.ClarityId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("diamond_clarity_id_foreign");
-
-                entity.HasOne(d => d.Cut)
-                    .WithMany(p => p.Diamonds)
-                    .HasForeignKey(d => d.CutId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("diamond_cut_id_foreign");
-
-                entity.HasOne(d => d.Origin)
-                    .WithMany(p => p.Diamonds)
-                    .HasForeignKey(d => d.OriginId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("diamond_origin_id_foreign");
             });
 
             modelBuilder.Entity<Image>(entity =>
             {
                 entity.ToTable("Image");
 
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.DeletedBy).HasMaxLength(255);
+
+                entity.Property(e => e.DeletedDate).HasColumnType("date");
+
+                entity.Property(e => e.IsDeleted)
+                    .IsRequired()
+                    .HasDefaultValueSql("('0')");
+
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
+
+                entity.Property(e => e.ModifiedDate).HasColumnType("date");
+
                 entity.HasOne(d => d.Diamond)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.DiamondId)
-                    .HasConstraintName("FK__Image__DiamondId__5812160E");
+                    .HasConstraintName("FK__Image__DiamondId__4CA06362");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Image__ProductId__59063A47");
+                    .HasConstraintName("FK__Image__ProductId__4D94879B");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -307,9 +266,9 @@ namespace Infrastructures
                     .HasConstraintName("fk_order_items_orders");
             });
 
-            modelBuilder.Entity<Origin>(entity =>
+            modelBuilder.Entity<Payment>(entity =>
             {
-                entity.ToTable("Origin");
+                entity.ToTable("Payment");
 
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
@@ -327,29 +286,18 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name).HasMaxLength(255);
-
-                entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
-            });
-
-            modelBuilder.Entity<Payment>(entity =>
-            {
-                entity.ToTable("Payment");
-
-                entity.Property(e => e.CreatedBy).HasMaxLength(255);
-
-                entity.Property(e => e.CreatedDate).HasColumnType("date");
-
-                entity.Property(e => e.IsDeleted)
+                entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasDefaultValueSql("('0')");
+                    .HasMaxLength(255);
 
-                entity.Property(e => e.Name).HasMaxLength(255);
+                entity.Property(e => e.PaymentType)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasIndex(e => e.WarrantyDocumentsId, "UQ__Products__0133729A11AC3642")
+                entity.HasIndex(e => e.WarrantyDocumentsId, "UQ__Products__0133729AC30D4746")
                     .IsUnique();
 
                 entity.Property(e => e.CategoryId).HasColumnName("Category_Id");
@@ -370,7 +318,9 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name).HasMaxLength(255);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.WarrantyDocumentsId).HasColumnName("WarrantyDocuments_Id");
 
@@ -390,21 +340,53 @@ namespace Infrastructures
             {
                 entity.ToTable("ProductPart");
 
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.DeletedBy).HasMaxLength(255);
+
+                entity.Property(e => e.DeletedDate).HasColumnType("date");
+
+                entity.Property(e => e.IsDeleted)
+                    .IsRequired()
+                    .HasDefaultValueSql("('0')");
+
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
+
+                entity.Property(e => e.ModifiedDate).HasColumnType("date");
+
                 entity.HasOne(d => d.Diamond)
                     .WithMany(p => p.ProductParts)
                     .HasForeignKey(d => d.DiamondId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductPa__Diamo__656C112C");
+                    .HasConstraintName("FK__ProductPa__Diamo__5BE2A6F2");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductParts)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductPa__Produ__6477ECF3");
+                    .HasConstraintName("FK__ProductPa__Produ__5AEE82B9");
             });
 
             modelBuilder.Entity<ProductSize>(entity =>
             {
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.DeletedBy).HasMaxLength(255);
+
+                entity.Property(e => e.DeletedDate).HasColumnType("date");
+
+                entity.Property(e => e.IsDeleted)
+                    .IsRequired()
+                    .HasDefaultValueSql("('0')");
+
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
+
+                entity.Property(e => e.ModifiedDate).HasColumnType("date");
+
                 entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
 
                 entity.Property(e => e.Size).HasColumnType("decimal(8, 2)");
@@ -413,7 +395,7 @@ namespace Infrastructures
                     .WithMany(p => p.ProductSizes)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductSi__Produ__5CD6CB2B");
+                    .HasConstraintName("FK__ProductSi__Produ__534D60F1");
             });
 
             modelBuilder.Entity<Promotion>(entity =>
@@ -447,7 +429,9 @@ namespace Infrastructures
             {
                 entity.ToTable("Role");
 
-                entity.Property(e => e.Name).HasMaxLength(255);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Status>(entity =>
@@ -457,6 +441,10 @@ namespace Infrastructures
                 entity.Property(e => e.AccountId).HasColumnName("Account_Id");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.Statuses)
@@ -482,6 +470,8 @@ namespace Infrastructures
                 entity.Property(e => e.ModifiedBy).HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
+
+                entity.Property(e => e.TermsAndConditions).IsRequired();
             });
 
             OnModelCreatingPartial(modelBuilder);

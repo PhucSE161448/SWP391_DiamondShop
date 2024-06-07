@@ -14,6 +14,19 @@ namespace WebAPI.Controllers.Diamond
         {
             service = _service;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateDiamond([FromBody] CreateDiamondDTO createDiamondDto)
+        {
+            return Created(nameof(CreateDiamond), await service.CreateDiamond(createDiamondDto));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateDiamond(int id, [FromBody] UpdateDiamondDTO updateDiamondDto)
+        {
+            await service.UpdateDiamond(id, updateDiamondDto);
+            return NoContent();
+        }
         [HttpGet]
         public async Task<IActionResult> GetPagedDiamonds([FromQuery] QueryDiamondDTO queryDiamondDTO)
         {
