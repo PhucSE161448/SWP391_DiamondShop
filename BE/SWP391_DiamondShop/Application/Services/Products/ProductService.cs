@@ -11,6 +11,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Model;
 
 namespace Application.Services.Products
 {
@@ -31,6 +32,98 @@ namespace Application.Services.Products
                 throw new BadRequestException("Start price must be less than end price");
             }
             return _mapper.Map<Pagination<GetProductPaginationDTO>>(await _unitOfWork.ProductRepo.GetPagedProducts(queryProductDTO));
+        }
+
+        public async Task<GetProductIdDTO> CreateProduct(CreateProductDTO createProductDto)
+        {
+            var category = await _unitOfWork.CategoryRepo.GetByIdAsync(createProductDto.CategoryId);
+            var warrantyDocument = await _unitOfWork.WarrantyDocumentRepo.GetByIdAsync(createProductDto.WarrantyDocumentsId);
+            if (category is null)
+            {
+                throw new NotFoundException("Category is not existed");
+            }
+            if (warrantyDocument is null)
+            {
+                throw new NotFoundException("Warranty Document is not existed");
+            }
+
+            var inputDiamondIds = createProductDto.CreateProductPartDtos.Select(p => p.DiamondId);
+            var validDiamondIds = (await _unitOfWork.DiamondRepo.GetAllAsync()).Select(d => d.Id);
+            foreach (var diamondId in inputDiamondIds)
+            {
+                if (!validDiamondIds.Contains(diamondId))
+                {
+                    throw new NotFoundException($"Diamond with ID: {diamondId} is not existed");
+                }
+            }
+
+            var product = _mapper.Map<Product>(createProductDto); 
+            await _unitOfWork.ProductRepo.AddAsync(product);
+            await _unitOfWork.SaveChangeAsync();
+            var productParts = createProductDto.CreateProductPartDtos.Select(p =>
+            {
+                var productPart = _mapper.Map<ProductPart>(p);
+                productPart.ProductId = product.Id;
+                return productPart;
+            }).ToList();
+            await _unitOfWork.ProductPartRepo.AddRangeAsync(productParts);
+            await _unitOfWork.SaveChangeAsync();
+            var productSizes = createProductDto.CreateProductSizeDtos.Select(p =>
+            {
+                var productSize = _mapper.Map<ProductSize>(p);
+                productSize.ProductId = product.Id;
+                return productSize;
+            }).ToList();
+            await _unitOfWork.ProductSizeRepo.AddRangeAsync(productSizes);
+            await _unitOfWork.SaveChangeAsync();
+            return new GetProductIdDTO {Id = product.Id};
+        }
+
+        public async Task UpdateProduct(int id, UpdateProductDTO updateProductDto)
+        {
+            var product = await _unitOfWork.ProductRepo.GetByIdAsync(id);
+            if (product is null)
+            {
+                throw new NotFoundException("Product is not existed");
+            }
+            var category = await _unitOfWork.CategoryRepo.GetByIdAsync(updateProductDto.CategoryId);
+            var warrantyDocument = await _unitOfWork.WarrantyDocumentRepo.GetByIdAsync(updateProductDto.WarrantyDocumentsId);
+            if (category is null)
+            {
+                throw new NotFoundException("Category is not existed");
+            }
+            if (warrantyDocument is null)
+            {
+                throw new NotFoundException("Warranty Document is not existed");
+            }
+            var inputDiamondIds = updateProductDto.UpdateProductPartDtos.Select(p => p.DiamondId);
+            var validDiamondIds = (await _unitOfWork.DiamondRepo.GetAllAsync()).Select(d => d.Id);
+            foreach (var diamondId in inputDiamondIds)
+            {
+                if (!validDiamondIds.Contains(diamondId))
+                {
+                    throw new NotFoundException($"Diamond with ID: {diamondId} is not existed");
+                }
+            }
+            _mapper.Map(updateProductDto, product);
+            _unitOfWork.ProductRepo.Update(product);
+            await _unitOfWork.SaveChangeAsync();
+            var productParts = updateProductDto.UpdateProductPartDtos.Select(p =>
+            {
+                var productPart = _mapper.Map<ProductPart>(p);
+                productPart.ProductId = id;
+                return productPart;
+            }).ToList(); 
+            _unitOfWork.ProductPartRepo.UpdateRange(productParts);
+            await _unitOfWork.SaveChangeAsync();
+            var productSizes = updateProductDto.UpdateProductSizeDtos.Select(p =>
+            {
+                var productSize = _mapper.Map<ProductSize>(p);
+                productSize.ProductId = id;
+                return productSize;
+            }).ToList();
+            _unitOfWork.ProductSizeRepo.UpdateRange(productSizes);
+            await _unitOfWork.SaveChangeAsync();
         }
 
         public async Task<GetProductDetailDTO> GetProductDetailById(int id)

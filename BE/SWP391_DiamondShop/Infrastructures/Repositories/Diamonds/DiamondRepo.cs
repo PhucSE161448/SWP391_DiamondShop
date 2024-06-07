@@ -26,12 +26,8 @@ namespace Infrastructures.Repositories.Diamonds
 
         public async Task<Diamond?> GetDiamondDetailById(int id)
         {
-            return await _dbContext.Diamonds.Include(p => p.CaratWeight)
-                                             .Include(p => p.Clarity)
-                                             .Include(p => p.Images)
-                                             .Include(p => p.Origin)
-                                             .Include(p => p.Cut)
-                                             .FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Diamonds.Include(p => p.Images)
+                                            .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Pagination<Diamond>> GetPagedDiamonds(QueryDiamondDTO queryDiamondDTO)
@@ -39,11 +35,7 @@ namespace Infrastructures.Repositories.Diamonds
             var (pageNumber, pageSize, sortBy, orderByDesc) = queryDiamondDTO.QueryDTO;
             var query = _dbContext.Diamonds.AsNoTracking()
                                           .Where(p => p.IsDeleted == false)
-                                          .Include(p => p.CaratWeight)
-                                          .Include(p => p.Origin)
-                                          .Include(P => P.Clarity)
-                                          .Include(P => P.Cut)
-                                          .Include(P => P.Images)
+                                          .Include(p => p.Images)
                                           .AsSplitQuery()
                                           .AsQueryable();
             query = query.ApplyDiamondsFilter(queryDiamondDTO);

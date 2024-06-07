@@ -7,9 +7,9 @@ using Application.ViewModels.Accounts;
 using Application.ViewModels.Products;
 using Application.ViewModels.Categories;
 using Application.ViewModels.Diamonds;
-using Application.ViewModels.ProductSize;
 using Application.ViewModels.Images;
 using Application.ViewModels.ProductParts;
+using Application.ViewModels.ProductSizes;
 
 namespace Infrastructures.Mappers
 {
@@ -32,6 +32,10 @@ namespace Infrastructures.Mappers
 
             CreateMap<GetProductPaginationDTO, Product>().ReverseMap();
             CreateMap<GetProductDetailDTO, Product>().ReverseMap();
+            CreateMap<Product, CreateProductDTO>().ReverseMap();
+            CreateMap<UpdateProductDTO, Product>()
+                .ForAllMembers(opts =>
+                    opts.Condition((src, dest, srcMember) => srcMember != null));;
 
             CreateMap<CategoryDTO, Category>().ReverseMap();
             CreateMap<Category, CreatedAccountDTO>().ReverseMap();
@@ -42,11 +46,14 @@ namespace Infrastructures.Mappers
             CreateMap<GetDiamondDetailDTO, Diamond>().ReverseMap();
             CreateMap<Diamond, CreateDiamondDTO>().ReverseMap();
             CreateMap<UpdateDiamondDTO, Diamond>()
-                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                .ForAllMembers(opts =>
+                    opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<ProductSize, ProductSizeDTO>().ReverseMap();
+            CreateMap<CreateProductSizeDTO, ProductSize>().ReverseMap();
 
             CreateMap<ProductPart, ProductPartDTO>().ReverseMap();
+            CreateMap<CreateProductPartDTO, ProductPart>().ReverseMap();
 
             CreateMap<Image, ImageDTO>().ReverseMap();
         }
