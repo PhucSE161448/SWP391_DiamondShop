@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using Application.Commons;
+using Application.ViewModels;
 using Domain.Model;
 using Application.ViewModels.WarrantyDocuments;
 using Application.ViewModels.Accounts;
@@ -38,7 +39,7 @@ namespace Infrastructures.Mappers
                     opts.Condition((src, dest, srcMember) => srcMember != null));;
 
             CreateMap<CategoryDTO, Category>().ReverseMap();
-            CreateMap<Category, CreatedAccountDTO>().ReverseMap();
+            CreateMap<Category, AddCategoryDTO>().ReverseMap();
             CreateMap<Category, UpdateCategoryDTO>().ReverseMap();
 
             CreateMap<DiamondDTO, Diamond>().ReverseMap();
