@@ -23,10 +23,7 @@ export default function NavbarAdmin() {
                         <a>Element</a> <CaretDownOutlined />
                         {hidden &&
                             <div id='childrenOfList'>
-                                <CustomLink to="caratWeight">Carat Weight</CustomLink>
-                                <CustomLink to="clarity">Clarity</CustomLink>
-                                <CustomLink to="cut">Cut</CustomLink>
-                                <CustomLink to="origin">Origin</CustomLink>
+                                <CustomLink to="category">Category</CustomLink>
                                 <CustomLink to="account">Account</CustomLink>
                             </div>
                         }

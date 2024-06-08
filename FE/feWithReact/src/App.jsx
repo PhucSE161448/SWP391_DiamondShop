@@ -7,10 +7,7 @@ import Login from './Auth/Login'
 import SignUp from './Auth/SignUp'
 // import LogoutAndRedirect from './Auth/AuthFucntion'
 
-import CaratWeight from './Admin/Elements/CaratWeight/CaratWeight'
-import Clarity from './Admin/Elements/Clarity/Clarity'
-import Cut from './Admin/Elements/Cut/Cut'
-import Origin from './Admin/Elements/Origin/Origin'
+import Category from './Admin/Elements/Category/Category'
 import Account from './Admin/Elements/Account/Account'
 import Admin from './Admin/Admin'
 export default function App() {
@@ -31,10 +28,7 @@ export default function App() {
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
           <Route path='/admin' element={<Admin />}>
-            <Route path='caratWeight' element={<CaratWeight />}></Route>
-            <Route path='clarity' element={<Clarity />}></Route>
-            <Route path='cut' element={<Cut />}></Route>
-            <Route path='origin' element={<Origin />}></Route>
+            <Route path='category' element={<Category />}></Route>
             <Route path='account' element={<Account />}></Route>
           </Route>
 

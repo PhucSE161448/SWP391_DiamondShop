@@ -1,19 +1,20 @@
 import React from 'react'
-import CreateClarity from './CreateClarity';
-import ReadClarity from './ReadClarity';
-import ReadClarityByID from './ReadClarityByID';
-import UpdateClarity from './UpdateClarity';
-import DelelteClarity from './DelelteClarity';
+import CreateCategory from './CreateCategory';
+import ReadClarity from './ReadCategory';
+import ReadClarityByID from './ReadCategoryByID';
+import UpdateClarity from './UpdateCategory';
+import DelelteClarity from './DeleteCategory';
 
-export default function Clarity() {
+
+export default function Category() {
 	return (
 		<div className='contentAdminContainer'>
 			<div className='CRUDContainer '>
 				<div className='titleOfFormContainer'>
-					<h2>Clarity</h2>
+					<h2>Category</h2>
 				</div>
 				<div className='buttonContainer'>
-					<CreateClarity></CreateClarity>
+					<CreateCategory></CreateCategory>
 					<ReadClarity></ReadClarity>
 					<ReadClarityByID ></ReadClarityByID>
 					<UpdateClarity></UpdateClarity>
