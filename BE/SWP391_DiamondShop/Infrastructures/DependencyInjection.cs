@@ -3,7 +3,9 @@ using Application.Interfaces.Account;
 using Application.Interfaces.Authenticates;
 using Application.Interfaces.Categories;
 using Application.Interfaces.Diamond;
+using Application.Interfaces.ProductPart;
 using Application.Interfaces.Products;
+using Application.Interfaces.ProductSize;
 using Application.Interfaces.WarrantyDocument;
 using Application.IRepositories.Accounts;
 using Application.IRepositories.Categories;
@@ -16,7 +18,9 @@ using Application.Services.Accounts;
 using Application.Services.Authenticates;
 using Application.Services.Categories;
 using Application.Services.Diamonds;
+using Application.Services.ProductParts;
 using Application.Services.Products;
+using Application.Services.ProductSizes;
 using Application.Services.WarrantyDocuments;
 using Infrastructures.Mappers;
 using Infrastructures.Repositories.Accounts;
@@ -58,8 +62,10 @@ namespace Infrastructures
             services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddScoped<IProductPartRepo, ProductPartRepo>();
+            services.AddScoped<IProductPartService, ProductPartService>();
 
             services.AddScoped<IProductSizeRepo, ProductSizeRepo>();
+            services.AddScoped<IProductSizeService, ProductSizeService>();
 
             services.AddSingleton<ICurrentTime, CurrentTime>();
             //services.AddDbContext<AppDbContext>(option => option.UseInMemoryDatabase("test"));
