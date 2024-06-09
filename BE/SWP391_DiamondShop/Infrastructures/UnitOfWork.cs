@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Application.IRepositories.Categories;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.ProductSizes;
+using Application.IRepositories.Roles;
 
 namespace Infrastructures
 {
@@ -25,10 +26,11 @@ namespace Infrastructures
         private readonly ICategoryRepo categoryRepo;
         private readonly IProductPartRepo productPartRepo;
         private readonly IProductSizeRepo productSizeRepo;
+        private readonly IRoleRepo roleRepo;
         public UnitOfWork(SWP391_DiamondShopContext _context, IWarrantyDocumentRepo _warrantyDocumentRepo,
             IAccountRepo _accountRepo, IProductRepo _productRepo,
             IDiamondRepo _diamondRepo, ICategoryRepo _categoryRepo,
-            IProductPartRepo _productPartRepo, IProductSizeRepo _productSizeRepo)
+            IProductPartRepo _productPartRepo, IProductSizeRepo _productSizeRepo, IRoleRepo _roleRepo)
         {
             context = _context;
             warrantyDocumentRepo = _warrantyDocumentRepo;
@@ -38,6 +40,7 @@ namespace Infrastructures
             categoryRepo = _categoryRepo;
             productPartRepo = _productPartRepo;
             productSizeRepo = _productSizeRepo;
+            roleRepo = _roleRepo;
         }
         
         public IWarrantyDocumentRepo WarrantyDocumentRepo => warrantyDocumentRepo;
@@ -48,6 +51,7 @@ namespace Infrastructures
         public ICategoryRepo CategoryRepo => categoryRepo;
         public IProductPartRepo ProductPartRepo => productPartRepo;
         public IProductSizeRepo ProductSizeRepo => productSizeRepo;
+        public IRoleRepo RoleRepo => roleRepo;
 
         public async Task<int> SaveChangeAsync()
         {

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Application.IRepositories.Categories;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.ProductSizes;
+using Application.IRepositories.Roles;
 
 namespace Application.Interfaces
 {
@@ -23,6 +24,7 @@ namespace Application.Interfaces
         public ICategoryRepo CategoryRepo { get; }
         public IProductPartRepo ProductPartRepo { get; }
         public IProductSizeRepo ProductSizeRepo { get; }
+        public IRoleRepo RoleRepo { get; }
         public Task<int> SaveChangeAsync();
     }
 }

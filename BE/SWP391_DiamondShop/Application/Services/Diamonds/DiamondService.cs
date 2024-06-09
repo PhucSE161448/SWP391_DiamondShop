@@ -28,7 +28,7 @@ namespace Application.Services.Diamonds
 
         public async Task<GetDiamondDetailDTO> GetDiamondDetailById(int id)
         {
-            var diamond = await _unitOfWork.DiamondRepo.GetDiamondDetailById(id);
+            var diamond = await _unitOfWork.DiamondRepo.GetAsync(d => d.Id == id, "Images");
             if (diamond is null)
             {
                 throw new NotFoundException("Diamond is not existed");

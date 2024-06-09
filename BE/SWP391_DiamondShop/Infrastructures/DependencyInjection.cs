@@ -13,6 +13,7 @@ using Application.IRepositories.Diamonds;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.Products;
 using Application.IRepositories.ProductSizes;
+using Application.IRepositories.Roles;
 using Application.IRepositories.WarrantyDocuments;
 using Application.Services.Accounts;
 using Application.Services.Authenticates;
@@ -29,6 +30,7 @@ using Infrastructures.Repositories.Diamonds;
 using Infrastructures.Repositories.ProductParts;
 using Infrastructures.Repositories.Products;
 using Infrastructures.Repositories.ProductSizes;
+using Infrastructures.Repositories.Roles;
 using Infrastructures.Repositories.WarrantyDocuments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -66,6 +68,8 @@ namespace Infrastructures
 
             services.AddScoped<IProductSizeRepo, ProductSizeRepo>();
             services.AddScoped<IProductSizeService, ProductSizeService>();
+
+            services.AddScoped<IRoleRepo, RoleRepo>();
 
             services.AddSingleton<ICurrentTime, CurrentTime>();
             //services.AddDbContext<AppDbContext>(option => option.UseInMemoryDatabase("test"));

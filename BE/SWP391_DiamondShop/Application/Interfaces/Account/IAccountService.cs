@@ -16,5 +16,6 @@ namespace Application.Interfaces.Account
         Task DeleteUserAsync(int id);
         Task<IEnumerable<AccountDTO>> SearchUserByNameAsync(string name);
         Task<AccountDTO> CreateAccountAsync(CreatedAccountDTO createdAccountDTO);
+        Task<AccountDTO> UpdateRoleForAccount(int accountId, int roleId);
     }
 }
