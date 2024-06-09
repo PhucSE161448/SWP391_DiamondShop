@@ -46,6 +46,7 @@ namespace Infrastructures.Repositories.Products
                                         .Include(p => p.ProductSizes)
                                         .Include(p => p.Images)
                                         .Include(p => p.ProductParts)
+                                        .ThenInclude(pp => pp.Diamond)
                                         .Include(p => p.WarrantyDocuments)
                                         .SingleOrDefaultAsync(x => x.Id == id);
             return product;
