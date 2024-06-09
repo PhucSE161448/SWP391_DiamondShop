@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, Button, styled, Modal } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import CancelIcon from '@mui/icons-material/Cancel'
@@ -16,27 +16,13 @@ const UpdateButton = styled(Button)(({ theme }) => ({
 }))
 
 export default function CRUDCategory() {
-	const [data, setData] = useState(null)
+	const [data, setData] = useState([])
 	const [nameCategory, setnameCategory] = useState(null)
 	const [showDelete, setShowDelete] = useState(false)
 	const [selectedForDeletion, setSelectedForDeletion] = useState(null)
 	const [selectedForUpdate, setSelectedForUpdate] = useState(null)
 	const [showUpdate, setShowUpdate] = useState(true)
-
-	function Read() {
-		const url = 'https://localhost:7122/api/Category/GetAllCategories';
-		fetch(url, {
-			method: 'GET',
-			headers: {
-				'Accept': '*/*'
-			},
-		})
-			.then(response => response.json())
-			.then(responseData => {
-				setData(responseData) // Access the array using the key
-			})
-			.catch((error) => console.error('Error:', error));
-	}
+	const [triggerRead, setTriggerRead] = useState(false);
 
 	function handleSubmitDelete(id) {
 		if (id) {
@@ -49,6 +35,7 @@ export default function CRUDCategory() {
 			}).then(response => response.json())
 				.then(responseData => setData(responseData))
 		}
+		setTriggerRead(prev => !prev)
 	}
 
 	function UpdateCategory(Id, Name) {
@@ -71,10 +58,27 @@ export default function CRUDCategory() {
 			}).then(
 				setShowUpdate(true)
 			)
-
+		setTriggerRead(prev => !prev)
 	}
 
-	Read()
+	useEffect(() => {
+		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
+		function Read() {
+			const url = 'https://localhost:7122/api/Category/GetAllCategories';
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					'Accept': '*/*'
+				},
+			})
+				.then(response => response.json())
+				.then(responseData => {
+					setData(responseData) // Access the array using the key
+				})
+				.catch((error) => console.error('Error:', error));
+		}
+		Read();
+	}, [triggerRead]);
 
 	const handleDelete = (id) => {
 		setSelectedForDeletion(id)
