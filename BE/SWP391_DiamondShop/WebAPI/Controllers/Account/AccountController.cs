@@ -43,6 +43,13 @@ namespace WebAPI.Controllers.Account
             var updatedUser = await _accountService.UpdateUserAsync(id, accountDTO);
             return Ok(updatedUser);
         }
+
+        [HttpPut("{accountId}/{roleId}")]
+        public async Task<IActionResult> UpdateRole(int accountId, int roleId)
+        {
+            await _accountService.UpdateRoleForAccount(accountId, roleId);
+            return NoContent();
+        }
         //[Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)

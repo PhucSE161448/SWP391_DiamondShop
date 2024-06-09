@@ -127,9 +127,7 @@ namespace Infrastructures
             {
                 entity.ToTable("Diamond");
 
-                entity.Property(e => e.CaratWeight)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.CaratWeight).HasColumnType("decimal(8, 2)");
 
                 entity.Property(e => e.Clarity)
                     .IsRequired()
@@ -297,7 +295,7 @@ namespace Infrastructures
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasIndex(e => e.WarrantyDocumentsId, "UQ__Products__0133729AC30D4746")
+                entity.HasIndex(e => e.WarrantyDocumentsId, "UQ__Products__0133729ABBC0E70A")
                     .IsUnique();
 
                 entity.Property(e => e.CategoryId).HasColumnName("Category_Id");

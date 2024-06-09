@@ -46,6 +46,26 @@ namespace Application.Services.Accounts
             return _mapper.Map<AccountDTO>(account);
         }
 
+        public async Task<AccountDTO> UpdateRoleForAccount(int accountId, int roleId)
+        {
+            var account = await _unitOfWork.AccountRepo.GetByIdAsync(accountId);
+            var role = await _unitOfWork.RoleRepo.GetByIdAsync(roleId);
+            if (account is null)
+            {
+                throw new NotFoundException("Account is not existed");
+            }
+
+            if (role is null)
+            {
+                throw new NotFoundException("Role is not existed");
+            }
+
+            account.RoleId = roleId;
+            _unitOfWork.AccountRepo.Update(account);
+            await _unitOfWork.SaveChangeAsync();
+            return _mapper.Map<AccountDTO>(account);
+        }
+
         public async Task DeleteUserAsync(int id)
         {
 
@@ -112,12 +132,6 @@ namespace Application.Services.Accounts
             {
                 throw new BadRequestException("Account is deleted in system");
             }
-
-            //existingUser.Email = accountDTO.Email;
-            //existingUser.Address = accountDTO.Address;
-            //existingUser.Gender = accountDTO.Gender;
-            //existingUser.Name = accountDTO.Name;
-            //existingUser.PhoneNumber = accountDTO.PhoneNumber;
             _unitOfWork.AccountRepo.Update(_mapper.Map(accountDTO, existingUser));
             await _unitOfWork.SaveChangeAsync();
             return _mapper.Map<AccountDTO>(existingUser);

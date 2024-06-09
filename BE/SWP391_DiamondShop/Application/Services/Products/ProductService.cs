@@ -11,6 +11,8 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces.ProductPart;
+using Application.Interfaces.ProductSize;
 using Domain.Model;
 
 namespace Application.Services.Products
@@ -19,11 +21,15 @@ namespace Application.Services.Products
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IProductPartService _productPartService;
+        private readonly IProductSizeService _productSizeService;
 
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IProductPartService productPartService, IProductSizeService productSizeService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _productPartService = productPartService;
+            _productSizeService = productSizeService;
         }
         public async Task<Pagination<GetProductPaginationDTO>> GetPagedProducts(QueryProductDTO queryProductDTO)
         {
@@ -108,22 +114,8 @@ namespace Application.Services.Products
             _mapper.Map(updateProductDto, product);
             _unitOfWork.ProductRepo.Update(product);
             await _unitOfWork.SaveChangeAsync();
-            var productParts = updateProductDto.UpdateProductPartDtos.Select(p =>
-            {
-                var productPart = _mapper.Map<ProductPart>(p);
-                productPart.ProductId = id;
-                return productPart;
-            }).ToList(); 
-            _unitOfWork.ProductPartRepo.UpdateRange(productParts);
-            await _unitOfWork.SaveChangeAsync();
-            var productSizes = updateProductDto.UpdateProductSizeDtos.Select(p =>
-            {
-                var productSize = _mapper.Map<ProductSize>(p);
-                productSize.ProductId = id;
-                return productSize;
-            }).ToList();
-            _unitOfWork.ProductSizeRepo.UpdateRange(productSizes);
-            await _unitOfWork.SaveChangeAsync();
+            await _productPartService.UpdateOrCreateProductPart(id, updateProductDto.UpdateProductPartDtos);
+            await _productSizeService.UpdateOrCreateProductSizes(id, updateProductDto.UpdateProductSizeDtos);
         }
 
         public async Task<GetProductDetailDTO> GetProductDetailById(int id)
