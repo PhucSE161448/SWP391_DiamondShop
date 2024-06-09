@@ -1,18 +1,27 @@
-import React, { useState } from 'react'
-import { TextField, Container, Button } from '@mui/material'
+import React, { useState, useEffect } from 'react'
+import { TextField, Button, Box } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
-import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
+import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
+import Modal from '@mui/material/Modal'
+
 export default function CreateCategory() {
 	const [nameCategory, setnameCategory] = useState('')
-	const [colorClarity, setColorClarity] = useState('')
-	const [priceClarity, setpriceClarity] = useState('')
-	const [showCreateCW, setShowCreateCW] = useState(false)
-	const [context, setContext] = useState('CREATE')
 	const [data, setData] = useState(null)
-	const handleClick = () => {
-		setShowCreateCW(!showCreateCW)
-		setContext(prevContext => prevContext === 'CREATE' ? 'Click again to close CREATE' : 'CREATE')
+	const [open, setOpen] = useState(false)
+	const handleOpen = () => setOpen(true)
+	const handleClose = () => {
+		setOpen(false)
+		setnameCategory('')
+		setData(null)
 	}
+
+	useEffect(() => {
+		// This effect runs when `data` changes
+		if (data && data.status !== 400) {
+			// Assuming `data.status` not being 400 means success
+			setnameCategory(''); // Reset the nameCategory only on successful creation
+		}
+	}, [data])
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
@@ -33,7 +42,8 @@ export default function CreateCategory() {
 		fetch(url, {
 			method: 'POST',
 			headers: {
-				'Accept': '*/*'
+				'Accept': '*/*',
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(data)
 		})
@@ -44,21 +54,45 @@ export default function CreateCategory() {
 	}
 
 	return (
-		<Container>
-			<button onClick={handleClick} className='CRUDButton btn btn-success btn-lg'>{context}</button>
-			{showCreateCW &&
-				<div className='formCRUDContainer'>
+		<div style={{
+			display: 'flex',
+			justifyContent: 'flex-end'
+		}}>
+			<Button variant="contained" type="button" onClick={handleOpen}>
+				Create
+			</Button>
+			<Modal
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<Box sx={{
+					position: 'absolute',
+					top: '50%',
+					left: '50%',
+					transform: 'translate(-50%, -50%)',
+					width: 400,
+					bgcolor: 'background.paper',
+					border: '1px solid #000',
+					boxShadow: 24,
+					p: 4,
+				}}>
 					<h3 className='titleOfForm'>CREATE CATEGORY</h3>
 					<div>
-						<form onSubmit={handleSubmit} className='row'>
+						<form onSubmit={handleSubmit} className='row' style={{
+							maxWidth: '25vw'
+						}}>
 							<div className='col'>
 								<TextField type="text" value={nameCategory}
 									onChange={e => setnameCategory(e.target.value)} id="outlined-basic" label="Name" variant="outlined" className='form-control' />
 							</div>
 							{
-								data ? (data.status === 400 ? (
+								data && (data.status === 400 ? (
 									<h3>{data.errors.Price}</h3>
-								) : (<h3>Create successful</h3>)) : null
+								) : (
+									<h3>Create successful</h3>
+								))
 							}
 							<div className='formSubmit' >
 								<Button
@@ -84,8 +118,8 @@ export default function CreateCategory() {
 							</div>
 						</form>
 					</div>
-				</div >
-			}
-		</Container >
-	);
+				</Box>
+			</Modal>
+		</div >
+	)
 }
