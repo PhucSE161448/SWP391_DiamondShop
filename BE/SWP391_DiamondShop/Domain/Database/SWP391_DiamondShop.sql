@@ -114,7 +114,7 @@ CREATE TABLE "Diamond"
     "Id"           INT           NOT NULL Identity (1,1),
     "Origin"       NVarchar(255) NOT NULL,
     "Color"        NVarchar(255) NOT NULL,
-    "CaratWeight"  NVarchar(255) NOT NULL,
+    "CaratWeight"  DECIMAL(8, 2) NOT NULL,
     "Clarity"      NVarchar(255) NOT NULL,
     "Cut"          NVarchar(255) NOT NULL,
     "Name"         NVARCHAR(255) Not Null,

@@ -10,7 +10,7 @@ public class UpdateDiamondDTO
         
     public string? Origin { get; set; }
 
-    public string? CaratWeight { get; set; }
+    public decimal CaratWeight { get; set; }
 
     [EnumDataType(typeof(DiamondClarity))]  
     public string? Clarity { get; set; }
