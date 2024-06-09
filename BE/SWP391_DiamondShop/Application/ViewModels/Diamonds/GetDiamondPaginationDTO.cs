@@ -12,7 +12,7 @@ namespace Application.ViewModels.Diamonds
     {
         public int Id { get; set; }
         public string? Origin { get; set; }
-        public string? CaratWeight { get; set; }
+        public decimal CaratWeight { get; set; }
         public string? Clarity { get; set; }
         public string? Cut { get; set; }
         public string? Color { get; set; }

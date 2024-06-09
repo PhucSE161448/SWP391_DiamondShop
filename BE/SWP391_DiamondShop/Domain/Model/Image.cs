@@ -10,7 +10,6 @@ namespace Domain.Model
         public int? DiamondId { get; set; }
         public int? ProductId { get; set; }
 
-
         public virtual Diamond Diamond { get; set; }
         public virtual Product Product { get; set; }
     }

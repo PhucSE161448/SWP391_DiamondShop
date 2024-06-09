@@ -11,7 +11,7 @@ public class CreateDiamondDTO
     [EnumDataType(typeof(DiamondColor))]
     public string Color { get; set; }
     [Required]
-    public string CaratWeight { get; set; }
+    public decimal CaratWeight { get; set; }
     [Required]
     [EnumDataType(typeof(DiamondClarity))]
     public string Clarity { get; set; }

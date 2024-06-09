@@ -39,8 +39,8 @@ namespace Application.Services.Diamonds
         public async Task<GetDiamondIdDTO> CreateDiamond(CreateDiamondDTO createDiamondDto)
         {
             var diamond = _mapper.Map<Diamond>(createDiamondDto);
-            diamond.Name = createDiamondDto.Origin + createDiamondDto.CaratWeight + createDiamondDto.Color +
-                           createDiamondDto.Clarity
+            diamond.Name = createDiamondDto.Origin + " " + createDiamondDto.CaratWeight + " " + createDiamondDto.Color + " "
+                           + createDiamondDto.Clarity + " "
                            + createDiamondDto.Cut;
             await _unitOfWork.DiamondRepo.AddAsync(diamond);
             await _unitOfWork.SaveChangeAsync();

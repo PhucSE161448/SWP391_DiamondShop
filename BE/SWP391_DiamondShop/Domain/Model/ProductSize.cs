@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain.Model
 {
-    public partial class ProductSize: BaseEntity
+    public partial class ProductSize : BaseEntity
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
