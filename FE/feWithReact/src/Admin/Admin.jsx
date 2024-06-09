@@ -1,10 +1,8 @@
 import React from 'react'
 import { jwtDecode } from 'jwt-decode'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react';
 import './Admin.css'
-
-import { Route, Routes } from 'react-router-dom';
 
 import NavbarAdmin from './Navbar/NavbarAdmin';
 export default function AdminNav() {
@@ -22,9 +20,6 @@ export default function AdminNav() {
         if (decodedToken.Role === '1') {
             return (
                 <div className='pageAdminContainer'>
-                    {/* <div>
-                        <h1>ADMIN PAGE</h1>
-                    </div> */}
                     <NavbarAdmin></NavbarAdmin>
                 </div>
             )
