@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TextField, Button, styled, Modal } from '@mui/material'
+import { TextField, Button, styled } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import CancelIcon from '@mui/icons-material/Cancel'
 import UpdateIcon from '@mui/icons-material/Update'
@@ -32,10 +32,13 @@ export default function CRUDCategory() {
 				headers: {
 					'Accept': '*/*'
 				},
-			}).then(response => response.json())
-				.then(responseData => setData(responseData))
+			})
+				.then(responseData => {
+					setData(responseData)
+					setTriggerRead(prev => !prev)
+				})
 		}
-		setTriggerRead(prev => !prev)
+
 	}
 
 	function UpdateCategory(Id, Name) {
@@ -55,10 +58,10 @@ export default function CRUDCategory() {
 			.then(response => response.json())
 			.then(responseData => {
 				setData(responseData)
-			}).then(
 				setShowUpdate(true)
-			)
-		setTriggerRead(prev => !prev)
+				setTriggerRead(prev => !prev)
+			})
+
 	}
 
 	useEffect(() => {
@@ -75,10 +78,10 @@ export default function CRUDCategory() {
 				.then(responseData => {
 					setData(responseData) // Access the array using the key
 				})
-				.catch((error) => console.error('Error:', error));
+				.catch((error) => console.error('Error:', error))
 		}
-		Read();
-	}, [triggerRead]);
+		Read()
+	}, [triggerRead])
 
 	const handleDelete = (id) => {
 		setSelectedForDeletion(id)
@@ -107,7 +110,7 @@ export default function CRUDCategory() {
 									<th>Id</th>
 									<th>Name</th>
 									<th></th>
-									<th><CreateCategory></CreateCategory></th>
+									<th><CreateCategory onCategoryCreated={() => setTriggerRead(prev => !prev)} /></th>
 								</tr>
 							</thead>
 							<tbody>

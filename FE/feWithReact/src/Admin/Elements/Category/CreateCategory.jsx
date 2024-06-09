@@ -4,7 +4,7 @@ import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import Modal from '@mui/material/Modal'
 
-export default function CreateCategory() {
+export default function CreateCategory(props) {
 	const [nameCategory, setnameCategory] = useState('')
 	const [data, setData] = useState(null)
 	const [open, setOpen] = useState(false)
@@ -27,6 +27,7 @@ export default function CreateCategory() {
 		event.preventDefault()
 		// Gọi hàm CreateCaratWeight, truyền weight và price như là các đối số
 		Create(nameCategory)
+		props.onCategoryCreated()
 	}
 
 	const handleClear = () => {
@@ -120,6 +121,6 @@ export default function CreateCategory() {
 					</div>
 				</Box>
 			</Modal>
-		</div >
+		</div>
 	)
 }
