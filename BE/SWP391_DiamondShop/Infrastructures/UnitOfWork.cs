@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.IRepositories.Categories;
+using Application.IRepositories.Images;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.ProductSizes;
 using Application.IRepositories.Roles;
@@ -27,10 +28,12 @@ namespace Infrastructures
         private readonly IProductPartRepo productPartRepo;
         private readonly IProductSizeRepo productSizeRepo;
         private readonly IRoleRepo roleRepo;
+        private readonly IImageRepo imageRepo;
         public UnitOfWork(SWP391_DiamondShopContext _context, IWarrantyDocumentRepo _warrantyDocumentRepo,
             IAccountRepo _accountRepo, IProductRepo _productRepo,
             IDiamondRepo _diamondRepo, ICategoryRepo _categoryRepo,
-            IProductPartRepo _productPartRepo, IProductSizeRepo _productSizeRepo, IRoleRepo _roleRepo)
+            IProductPartRepo _productPartRepo, IProductSizeRepo _productSizeRepo, IRoleRepo _roleRepo,
+            IImageRepo _imageRepo)
         {
             context = _context;
             warrantyDocumentRepo = _warrantyDocumentRepo;
@@ -41,6 +44,7 @@ namespace Infrastructures
             productPartRepo = _productPartRepo;
             productSizeRepo = _productSizeRepo;
             roleRepo = _roleRepo;
+            imageRepo = _imageRepo;
         }
         
         public IWarrantyDocumentRepo WarrantyDocumentRepo => warrantyDocumentRepo;
@@ -52,6 +56,7 @@ namespace Infrastructures
         public IProductPartRepo ProductPartRepo => productPartRepo;
         public IProductSizeRepo ProductSizeRepo => productSizeRepo;
         public IRoleRepo RoleRepo => roleRepo;
+        public IImageRepo ImageRepo => imageRepo;
 
         public async Task<int> SaveChangeAsync()
         {

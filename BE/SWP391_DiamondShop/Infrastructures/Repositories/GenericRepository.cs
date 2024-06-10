@@ -112,6 +112,18 @@ namespace Infrastructures.Repositories
             _dbSet.UpdateRange(entities);
         }
 
+        public Task DeleteAsync(T entity)
+        {
+            _context.Remove(entity);
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteRangeAsync(IEnumerable<T> entities)
+        {
+            _dbSet.RemoveRange(entities);
+            return Task.CompletedTask;
+        }
+
         public void UpdateRange(List<T> entities)
         {
             foreach (var entity in entities)

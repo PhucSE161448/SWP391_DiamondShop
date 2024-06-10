@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Interfaces.ProductSize;
+using Application.Interfaces.ProductSizes;
 using Application.ViewModels.ProductSizes;
 using AutoMapper;
 using Domain.Model;
@@ -17,30 +17,21 @@ public class ProductSizeService : IProductSizeService
         _mapper = mapper;
     }
 
+    public async Task DeleteProductSize(IEnumerable<ProductSize> productSizes)
+    {
+        await _unitOfWork.ProductSizeRepo.DeleteRangeAsync(productSizes);
+        await _unitOfWork.SaveChangeAsync();
+    }
+
     public async Task UpdateOrCreateProductSizes(int productId, ICollection<UpdateProductSizeDTO> updateProductSizeDtos)
     {
-        var existingProductSizes = await _unitOfWork.ProductSizeRepo.GetAllAsync(x => x.ProductId == productId);
-        var newProductSizes = updateProductSizeDtos
-            // ReSharper disable once SimplifyLinqExpressionUseAll
-            .Where(p => !existingProductSizes.Any(e => e.Id == p.Id))
-            .Select(p => _mapper.Map<ProductSize>(p))
-            .ToList();
-
-        foreach (var existingSize in existingProductSizes)
+        var productSizes = updateProductSizeDtos.Select(p =>
         {
-            var updateSize = updateProductSizeDtos.FirstOrDefault(p => p.Id == existingSize.Id);
-            if (updateSize == null) continue;
-            _mapper.Map(updateSize, existingSize);
-            _unitOfWork.ProductSizeRepo.Update(existingSize);
-        }
-        if (newProductSizes.Any())
-        {
-            foreach (var newSize in newProductSizes)
-            {
-                newSize.ProductId = productId;
-            }
-            await _unitOfWork.ProductSizeRepo.AddRangeAsync(newProductSizes);
-        }
+            var productSize = _mapper.Map<ProductSize>(p);
+            productSize.ProductId = productId;
+            return productSize;
+        }).ToList();
+        await _unitOfWork.ProductSizeRepo.AddRangeAsync(productSizes);
         await _unitOfWork.SaveChangeAsync();
     }
 }

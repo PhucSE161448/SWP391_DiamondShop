@@ -15,13 +15,13 @@ namespace WebAPI.Controllers.Product
         }
         
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO createProductDto)
+        public async Task<IActionResult> CreateProduct([FromForm] CreateProductDTO createProductDto)
         {
             return Created(nameof(CreateProduct), await service.CreateProduct(createProductDto));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDTO updateProductDto)
+        public async Task<IActionResult> UpdateProduct(int id, [FromForm] UpdateProductDTO updateProductDto)
         {
             await service.UpdateProduct(id, updateProductDto);
             return NoContent();

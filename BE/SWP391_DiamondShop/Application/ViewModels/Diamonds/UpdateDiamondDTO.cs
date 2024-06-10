@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Domain.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.ViewModels.Diamonds;
 
@@ -21,4 +22,6 @@ public class UpdateDiamondDTO
     public decimal? Price { get; set; }
 
     public int? Quantity { get; set; }
+
+    public List<IFormFile> DiamondImages { get; set; } = new List<IFormFile>();
 }
