@@ -13,18 +13,10 @@ table {
 
 
 .CRUDContainer {
-    border: 1px solid black;
     margin: 10px;
     padding: 10px;
-    border-radius: 20px;
-}
+    width: 75%;
 
-
-.formCRUDContainer {
-    border: 1px solid black;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 20px;
 }
 
 .titleOfFormContainer,
@@ -56,16 +48,16 @@ table {
     display: block;
     width: 100%;
     padding: 14px;
+}
 
+.MuiButtonBase {
+    margin: 5px;
 }
 
 table {
     margin-bottom: 10px;
 }
 
-.pageAdminContainer {
-    padding: 0;
-}
 
 .logoutButton {
     margin-top: 5px;
@@ -97,4 +89,9 @@ table {
 
 .refreshButton {
     margin-bottom: 10px;
+}
+
+.contentAdminContainer {
+    float: right;
+    min-width: 80vw;
 }

@@ -1,20 +1,41 @@
-import React from 'react'
-import { Link, useMatch, useResolvedPath } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useMatch, useResolvedPath, Outlet } from 'react-router-dom'
 import './NavbarAdmin.css'
+import { LogoutByButton } from '../../Auth/AuthFucntion'
+import { CaretDownOutlined } from '@ant-design/icons'
 export default function NavbarAdmin() {
-    return (
-        <nav className='navbar-expand-lg bg-body-tertiary '>
-            <div className='container-fluid' id='navbarAdminContainer'>
-                <CustomLink to="/">Home</CustomLink>
-                <CustomLink to="/admin/">Admin</CustomLink>
-                <CustomLink to="/admin/caratWeight">Carat Weight</CustomLink>
-                <CustomLink to="/admin/clarity">Clarity</CustomLink>
-                <CustomLink to="/admin/cut">Cut</CustomLink>
-                <CustomLink to="/admin/origin">Origin</CustomLink>
-                <CustomLink to="/admin/account">Account</CustomLink>
-            </div>
+    const [hidden, setHidden] = useState(false)
+    function hoverTheList() {
+        setHidden(true)
+    }
 
-        </nav>
+    function unhoverTheList() {
+        setHidden(false)
+    }
+    return (
+        <div>
+            <nav className='adminNavContainer '>
+                <ul className='container-fluid' id='navbarAdminContainer'>
+                    <CustomLink to="/">Home</CustomLink>
+                    <CustomLink to="/admin">Admin</CustomLink>
+
+                    <li onMouseEnter={hoverTheList} onMouseLeave={unhoverTheList}>
+                        <a>Element</a> <CaretDownOutlined />
+                        {hidden &&
+                            <div id='childrenOfList'>
+                                <CustomLink to="category">Category</CustomLink>
+                                <CustomLink to="account">Account</CustomLink>
+                            </div>
+                        }
+                    </li>
+                    <CustomLink to='/'>
+                        <button onClick={LogoutByButton} className='btn btn-danger btn-block'>Log out</button>
+                    </CustomLink>
+                </ul>
+
+            </nav>
+            <Outlet />
+        </div >
     )
 }
 function CustomLink({ to, children, ...props }) {
@@ -22,10 +43,10 @@ function CustomLink({ to, children, ...props }) {
     const isActive = useMatch({ path: resolvedPath.pathname, end: true })
 
     return (
-        <div>
+        <li className='listNavAdmin'>
             <Link to={to} {...props} className={isActive ? "active" : ""}>
                 {children}
             </Link>
-        </div >
+        </li >
     )
 }
