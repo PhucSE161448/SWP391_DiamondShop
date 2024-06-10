@@ -27,7 +27,7 @@ export default function CreateCategory(props) {
 		event.preventDefault()
 		// Gọi hàm CreateCaratWeight, truyền weight và price như là các đối số
 		Create(nameCategory)
-		props.onCategoryCreated()
+
 	}
 
 	const handleClear = () => {
@@ -36,7 +36,7 @@ export default function CreateCategory(props) {
 	}
 
 	function Create(Name) {
-		const url = 'https://localhost:7122/api/Category/CreateCategory';
+		const url = 'https://localhost:7122/api/Category/CreateCategory'
 		const data = {
 			name: Name
 		}
@@ -49,8 +49,10 @@ export default function CreateCategory(props) {
 			body: JSON.stringify(data)
 		})
 			.then(response => response.json())
-			.then(responseData =>
+			.then(responseData => {
 				setData(responseData)
+				props.onCategoryCreated()
+			}
 			)
 	}
 
@@ -59,7 +61,7 @@ export default function CreateCategory(props) {
 			display: 'flex',
 			justifyContent: 'flex-end'
 		}}>
-			<Button variant="contained" type="button" onClick={handleOpen}>
+			<Button variant="contained" type="button" size="large" onClick={handleOpen}>
 				Create
 			</Button>
 			<Modal

@@ -16,7 +16,7 @@ const UpdateButton = styled(Button)(({ theme }) => ({
 }))
 
 export default function CRUDCategory() {
-	const [data, setData] = useState([])
+	const [data, setData] = useState(null)
 	const [nameCategory, setnameCategory] = useState(null)
 	const [showDelete, setShowDelete] = useState(false)
 	const [selectedForDeletion, setSelectedForDeletion] = useState(null)
@@ -38,7 +38,6 @@ export default function CRUDCategory() {
 					setTriggerRead(prev => !prev)
 				})
 		}
-
 	}
 
 	function UpdateCategory(Id, Name) {
@@ -138,7 +137,6 @@ export default function CRUDCategory() {
 															<TextField
 																required
 																defaultValue={data.name}
-																helperText={data.name === '' ? 'Please fill this form' : ''}
 																onChange={(e) => setnameCategory(e.target.value)}
 																id="outlined-basic"
 																label="Name"
@@ -146,7 +144,7 @@ export default function CRUDCategory() {
 																sx={{
 																	margin: '10px'
 																}}
-															/>
+															/> <br />
 															<Button
 																type="submit"
 																value="Submit" variant="contained" color="success"
