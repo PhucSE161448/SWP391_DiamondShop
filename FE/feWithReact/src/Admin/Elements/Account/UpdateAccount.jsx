@@ -1,21 +1,36 @@
-import React, { useState } from 'react'
-
-export default function UpdateAccount() {
+import React, { useState, useEffect } from 'react'
+import { Button, Modal, Box, TextField, Select, InputLabel, MenuItem, styled, FormControl } from '@mui/material'
+import SendIcon from '@mui/icons-material/Send'
+import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
+import { amber } from '@mui/material/colors'
+import UpdateIcon from '@mui/icons-material/Update'
+export default function UpdateAccount({ onClick, ...props }) {
 	const [idAccount, setIdAccount] = useState('')
 	const [nameAccount, setnameAccount] = useState('')
 	const [emailAccount, setEmailAccount] = useState('')
-	const [genderAccount, setGenderAccount] = useState(true)
+	const [genderAccount, setGenderAccount] = useState(null)
 	const [phoneAccount, setPhoneAccount] = useState('')
 	const [addressAccount, setAddressAccount] = useState('')
-
-	const [showUpdateCW, setShowUpdateCW] = useState(false)
-	const [context, setContext] = useState('UPDATE')
 	const [data, setData] = useState(null)
-	const handleClick = () => {
-		setShowUpdateCW(!showUpdateCW)
-		setContext(prevContext => prevContext === 'UPDATE' ? 'Click again to close UPDATE' : 'UPDATE')
+	const [open, setOpen] = useState(false)
+	const handleOpen = () => setOpen(true)
+	const handleClose = () => {
+		setOpen(false)
+		setIdAccount('')
+		setnameAccount('')
+		setEmailAccount('')
+		setGenderAccount(null)
+		setPhoneAccount('')
+		setAddressAccount('')
+		setData(null)
 	}
-
+	const UpdateButton = styled(Button)(({ theme }) => ({
+		color: theme.palette.getContrastText(amber[500]),
+		backgroundColor: amber[500],
+		'&:hover': {
+			backgroundColor: amber[700],
+		},
+	}))
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		// Gọi hàm CreateCaratWeight, truyền weight và price như là các đối số
@@ -26,34 +41,10 @@ export default function UpdateAccount() {
 		setIdAccount('')
 		setnameAccount('')
 		setEmailAccount('')
-		setGenderAccount(true)
+		setGenderAccount(null)
 		setPhoneAccount('')
 		setAddressAccount('')
 		setData(null)
-	}
-	function checkData() {
-		if (data !== null) {
-			if (data.status === 400) {
-				return (
-					<div>
-						<h3>This account is deleted</h3>
-					</div>
-				)
-			} else {
-				return (
-					<div>
-						{
-							data.status === 404 ? (<h3>Account not found</h3>) : (
-								<h3>
-									Update successful
-								</h3>
-							)
-						}
-					</div >
-				)
-
-			}
-		}
 	}
 	function updateAccount(Id, Email, Name, Gender, Phone, Address) {
 		const url = 'https://localhost:7122/api/Account/UpdateUser/' + Id
@@ -75,54 +66,141 @@ export default function UpdateAccount() {
 		})
 			.then(responseData => {
 				setData(responseData)
+				props.onAccountUpdated()
 			})
 
 	}
+
+	useEffect(() => {
+		setIdAccount(props.id)
+	}, [props.id])
+
+	useEffect(() => {
+		setEmailAccount(props.email)
+	}, [props.email])
+
+	useEffect(() => {
+		setnameAccount(props.name)
+	}, [props.name])
+
+	useEffect(() => {
+		setGenderAccount(props.gender === 'Male' ? true : false)
+	}, [props.gender])
+
+	useEffect(() => {
+		setPhoneAccount(props.phone)
+	}, [props.phone])
+
+	useEffect(() => {
+		setAddressAccount(props.address)
+	}, [props.address])
+	// The handleChange and handleSubmit functions remain the same
+	const handleEmailChange = (e) => {
+		setEmailAccount(e.target.value)
+	}
+
+	const handleNameChange = (e) => {
+		setnameAccount(e.target.value)
+	}
+
+	const handleGenderChange = (e) => {
+		setGenderAccount(e.target.value)
+	}
+
+	const handlePhoneChange = (e) => {
+		setPhoneAccount(e.target.value)
+	}
+
+	const handleAddressChange = (e) => {
+		setAddressAccount(e.target.value)
+	}
 	return (
 		<div>
-			<button className='CRUDButton btn btn-warning btn-lg' onClick={handleClick}>{context}</button>
-			{showUpdateCW &&
-				<div className='formCRUDContainer'>
+			<UpdateButton variant="contained" type="button" size="large"
+				onClick={() => { handleOpen(); onClick() }}
+				endIcon={<UpdateIcon></UpdateIcon>}>UPDATE</UpdateButton>
+			<Modal open={open}
+				onClose={handleClose}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description">
+				<Box sx={{
+					position: 'absolute',
+					top: '50%',
+					left: '50%',
+					transform: 'translate(-50%, -50%)',
+					bgcolor: 'background.paper',
+					border: '1px solid #000',
+					boxShadow: 24,
+					p: 4,
+				}}>
 					<h3 className='titleOfForm'>UPDATE Account</h3>
 					<form onSubmit={handleSubmit}>
 						<div className='row'>
 							<div className='col-12'>
-								<input type="text" value={idAccount} onChange={e => setIdAccount(e.target.value)} placeholder='Id' className='form-control' />
+								<TextField disabled type="text" value={props.id}
+									id="outlined-basic" label="Id" variant="outlined" className='form-control' />
 							</div>
 						</div> <br />
 						<div className='row'>
 							<div className='col-6'>
-								<input type="text" value={nameAccount} onChange={e => setnameAccount(e.target.value)} placeholder='Name' className='form-control' />
+								<TextField type="text" defaultValue={props.email} onChange={handleEmailChange}
+									id="outlined-basic" label="Email" variant="outlined" className='form-control' />
 							</div>
 							<div className='col-6'>
-								<input type="text" value={emailAccount} onChange={e => setEmailAccount(e.target.value)} placeholder='Email' className='form-control' />
+								<TextField type="text" defaultValue={props.name} onChange={handleNameChange}
+									id="outlined-basic" label="Name" variant="outlined" className='form-control' />
 							</div>
-
 						</div><br />
 						<div className='row'>
 							<div className='col-4'>
-								<input type="text" value={addressAccount} onChange={e => setAddressAccount(e.target.value)} placeholder='Address' className='form-control' />
-
+								<FormControl fullWidth>
+									<InputLabel id="select-label">Gender</InputLabel>
+									<Select labelId="select-label"
+										id="demo-simple-select" variant="outlined"
+										label="Gender" defaultValue={props.gender === 'Male' ? true : false}
+										onChange={handleGenderChange} className='form-control'
+										sx={{
+											padding: '0'
+										}}>
+										<MenuItem value={true}>Male</MenuItem>
+										<MenuItem value={false}>Female</MenuItem>
+									</Select>
+								</FormControl>
 							</div>
 							<div className='col-4'>
-								<select value={genderAccount} onChange={e => setGenderAccount(e.target.value === "true")} className='form-control'>
-									<option value={true}>Male</option>
-									<option value={false}>Female</option>
-								</select>
+								<TextField type="text" defaultValue={props.phone} onChange={handlePhoneChange}
+									id="outlined-basic" label="Phone" variant="outlined" className='form-control' />
 							</div>
 							<div className='col-4'>
-								<input type="text" value={phoneAccount} onChange={e => setPhoneAccount(e.target.value)} placeholder='Phone' className='form-control' />
+								<TextField type="text" defaultValue={props.address} onChange={handleAddressChange}
+									id="outlined-basic" label="Address" variant="outlined" className='form-control' />
 							</div>
-						</div>
-						{checkData()}
-
+						</div> <br />
 						<div className='formSubmit' >
-							<input type="submit" value="Submit" className='btn btn-primary btn-lg submitButton' />
-							<input type="button" value="Clear" onClick={handleClear} className='btn btn-danger btn-lg submitButton' />
+							<Button
+								type="submit"
+								className='submitButton'
+								value="Submit" variant="contained"
+								size="large" endIcon={<SendIcon />}
+								sx={{
+									margin: '5px',
+								}}>
+								Send
+							</Button>
+							<Button type="button"
+								value="Clear" onClick={handleClear}
+								className='submitButton'
+								variant="contained" size="large" color="error"
+								endIcon={<CancelScheduleSendIcon />}
+								sx={{
+									margin: '5px',
+								}}>
+								Clear
+							</Button>
 						</div>
 					</form>
-				</div>
-			}
+				</Box>
+			</Modal>
 		</div>
 	)
 }
