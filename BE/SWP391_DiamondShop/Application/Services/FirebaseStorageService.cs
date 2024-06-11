@@ -18,9 +18,29 @@ public class FirebaseStorageService : IFirebaseStorageService
         _configuration = configuration;
         _bucketName = _configuration["Firebase:Bucket"]!;
     }
-    public async Task DeleteImageAsync(string imageName)
+
+    public string GetImageUrl(string folderName, string imageName)
     {
-        await _storageClient.DeleteObjectAsync(_bucketName, imageName, cancellationToken: CancellationToken.None);
+        
+        var encodedFolderName = Uri.EscapeDataString(folderName);
+        var encodedImageName = Uri.EscapeDataString(imageName);
+        
+        var imageUrl = $"https://firebasestorage.googleapis.com/v0/b/{_bucketName}/o/{encodedFolderName}%2F{encodedImageName}?alt=media";
+        return imageUrl;
+    }
+
+    private string ExtractImageNameFromUrl(string imageUrl)
+    {
+        var uri = new Uri(imageUrl);
+        var segments = uri.Segments;
+        var escapedImageName = segments[segments.Length - 1];
+        var imageName = Uri.UnescapeDataString(escapedImageName);
+        return imageName;
+    }
+
+    public async Task DeleteImageAsync(string imageUrl)
+    {
+        await _storageClient.DeleteObjectAsync(_bucketName, ExtractImageNameFromUrl(imageUrl), cancellationToken: CancellationToken.None);
     }
 
     public async Task DeleteImagesAsync(List<string> imageUrls)
@@ -29,77 +49,62 @@ public class FirebaseStorageService : IFirebaseStorageService
 
         foreach (var imageUrl in imageUrls)
         {
-            var imageName = GetObjectNameFromUrl(imageUrl);
-            deleteImageTasks.Add(DeleteImageAsync(imageName));
+            deleteImageTasks.Add(DeleteImageAsync(imageUrl));
         }
 
         await Task.WhenAll(deleteImageTasks);
     }
 
-    public async Task<string[]> UploadImagesAsync(List<IFormFile> imageFiles)
+    public async Task<string[]> UploadImagesAsync(List<IFormFile> imageFiles, string folderPath)
     {
         var uploadTasks = new List<Task<string>>();
 
-        for (int i = 0; i < imageFiles.Count; i++)
+        foreach (var imageFile in imageFiles)
         {
-            var imageFile = imageFiles[i];
-
-            uploadTasks.Add(UploadImageAsync(imageFile));
+            var filePath = $"{folderPath}/{Path.GetFileName(imageFile.FileName)}";
+            uploadTasks.Add(UploadImageAsync(imageFile, filePath));
         }
 
         var imageUrls = await Task.WhenAll(uploadTasks);
-
         return imageUrls;
     }
 
-    public string GetImageUrl(string imageName)
+    public async Task<string> UploadImageAsync(IFormFile imageFile, string imagePath)
     {
-
-        string imageUrl = $"https://firebasestorage.googleapis.com/v0/b/{_bucketName}/o/{Uri.EscapeDataString(imageName)}?alt=media";
-        return imageUrl;
-    }
-
-    public async Task<string> UpdateImageAsync(IFormFile imageFile, string imageName)
-    {
-
         using var stream = new MemoryStream();
-
         await imageFile.CopyToAsync(stream);
-
         stream.Position = 0;
 
-        // Re-upload the image with the same name to update it
-        var blob = await _storageClient.UploadObjectAsync(_bucketName, imageName, imageFile.ContentType, stream, cancellationToken: CancellationToken.None);
-
-        return GetImageUrl(imageName);
-    }
-
-
-    public async Task<string> UploadImageAsync(IFormFile imageFile, string? imageName = default)
-    {
-
-        imageName ??= imageFile.FileName;
-
-        using var stream = new MemoryStream();
-
-        await imageFile.CopyToAsync(stream);
-
-        var blob = await _storageClient.UploadObjectAsync(_bucketName, imageName, imageFile.ContentType, stream, cancellationToken: CancellationToken.None);
+        var blob = await _storageClient.UploadObjectAsync(_bucketName, imagePath, imageFile.ContentType, stream, cancellationToken: CancellationToken.None);
 
         if (blob is null)
         {
-            throw new BadRequestException("Upload failed");
+            throw new Exception("Upload failed");
         }
 
-        return GetImageUrl(imageFile.FileName);
+        var folderName = Path.GetDirectoryName(imagePath)?.Replace("\\", "/") ?? string.Empty;
+        var imageName = Path.GetFileName(imagePath);
 
+        return GetImageUrl(folderName, imageName);
     }
-    private string GetObjectNameFromUrl(string imageUrl)
+
+    public async Task<string> UpdateImageAsync(IFormFile imageFile, string imagePath)
     {
-        // Decode the URL and extract the object name
-        var uri = new Uri(imageUrl);
-        var objectName = uri.AbsolutePath.Split(new[] { "/o/" }, StringSplitOptions.None)[1];
-        objectName = objectName.Split(new[] { "?alt=" }, StringSplitOptions.None)[0];
-        return Uri.UnescapeDataString(objectName);
+        using var stream = new MemoryStream();
+        await imageFile.CopyToAsync(stream);
+        stream.Position = 0;
+
+        var blob = await _storageClient.UploadObjectAsync(_bucketName, imagePath, imageFile.ContentType, stream, cancellationToken: CancellationToken.None);
+
+        if (blob is null)
+        {
+            throw new Exception("Upload failed");
+        }
+
+        var folderName = Path.GetDirectoryName(imagePath)?.Replace("\\", "/") ?? string.Empty;
+        var imageName = Path.GetFileName(imagePath);
+
+        return GetImageUrl(folderName, imageName);
     }
 }
+
