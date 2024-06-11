@@ -52,11 +52,11 @@ namespace Infrastructures.Mappers
 
             CreateMap<ProductSize, ProductSizeDTO>().ReverseMap();
             CreateMap<CreateProductSizeDTO, ProductSize>().ReverseMap();
-            CreateMap<UpdateProductSizeDTO, ProductSize>().ReverseMap();
+            
 
             CreateMap<ProductPart, ProductPartDTO>().ReverseMap();
             CreateMap<CreateProductPartDTO, ProductPart>().ReverseMap();
-            CreateMap<UpdateProductPartDTO, ProductPart>().ReverseMap();
+            
 
             CreateMap<Image, ImageDTO>().ReverseMap();
         }
