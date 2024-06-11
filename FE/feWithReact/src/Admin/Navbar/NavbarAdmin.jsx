@@ -3,6 +3,7 @@ import { Link, useMatch, useResolvedPath, Outlet } from 'react-router-dom'
 import './NavbarAdmin.css'
 import { LogoutByButton } from '../../Auth/AuthFucntion'
 import { CaretDownOutlined } from '@ant-design/icons'
+import { Layout, Menu, } from 'antd';
 export default function NavbarAdmin() {
     const [hidden, setHidden] = useState(false)
     function hoverTheList() {
@@ -14,26 +15,30 @@ export default function NavbarAdmin() {
     }
     return (
         <div>
-            <nav className='adminNavContainer '>
-                <ul className='container-fluid' id='navbarAdminContainer'>
+            <Menu theme="dark" className='container-fluid' id='navbarAdminContainer'>
+                <Menu.Item>
                     <CustomLink to="/">Home</CustomLink>
+                </Menu.Item>
+                <Menu.Item>
                     <CustomLink to="/admin">Admin</CustomLink>
+                </Menu.Item>
 
-                    <li onMouseEnter={hoverTheList} onMouseLeave={unhoverTheList}>
-                        <a className='Element'>Element</a> <CaretDownOutlined />
-                        {hidden &&
-                            <div id='childrenOfList'>
-                                <CustomLink to="account">Account</CustomLink>
-                                <CustomLink to="category">Category</CustomLink>
-                            </div>
-                        }
-                    </li>
+                <Menu.SubMenu key="sub1" title={<span className='Element'>Element</span>} mode="vertical">
+                    <Menu.Item key="sub1-1">
+                        <CustomLink to="account">Account</CustomLink>
+                    </Menu.Item>
+                    <Menu.Item key="sub1-2">
+                        <CustomLink to="category">Category</CustomLink>
+                    </Menu.Item>
+                </Menu.SubMenu>
+                <Menu.Item>
                     <CustomLink to='/'>
                         <button onClick={LogoutByButton} className='btn btn-danger btn-block'>Log out</button>
                     </CustomLink>
-                </ul>
+                </Menu.Item>
 
-            </nav>
+            </Menu>
+
             <Outlet />
         </div >
     )
