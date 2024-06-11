@@ -4,15 +4,15 @@ namespace Application.Interfaces;
 
 public interface IFirebaseStorageService
 {
-    Task<string> UploadImageAsync(IFormFile imageFile, string? imageName = default);
+    Task<string> UploadImageAsync(IFormFile imageFile, string imagePath);
 
-    string GetImageUrl(string imageName);
+    string GetImageUrl(string folderName, string imageName);
 
-    Task<string> UpdateImageAsync(IFormFile imageFile, string imageName);
+    Task<string> UpdateImageAsync(IFormFile imageFile, string imagePath);
 
     Task DeleteImageAsync(string imageName);
     
     Task DeleteImagesAsync(List<string> imageUrls);
     
-    Task<string[]> UploadImagesAsync(List<IFormFile> imageFiles);
+    Task<string[]> UploadImagesAsync(List<IFormFile> imageFiles, string folderPath);
 }

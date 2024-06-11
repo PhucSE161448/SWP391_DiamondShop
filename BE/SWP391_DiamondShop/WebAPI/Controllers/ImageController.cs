@@ -10,18 +10,11 @@ public class ImageController : BaseController
     {
         _service = service;
     }
-    [HttpPost("test-upload")]
-    public async Task<ActionResult> TestUpload(IFormFile file)
-    {
-
-        return Created(nameof(TestUpload), await _service.UploadImageAsync(file));
-    }
-    [HttpDelete("{fileName}")]
-    public async Task<ActionResult> TestUpload(string fileName)
-    {
-
-        await _service.DeleteImageAsync(fileName);
-        return Ok();
-    }
+    // [HttpPost("test-upload")]
+    // public async Task<ActionResult> TestUpload(IFormFile file)
+    // {
+    //
+    //     return Created(nameof(TestUpload), await _service.UploadImageAsync(file));
+    // }
     
 }

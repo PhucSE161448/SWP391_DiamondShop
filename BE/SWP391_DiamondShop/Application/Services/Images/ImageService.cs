@@ -24,8 +24,8 @@ public class ImageService : IImageService
         {
             throw new BadRequestException("No Image File found");
         }
-
-        var imageUrls = await _firebaseStorageService.UploadImagesAsync(imageFiles);
+        var folderPath = $"diamond/{diamondId}";
+        var imageUrls = await _firebaseStorageService.UploadImagesAsync(imageFiles, folderPath);
         var images = imageUrls.Select(url => new Image { DiamondId = diamondId, UrlPath = url }).ToList();
         await _unitOfWork.ImageRepo.AddRangeAsync(images);
         await _unitOfWork.SaveChangeAsync();
@@ -37,8 +37,8 @@ public class ImageService : IImageService
         {
             throw new BadRequestException("No Image File found");
         }
-
-        var imageUrls = await _firebaseStorageService.UploadImagesAsync(imageFiles);
+        var folderPath = $"product/{productId}";
+        var imageUrls = await _firebaseStorageService.UploadImagesAsync(imageFiles, folderPath);
         var images = imageUrls.Select(url => new Image { ProductId = productId, UrlPath = url }).ToList();
         await _unitOfWork.ImageRepo.AddRangeAsync(images);
         await _unitOfWork.SaveChangeAsync();
