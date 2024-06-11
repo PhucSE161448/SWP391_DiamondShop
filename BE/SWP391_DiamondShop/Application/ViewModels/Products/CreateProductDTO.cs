@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Application.ViewModels.ProductParts;
 using Application.ViewModels.ProductSizes;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.ViewModels.Products;
 
@@ -17,7 +18,8 @@ public class CreateProductDTO
     public int CategoryId { get; set; }
     [Required]
     public int WarrantyDocumentsId { get; set; }
-    //public ICollection<Image> Images { get; set; }
-    public ICollection<CreateProductPartDTO> CreateProductPartDtos { get; set; } = new List<CreateProductPartDTO>();
-    public ICollection<CreateProductSizeDTO> CreateProductSizeDtos { get; set; } = new List<CreateProductSizeDTO>();
+
+    public List<IFormFile> ProductImages { get; set; } = new List<IFormFile>();
+    public List<CreateProductPartDTO> CreateProductPartDtos { get; set; } = new List<CreateProductPartDTO>();
+    public List<CreateProductSizeDTO> CreateProductSizeDtos { get; set; } = new List<CreateProductSizeDTO>();
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Domain.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.ViewModels.Diamonds;
 
@@ -20,6 +21,11 @@ public class CreateDiamondDTO
     public string Cut { get; set; }
     [Required]
     public decimal Price { get; set; }
+
+    public List<IFormFile> DiamondImages { get; set; } = new List<IFormFile>();
+    
     [Required]
     public int Quantity { get; set; }
+
+    
 }

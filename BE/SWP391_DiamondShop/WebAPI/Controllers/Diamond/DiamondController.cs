@@ -16,13 +16,13 @@ namespace WebAPI.Controllers.Diamond
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDiamond([FromBody] CreateDiamondDTO createDiamondDto)
+        public async Task<IActionResult> CreateDiamond([FromForm] CreateDiamondDTO createDiamondDto)
         {
             return Created(nameof(CreateDiamond), await service.CreateDiamond(createDiamondDto));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDiamond(int id, [FromBody] UpdateDiamondDTO updateDiamondDto)
+        public async Task<IActionResult> UpdateDiamond(int id, [FromForm] UpdateDiamondDTO updateDiamondDto)
         {
             await service.UpdateDiamond(id, updateDiamondDto);
             return NoContent();

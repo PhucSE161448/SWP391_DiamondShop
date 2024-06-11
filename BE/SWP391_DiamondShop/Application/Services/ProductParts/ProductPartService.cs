@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Interfaces.ProductPart;
+using Application.Interfaces.ProductParts;
 using Application.ViewModels.ProductParts;
 using AutoMapper;
 using Domain.Model;
@@ -16,33 +16,23 @@ public class ProductPartService : IProductPartService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
-    
+
+
+    public async Task DeleteProductPart(IEnumerable<ProductPart> productParts)
+    {
+        await _unitOfWork.ProductPartRepo.DeleteRangeAsync(productParts);
+        await _unitOfWork.SaveChangeAsync();
+    }
 
     public async Task UpdateOrCreateProductPart(int productId, ICollection<UpdateProductPartDTO> updateProductPartDtos)
     {
-        var existingProductParts = await _unitOfWork.ProductPartRepo.GetAllAsync(p => p.ProductId == productId);
-    
-        var newProductParts = updateProductPartDtos
-            .Where(p => !existingProductParts.Any(e => e.Id == p.Id))
-            .Select(p => _mapper.Map<ProductPart>(p))
-            .ToList();
-
-        foreach (var existingPart in existingProductParts)
+        var productPart = updateProductPartDtos.Select(p =>
         {
-            var updatePart = updateProductPartDtos.FirstOrDefault(p => p.Id == existingPart.Id);
-            if (updatePart == null) continue;
-            _mapper.Map(updatePart, existingPart);
-            _unitOfWork.ProductPartRepo.Update(existingPart);
-        }
-        if (newProductParts.Any())
-        {
-            foreach (var newPart in newProductParts)
-            {
-                newPart.ProductId = productId;
-            }
-            await _unitOfWork.ProductPartRepo.AddRangeAsync(newProductParts);
-        }
-
+            var productPart = _mapper.Map<ProductPart>(p);
+            productPart.ProductId = productId;
+            return productPart;
+        }).ToList();
+        await _unitOfWork.ProductPartRepo.AddRangeAsync(productPart);
         await _unitOfWork.SaveChangeAsync();
     }
 }

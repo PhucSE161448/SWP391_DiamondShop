@@ -11,7 +11,10 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces.Images;
+using Application.IRepositories.Images;
 using Domain.Model;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.Diamonds
 {
@@ -19,11 +22,13 @@ namespace Application.Services.Diamonds
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
 
-        public DiamondService(IUnitOfWork unitOfWork, IMapper mapper)
+        public DiamondService(IUnitOfWork unitOfWork, IMapper mapper, IImageService imageService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
         public async Task<GetDiamondDetailDTO> GetDiamondDetailById(int id)
@@ -44,18 +49,32 @@ namespace Application.Services.Diamonds
                            + createDiamondDto.Cut;
             await _unitOfWork.DiamondRepo.AddAsync(diamond);
             await _unitOfWork.SaveChangeAsync();
+            if (!createDiamondDto.DiamondImages.IsNullOrEmpty())
+            {
+                await _imageService.UploadDiamondImages(createDiamondDto.DiamondImages, diamond.Id);
+            }
             return new GetDiamondIdDTO { Id = diamond.Id };
         }
 
         public async Task UpdateDiamond(int id, UpdateDiamondDTO updateDiamondDto)
         {
-            var diamond = await _unitOfWork.DiamondRepo.GetByIdAsync(id);
+            var diamond = await _unitOfWork.DiamondRepo.GetAsync(p => p.Id == id, "Images");
             if (diamond is null)
             {
                 throw new NotFoundException("Diamond is not existed");
             }
             _unitOfWork.DiamondRepo.Update(_mapper.Map(updateDiamondDto, diamond));
+            if (diamond.Images.Any())
+            {
+                await _imageService.DeleteImages(diamond.Images);
+                diamond.Images.Clear();
+            }
+
             await _unitOfWork.SaveChangeAsync();
+            if (!updateDiamondDto.DiamondImages.IsNullOrEmpty())
+            {
+                await _imageService.UploadDiamondImages(updateDiamondDto.DiamondImages, diamond.Id);
+            }
         }
 
         public async Task<Pagination<GetDiamondPaginationDTO>> GetPageDiamonds(QueryDiamondDTO queryDiamondDTO)

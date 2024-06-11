@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.IRepositories.Categories;
+using Application.IRepositories.Images;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.ProductSizes;
 using Application.IRepositories.Roles;
@@ -25,6 +26,7 @@ namespace Application.Interfaces
         public IProductPartRepo ProductPartRepo { get; }
         public IProductSizeRepo ProductSizeRepo { get; }
         public IRoleRepo RoleRepo { get; }
+        public IImageRepo ImageRepo { get; }
         public Task<int> SaveChangeAsync();
     }
 }

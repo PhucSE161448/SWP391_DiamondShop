@@ -19,6 +19,9 @@ namespace Application.IRepositories
         void SoftRemove(T entity);
         Task AddRangeAsync(List<T> entities);
         void SoftRemoveRange(List<T> entities);
+        Task DeleteAsync(T entity);
+
+        Task DeleteRangeAsync(IEnumerable<T> entities);
 
         /* Task<Pagination<T>> ToPagination(int pageNumber = 0, int pageSize = 10);*/
     }

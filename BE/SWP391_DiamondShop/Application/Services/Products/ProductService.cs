@@ -11,9 +11,11 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Interfaces.ProductPart;
-using Application.Interfaces.ProductSize;
+using Application.Interfaces.Images;
+using Application.Interfaces.ProductParts;
+using Application.Interfaces.ProductSizes;
 using Domain.Model;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.Products
 {
@@ -23,13 +25,15 @@ namespace Application.Services.Products
         private readonly IMapper _mapper;
         private readonly IProductPartService _productPartService;
         private readonly IProductSizeService _productSizeService;
+        private readonly IImageService _imageService;
 
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IProductPartService productPartService, IProductSizeService productSizeService)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IProductPartService productPartService, IProductSizeService productSizeService, IImageService imageService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _productPartService = productPartService;
             _productSizeService = productSizeService;
+            _imageService = imageService;
         }
         public async Task<Pagination<GetProductPaginationDTO>> GetPagedProducts(QueryProductDTO queryProductDTO)
         {
@@ -62,10 +66,14 @@ namespace Application.Services.Products
                     throw new NotFoundException($"Diamond with ID: {diamondId} is not existed");
                 }
             }
-
+            
             var product = _mapper.Map<Product>(createProductDto); 
             await _unitOfWork.ProductRepo.AddAsync(product);
             await _unitOfWork.SaveChangeAsync();
+            if (!createProductDto.ProductImages.IsNullOrEmpty())
+            {
+                await _imageService.UploadProductImages(createProductDto.ProductImages, product.Id);
+            }
             var productParts = createProductDto.CreateProductPartDtos.Select(p =>
             {
                 var productPart = _mapper.Map<ProductPart>(p);
@@ -87,7 +95,7 @@ namespace Application.Services.Products
 
         public async Task UpdateProduct(int id, UpdateProductDTO updateProductDto)
         {
-            var product = await _unitOfWork.ProductRepo.GetByIdAsync(id);
+            var product = await _unitOfWork.ProductRepo.GetAsync(p => p.Id == id, "ProductParts, ProductSizes, Images");
             if (product is null)
             {
                 throw new NotFoundException("Product is not existed");
@@ -113,9 +121,35 @@ namespace Application.Services.Products
             }
             _mapper.Map(updateProductDto, product);
             _unitOfWork.ProductRepo.Update(product);
+            if (product.ProductParts.Any())
+            {
+                await _unitOfWork.ProductPartRepo.DeleteRangeAsync(product.ProductParts);
+                product.ProductParts.Clear();
+            }
+
+            if (product.Images.Any())
+            {
+                await _imageService.DeleteImages(product.Images);
+                product.Images.Clear();
+            }
+
+            if (product.ProductSizes.Any())
+            {
+                await _productSizeService.DeleteProductSize(product.ProductSizes);
+                product.ProductSizes.Clear();
+            }
             await _unitOfWork.SaveChangeAsync();
             await _productPartService.UpdateOrCreateProductPart(id, updateProductDto.UpdateProductPartDtos);
-            await _productSizeService.UpdateOrCreateProductSizes(id, updateProductDto.UpdateProductSizeDtos);
+            if (!updateProductDto.UpdateProductSizeDtos.IsNullOrEmpty())
+            {
+                await _productSizeService.UpdateOrCreateProductSizes(id, updateProductDto.UpdateProductSizeDtos);
+            }
+
+            if (!updateProductDto.ProductImages.IsNullOrEmpty())
+            {
+                await _imageService.UploadProductImages(updateProductDto.ProductImages, product.Id);
+            }
+            
         }
 
         public async Task<GetProductDetailDTO> GetProductDetailById(int id)
