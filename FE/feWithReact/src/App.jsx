@@ -33,8 +33,8 @@ export default function App() {
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
           <Route path='/admin' element={<Admin />}>
-            <Route path='category' element={<Category />}></Route>
             <Route path='account' element={<Account />}></Route>
+            <Route path='category' element={<Category />}></Route>
           </Route>
 
         </Routes >

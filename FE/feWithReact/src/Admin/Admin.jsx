@@ -3,8 +3,8 @@ import { jwtDecode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react';
 import './Admin.css'
+import NavbarAdmin from './Navbar/NavbarAdmin'
 
-import NavbarAdmin from './Navbar/NavbarAdmin';
 export default function AdminNav() {
     let navigate = useNavigate();
 

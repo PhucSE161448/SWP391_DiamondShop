@@ -20,11 +20,11 @@ export default function NavbarAdmin() {
                     <CustomLink to="/admin">Admin</CustomLink>
 
                     <li onMouseEnter={hoverTheList} onMouseLeave={unhoverTheList}>
-                        <a>Element</a> <CaretDownOutlined />
+                        <a className='Element'>Element</a> <CaretDownOutlined />
                         {hidden &&
                             <div id='childrenOfList'>
-                                <CustomLink to="category">Category</CustomLink>
                                 <CustomLink to="account">Account</CustomLink>
+                                <CustomLink to="category">Category</CustomLink>
                             </div>
                         }
                     </li>
