@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import CreateAccount from './CreateAccount'
 import ReadAccountByName from './ReadAccountByName'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button, styled, Modal, Box } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SendIcon from '@mui/icons-material/Send'
 import CancelIcon from '@mui/icons-material/Cancel'
-import UpdateAccount from './UpdateAccount';
+import UpdateAccount from './UpdateAccount'
 
-import { amber } from '@mui/material/colors'
 export default function ReadAccount() {
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
 	const [data, setData] = useState(null)
 	const [triggerRead, setTriggerRead] = useState(false)
 	const [selectedForDeletion, setSelectedForDeletion] = useState(null)
-	const [showDelete, setShowDelete] = useState(false)
 	const [selectedForUpdate, setSelectedForUpdate] = useState(null)
+	const [showDelete, setShowDelete] = useState(false)
+
 	const columns = [
 		{ id: '#', label: '#', align: 'left', },
 		{ id: 'Name', label: 'Name', align: 'left', },
@@ -24,17 +24,17 @@ export default function ReadAccount() {
 		{ id: 'PhoneNumber', label: 'Phone number', align: 'left', },
 		{ id: 'Address', label: 'Address', align: 'left', },
 		{ id: 'Role', label: 'Role', align: 'left', },
-	];
+	]
 
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
-	};
+	}
 
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
-	};
+	}
 
 	function getRoleName(roleId) {
 		switch (roleId) {
@@ -119,7 +119,7 @@ export default function ReadAccount() {
 										{column.label}
 									</TableCell>
 								))}
-								<TableCell><ReadAccountByName></ReadAccountByName></TableCell>
+								<TableCell><ReadAccountByName onAccountRead={() => setTriggerRead(prev => !prev)}></ReadAccountByName></TableCell>
 								<TableCell><CreateAccount onAccountCreated={() => setTriggerRead(prev => !prev)}></CreateAccount></TableCell>
 							</TableRow>
 						</TableHead>

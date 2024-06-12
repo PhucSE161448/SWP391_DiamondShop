@@ -95,7 +95,7 @@ namespace Application.Services.Products
 
         public async Task UpdateProduct(int id, UpdateProductDTO updateProductDto)
         {
-            var product = await _unitOfWork.ProductRepo.GetAsync(p => p.Id == id, "ProductParts, ProductSizes, Images");
+            var product = await _unitOfWork.ProductRepo.GetProductDetailById(id);
             if (product is null)
             {
                 throw new NotFoundException("Product is not existed");

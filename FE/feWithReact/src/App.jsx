@@ -6,11 +6,10 @@ import Ring from './Pages/Ring'
 import DiamondPage from './Pages/DiamondPage'
 import Login from './Auth/Login'
 import SignUp from './Auth/SignUp'
-// import LogoutAndRedirect from './Auth/AuthFucntion'
+// import LogoutAndRedirect from './Auth/AuthFunction'
 
 import Category from './Admin/Elements/Category/Category'
 import Account from './Admin/Elements/Account/Account'
-import Diamond from './Admin/Elements/Diamond/Diamond'
 import Admin from './Admin/Admin'
 export default function App() {
   return (
@@ -34,9 +33,8 @@ export default function App() {
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
           <Route path='/admin' element={<Admin />}>
-            <Route path='category' element={<Category />}></Route>
-            <Route path='account' element={<Account />}></Route>
-            <Route path='diamond' element={<Diamond />}></Route>
+            <Route path="account" element={<Account />} />
+            <Route path="category" element={<Category />} />
           </Route>
 
         </Routes >

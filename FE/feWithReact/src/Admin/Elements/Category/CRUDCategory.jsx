@@ -6,7 +6,7 @@ import UpdateIcon from '@mui/icons-material/Update'
 import CreateCategory from './CreateCategory'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { amber } from '@mui/material/colors'
-
+import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 const UpdateButton = styled(Button)(({ theme }) => ({
 	color: theme.palette.getContrastText(amber[500]),
 	backgroundColor: amber[500],

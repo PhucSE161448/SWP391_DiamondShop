@@ -1,0 +1,49 @@
+INSERT INTO [SWP391_DiamondShop].[dbo].[Products] 
+    ([Id], [Name], [Gender], [Quantity], [Category_Id], [WarrantyDocuments_Id], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [DeletedBy], [DeletedDate], [IsDeleted])
+VALUES
+    (1, 'Product1', 0, 10, 1, 1, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (2, 'Product2', 1, 20, 2, 2, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (3, 'Product3', 0, 30, 3, 3, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (4, 'Product4', 0, 15, 4, 4, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (5, 'Product5', 1, 25, 5, 5, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (6, 'Product6', 0, 35, 6, 6, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (7, 'Product7', 0, 18, 7, 7, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (8, 'Product8', 1, 28, 8, 8, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (9, 'Product9', 0, 38, 9, 9, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (10, 'Product10', 0, 12, 10, 10, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (11, 'Product11', 1, 22, 11, 11, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (12, 'Product12', 0, 32, 12, 12, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (13, 'Product13', 0, 14, 13, 13, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (14, 'Product14', 1, 24, 14, 14, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (15, 'Product15', 0, 34, 15, 15, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (16, 'Product16', 0, 16, 16, 16, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (17, 'Product17', 1, 26, 17, 17, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (18, 'Product18', 0, 36, 18, 18, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (19, 'Product19', 0, 19, 19, 19, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (20, 'Product20', 1, 29, 20, 20, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (21, 'Product21', 0, 39, 21, 21, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (22, 'Product22', 0, 11, 22, 22, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (23, 'Product23', 1, 21, 23, 23, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0),
+    (24, 'Product24', 0, 31, 24, 24, 'Admin', '2024-06-11', NULL, NULL, NULL, NULL, 0);
+
+const params = {
+  queryDTO: {
+    PageNumber: 2,
+    PageSize: 10,
+    SortBy: 'Name',
+    OrderByDesc: false
+  },
+};
+
+const queryString = new URLSearchParams(params).toString();
+
+fetch(`/api/Product/GetPagedProducts?${queryString}`)
+  .then(response => response.json())
+  .then(data => {
+    // Xử lý kết quả trả về ở đây
+    console.log(data);
+  })
+  .catch(error => {
+    // Xử lý lỗi ở đây
+    console.error(error);
+  });
