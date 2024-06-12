@@ -36,7 +36,6 @@ namespace Infrastructures.Repositories.Diamonds
             var query = _dbContext.Diamonds.AsNoTracking()
                                           .Where(p => p.IsDeleted == false)
                                           .Include(p => p.Images)
-                                          .AsSplitQuery()
                                           .AsQueryable();
             query = query.ApplyDiamondsFilter(queryDiamondDTO);
             query = orderByDesc == true ? query.OrderByDescending(GetSortProperty(sortBy))
