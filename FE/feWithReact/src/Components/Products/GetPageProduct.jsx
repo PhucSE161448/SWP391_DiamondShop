@@ -39,23 +39,24 @@ export default function GetPageProduct() {
   return (
     <div style={{
       display: 'flex',
-      justifyContent: 'flex-end'
     }}>
       {/* <button onClick={() => setTriggerRead(prev => !prev)}>
         Hello {console.log(data)}
       </button> */}
       <Box>
-        <Grid container rowSpacing={1}>
+        <Grid container rowSpacing={30} columnSpacing={3}>
           {data && data.map((item, index) => (
             <Grid item xs={3}>
               <Card div key={index}
                 sx={{
-                  width: '50%',
-                  margin: '100px'
-                }}>
-                <CardContent>
+                  width: '75%',
+                  margin: '50px 50px 0 50px',
+
+                }}
+              >
+                <CardContent >
                   <p>{item.name}</p>
-                  <p>Category: {item.category.name}</p>
+                  <p>{item.category.name}</p>
                   <p>Stock: {item.quantity}</p>
                 </CardContent>
               </Card>
