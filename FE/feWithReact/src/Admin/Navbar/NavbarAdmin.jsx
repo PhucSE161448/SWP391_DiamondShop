@@ -25,6 +25,7 @@ export default function NavbarAdmin() {
                             <div id='childrenOfList'>
                                 <CustomLink to="category">Category</CustomLink>
                                 <CustomLink to="account">Account</CustomLink>
+                                <CustomLink to="diamond">Diamond</CustomLink>
                             </div>
                         }
                     </li>

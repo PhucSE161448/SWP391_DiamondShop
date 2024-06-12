@@ -10,6 +10,7 @@ import SignUp from './Auth/SignUp'
 
 import Category from './Admin/Elements/Category/Category'
 import Account from './Admin/Elements/Account/Account'
+import Diamond from './Admin/Elements/Diamond/Diamond'
 import Admin from './Admin/Admin'
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
           <Route path='/admin' element={<Admin />}>
             <Route path='category' element={<Category />}></Route>
             <Route path='account' element={<Account />}></Route>
+            <Route path='diamond' element={<Diamond />}></Route>
           </Route>
 
         </Routes >
