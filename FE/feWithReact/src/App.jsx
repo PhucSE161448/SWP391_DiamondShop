@@ -6,7 +6,7 @@ import Ring from './Pages/Ring'
 import DiamondPage from './Pages/DiamondPage'
 import Login from './Auth/Login'
 import SignUp from './Auth/SignUp'
-// import LogoutAndRedirect from './Auth/AuthFucntion'
+// import LogoutAndRedirect from './Auth/AuthFunction'
 
 import Category from './Admin/Elements/Category/Category'
 import Account from './Admin/Elements/Account/Account'

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import "./Login.css"
 import { useState, useEffect } from 'react';
-import { validateUser } from './AuthFucntion';
+import { validateUser } from './AuthFunction';
 import { jwtDecode } from 'jwt-decode';
 export default function Login() {
 

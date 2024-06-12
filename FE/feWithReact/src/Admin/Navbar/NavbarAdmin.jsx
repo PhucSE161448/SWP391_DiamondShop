@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useMatch, useResolvedPath, Outlet } from 'react-router-dom'
 import './NavbarAdmin.css'
-import { LogoutByButton } from '../../Auth/AuthFucntion'
+import { LogoutByButton } from '../../Auth/AuthFunction'
 import { CaretDownOutlined } from '@ant-design/icons'
 import { Layout, Menu, } from 'antd';
 export default function NavbarAdmin() {
