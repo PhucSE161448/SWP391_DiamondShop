@@ -1,10 +1,9 @@
 import React from 'react'
-import Navbar from '../Components/NavBar/NavBar'
-import Header from '../Components/Header/Header'
+import GetPageProduct from '../Components/Products/GetPageProduct'
 export default function Ring() {
     return (
         <>
-            <div>RING</div>
+            <GetPageProduct></GetPageProduct>
         </>
     )
 }
