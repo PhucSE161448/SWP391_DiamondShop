@@ -32,7 +32,6 @@ namespace Infrastructures.Repositories.Products
                                           .Include(p => p.ProductSizes)
                                           .Include(p => p.Images)
                                           .Include(p => p.WarrantyDocuments)
-                                          .AsSplitQuery()
                                           .AsQueryable();
             query = query.ApplyProductFilter(queryProductDTO);
             query = orderByDesc == true ? query.OrderByDescending(GetSortProperty(sortBy)) : query.OrderBy(GetSortProperty(sortBy));
