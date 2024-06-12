@@ -23,9 +23,9 @@ public class ProductSizeService : IProductSizeService
         await _unitOfWork.SaveChangeAsync();
     }
 
-    public async Task UpdateOrCreateProductSizes(int productId, ICollection<UpdateProductSizeDTO> updateProductSizeDtos)
+    public async Task CreateProductSizes(int productId, List<CreateProductSizeDTO> createProductSizeDtos)
     {
-        var productSizes = updateProductSizeDtos.Select(p =>
+        var productSizes = createProductSizeDtos.Select(p =>
         {
             var productSize = _mapper.Map<ProductSize>(p);
             productSize.ProductId = productId;

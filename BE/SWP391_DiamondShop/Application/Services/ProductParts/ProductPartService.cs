@@ -24,9 +24,9 @@ public class ProductPartService : IProductPartService
         await _unitOfWork.SaveChangeAsync();
     }
 
-    public async Task UpdateOrCreateProductPart(int productId, ICollection<UpdateProductPartDTO> updateProductPartDtos)
+    public async Task CreateProductPart(int productId, List<CreateProductPartDTO> createProductPartDtos)
     {
-        var productPart = updateProductPartDtos.Select(p =>
+        var productPart = createProductPartDtos.Select(p =>
         {
             var productPart = _mapper.Map<ProductPart>(p);
             productPart.ProductId = productId;

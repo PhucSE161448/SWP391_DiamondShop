@@ -6,5 +6,5 @@ namespace Application.Interfaces.ProductSizes;
 public interface IProductSizeService
 {
     Task DeleteProductSize(IEnumerable<ProductSize> productSizes);
-    Task UpdateOrCreateProductSizes(int productId, ICollection<UpdateProductSizeDTO> updateProductSizeDtos);
+    Task CreateProductSizes(int productId, List<CreateProductSizeDTO> createProductSizeDtos);
 }
