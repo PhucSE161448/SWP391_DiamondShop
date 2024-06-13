@@ -1,41 +1,53 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Link, useMatch, useResolvedPath, Outlet } from 'react-router-dom'
 import './NavbarAdmin.css'
 import { LogoutByButton } from '../../Auth/AuthFunction'
 import { CaretDownOutlined } from '@ant-design/icons'
-import { Layout, Menu, } from 'antd';
+import { Menu, } from 'antd';
+import { Button } from '@mui/material';
 export default function NavbarAdmin() {
-	const [hidden, setHidden] = useState(false)
-	function hoverTheList() {
-		setHidden(true)
+
+	const navigate = useNavigate();
+
+	function goToCategory() {
+		navigate('/admin/category');
 	}
 
-	function unhoverTheList() {
-		setHidden(false)
+	function goToAccount() {
+		navigate('/admin/account');
+	}
+
+	function goToHome() {
+		navigate('/');
+	}
+
+	function goToAdmin() {
+		navigate('/admin');
+	}
+	function goToProductCreate() {
+		navigate('/admin/product/create');
 	}
 	return (
 		<div>
 			<Menu theme="dark" className='container-fluid' id='navbarAdminContainer'>
 				<Menu.Item>
-					<CustomLink to="/">Home</CustomLink>
+					<Button onClick={goToHome} sx={{ color: '#a6adb4' }}>Home</Button>
 				</Menu.Item>
 				<Menu.Item>
-					<CustomLink to="/admin">Admin</CustomLink>
+					<Button onClick={goToAdmin} sx={{ color: '#a6adb4' }}>Admin</Button>
 				</Menu.Item>
 
-				<Menu.SubMenu key="sub1" title={<span className='Element'>Element</span>} mode="vertical">
-					<Menu.Item key="sub1-1">
-						<CustomLink to="account">Account</CustomLink>
+				<Menu.SubMenu key="sub1" title={<Button sx={{ color: '#a6adb4' }}>Element</Button>} mode="vertical">
+					<Menu.Item>
+						<Button onClick={goToCategory} sx={{ color: '#a6adb4' }}>Category</Button>
 					</Menu.Item>
-					<Menu.Item key="sub1-2">
-						<CustomLink to="category">Category</CustomLink>
+					<Menu.Item>
+						<Button onClick={goToAccount} sx={{ color: '#a6adb4' }}>Account</Button>
 					</Menu.Item>
-					<Menu.SubMenu key="sub1-3" title={<a>Product</a>}>
+					<Menu.SubMenu key="sub1-3" title={<Button sx={{ color: '#a6adb4' }}>Product</Button>}>
 						<Menu.Item key="sub1-3-1">
-							<CustomLink to="create">Create</CustomLink>
-						</Menu.Item>
-						<Menu.Item key="sub1-3-2">
-							<CustomLink to="">List</CustomLink>
+							<Button onClick={goToProductCreate} sx={{ color: '#a6adb4' }}>Create</Button>
 						</Menu.Item>
 					</Menu.SubMenu>
 				</Menu.SubMenu>

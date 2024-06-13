@@ -60,7 +60,7 @@ export default function ReadAccountByName(props) {
 			setData('')
 		}
 		if (nameAccount) {
-			const url = 'https://localhost:7122/api/Account/SearchByName/' + nameAccount;
+			const url = 'https://localhost:7054/api/Account/SearchByName/' + nameAccount;
 			fetch(url, {
 				method: 'GET',
 				headers: {
@@ -83,7 +83,7 @@ export default function ReadAccountByName(props) {
 
 	function handleSubmitDelete(idAccount) {
 		if (idAccount) {
-			const url = 'https://localhost:7122/api/Account/DeleteUser/' + idAccount
+			const url = 'https://localhost:7054/api/Account/DeleteUser/' + idAccount
 			fetch(url, {
 				method: 'DELETE',
 				headers: {

@@ -52,7 +52,7 @@ export default function ReadAccount() {
 	useEffect(() => {
 		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
 		function Read() {
-			const url = 'https://localhost:7122/api/Account/GetAccountList';
+			const url = 'https://localhost:7054/api/Account/GetAccountList';
 			fetch(url, {
 				method: 'GET',
 				headers: {
@@ -83,7 +83,7 @@ export default function ReadAccount() {
 	}
 	function handleSubmitDelete(idAccount) {
 		if (idAccount) {
-			const url = 'https://localhost:7122/api/Account/DeleteUser/' + idAccount
+			const url = 'https://localhost:7054/api/Account/DeleteUser/' + idAccount
 			fetch(url, {
 				method: 'DELETE',
 				headers: {

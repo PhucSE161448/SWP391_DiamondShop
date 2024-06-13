@@ -50,7 +50,7 @@ export default function CreateAccount(props) {
 	}
 
 	function CreateAccount(Email, Password, Name, Address, Gender, Phone, Role) {
-		const url = 'https://localhost:7122/api/Account/CreateUser'
+		const url = 'https://localhost:7054/api/Account/CreateUser'
 		const data = {
 			name: Name,
 			email: Email,

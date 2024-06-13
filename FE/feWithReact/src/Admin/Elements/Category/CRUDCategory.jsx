@@ -26,7 +26,7 @@ export default function CRUDCategory() {
 
 	function handleSubmitDelete(id) {
 		if (id) {
-			const url = 'https://localhost:7122/api/Category/Delete/' + id
+			const url = 'https://localhost:7054/api/Category/Delete/' + id
 			fetch(url, {
 				method: 'DELETE',
 				headers: {
@@ -41,7 +41,7 @@ export default function CRUDCategory() {
 	}
 
 	function UpdateCategory(Id, Name) {
-		const url = 'https://localhost:7122/api/Category/UpdateCategory/' + Id
+		const url = 'https://localhost:7054/api/Category/UpdateCategory/' + Id
 		const Data = {
 			"name": Name,
 			"isDeleted": false
@@ -66,7 +66,7 @@ export default function CRUDCategory() {
 	useEffect(() => {
 		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
 		function Read() {
-			const url = 'https://localhost:7122/api/Category/GetAllCategories';
+			const url = 'https://localhost:7054/api/Category/GetAllCategories';
 			fetch(url, {
 				method: 'GET',
 				headers: {
