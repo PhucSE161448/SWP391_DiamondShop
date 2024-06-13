@@ -154,6 +154,32 @@ namespace Application.Services.Products
             }
         }
 
+        public async Task DeleteOrEnable(int productId, bool isDeleted)
+        {
+            var product = await _unitOfWork.ProductRepo.GetProductDetailById(productId);
+            if (product is null)
+            {
+                throw new NotFoundException("Product is not existed");
+            }
+
+            product.IsDeleted = isDeleted;
+            foreach (var image in product.Images)
+            {
+                image.IsDeleted = isDeleted;
+            }
+
+            foreach (var productPart in product.ProductParts)
+            {
+                productPart.IsDeleted = isDeleted;
+            }
+
+            foreach (var productSize in product.ProductSizes)
+            {
+                productSize.IsDeleted = isDeleted;
+            }
+            await _unitOfWork.SaveChangeAsync();
+        }
+
         public async Task<GetProductDetailDTO> GetProductDetailById(int id)
         {
             var product = await _unitOfWork.ProductRepo.GetProductDetailById(id);

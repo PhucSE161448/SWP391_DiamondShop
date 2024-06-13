@@ -16,5 +16,6 @@ namespace Application.Interfaces.Diamond
         Task UpdateDiamond(int id, UpdateDiamondDTO updateDiamondDto);
         Task<Pagination<GetDiamondPaginationDTO>> GetPageDiamonds(QueryDiamondDTO queryDiamondDTO);
         Task<GetDiamondDetailDTO> GetDiamondDetailById(int id);
+        Task DeleteOrEnable(int diamondId, bool isDeleted);
     }
 }
