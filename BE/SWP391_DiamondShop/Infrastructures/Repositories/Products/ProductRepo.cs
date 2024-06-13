@@ -26,7 +26,6 @@ namespace Infrastructures.Repositories.Products
         {
             var (pageNumber, pageSize, sortBy, orderByDesc) = queryProductDTO.queryDTO;
             var query = _dbContext.Products.AsNoTracking()
-                                          .Where(p => p.IsDeleted == false)
                                           .Include(p => p.Category)
                                           .Include(p => p.ProductParts)
                                           .Include(p => p.ProductSizes)

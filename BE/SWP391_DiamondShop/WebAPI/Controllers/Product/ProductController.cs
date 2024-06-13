@@ -31,6 +31,12 @@ namespace WebAPI.Controllers.Product
             await service.UpdateProduct(id, updateProductDto);
             return NoContent();
         }
+        [HttpPut("{productId}/{isDeleted}")]
+        public async Task<IActionResult> DeleteOrEnable(int productId, int isDeleted)
+        {
+            await service.DeleteOrEnable(productId, isDeleted > 0);
+            return NoContent();
+        }
         [HttpPut("{productId}")]
         public async Task<IActionResult> UpdateProductProperties(int productId, [FromBody] CreateProductPropertiesDTO createProductPropertiesDto)
         {

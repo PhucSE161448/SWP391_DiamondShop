@@ -41,6 +41,22 @@ namespace Application.Services.Diamonds
             return _mapper.Map<GetDiamondDetailDTO>(diamond);
         }
 
+        public async Task DeleteOrEnable(int diamondId, bool isDeleted)
+        {
+            var diamond = await _unitOfWork.DiamondRepo.GetAsync(d => d.Id == diamondId, "Images");
+            if (diamond is null)
+            {
+                throw new NotFoundException("Diamond is not existed");
+            }
+            diamond.IsDeleted = isDeleted;
+            foreach (var image in diamond.Images)
+            {
+                image.IsDeleted = isDeleted;
+            }
+
+            await _unitOfWork.SaveChangeAsync();
+        }
+
         public async Task<GetDiamondIdDTO> CreateDiamond(CreateDiamondDTO createDiamondDto)
         {
             var diamond = _mapper.Map<Diamond>(createDiamondDto);
