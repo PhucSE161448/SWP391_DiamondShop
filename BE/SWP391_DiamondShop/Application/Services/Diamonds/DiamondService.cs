@@ -4,7 +4,6 @@ using Application.Interfaces;
 using Application.Interfaces.Diamond;
 using Application.ViewModels.Diamonds;
 using Application.ViewModels.Products;
-using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -14,6 +13,7 @@ using System.Threading.Tasks;
 using Application.Interfaces.Images;
 using Application.IRepositories.Images;
 using Domain.Model;
+using Mapster;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.Diamonds
@@ -21,13 +21,11 @@ namespace Application.Services.Diamonds
     public class DiamondService : IDiamondService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly IImageService _imageService;
 
-        public DiamondService(IUnitOfWork unitOfWork, IMapper mapper, IImageService imageService)
+        public DiamondService(IUnitOfWork unitOfWork, IImageService imageService)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _imageService = imageService;
         }
 
@@ -38,7 +36,7 @@ namespace Application.Services.Diamonds
             {
                 throw new NotFoundException("Diamond is not existed");
             }
-            return _mapper.Map<GetDiamondDetailDTO>(diamond);
+            return diamond.Adapt<GetDiamondDetailDTO>();
         }
 
         public async Task DeleteOrEnable(int diamondId, bool isDeleted)
@@ -59,7 +57,7 @@ namespace Application.Services.Diamonds
 
         public async Task<GetDiamondIdDTO> CreateDiamond(CreateDiamondDTO createDiamondDto)
         {
-            var diamond = _mapper.Map<Diamond>(createDiamondDto);
+            var diamond = createDiamondDto.Adapt<Diamond>();
             diamond.Name = createDiamondDto.Origin + " " + createDiamondDto.CaratWeight + " " + createDiamondDto.Color + " "
                            + createDiamondDto.Clarity + " "
                            + createDiamondDto.Cut;
@@ -79,7 +77,7 @@ namespace Application.Services.Diamonds
             {
                 throw new NotFoundException("Diamond is not existed");
             }
-            _unitOfWork.DiamondRepo.Update(_mapper.Map(updateDiamondDto, diamond));
+            _unitOfWork.DiamondRepo.Update(updateDiamondDto.Adapt(diamond));
             if (diamond.Images.Any())
             {
                 await _imageService.DeleteImages(diamond.Images);
@@ -99,7 +97,8 @@ namespace Application.Services.Diamonds
             {
                 throw new BadRequestException("Start price must be less than end price");
             }
-            return _mapper.Map<Pagination<GetDiamondPaginationDTO>>(await _unitOfWork.DiamondRepo.GetPagedDiamonds(queryDiamondDTO));
+            return (await _unitOfWork.DiamondRepo.GetPagedDiamonds(queryDiamondDTO)).Adapt<Pagination<GetDiamondPaginationDTO>>();
+            
         }
     }
 }

@@ -4,7 +4,6 @@ using Application.Interfaces;
 using Application.Interfaces.Products;
 using Application.ViewModels.Products;
 using Application.ViewModels.WarrantyDocuments;
-using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -15,6 +14,7 @@ using Application.Interfaces.Images;
 using Application.Interfaces.ProductParts;
 using Application.Interfaces.ProductSizes;
 using Domain.Model;
+using Mapster;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.Products
@@ -22,15 +22,13 @@ namespace Application.Services.Products
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly IProductPartService _productPartService;
         private readonly IProductSizeService _productSizeService;
         private readonly IImageService _imageService;
 
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IProductPartService productPartService, IProductSizeService productSizeService, IImageService imageService)
+        public ProductService(IUnitOfWork unitOfWork, IProductPartService productPartService, IProductSizeService productSizeService, IImageService imageService)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _productPartService = productPartService;
             _productSizeService = productSizeService;
             _imageService = imageService;
@@ -41,7 +39,8 @@ namespace Application.Services.Products
             {
                 throw new BadRequestException("Start price must be less than end price");
             }
-            return _mapper.Map<Pagination<GetProductPaginationDTO>>(await _unitOfWork.ProductRepo.GetPagedProducts(queryProductDTO));
+            return (await _unitOfWork.ProductRepo.GetPagedProducts(queryProductDTO)).Adapt<Pagination<GetProductPaginationDTO>>();
+            
         }
 
         public async Task<GetProductIdDTO> CreateProduct(CreateProductDTO createProductDto)
@@ -56,7 +55,7 @@ namespace Application.Services.Products
             {
                 throw new NotFoundException("Warranty Document is not existed");
             }
-            var product = _mapper.Map<Product>(createProductDto); 
+            var product = createProductDto.Adapt<Product>(); 
             await _unitOfWork.ProductRepo.AddAsync(product);
             await _unitOfWork.SaveChangeAsync();
             if (!createProductDto.ProductImages.IsNullOrEmpty())
@@ -107,7 +106,7 @@ namespace Application.Services.Products
             {
                 throw new NotFoundException("Warranty Document is not existed");
             }
-            _mapper.Map(updateProductDto, product);
+            updateProductDto.Adapt(product);
             _unitOfWork.ProductRepo.Update(product);
             if (product.Images.Any())
             {
@@ -187,7 +186,7 @@ namespace Application.Services.Products
             {
                 throw new NotFoundException("Product not found");
             }
-            return _mapper.Map<GetProductDetailDTO>(product);
+            return product.Adapt<GetProductDetailDTO>();
         }
     }
 }

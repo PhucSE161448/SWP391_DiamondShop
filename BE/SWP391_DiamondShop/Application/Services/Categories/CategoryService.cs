@@ -3,27 +3,25 @@ using Application.Interfaces;
 using Application.Interfaces.Categories;
 using Application.ViewModels;
 using Application.ViewModels.Categories;
-using AutoMapper;
 using Domain.Model;
+using Mapster;
 
 namespace Application.Services.Categories;
 
 public class CategoryService : ICategoryService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
 
-    public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
+    public CategoryService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
     }
     public async Task<CategoryDTO> AddCategory(AddCategoryDTO addCategoryDto)
     {
-        var category = _mapper.Map<Category>(addCategoryDto);
+        var category = addCategoryDto.Adapt<Category>();
         await _unitOfWork.CategoryRepo.AddAsync(category);
         await _unitOfWork.SaveChangeAsync();
-        return _mapper.Map<CategoryDTO>(category);
+        return category.Adapt<CategoryDTO>();
     }
 
     public async Task<CategoryDTO?> GetCategoryById(int id)
@@ -33,7 +31,8 @@ public class CategoryService : ICategoryService
         {
             throw new NotFoundException("Category is not existed");
         }
-        return _mapper.Map<CategoryDTO>(category);
+
+        return category.Adapt<CategoryDTO>();
     }
 
     public async Task<CategoryDTO> UpdateCategory(int id, UpdateCategoryDTO updateCategoryDto)
@@ -43,9 +42,9 @@ public class CategoryService : ICategoryService
         {
             throw new NotFoundException("Category is not existed");
         }
-        _unitOfWork.CategoryRepo.Update(_mapper.Map(updateCategoryDto, category));
+        _unitOfWork.CategoryRepo.Update(updateCategoryDto.Adapt(category));
         await _unitOfWork.SaveChangeAsync();
-        return _mapper.Map<CategoryDTO>(category);
+        return category.Adapt<CategoryDTO>();
     }
 
     public async Task DeleteCategory(int id)
@@ -68,6 +67,6 @@ public class CategoryService : ICategoryService
     public async Task<List<CategoryDTO>> GetAllCategory()
     {
         var categories = await _unitOfWork.CategoryRepo.GetAllAsync(x => !x.IsDeleted);
-        return _mapper.Map<List<CategoryDTO>>(categories);
+        return categories.Adapt<List<CategoryDTO>>();
     }
 }
