@@ -1,8 +1,8 @@
-import { Box, Container, Grid } from '@mui/material';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import { Box, Grid, Container } from '@mui/material'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState } from 'react'
-
+import { Link } from 'react-router-dom'
 export default function GetPageProduct() {
   const params = {
     queryDTO: {
@@ -37,34 +37,56 @@ export default function GetPageProduct() {
   }, [triggerRead])
 
   return (
-    <div style={{
+    <Container sx={{
       display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+
     }}>
       {/* <button onClick={() => setTriggerRead(prev => !prev)}>
         Hello {console.log(data)}
       </button> */}
-      <Box>
-        <Grid container rowSpacing={30} columnSpacing={3}>
+      <Box sx={{
+        backgroundColor: 'rgba(0,0,0,0.1)',
+
+      }}>
+        <Grid container columnSpacing={3} sx={{ width: '80vw', }}>
           {data && data.map((item, index) => (
+
             <Grid item xs={3}>
               <Card div key={index}
                 sx={{
-                  width: '75%',
                   margin: '50px 50px 0 50px',
-
-                }}
-              >
-                <CardContent >
-                  <p>{item.name}</p>
-                  <p>{item.category.name}</p>
-                  <p>Stock: {item.quantity}</p>
-                </CardContent>
+                  '&:hover': {
+                    backgroundColor: 'rgba(0,0,0,0.1)',
+                    borderRadius: '10px',
+                  }
+                }}>
+                <>
+                  {/* to={`/product/${item.id}`} */}
+                  <CardContent >
+                    {console.log(item.images)}
+                    <img src={item.images[0].urlPath} alt="img" style={{
+                      width: '100%',
+                      borderRadius: '10px',
+                    }} />
+                    <Container sx={{
+                      textAlign: 'center',
+                      padding: '10px',
+                      width: '100%',
+                    }}>
+                      <h2>{item.name}</h2>
+                      <p>{item.category.name}</p>
+                      <p>Stock: {item.quantity}</p>
+                    </Container>
+                  </CardContent>
+                </>
               </Card>
             </Grid>
           ))
           }
         </Grid>
       </Box>
-    </div>
+    </Container>
   )
 }
