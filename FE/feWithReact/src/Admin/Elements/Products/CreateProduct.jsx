@@ -31,7 +31,7 @@ export default function CreateProduct(props) {
   })
 
   const handleImageChange = (e) => {
-    setImage([...e.target.files]); // Cập nhật state với mảng các file được chọn
+    setImage((prevImages) => [...prevImages, ...e.target.files])
   }
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
@@ -42,16 +42,16 @@ export default function CreateProduct(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    // Gọi hàm CreateCaratWeight, truyền weight và price như là các đối số
+
     Create(event)
   }
 
   const handleClear = () => {
     setnameProduct('')
     setGender(null)
-    setQuantity(null)
-    setCategoryId(null)
-    setWarrantyDocumentsId(null)
+    setQuantity('')
+    setCategoryId('')
+    setWarrantyDocumentsId('')
     setImage([])
     setData(null)
   }
@@ -62,7 +62,7 @@ export default function CreateProduct(props) {
 
   function Create(event) {
     event.preventDefault()
-    const url = 'https://localhost:7122/api/Product/CreateProduct'
+    const url = 'https://localhost:7054/api/Product/CreateProduct'
     const formData = new FormData();
 
     // Thêm các trường dữ liệu khác
