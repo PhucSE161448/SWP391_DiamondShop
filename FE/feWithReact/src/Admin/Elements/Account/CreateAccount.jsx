@@ -65,7 +65,6 @@ export default function CreateAccount(props) {
 			headers: {
 				'Content-Type': 'application/json-patch+json',
 				'Accept': '*/*',
-
 			},
 			body: JSON.stringify(data)
 		}).then(response => response.json())

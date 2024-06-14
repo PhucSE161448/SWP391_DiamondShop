@@ -201,7 +201,6 @@ export default function ReadAccountByName(props) {
 								))}
 						</TableBody>
 					</Table>
-
 				</TableContainer>
 				<TablePagination
 					rowsPerPageOptions={[10, 25, 50]}

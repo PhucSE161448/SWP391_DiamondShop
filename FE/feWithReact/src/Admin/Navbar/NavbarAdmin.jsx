@@ -4,68 +4,87 @@ import { Link, useMatch, useResolvedPath, Outlet } from 'react-router-dom'
 import './NavbarAdmin.css'
 import { LogoutByButton } from '../../Auth/AuthFunction'
 import { CaretDownOutlined } from '@ant-design/icons'
-import { Menu, } from 'antd';
-import { Button } from '@mui/material';
+import { Menu, } from 'antd'
+import { Button } from '@mui/material'
+import { Height } from '@mui/icons-material';
 export default function NavbarAdmin() {
 
-	const navigate = useNavigate();
+	const navigate = useNavigate()
 
 	function goToCategory() {
-		navigate('/admin/category');
+		navigate('/admin/category')
 	}
 
 	function goToAccount() {
-		navigate('/admin/account');
+		navigate('/admin/account')
 	}
 
 	function goToHome() {
-		navigate('/');
+		navigate('/')
 	}
 
 	function goToAdmin() {
-		navigate('/admin');
+		navigate('/admin')
 	}
+
 	function goToProductCreate() {
-		navigate('/admin/product/create');
+		navigate('/admin/product/create')
+	}
+
+	function goToProductShow() {
+		navigate('/admin/product/showAllProduct')
+	}
+
+	function Logout() {
+		LogoutByButton()
+		navigate('/')
+	}
+
+	function goToWarranty() {
+		navigate('/admin/warranty')
+	}
+
+	const buttonStyle = {
+		color: '#fff',
+		width: '-webkit-fill-available',
 	}
 	return (
 		<div>
-			<Menu theme="dark" className='container-fluid' id='navbarAdminContainer'>
+			<Menu theme="dark" className='container-fluid' id='navbarAdminContainer' sx={{
+				Height: '-webkit-fill-available',
+			}}>
 				<Menu.Item>
-					<Button onClick={goToHome} sx={{ color: '#a6adb4' }}>Home</Button>
+					<Button onClick={goToHome} sx={buttonStyle}>Home</Button>
 				</Menu.Item>
 				<Menu.Item>
-					<Button onClick={goToAdmin} sx={{ color: '#a6adb4' }}>Admin</Button>
+					<Button onClick={goToAdmin} sx={buttonStyle}>Admin</Button>
 				</Menu.Item>
 
-				<Menu.SubMenu key="sub1" title={<Button sx={{ color: '#a6adb4' }}>Element</Button>} mode="vertical">
+				<Menu.SubMenu key="sub1" title={<Button sx={buttonStyle}>Element</Button>} mode="vertical">
 					<Menu.Item>
-						<Button onClick={goToCategory} sx={{ color: '#a6adb4' }}>Category</Button>
+						<Button onClick={goToCategory} sx={buttonStyle}>Category</Button>
 					</Menu.Item>
 					<Menu.Item>
-						<Button onClick={goToAccount} sx={{ color: '#a6adb4' }}>Account</Button>
+						<Button onClick={goToAccount} sx={buttonStyle}>Account</Button>
 					</Menu.Item>
-					<Menu.SubMenu key="sub1-3" title={<Button sx={{ color: '#a6adb4' }}>Product</Button>}>
+					<Menu.SubMenu key="sub1-3" title={<Button sx={buttonStyle}>Product</Button>}>
 						<Menu.Item key="sub1-3-1">
-							<Button onClick={goToProductCreate} sx={{ color: '#a6adb4' }}>Create</Button>
+							<Button onClick={goToProductCreate} sx={buttonStyle}>Create</Button>
+						</Menu.Item>
+						<Menu.Item key="sub1-3-2">
+							<Button onClick={goToProductShow} sx={buttonStyle}>Show</Button>
 						</Menu.Item>
 					</Menu.SubMenu>
+					<Menu.Item>
+						<Button onClick={goToWarranty} sx={buttonStyle}>Warranty</Button>
+					</Menu.Item>
 				</Menu.SubMenu>
+
 				<Menu.Item>
-					<button onClick={LogoutByButton} className='btn btn-danger btn-block'><CustomLink to="/">Log out</CustomLink></button>
+					<Button onClick={Logout} sx={buttonStyle} color='error' variant="contained">Log out</Button>
 				</Menu.Item>
 			</Menu>
 			<Outlet />
 		</div >
-	)
-}
-function CustomLink({ to, children, ...props }) {
-	const resolvedPath = useResolvedPath(to)
-	const isActive = useMatch({ path: resolvedPath.pathname, end: true })
-
-	return (
-		<Link to={to} {...props} className={isActive ? "active" : ""}>
-			{children}
-		</Link>
 	)
 }
