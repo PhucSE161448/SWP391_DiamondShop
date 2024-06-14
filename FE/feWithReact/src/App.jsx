@@ -13,6 +13,8 @@ import Account from './Admin/Elements/Account/Account'
 import Admin from './Admin/Admin'
 import Product from './Admin/Elements/Products/Product'
 import CreateProduct from './Admin/Elements/Products/CreateProduct'
+import ShowAllProduct from './Admin/Elements/Products/ShowAllProduct'
+import Warranty from './Admin/Elements/Warranty/Warranty'
 export default function App() {
   return (
     <>
@@ -39,7 +41,9 @@ export default function App() {
             <Route path='category' element={<Category />} />
             <Route path='product' element={<Product />}>
               <Route path='create' element={<CreateProduct />}></Route>
+              <Route path='showAllProduct' element={<ShowAllProduct></ShowAllProduct>}></Route>
             </Route>
+            <Route path='warranty' element={<Warranty></Warranty>}> </Route>
           </Route>
 
         </Routes >
