@@ -127,8 +127,8 @@ export default function ReadAccount() {
 							{Array.isArray(data) && data
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((data, index) => (
-									<tr key={data.id}>
-										<TableCell>{index + 1}</TableCell>
+									<TableRow key={data.id}>
+										<TableCell>{index + 1 + page * rowsPerPage}</TableCell>
 										<TableCell>
 											{data.name}
 										</TableCell>
@@ -195,11 +195,10 @@ export default function ReadAccount() {
 												onClick={() => handleUpdate(data.id)}
 												onAccountUpdated={() => setTriggerRead(prev => !prev)}></UpdateAccount>
 										</TableCell>
-									</tr>
+									</TableRow>
 								))}
 						</TableBody>
 					</Table>
-
 				</TableContainer>
 				<TablePagination
 					rowsPerPageOptions={[10, 25, 50]}
