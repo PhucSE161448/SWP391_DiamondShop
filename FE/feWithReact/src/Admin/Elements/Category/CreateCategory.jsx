@@ -36,7 +36,7 @@ export default function CreateCategory(props) {
 	}
 
 	function Create(Name) {
-		const url = 'https://localhost:7054/api/Category/CreateCategory'
+		const url = 'https://localhost:7122/api/Category/CreateCategory'
 		const data = {
 			name: Name
 		}

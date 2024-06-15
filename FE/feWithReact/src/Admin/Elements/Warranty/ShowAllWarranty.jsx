@@ -32,7 +32,7 @@ export default function ShowAllProduct() {
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
     function Read() {
-      const url = 'https://localhost:7054/api/WarrantyDocument';
+      const url = 'https://localhost:7122/api/WarrantyDocument';
       fetch(url, {
         method: 'GET',
         headers: {

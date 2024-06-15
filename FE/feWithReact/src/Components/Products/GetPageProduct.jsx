@@ -5,7 +5,7 @@ import React, { useEffect, useState, setParams } from 'react'
 import { Stack, Pagination, TextField } from '@mui/material'
 export default function GetPageProduct() {
   const [PageNumber, setPageNumber] = useState(1)
-  const [PageSize, setPageSize] = useState(4)
+  const [PageSize, setPageSize] = useState(12)
   const [OrderByDesc, setOrderByDesc] = useState(false)
   const [TotalPage, setTotalPage] = useState(null)
   const [data, setData] = useState(null)
@@ -30,7 +30,7 @@ export default function GetPageProduct() {
       Object.entries(params.queryDTO).forEach(([key, value]) => {
         queryString.append(`queryDTO.${key}`, value)
       })
-      fetch(`https://localhost:7054/api/Product/GetPagedProducts?${queryString.toString()}`)
+      fetch(`https://localhost:7122/api/Product/GetPagedProducts?${queryString.toString()}`)
         .then(response => response.json())
         // .then(response => response.json())
         .then(data => {

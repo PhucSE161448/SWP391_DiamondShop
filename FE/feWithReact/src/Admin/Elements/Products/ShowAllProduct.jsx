@@ -32,7 +32,7 @@ export default function ShowAllProduct() {
       Object.entries(params.queryDTO).forEach(([key, value]) => {
         queryString.append(`queryDTO.${key}`, value)
       })
-      fetch(`https://localhost:7054/api/Product/GetPagedProducts?${queryString.toString()}`)
+      fetch(`https://localhost:7122/api/Product/GetPagedProducts?${queryString.toString()}`)
         .then(response => response.json())
         // .then(response => response.json())
         .then(data => {

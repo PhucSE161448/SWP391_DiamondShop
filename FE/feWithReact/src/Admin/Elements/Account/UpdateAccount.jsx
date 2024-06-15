@@ -47,7 +47,7 @@ export default function UpdateAccount({ onClick, ...props }) {
 		setData(null)
 	}
 	function updateAccount(Id, Email, Name, Gender, Phone, Address) {
-		const url = 'https://localhost:7054/api/Account/UpdateUser/' + Id
+		const url = 'https://localhost:7122/api/Account/UpdateUser/' + Id
 		const data = {
 			"id": parseInt(Id),
 			"name": Name,

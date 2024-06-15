@@ -15,7 +15,7 @@ export default function CreateProduct(props) {
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
     function Read() {
-      const url = 'https://localhost:7054/api/Category/GetAllCategories';
+      const url = 'https://localhost:7122/api/Category/GetAllCategories';
       fetch(url, {
         method: 'GET',
         headers: {
@@ -67,7 +67,7 @@ export default function CreateProduct(props) {
   }
 
   async function Create(values) {
-    const url = 'https://localhost:7054/api/Product/CreateProduct'
+    const url = 'https://localhost:7122/api/Product/CreateProduct'
 
     const formData = new FormData();
     formData.append('Name', values.nameProduct);
@@ -97,7 +97,7 @@ export default function CreateProduct(props) {
     // Set data and productID after the response is received
     const productID = responseData.id;
     // Use const to define productID for this scope
-    const urlCreateProductProperties = 'https://localhost:7054/api/Product/CreateProductProperties/' + productID
+    const urlCreateProductProperties = 'https://localhost:7122/api/Product/CreateProductProperties/' + productID
     const productProperties = {
       "createProductPartDtos": [
         {
