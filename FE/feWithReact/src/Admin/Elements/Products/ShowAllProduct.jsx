@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState, setParams } from 'react'
 import { Stack, Pagination, TextField } from '@mui/material'
 import { Table, TableBody, TableCell, TableContainer, TableHead, ImageList, TableRow, ImageListItem } from '@mui/material'
+import ButtonDeleteProduct from './ButtonDeleteProduct'
 import "swiffy-slider/css"
 export default function ShowAllProduct() {
   const [PageNumber, setPageNumber] = useState(1)
@@ -26,7 +27,6 @@ export default function ShowAllProduct() {
   }
 
   useEffect(() => {
-
     function ReadData() {
       let queryString = new URLSearchParams()
       Object.entries(params.queryDTO).forEach(([key, value]) => {
@@ -45,10 +45,7 @@ export default function ShowAllProduct() {
         })
     }
     ReadData()
-
   }, [triggerRead])
-
-
 
   return (
     <div style={{
@@ -73,6 +70,7 @@ export default function ShowAllProduct() {
                   <TableCell>Product size</TableCell>
                   <TableCell>Quantity</TableCell>
                   <TableCell>Warranty Documents</TableCell>
+                  <TableCell>Deleted</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -107,6 +105,8 @@ export default function ShowAllProduct() {
                           <TableCell> Term: {item.warrantyDocuments.termsAndConditions}</TableCell>
                         </TableRow>
                       </TableCell>
+                      <TableCell><ButtonDeleteProduct id={item.id} /></TableCell>
+
                     </TableRow>
 
                   </>

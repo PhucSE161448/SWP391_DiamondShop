@@ -11,7 +11,6 @@ import DeleteIcon from '@mui/icons-material/Delete'
 export default function CreateProduct(props) {
   const [image, setImage] = useState([])
   const [dataCategory, setDataCategory] = useState(null)
-
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
     function Read() {
@@ -43,6 +42,7 @@ export default function CreateProduct(props) {
     whiteSpace: 'nowrap',
     width: 1,
   })
+
   const ITEM_HEIGHT = 120;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -278,7 +278,7 @@ export default function CreateProduct(props) {
                 startIcon={<FileUploadIcon />}
               >
                 Upload image
-                <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />
+                <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />   
               </Button>
               {image.length > 0 && (
                 <Grid container columnSpacing={3}>
