@@ -138,14 +138,6 @@ export default function CRUDCategory() {
 												{selectedForUpdate === data.id && !showUpdate && (
 													<>
 														<form onSubmit={() => handleSubmitUpdate(data.id, nameCategory)}>
-															<TextField disabled
-																id="outlined-disabled"
-																label="Id"
-																defaultValue={data.id}
-																sx={{
-																	margin: '10px'
-																}} />
-
 															<TextField
 																required
 																defaultValue={data.name}
