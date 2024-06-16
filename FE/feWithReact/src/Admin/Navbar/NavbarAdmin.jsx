@@ -48,39 +48,39 @@ export default function NavbarAdmin() {
 		color: '#fff',
 		width: '-webkit-fill-available',
 	}
+
+	const paddingStyle = {
+		padding: 0,
+	}
 	return (
 		<div>
 			<Menu theme="dark" className='container-fluid' id='navbarAdminContainer' sx={{
 				Height: '-webkit-fill-available',
 			}}>
-				<Menu.Item>
+				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToHome} sx={buttonStyle}>Home</Button>
 				</Menu.Item>
-				<Menu.Item>
+				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToAdmin} sx={buttonStyle}>Admin</Button>
+				</Menu.Item >
+				<Menu.Item style={paddingStyle}>
+					<Button onClick={goToCategory} sx={buttonStyle}>Category</Button>
 				</Menu.Item>
-
-				<Menu.SubMenu key="sub1" title={<Button sx={buttonStyle}>Element</Button>} mode="vertical">
-					<Menu.Item>
-						<Button onClick={goToCategory} sx={buttonStyle}>Category</Button>
-					</Menu.Item>
-					<Menu.Item>
-						<Button onClick={goToAccount} sx={buttonStyle}>Account</Button>
-					</Menu.Item>
-					<Menu.SubMenu key="sub1-3" title={<Button sx={buttonStyle}>Product</Button>}>
-						<Menu.Item key="sub1-3-1">
-							<Button onClick={goToProductCreate} sx={buttonStyle}>Create</Button>
-						</Menu.Item>
-						<Menu.Item key="sub1-3-2">
-							<Button onClick={goToProductShow} sx={buttonStyle}>Show</Button>
-						</Menu.Item>
-					</Menu.SubMenu>
-					<Menu.Item>
-						<Button onClick={goToWarranty} sx={buttonStyle}>Warranty</Button>
+				<Menu.Item style={paddingStyle}>
+					<Button onClick={goToAccount} sx={buttonStyle}>Account</Button>
+				</Menu.Item>
+				<Menu.SubMenu style={paddingStyle} key="sub1-3" title={<Button sx={buttonStyle}>Product</Button>}>
+					<Menu.Item key="sub1-3-1" style={paddingStyle}>
+						<Button onClick={goToProductCreate} sx={buttonStyle}>Create</Button>
+					</Menu.Item >
+					<Menu.Item key="sub1-3-2" style={paddingStyle}>
+						<Button onClick={goToProductShow} sx={buttonStyle}>Show</Button>
 					</Menu.Item>
 				</Menu.SubMenu>
-
-				<Menu.Item>
+				<Menu.Item style={paddingStyle}>
+					<Button onClick={goToWarranty} sx={buttonStyle}>Warranty</Button>
+				</Menu.Item>
+				<Menu.Item style={paddingStyle}>
 					<Button onClick={Logout} sx={buttonStyle} color='error' variant="contained">Log out</Button>
 				</Menu.Item>
 			</Menu>
