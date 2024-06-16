@@ -46,27 +46,22 @@ public class CategoryService : ICategoryService
         await _unitOfWork.SaveChangeAsync();
         return category.Adapt<CategoryDTO>();
     }
+    
 
-    public async Task DeleteCategory(int id)
+    public async Task<List<CategoryDTO>> GetAllCategory()
     {
-        var category = await _unitOfWork.CategoryRepo.GetByIdAsync(id);
+        var categories = await _unitOfWork.CategoryRepo.GetAllAsync();
+        return categories.Adapt<List<CategoryDTO>>();
+    }
+
+    public async Task DeleteOrEnable(int categoryId, bool isDeleted)
+    {
+        var category = await _unitOfWork.CategoryRepo.GetAsync(d => d.Id == categoryId);
         if (category is null)
         {
             throw new NotFoundException("Category is not existed");
         }
-
-        if (category.IsDeleted)
-        {
-            throw new BadRequestException("Category is already deleted");
-        }
-        _unitOfWork.CategoryRepo.SoftRemove(category);
+        category.IsDeleted = isDeleted;
         await _unitOfWork.SaveChangeAsync();
-        
-    }
-
-    public async Task<List<CategoryDTO>> GetAllCategory()
-    {
-        var categories = await _unitOfWork.CategoryRepo.GetAllAsync(x => !x.IsDeleted);
-        return categories.Adapt<List<CategoryDTO>>();
     }
 }
