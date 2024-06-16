@@ -25,7 +25,12 @@ public class CategoryController : BaseController
         var result = await service.UpdateCategory(id, updateCategoryDto);
         return Ok(result);
     }
-    
+    [HttpPut("{categoryId}/{isDeleted}")]
+    public async Task<IActionResult> DeleteOrEnable(int categoryId, int isDeleted)
+    {
+        await service.DeleteOrEnable(categoryId, isDeleted > 0);
+        return NoContent();
+    }
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCategory(int id)
     {
@@ -38,12 +43,5 @@ public class CategoryController : BaseController
     {
         var result = await service.GetAllCategory();
         return Ok(result);
-    }
-    
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        await service.DeleteCategory(id);
-        return NoContent();
     }
 }

@@ -20,6 +20,7 @@ namespace Application.ViewModels.Products
         public int Quantity { get; set; }
         public CategoryDTO? Category { get; set; }
         public WarrantyDocumentDTO? WarrantyDocuments { get; set; }
+        public bool IsDeleted { get; set; }
         public ICollection<ProductSizeDTO> ProductSizes { get; set; } = new List<ProductSizeDTO>();
         public ICollection<ProductPartDTO> ProductParts { get; set; } = new List<ProductPartDTO>();
         public ICollection<ImageDTO> Images { get; set; } = new List<ImageDTO>();

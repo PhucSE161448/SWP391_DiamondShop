@@ -18,6 +18,7 @@ namespace Application.ViewModels.Diamonds
         public string? Color { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
+        public bool IsDeleted { get; set; }
         public ICollection<ImageDTO> Images { get; set; } = new List<ImageDTO>();
     }
 }
