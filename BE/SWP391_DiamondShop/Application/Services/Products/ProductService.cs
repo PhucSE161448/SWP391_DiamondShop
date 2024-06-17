@@ -4,7 +4,6 @@ using Application.Interfaces;
 using Application.Interfaces.Products;
 using Application.ViewModels.Products;
 using Application.ViewModels.WarrantyDocuments;
-using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -15,6 +14,7 @@ using Application.Interfaces.Images;
 using Application.Interfaces.ProductParts;
 using Application.Interfaces.ProductSizes;
 using Domain.Model;
+using Mapster;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.Products
@@ -22,15 +22,13 @@ namespace Application.Services.Products
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly IProductPartService _productPartService;
         private readonly IProductSizeService _productSizeService;
         private readonly IImageService _imageService;
 
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IProductPartService productPartService, IProductSizeService productSizeService, IImageService imageService)
+        public ProductService(IUnitOfWork unitOfWork, IProductPartService productPartService, IProductSizeService productSizeService, IImageService imageService)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _productPartService = productPartService;
             _productSizeService = productSizeService;
             _imageService = imageService;
@@ -41,7 +39,8 @@ namespace Application.Services.Products
             {
                 throw new BadRequestException("Start price must be less than end price");
             }
-            return _mapper.Map<Pagination<GetProductPaginationDTO>>(await _unitOfWork.ProductRepo.GetPagedProducts(queryProductDTO));
+            return (await _unitOfWork.ProductRepo.GetPagedProducts(queryProductDTO)).Adapt<Pagination<GetProductPaginationDTO>>();
+            
         }
 
         public async Task<GetProductIdDTO> CreateProduct(CreateProductDTO createProductDto)
@@ -56,8 +55,25 @@ namespace Application.Services.Products
             {
                 throw new NotFoundException("Warranty Document is not existed");
             }
+            var product = createProductDto.Adapt<Product>(); 
+            await _unitOfWork.ProductRepo.AddAsync(product);
+            await _unitOfWork.SaveChangeAsync();
+            if (!createProductDto.ProductImages.IsNullOrEmpty())
+            {
+                await _imageService.UploadProductImages(createProductDto.ProductImages, product.Id);
+            }
 
-            var inputDiamondIds = createProductDto.CreateProductPartDtos.Select(p => p.DiamondId);
+            return new GetProductIdDTO {Id = product.Id};
+        }
+
+        public async Task<GetProductIdDTO> CreateProductProperties(int productId, CreateProductPropertiesDTO createProductPropertiesDto)
+        {
+            var product = await _unitOfWork.ProductRepo.GetByIdAsync(productId);
+            if (product is null)
+            {
+                throw new NotFoundException("Product is not existed");
+            }
+            var inputDiamondIds = createProductPropertiesDto.CreateProductPartDtos.Select(p => p.DiamondId);
             var validDiamondIds = (await _unitOfWork.DiamondRepo.GetAllAsync()).Select(d => d.Id);
             foreach (var diamondId in inputDiamondIds)
             {
@@ -66,33 +82,13 @@ namespace Application.Services.Products
                     throw new NotFoundException($"Diamond with ID: {diamondId} is not existed");
                 }
             }
-            
-            var product = _mapper.Map<Product>(createProductDto); 
-            await _unitOfWork.ProductRepo.AddAsync(product);
-            await _unitOfWork.SaveChangeAsync();
-            if (!createProductDto.ProductImages.IsNullOrEmpty())
+            await _productPartService.CreateProductPart(product.Id, createProductPropertiesDto.CreateProductPartDtos);
+            if (!createProductPropertiesDto.CreateProductSizeDtos.IsNullOrEmpty())
             {
-                await _imageService.UploadProductImages(createProductDto.ProductImages, product.Id);
-            }
-            var productParts = createProductDto.CreateProductPartDtos.Select(p =>
-            {
-                var productPart = _mapper.Map<ProductPart>(p);
-                productPart.ProductId = product.Id;
-                return productPart;
-            }).ToList();
-            await _unitOfWork.ProductPartRepo.AddRangeAsync(productParts);
-            await _unitOfWork.SaveChangeAsync();
-            var productSizes = createProductDto.CreateProductSizeDtos.Select(p =>
-            {
-                var productSize = _mapper.Map<ProductSize>(p);
-                productSize.ProductId = product.Id;
-                return productSize;
-            }).ToList();
-            await _unitOfWork.ProductSizeRepo.AddRangeAsync(productSizes);
-            await _unitOfWork.SaveChangeAsync();
+                await _productSizeService.CreateProductSizes(productId, createProductPropertiesDto.CreateProductSizeDtos);
+            } 
             return new GetProductIdDTO {Id = product.Id};
         }
-
         public async Task UpdateProduct(int id, UpdateProductDTO updateProductDto)
         {
             var product = await _unitOfWork.ProductRepo.GetProductDetailById(id);
@@ -110,7 +106,27 @@ namespace Application.Services.Products
             {
                 throw new NotFoundException("Warranty Document is not existed");
             }
-            var inputDiamondIds = updateProductDto.UpdateProductPartDtos.Select(p => p.DiamondId);
+            updateProductDto.Adapt(product);
+            _unitOfWork.ProductRepo.Update(product);
+            if (product.Images.Any())
+            {
+                await _imageService.DeleteImages(product.Images);
+                product.Images.Clear();
+            }
+            await _unitOfWork.SaveChangeAsync();
+            if (!updateProductDto.ProductImages.IsNullOrEmpty())
+            {
+                await _imageService.UploadProductImages(updateProductDto.ProductImages, product.Id);
+            }
+        }
+        public async Task UpdateProductProperties(int productId, CreateProductPropertiesDTO createProductPropertiesDto)
+        {
+            var product = await _unitOfWork.ProductRepo.GetProductDetailById(productId);
+            if (product is null)
+            {
+                throw new NotFoundException("Product is not existed");
+            }
+            var inputDiamondIds = createProductPropertiesDto.CreateProductPartDtos.Select(p => p.DiamondId);
             var validDiamondIds = (await _unitOfWork.DiamondRepo.GetAllAsync()).Select(d => d.Id);
             foreach (var diamondId in inputDiamondIds)
             {
@@ -119,37 +135,48 @@ namespace Application.Services.Products
                     throw new NotFoundException($"Diamond with ID: {diamondId} is not existed");
                 }
             }
-            _mapper.Map(updateProductDto, product);
-            _unitOfWork.ProductRepo.Update(product);
             if (product.ProductParts.Any())
             {
                 await _unitOfWork.ProductPartRepo.DeleteRangeAsync(product.ProductParts);
                 product.ProductParts.Clear();
             }
-
-            if (product.Images.Any())
-            {
-                await _imageService.DeleteImages(product.Images);
-                product.Images.Clear();
-            }
-
             if (product.ProductSizes.Any())
             {
                 await _productSizeService.DeleteProductSize(product.ProductSizes);
                 product.ProductSizes.Clear();
             }
             await _unitOfWork.SaveChangeAsync();
-            await _productPartService.UpdateOrCreateProductPart(id, updateProductDto.UpdateProductPartDtos);
-            if (!updateProductDto.UpdateProductSizeDtos.IsNullOrEmpty())
+            await _productPartService.CreateProductPart(product.Id, createProductPropertiesDto.CreateProductPartDtos);
+            if (!createProductPropertiesDto.CreateProductSizeDtos.IsNullOrEmpty())
             {
-                await _productSizeService.UpdateOrCreateProductSizes(id, updateProductDto.UpdateProductSizeDtos);
+                await _productSizeService.CreateProductSizes(product.Id, createProductPropertiesDto.CreateProductSizeDtos);
+            }
+        }
+
+        public async Task DeleteOrEnable(int productId, bool isDeleted)
+        {
+            var product = await _unitOfWork.ProductRepo.GetProductDetailById(productId);
+            if (product is null)
+            {
+                throw new NotFoundException("Product is not existed");
             }
 
-            if (!updateProductDto.ProductImages.IsNullOrEmpty())
+            product.IsDeleted = isDeleted;
+            foreach (var image in product.Images)
             {
-                await _imageService.UploadProductImages(updateProductDto.ProductImages, product.Id);
+                image.IsDeleted = isDeleted;
             }
-            
+
+            foreach (var productPart in product.ProductParts)
+            {
+                productPart.IsDeleted = isDeleted;
+            }
+
+            foreach (var productSize in product.ProductSizes)
+            {
+                productSize.IsDeleted = isDeleted;
+            }
+            await _unitOfWork.SaveChangeAsync();
         }
 
         public async Task<GetProductDetailDTO> GetProductDetailById(int id)
@@ -159,7 +186,7 @@ namespace Application.Services.Products
             {
                 throw new NotFoundException("Product not found");
             }
-            return _mapper.Map<GetProductDetailDTO>(product);
+            return product.Adapt<GetProductDetailDTO>();
         }
     }
 }

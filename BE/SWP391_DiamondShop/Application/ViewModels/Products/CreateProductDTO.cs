@@ -18,8 +18,5 @@ public class CreateProductDTO
     public int CategoryId { get; set; }
     [Required]
     public int WarrantyDocumentsId { get; set; }
-
     public List<IFormFile> ProductImages { get; set; } = new List<IFormFile>();
-    public List<CreateProductPartDTO> CreateProductPartDtos { get; set; } = new List<CreateProductPartDTO>();
-    public List<CreateProductSizeDTO> CreateProductSizeDtos { get; set; } = new List<CreateProductSizeDTO>();
 }

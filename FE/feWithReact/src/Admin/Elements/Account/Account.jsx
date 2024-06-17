@@ -1,7 +1,5 @@
 import React from 'react'
-
 import ReadAccount from './CRUDAccount'
-
 import UpdateAccount from './UpdateAccount'
 
 export default function Account() {

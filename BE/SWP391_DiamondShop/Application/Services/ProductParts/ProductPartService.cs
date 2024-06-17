@@ -1,20 +1,18 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.ProductParts;
 using Application.ViewModels.ProductParts;
-using AutoMapper;
 using Domain.Model;
+using Mapster;
 
 namespace Application.Services.ProductParts;
 
 public class ProductPartService : IProductPartService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
 
-    public ProductPartService(IUnitOfWork unitOfWork, IMapper mapper)
+    public ProductPartService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
     }
 
 
@@ -24,11 +22,11 @@ public class ProductPartService : IProductPartService
         await _unitOfWork.SaveChangeAsync();
     }
 
-    public async Task UpdateOrCreateProductPart(int productId, ICollection<UpdateProductPartDTO> updateProductPartDtos)
+    public async Task CreateProductPart(int productId, List<CreateProductPartDTO> createProductPartDtos)
     {
-        var productPart = updateProductPartDtos.Select(p =>
+        var productPart = createProductPartDtos.Select(p =>
         {
-            var productPart = _mapper.Map<ProductPart>(p);
+            var productPart = p.Adapt<ProductPart>();
             productPart.ProductId = productId;
             return productPart;
         }).ToList();

@@ -27,6 +27,12 @@ namespace WebAPI.Controllers.Diamond
             await service.UpdateDiamond(id, updateDiamondDto);
             return NoContent();
         }
+        [HttpPut("{diamondId}/{isDeleted}")]
+        public async Task<IActionResult> DeleteOrEnable(int diamondId, int isDeleted)
+        {
+            await service.DeleteOrEnable(diamondId, isDeleted > 0);
+            return NoContent();
+        }
         [HttpGet]
         public async Task<IActionResult> GetPagedDiamonds([FromQuery] QueryDiamondDTO queryDiamondDTO)
         {

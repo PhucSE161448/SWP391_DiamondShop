@@ -3,7 +3,6 @@ using Application.Interfaces;
 using Application.Interfaces.Account;
 using Application.Ultils;
 using Application.ViewModels.Accounts;
-using AutoMapper;
 using Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -11,17 +10,16 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mapster;
 
 namespace Application.Services.Accounts
 {
     public class AccountService : IAccountService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public AccountService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AccountService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
         public async Task<AccountDTO> CreateAccountAsync(CreatedAccountDTO createdAccountDto)
         {
@@ -36,14 +34,15 @@ namespace Application.Services.Accounts
             {
                 throw new BadRequestException("Phone is existed");
             }
-            var account = _mapper.Map<Account>(createdAccountDto);
+
+            var account = createdAccountDto.Adapt<Account>();
             account.Password = HashPassword.HashWithSHA256(
                 createdAccountDto.Password!
             );
             account.ConfirmationToken = Guid.NewGuid().ToString();
             await _unitOfWork.AccountRepo.AddAsync(account);
             await _unitOfWork.SaveChangeAsync();
-            return _mapper.Map<AccountDTO>(account);
+            return account.Adapt<AccountDTO>();
         }
 
         public async Task<AccountDTO> UpdateRoleForAccount(int accountId, int roleId)
@@ -63,7 +62,7 @@ namespace Application.Services.Accounts
             account.RoleId = roleId;
             _unitOfWork.AccountRepo.Update(account);
             await _unitOfWork.SaveChangeAsync();
-            return _mapper.Map<AccountDTO>(account);
+            return account.Adapt<AccountDTO>();
         }
 
         public async Task DeleteUserAsync(int id)
@@ -90,7 +89,7 @@ namespace Application.Services.Accounts
             {
                 if (user.IsDeleted == false)
                 {
-                    accountDtos.Add(_mapper.Map<AccountDTO>(user));
+                    accountDtos.Add(user.Adapt<AccountDTO>());
                 }
             }
             return accountDtos;
@@ -103,7 +102,7 @@ namespace Application.Services.Accounts
             {
                 throw new NotFoundException("Account is not existed");
             }
-            return _mapper.Map<AccountDTO>(exist);
+            return exist.Adapt<AccountDTO>();
         }
 
         public async Task<IEnumerable<AccountDTO>> SearchUserByNameAsync(string name)
@@ -115,7 +114,7 @@ namespace Application.Services.Accounts
             {
                 if (acc.IsDeleted == false)
                 {
-                    userDTOs.Add(_mapper.Map<AccountDTO>(acc));
+                    userDTOs.Add(acc.Adapt<AccountDTO>());
                 }
             }
             return userDTOs;
@@ -132,9 +131,9 @@ namespace Application.Services.Accounts
             {
                 throw new BadRequestException("Account is deleted in system");
             }
-            _unitOfWork.AccountRepo.Update(_mapper.Map(accountDTO, existingUser));
+            _unitOfWork.AccountRepo.Update(accountDTO.Adapt(existingUser));
             await _unitOfWork.SaveChangeAsync();
-            return _mapper.Map<AccountDTO>(existingUser);
+            return existingUser.Adapt<AccountDTO>();
         }
     }
 }

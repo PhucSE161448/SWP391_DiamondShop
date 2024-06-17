@@ -16,5 +16,8 @@ namespace Application.Interfaces.Products
         Task UpdateProduct(int id, UpdateProductDTO updateProductDto);
         Task<GetProductDetailDTO> GetProductDetailById(int id);
         Task<Pagination<GetProductPaginationDTO>> GetPagedProducts(QueryProductDTO queryProductDTO);
+        Task<GetProductIdDTO> CreateProductProperties(int productId, CreateProductPropertiesDTO createProductPropertiesDto);
+        Task UpdateProductProperties(int productId, CreateProductPropertiesDTO createProductPropertiesDto);
+        Task DeleteOrEnable(int productId, bool isDeleted);
     }
 }

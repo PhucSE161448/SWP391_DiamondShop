@@ -5,7 +5,6 @@ using Application.Interfaces.Authenticates;
 using Application.Ultils;
 using Application.ViewModels.Accounts;
 using Application.ViewModels.Auths;
-using AutoMapper;
 using Domain.Enums;
 using Domain.Model;
 using System;
@@ -14,6 +13,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mapster;
 
 namespace Application.Services.Authenticates
 {
@@ -22,17 +22,14 @@ namespace Application.Services.Authenticates
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICurrentTime _currentTime;
         private readonly AppConfiguration _configuration;
-        private readonly IMapper _mapper;
 
         public AuthenticationService(IUnitOfWork unitOfWork,
             ICurrentTime currentTime,
-            AppConfiguration configuration,
-            IMapper mapper)
+            AppConfiguration configuration)
         {
             this._unitOfWork = unitOfWork;
             this._currentTime = currentTime;
             this._configuration = configuration;
-            this._mapper = mapper;
         }
         public async Task<GetAuthTokenDTO> LoginAsync(AuthenAccountDTO accountDto)
         {
@@ -64,7 +61,7 @@ namespace Application.Services.Authenticates
             {
                 throw new NotFoundException("Email is existed");
             }
-            var account = _mapper.Map<Account>(registerAccountDTO);
+            var account = registerAccountDTO.Adapt<Account>();
             account.Password = HashPassword.HashWithSHA256(
                 registerAccountDTO.Password!
             );
@@ -72,7 +69,7 @@ namespace Application.Services.Authenticates
             account.RoleId = (int)Roles.Customer;
             await _unitOfWork.AccountRepo.AddAsync(account);
             await _unitOfWork.SaveChangeAsync();
-            return _mapper.Map<AccountDTO>(account);
+            return account.Adapt<AccountDTO>();
         }
         
     }

@@ -34,9 +34,7 @@ namespace Infrastructures.Repositories.Diamonds
         {
             var (pageNumber, pageSize, sortBy, orderByDesc) = queryDiamondDTO.QueryDTO;
             var query = _dbContext.Diamonds.AsNoTracking()
-                                          .Where(p => p.IsDeleted == false)
                                           .Include(p => p.Images)
-                                          .AsSplitQuery()
                                           .AsQueryable();
             query = query.ApplyDiamondsFilter(queryDiamondDTO);
             query = orderByDesc == true ? query.OrderByDescending(GetSortProperty(sortBy))

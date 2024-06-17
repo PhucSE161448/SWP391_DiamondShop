@@ -90,8 +90,7 @@ namespace Infrastructures
             {
                 options.UseSqlServer(databaseConnection);
             });
-            services.AddAutoMapper(typeof(MapperConfigurationsProfile).Assembly);
-
+            services.AddMapsterConfigurations();
             return services;
         }
     }

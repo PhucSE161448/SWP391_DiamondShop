@@ -19,11 +19,28 @@ namespace WebAPI.Controllers.Product
         {
             return Created(nameof(CreateProduct), await service.CreateProduct(createProductDto));
         }
-
+        
+        [HttpPost("{productId}")]
+        public async Task<IActionResult> CreateProductProperties(int productId, [FromBody] CreateProductPropertiesDTO createProductPropertiesDto)
+        {
+            return Created(nameof(CreateProductProperties), await service.CreateProductProperties(productId, createProductPropertiesDto));
+        }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromForm] UpdateProductDTO updateProductDto)
         {
             await service.UpdateProduct(id, updateProductDto);
+            return NoContent();
+        }
+        [HttpPut("{productId}/{isDeleted}")]
+        public async Task<IActionResult> DeleteOrEnable(int productId, int isDeleted)
+        {
+            await service.DeleteOrEnable(productId, isDeleted > 0);
+            return NoContent();
+        }
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> UpdateProductProperties(int productId, [FromBody] CreateProductPropertiesDTO createProductPropertiesDto)
+        {
+            await service.UpdateProductProperties(productId, createProductPropertiesDto);
             return NoContent();
         }
         [HttpGet]

@@ -17,12 +17,23 @@ const UpdateButton = styled(Button)(({ theme }) => ({
 
 export default function CRUDCategory() {
 	const [data, setData] = useState(null)
+	const [page, setPage] = useState(0)
+	const [rowsPerPage, setRowsPerPage] = useState(10)
 	const [nameCategory, setnameCategory] = useState(null)
 	const [showDelete, setShowDelete] = useState(false)
 	const [selectedForDeletion, setSelectedForDeletion] = useState(null)
 	const [selectedForUpdate, setSelectedForUpdate] = useState(null)
 	const [showUpdate, setShowUpdate] = useState(true)
 	const [triggerRead, setTriggerRead] = useState(false);
+
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	}
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(+event.target.value);
+		setPage(0);
+	}
 
 	function handleSubmitDelete(id) {
 		if (id) {
@@ -101,23 +112,24 @@ export default function CRUDCategory() {
 	return (
 		<>
 			<div className='formCRUDContainer'>
-				<div>
-					{Array.isArray(data) && data ? (
-						<table className='table table-striped table-bordered'>
-							<thead>
-								<tr>
-									<th>Id</th>
-									<th>Name</th>
-									<th></th>
-									<th><CreateCategory onCategoryCreated={() => setTriggerRead(prev => !prev)} /></th>
-								</tr>
-							</thead>
-							<tbody>
-								{
-									data.map((data, index) => (
-										<tr key={data.id}>
-											<td>{index + 1}</td>
-											<td style={{
+				<TableContainer>
+					<Table>
+						<TableHead>
+							<TableRow>
+								<TableCell>#</TableCell>
+								<TableCell>Name</TableCell>
+								<TableCell></TableCell>
+								<TableCell><CreateCategory onCategoryCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{
+								Array.isArray(data) && data
+									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+									.map((data, index) => (
+										<TableRow key={data.id}>
+											<TableCell>{index + 1 + page * rowsPerPage}</TableCell>
+											<TableCell style={{
 												maxWidth: '11vw',
 												minWidth: '11vw'
 											}}>
@@ -126,14 +138,6 @@ export default function CRUDCategory() {
 												{selectedForUpdate === data.id && !showUpdate && (
 													<>
 														<form onSubmit={() => handleSubmitUpdate(data.id, nameCategory)}>
-															<TextField disabled
-																id="outlined-disabled"
-																label="Id"
-																defaultValue={data.id}
-																sx={{
-																	margin: '10px'
-																}} />
-
 															<TextField
 																required
 																defaultValue={data.name}
@@ -173,8 +177,8 @@ export default function CRUDCategory() {
 													</>
 
 												)}
-											</td>
-											<td style={{
+											</TableCell>
+											<TableCell style={{
 												maxWidth: '11vw',
 												minWidth: '11vw'
 											}}>
@@ -214,8 +218,8 @@ export default function CRUDCategory() {
 														</Button>
 													</div>
 												)}
-											</td>
-											<td>
+											</TableCell>
+											<TableCell>
 												<UpdateButton onClick={() => handleUpdate(data.id)}
 													variant="contained" size="large"
 													endIcon={<UpdateIcon />}
@@ -225,20 +229,26 @@ export default function CRUDCategory() {
 													}}>
 													Update
 												</UpdateButton>
-											</td>
-										</tr>
+											</TableCell>
+										</TableRow>
 									))
-								}
-							</tbody>
-						</table>
-					) : (
-						<div>
-							<h3>
-								Loading...
-							</h3>
-						</div>)
-					}
-				</div>
+							}
+						</TableBody>
+					</Table>
+				</TableContainer>
+				<TablePagination
+					rowsPerPageOptions={[10, 25, 50]}
+					component="div"
+					count={Array.isArray(data) && (data.length)}
+					rowsPerPage={rowsPerPage}
+					page={page}
+					onPageChange={handleChangePage}
+					onRowsPerPageChange={handleChangeRowsPerPage}
+					sx={{
+						display: 'flex',
+						justifyContent: 'flex-end',
+					}}
+				/>
 			</div >
 		</>
 	)

@@ -2,7 +2,6 @@
 using Application.Interfaces;
 using Application.Interfaces.WarrantyDocument;
 using Application.ViewModels.WarrantyDocuments;
-using AutoMapper;
 using Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -10,25 +9,24 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mapster;
 
 namespace Application.Services.WarrantyDocuments
 {
     public class WarrantyDocumentService : IWarrantyDocumentService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public WarrantyDocumentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public WarrantyDocumentService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
-            this._mapper = mapper;
         }
         public async Task<WarrantyDocumentDTO> CreateWarrantyDocumentAsync(UpsertWarrantyDocumentDTO CreatedWarrantyDocumentDTO)
         {
-            var warranty = _mapper.Map<WarrantyDocument>(CreatedWarrantyDocumentDTO);
+            var warranty = CreatedWarrantyDocumentDTO.Adapt<WarrantyDocument>();
             await _unitOfWork.WarrantyDocumentRepo.AddAsync(warranty);
             await _unitOfWork.SaveChangeAsync();
-            return _mapper.Map<WarrantyDocumentDTO>(warranty);
+            return warranty.Adapt<WarrantyDocumentDTO>();
         }
 
         public async Task DeleteWarrantyDocumentAsync(int id)
@@ -49,12 +47,7 @@ namespace Application.Services.WarrantyDocuments
         public async Task<IEnumerable<WarrantyDocumentDTO>> GetAllWarrantyDocumenttAsync()
         {
             var warrantyDocuments = await _unitOfWork.WarrantyDocumentRepo.GetAllAsync(x => x.IsDeleted == false);
-            var warrantyDocumentDTOS = new List<WarrantyDocumentDTO>();
-            foreach (var pro in warrantyDocuments)
-            {
-                warrantyDocumentDTOS.Add(_mapper.Map<WarrantyDocumentDTO>(pro));
-            }
-            return warrantyDocumentDTOS;
+            return warrantyDocuments.Adapt<List<WarrantyDocumentDTO>>();
         }
 
         public async Task<WarrantyDocumentDTO> GetWarrantyDocumentAsync(int id)
@@ -64,7 +57,7 @@ namespace Application.Services.WarrantyDocuments
             {
                 throw new NotFoundException("WarrantyDocument not found");
             }
-            return _mapper.Map<WarrantyDocumentDTO>(warrantyDocument);
+            return warrantyDocument.Adapt<WarrantyDocumentDTO>();
         }
 
         public async Task<WarrantyDocumentDTO> UpdateWarrantyDocumentAsync(int id, UpsertWarrantyDocumentDTO warrantyDocumentDTO)
@@ -74,10 +67,10 @@ namespace Application.Services.WarrantyDocuments
             {
                 throw new NotFoundException("WarrantyDocument not found");
             }
-            var warrantyDocument = _mapper.Map(warrantyDocumentDTO, exist);
+            var warrantyDocument = warrantyDocumentDTO.Adapt(exist);
             _unitOfWork.WarrantyDocumentRepo.Update(warrantyDocument);
             await _unitOfWork.SaveChangeAsync();
-            return _mapper.Map<WarrantyDocumentDTO>(warrantyDocument);
+            return warrantyDocument.Adapt<WarrantyDocumentDTO>();
         }
     }
 }
