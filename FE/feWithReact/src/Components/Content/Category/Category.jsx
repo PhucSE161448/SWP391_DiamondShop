@@ -3,7 +3,6 @@ import { swiffyslider } from 'swiffy-slider';
 import "swiffy-slider/css"
 import './Category.css'
 import { CategoryData } from './listOfCategory'
-import { diamondProduct1 } from '../../../assets/img';
 export default function Category() {
 	window.swiffyslider = swiffyslider;
 

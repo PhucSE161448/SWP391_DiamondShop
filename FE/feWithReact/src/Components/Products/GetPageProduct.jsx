@@ -36,6 +36,7 @@ export default function GetPageProduct() {
         .then(data => {
           setData(data.items)
           setTotalPage(Math.ceil(data.totalItemsCount / PageSize))
+          console.log(data.items)
         })
         .catch(error => {
           // Xử lý lỗi ở đây
@@ -68,41 +69,29 @@ export default function GetPageProduct() {
         <Box sx={{
         }}>
           <Grid container columnSpacing={3} sx={{ width: '80vw', }}>
-            {data && data.map((item, index) => (
-
-              <Grid item xs={3}>
-                <Card div key={index}
-                  sx={{
-                    height: 'auto',
-                    margin: '50px 50px 0 50px',
-                    '&:hover': {
-                      backgroundColor: 'rgba(0,0,0,0.1)',
-                      borderRadius: '10px',
-                    }
-                  }}>
-                  <>
-                    {/* to={`/product/${item.id}`} */}
-                    <CardContent >
-                      {item.images[0] && (<img src={item.images[0].urlPath} alt="img" style={{
-                        width: '100%',
-                        borderRadius: '10px',
-                      }} />)}
-
-                      <Container sx={{
-                        textAlign: 'center',
-                        padding: '10px',
-                        width: '100%',
-                      }}>
-                        <h2>{item.name}</h2>
-                        <p>{item.category.name}</p>
-                        <p>Stock: {item.quantity}</p>
-                      </Container>
+            {data && data.map((item, index) =>
+              item.isDeleted ? null : (
+                <Grid item xs={3}>
+                  <Card key={index} sx={{
+                    width: 'auto',
+                    margin: '50px',
+                  }} >
+                    <CardContent>
+                      {item.images && item.images[0] && item.images[0].urlPath ? (
+                        <img src={item.images[0].urlPath} alt={item.name} style={{
+                          width: '100%',
+                        }} />
+                      ) : null}
+                      <h3>{item.name}</h3>
+                      <p>{item.productPart}</p>
+                      <p>{item.productSize}</p>
+                      <p>{item.quantity}</p>
+                      <p>{item.warrantyDocuments.termsAndConditions}</p>
                     </CardContent>
-                  </>
-                </Card>
-              </Grid>
-            ))
-            }
+                  </Card>
+                </Grid>
+              )
+            )}
           </Grid>
         </Box>
       </Container>

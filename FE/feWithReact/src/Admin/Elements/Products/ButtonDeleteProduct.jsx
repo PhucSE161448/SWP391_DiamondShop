@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Switch from '@mui/material/Switch'
 export default function ButtonDeleteProduct(props) {
-  const [isDeleted, setIsDeleted] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(props.isDeleted)
   const handleChange = (event) => {
     setIsDeleted(event.target.checked)
     DeleteProduct(props.id, event.target.checked ? 1 : 0)
@@ -21,13 +20,10 @@ export default function ButtonDeleteProduct(props) {
   }
   return (
     <>
-      <>
-        <FormControlLabel
-          control={<Switch checked={isDeleted} onChange={handleChange} />}
-          label="Deleted"
-        />
-        <div>isDeleted? {isDeleted ? 'Yes' : 'No'}</div>
-      </>
+      <FormControlLabel
+        control={<Switch checked={isDeleted} onChange={handleChange} />}
+        label="Deleted"
+      />
     </>
   )
 }
