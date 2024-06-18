@@ -24,7 +24,8 @@ jobs:
 
       - name: Navigate to BE/SWP391_DiamondShop
         run: cd BE/SWP391_DiamondShop
-      
+      - name: Restore dependencies
+        run: dotnet restore SWP391_DiamondShop.sln
       - name: Build with dotnet
         run:  dotnet build --configuration Release SWP391_DiamondShop.sln
 
