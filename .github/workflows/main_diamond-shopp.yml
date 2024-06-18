@@ -24,15 +24,17 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+        working-directory: BE/SWP391_DiamondShop
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o 
+        working-directory: BE/SWP391_DiamondShop
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: BE/SWP391_DiamondShop/myapp
 
   deploy:
     runs-on: windows-latest
@@ -62,5 +64,5 @@ jobs:
         with:
           app-name: 'Diamond-Shopp'
           slot-name: 'Production'
-          package: .
+          package: BE/SWP391_DiamondShop/myapp
           
