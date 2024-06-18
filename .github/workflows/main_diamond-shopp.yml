@@ -19,34 +19,39 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: true
 
+      - name: Navigate to BE/SWP391_DiamondShop
+        run: cd BE/SWP391_DiamondShop
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
-        working-directory: BE/SWP391_DiamondShop
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o $(System.DefaultWorkingDirectory)/BE/SWP391_DiamondShop/publish
-        working-directory: BE/SWP391_DiamondShop
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: $(System.DefaultWorkingDirectory)/BE/SWP391_DiamondShop/publish
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: windows-latest
     needs: build
+
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write
+   permissions:
+   id-token: write #This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: .net-app
+
+      - name: Navigate to BE/SWP391_DiamondShop
+        run: cd BE/SWP391_DiamondShop
 
       - name: Login to Azure
         uses: azure/login@v1
@@ -60,4 +65,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'Diamond-Shopp'
-          package: $(System.DefaultWorkingDirectory)/BE/SWP391_DiamondShop/publish
+          slot-name: 'Production'
+          package: .
