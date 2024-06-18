@@ -23,7 +23,7 @@ jobs:
           include-prerelease: true
           
       - name: Navigate to Be/SWP391_DiamondShop
-        run: cd Be/SWP391_DiamondShop
+        run: cd BE/SWP391_DiamondShop
         
       - name: Build with dotnet
         run: dotnet build --configuration Release
@@ -52,7 +52,7 @@ jobs:
         with:
           name: .net-app
       - name: Navigate to Be/SWP391_DiamondShop
-        run: cd Be/SWP391_DiamondShop
+        run: cd BE/SWP391_DiamondShop
         
       - name: Login to Azure
         uses: azure/login@v1
