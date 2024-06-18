@@ -27,7 +27,7 @@ jobs:
         working-directory: BE/SWP391_DiamondShop
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o 
+        run: dotnet publish -c Release -o myapp
         working-directory: BE/SWP391_DiamondShop
 
       - name: Upload artifact for deployment job
