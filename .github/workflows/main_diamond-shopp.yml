@@ -24,14 +24,14 @@ jobs:
         working-directory: BE/SWP391_DiamondShop
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ./publish
+        run: dotnet publish -c Release -o $(System.DefaultWorkingDirectory)/BE/SWP391_DiamondShop/publish
         working-directory: BE/SWP391_DiamondShop
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: BE/SWP391_DiamondShop/publish
+          path: $(System.DefaultWorkingDirectory)/BE/SWP391_DiamondShop/publish
 
   deploy:
     runs-on: windows-latest
@@ -60,4 +60,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'Diamond-Shopp'
-          package: ./publish
+          package: $(System.DefaultWorkingDirectory)/BE/SWP391_DiamondShop/publish
