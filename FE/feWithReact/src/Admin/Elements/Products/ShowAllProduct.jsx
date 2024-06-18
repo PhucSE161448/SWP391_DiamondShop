@@ -109,7 +109,7 @@ export default function ShowAllProduct() {
                       <StyledTableCell><ButtonDeleteProduct id={item.id} isDeleted={item.isDeleted} /></StyledTableCell>
                       <StyledTableCell><UpdateProduct item={item} image={item.images}></UpdateProduct></StyledTableCell>
                       {console.log(item.id)}
-                      <StyledTableCell><ShowDetails></ShowDetails></StyledTableCell>
+                      <StyledTableCell><ShowDetails id={item.id}></ShowDetails></StyledTableCell>
                     </TableRow>
 
                   </>
