@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - Diamond-Shop
+name: Build and deploy ASP.Net Core app to Azure Web App - Diamond-Shopp
 
 on:
   push:
@@ -52,15 +52,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_4A956C0FAD1340FD87F68BB845D66463 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4D2CA5C072C64396B6A92B2FA0AF2713 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B0942681E3B04680AE637AA1368DF42D }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AA2A748647A64AC5B10F2B4B6B058C03 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9262CD69C16145B7B1F89EDADD48E667 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_509474C5614F46DA8A6E7F46594F697C }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'Diamond-Shop'
+          app-name: 'Diamond-Shopp'
           slot-name: 'Production'
           package: .
           
