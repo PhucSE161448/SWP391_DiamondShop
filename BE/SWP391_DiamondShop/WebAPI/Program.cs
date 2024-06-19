@@ -62,7 +62,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
-Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", await DownloadFirebaseCredentials());
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\diamondshop-ea47a-firebase-adminsdk-6re19-23d180499e.json");
 var app = builder.Build();
 app.UseCors(options =>
     options.AllowAnyOrigin()
@@ -86,27 +86,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-static async Task<string> DownloadFirebaseCredentials()
-{
-    string credentialUrl = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
-    if (string.IsNullOrEmpty(credentialUrl))
-    {
-        Console.WriteLine("GOOGLE_APPLICATION_CREDENTIALS environment variable not set.");
-        return null;
-    }
 
-    using (HttpClient client = new HttpClient())
-    {
-        HttpResponseMessage response = await client.GetAsync(credentialUrl);
-        response.EnsureSuccessStatusCode();
-
-        string tempPath = Path.GetTempFileName();
-        await using (var fs = new FileStream(tempPath, FileMode.Create, FileAccess.Write))
-        {
-            await response.Content.CopyToAsync(fs);
-        }
-
-        return tempPath;
-
-    }
-}
