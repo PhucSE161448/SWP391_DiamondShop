@@ -15,6 +15,7 @@ export default function UpdateProduct(props) {
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
+
   }
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
@@ -48,8 +49,8 @@ export default function UpdateProduct(props) {
     width: 1,
   })
 
-  const ITEM_HEIGHT = 120;
-  const ITEM_PADDING_TOP = 8;
+  const ITEM_HEIGHT = 120
+  const ITEM_PADDING_TOP = 8
   const MenuProps = {
     PaperProps: {
       style: {
@@ -71,27 +72,28 @@ export default function UpdateProduct(props) {
     setImage((currentImages) => currentImages.filter((_, i) => i !== index))
   }
 
-  async function Create(values) {
+  function Update(values) {
     const url = 'https://localhost:7122/api/Product/UpdateProduct/' + props.item.id
-
-    const formData = new FormData();
-    formData.append('Name', values.nameProduct);
-    formData.append('Gender', values.gender);
-    formData.append('Quantity', values.quantity);
-    formData.append('CategoryId', values.categoryId);
-    formData.append('WarrantyDocumentsId', values.warrantyDocumentsId);
+    console.log(url)
+    const formData = new FormData()
+    formData.append('Name', values.nameProduct)
+    formData.append('Gender', values.gender)
+    formData.append('Quantity', values.quantity)
+    formData.append('CategoryId', values.categoryId)
+    formData.append('WarrantyDocumentsId', values.warrantyDocumentsId)
 
 
     // Lặp qua mỗi file và thêm vào FormData
     for (let i = 0; i < image.length; i++) {
       const file = image[i];
       const fieldName = 'ProductImages';
-      const fieldValue = new File([file], `${file.name}`, { type: 'image/jpeg' });
-      formData.append(fieldName, fieldValue);
+      const fieldValue = new File([file], `${file.name}`, { type: 'image/jpeg' })
+      console.log(fieldName, fieldValue)
+      formData.append(fieldName, fieldValue)
     }
 
-    const responseCreateProduct = await fetch(url, {
-      method: 'POST',
+    fetch(url, {
+      method: 'PUT',
       headers: {
         'Accept': '*/*',
       },
@@ -103,7 +105,11 @@ export default function UpdateProduct(props) {
       "createProductPartDtos": [
         {
           "isMain": true,
-          "diamondId": values.diamondId
+          "diamondId": values.diamondIdMain
+        },
+        {
+          "isMain": false,
+          "diamondId": values.diamondIdExtra
         }
       ],
       "createProductSizeDtos": [
@@ -113,8 +119,8 @@ export default function UpdateProduct(props) {
         }
       ]
     }
-    const response = await fetch(urlCreateProductProperties, {
-      method: 'POST',
+    fetch(urlCreateProductProperties, {
+      method: 'PUT',
       headers: {
         'Accept': '*/*',
         'Content-Type': 'application/json'
@@ -134,7 +140,11 @@ export default function UpdateProduct(props) {
       .integer('Number must be an integer'),
     categoryId: Yup.number()
       .required('Category is required'),
-    diamondId: Yup.number()
+    diamondIdMain: Yup.number()
+      .required('Diamond ID is required')
+      .positive('Diamond ID must be positive')
+      .integer('Diamond ID must be an integer'),
+    diamondIdExtra: Yup.number()
       .required('Diamond ID is required')
       .positive('Diamond ID must be positive')
       .integer('Diamond ID must be an integer'),
@@ -165,17 +175,20 @@ export default function UpdateProduct(props) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+
       const parsedValues = {
         ...values,
         quantity: parseInt(values.quantity, 10),
         warrantyDocumentsId: parseInt(values.warrantyDocumentsId, 10),
-        diamondId: parseInt(values.diamondId, 10),
+        diamondIdMain: parseInt(values.diamondIdMain, 10),
+        diamondIdExtra: parseInt(values.diamondIdExtra, 10),
         size: parseFloat(values.size),
         price: parseFloat(values.price),
-      };
-      console.log(JSON.stringify(parsedValues, null, 2))
-      Create(parsedValues)
-      formik.resetForm()
+      }
+
+      Update(parsedValues)
+
+      handleClose()
     },
   })
 

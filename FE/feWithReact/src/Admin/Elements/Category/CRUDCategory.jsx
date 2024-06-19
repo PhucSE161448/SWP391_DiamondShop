@@ -6,6 +6,7 @@ import UpdateIcon from '@mui/icons-material/Update'
 import CreateCategory from './CreateCategory'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { amber } from '@mui/material/colors'
+import ButtonDeleteCategory from './ButtonDeleteCategory'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 const UpdateButton = styled(Button)(({ theme }) => ({
 	color: theme.palette.getContrastText(amber[500]),
@@ -18,7 +19,7 @@ const UpdateButton = styled(Button)(({ theme }) => ({
 export default function CRUDCategory() {
 	const [data, setData] = useState(null)
 	const [page, setPage] = useState(0)
-	const [rowsPerPage, setRowsPerPage] = useState(10)
+	const [rowsPerPage, setRowsPerPage] = useState(9)
 	const [nameCategory, setnameCategory] = useState(null)
 	const [showDelete, setShowDelete] = useState(false)
 	const [selectedForDeletion, setSelectedForDeletion] = useState(null)
@@ -35,21 +36,6 @@ export default function CRUDCategory() {
 		setPage(0);
 	}
 
-	function handleSubmitDelete(id) {
-		if (id) {
-			const url = 'https://localhost:7122/api/Category/Delete/' + id
-			fetch(url, {
-				method: 'DELETE',
-				headers: {
-					'Accept': '*/*'
-				},
-			})
-				.then(responseData => {
-					setData(responseData)
-					setTriggerRead(prev => !prev)
-				})
-		}
-	}
 
 	function UpdateCategory(Id, Name) {
 		const url = 'https://localhost:7122/api/Category/UpdateCategory/' + Id
@@ -93,10 +79,6 @@ export default function CRUDCategory() {
 		Read()
 	}, [triggerRead])
 
-	const handleDelete = (id) => {
-		setSelectedForDeletion(id)
-		setShowDelete(true)
-	}
 
 	const handleUpdate = (id) => {
 		setSelectedForUpdate(id)
@@ -182,42 +164,7 @@ export default function CRUDCategory() {
 												maxWidth: '11vw',
 												minWidth: '11vw'
 											}}>
-												<Button variant="outlined" color="error"
-													size="large" endIcon={<DeleteIcon />}
-													sx={{
-														margin: '5px',
-														fontWeight: 'bold'
-													}} onClick={() => handleDelete(data.id)}>
-													DELETE
-												</Button>
-
-												{selectedForDeletion === data.id && showDelete && (
-													<div>
-														<Button
-															type="submit"
-															value="Submit" variant="contained" color="success"
-															size="large" endIcon={<SendIcon />}
-															sx={{
-																margin: '5px',
-															}}
-															onClick={() => {
-																handleSubmitDelete(data.id)
-																handleDelete(data.id)
-															}
-															}>
-															Confirm
-														</Button>
-														<Button type="button"
-															value="Clear" onClick={() => setShowDelete(false)}
-															variant="contained" size="large" color="error"
-															endIcon={<CancelIcon />}
-															sx={{
-																margin: '5px',
-															}}>
-															Cancel
-														</Button>
-													</div>
-												)}
+												<ButtonDeleteCategory id={data.id} isDeleted={data.isDeleted}></ButtonDeleteCategory>
 											</TableCell>
 											<TableCell>
 												<UpdateButton onClick={() => handleUpdate(data.id)}
@@ -237,7 +184,7 @@ export default function CRUDCategory() {
 					</Table>
 				</TableContainer>
 				<TablePagination
-					rowsPerPageOptions={[10, 25, 50]}
+					rowsPerPageOptions={[9]}
 					component="div"
 					count={Array.isArray(data) && (data.length)}
 					rowsPerPage={rowsPerPage}

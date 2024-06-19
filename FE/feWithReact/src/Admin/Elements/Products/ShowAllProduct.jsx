@@ -2,12 +2,13 @@ import { Box, Grid, Container } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState, setParams } from 'react'
-import { Stack, Pagination, TextField } from '@mui/material'
+import { Stack, Pagination, Button } from '@mui/material'
 import { Table, TableBody, TableContainer, TableHead, ImageList, TableRow, ImageListItem, styled } from '@mui/material'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import ButtonDeleteProduct from './ButtonDeleteProduct'
 import UpdateProduct from './UpdateProduct'
 import ShowDetails from './ShowDetails'
+import CreateProduct from './CreateProduct'
 import "swiffy-slider/css"
 export default function ShowAllProduct() {
   const [PageNumber, setPageNumber] = useState(1)
@@ -65,11 +66,23 @@ export default function ShowAllProduct() {
     <div style={{
       justifyContent: 'flex-end'
     }}>
+      <CreateProduct></CreateProduct>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        marginRight: '10vw',
+        marginTop: '2vh'
+      }}>
+        <Button variant="contained" type="button" size="large" onClick={() => setTriggerRead(prev => !prev)}>
+          REFRESH
+        </Button>
+      </div>
 
       <Container sx={{
         display: 'flex',
         alignItems: 'center',
       }}>
+
         <Box>
           <TableContainer>
             <Table sx={{
@@ -108,10 +121,8 @@ export default function ShowAllProduct() {
                       <StyledTableCell>{item.name}</StyledTableCell>
                       <StyledTableCell><ButtonDeleteProduct id={item.id} isDeleted={item.isDeleted} /></StyledTableCell>
                       <StyledTableCell><UpdateProduct item={item} image={item.images}></UpdateProduct></StyledTableCell>
-                      {console.log(item.id)}
                       <StyledTableCell><ShowDetails id={item.id}></ShowDetails></StyledTableCell>
                     </TableRow>
-
                   </>
                 ))
                 }
