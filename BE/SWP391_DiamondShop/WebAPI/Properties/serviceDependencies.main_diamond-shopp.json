@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "apis1": {
+      "apiEndpoint": "https://diamondshop.azure-api.net/",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/DiamondShop/apis/DiamondShop",
+      "type": "apis.azure"
+    }
+  }
+}
