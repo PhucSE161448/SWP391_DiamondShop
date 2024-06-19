@@ -2,7 +2,7 @@
 import './navBar.css';
 
 import { Link, useMatch, useResolvedPath, Outlet } from "react-router-dom"
-
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 export default function Navbar() {
 	return (
 		<>
@@ -19,7 +19,7 @@ export default function Navbar() {
 					<CustomLink to="/">Jewelry</CustomLink>
 					<CustomLink to="/">Gifts</CustomLink>
 					<CustomLink to="/">Gemstones</CustomLink>
-					<CustomLink to="/"><img src="src\assets\img\shopping-cart (1).png" alt="" className='cartLogo' /></CustomLink>
+					<CustomLink to="/cart"><ShoppingCartIcon fontSize='large'></ShoppingCartIcon></CustomLink>
 					<CustomLink to="/login">Login</CustomLink>
 				</div>
 			</nav >

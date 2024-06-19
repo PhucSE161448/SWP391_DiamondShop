@@ -11,10 +11,9 @@ import SignUp from './Auth/SignUp'
 import Category from './Admin/Elements/Category/Category'
 import Account from './Admin/Elements/Account/Account'
 import Admin from './Admin/Admin'
-import Product from './Admin/Elements/Products/Product'
-import CreateProduct from './Admin/Elements/Products/CreateProduct'
 import ShowAllProduct from './Admin/Elements/Products/ShowAllProduct'
 import Warranty from './Admin/Elements/Warranty/Warranty'
+import Cart from './Pages/Cart'
 export default function App() {
   return (
     <>
@@ -26,22 +25,15 @@ export default function App() {
             <Route index element={<Homepage />} />
             <Route path='diamondPage' element={<DiamondPage />}></Route>
             <Route path='ring' element={<Ring />}></Route>
+            <Route path='/cart' element={<Cart></Cart>}></Route>
           </Route>
 
-
-          {/* <Route path='/a' element={<Home />}></Route>
-          <Route path='/b' element={<Home />}></Route>
-          <Route path='/c' element={<Home />}></Route>
-          <Route path='/d' element={<Home />}></Route>
-          <Route path='/e' element={<Home />}></Route> */}
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
           <Route path='/admin' element={<Admin />}>
             <Route path='account' element={<Account />} />
             <Route path='category' element={<Category />} />
-            <Route path='product' element={<Product />}>
-              <Route path='create' element={<CreateProduct />}></Route>
-              <Route path='showAllProduct' element={<ShowAllProduct></ShowAllProduct>}></Route>
+            <Route path='product' element={<ShowAllProduct />}>
             </Route>
             <Route path='warranty' element={<Warranty></Warranty>}> </Route>
           </Route>
