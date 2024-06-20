@@ -7,6 +7,8 @@ using System.Text;
 using Serilog;
 using WebAPI;
 using WebAPI.Middlewares;
+using Google.Apis.Auth.OAuth2;
+using Newtonsoft.Json.Linq;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -62,7 +64,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
-Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\diamondshop-ea47a-firebase-adminsdk-6re19-23d180499e.json");
+
+var google = JObject.FromObject(configuration.GoogleImage);
+string g = google.ToString();
+string temp = Path.GetTempFileName();
+File.WriteAllText(temp, g);
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", temp);
+GoogleCredential credential = GoogleCredential.FromFile(temp);
+
 var app = builder.Build();
 app.UseCors(options =>
     options.AllowAnyOrigin()
@@ -86,3 +95,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

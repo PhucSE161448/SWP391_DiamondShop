@@ -11,6 +11,7 @@ namespace Application.ViewModels.Diamonds
     public class GetDiamondPaginationDTO
     {
         public int Id { get; set; }
+        public string? Name { get; set; }
         public string? Origin { get; set; }
         public decimal CaratWeight { get; set; }
         public string? Clarity { get; set; }
