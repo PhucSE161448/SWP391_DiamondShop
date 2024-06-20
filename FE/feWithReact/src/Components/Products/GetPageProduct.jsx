@@ -2,7 +2,7 @@ import { Box, Grid, Container } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState, setParams } from 'react'
-import { Stack, Pagination, TextField } from '@mui/material'
+import { Stack, Pagination, TextField, CardMedia } from '@mui/material'
 export default function GetPageProduct() {
   const [PageNumber, setPageNumber] = useState(1)
   const [PageSize, setPageSize] = useState(12)
@@ -14,7 +14,7 @@ export default function GetPageProduct() {
     queryDTO: {
       PageNumber: PageNumber,
       PageSize: PageSize,
-      OrderByDesc: OrderByDesc
+      ...(OrderByDesc !== null && { OrderByDesc: OrderByDesc }),
     },
   }
 
@@ -77,16 +77,21 @@ export default function GetPageProduct() {
                     margin: '50px',
                   }} >
                     <CardContent>
+
                       {item.images && item.images[0] && item.images[0].urlPath ? (
-                        <img src={item.images[0].urlPath} alt={item.name} style={{
-                          width: '100%',
-                        }} />
+                        <>
+                          <CardMedia
+                            component="img"
+                            image={item.images[0].urlPath}
+                            alt="Paella dish"
+                            sx={{
+                              width: '100%',
+                            }}
+                          />
+                        </>
+
                       ) : null}
                       <h3>{item.name}</h3>
-                      <p>{item.productPart}</p>
-                      <p>{item.productSize}</p>
-                      <p>{item.quantity}</p>
-                      <p>{item.warrantyDocuments.termsAndConditions}</p>
                     </CardContent>
                   </Card>
                 </Grid>

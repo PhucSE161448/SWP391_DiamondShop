@@ -36,7 +36,6 @@ export default function UpdateProduct(props) {
     Read()
   }, [])
 
-
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -293,19 +292,12 @@ export default function UpdateProduct(props) {
                 </div>
               </div> <br />
               <div>
-                <Button
-                  component="label"
-                  role={undefined}
-                  variant="contained"
-                  tabIndex={-1}
-                  startIcon={<FileUploadIcon />}
-                >
-                  Upload image
-                  <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />
-                </Button>
-                {image.length > 0 && (
+                <h3>
+                  Old images
+                </h3>
+                {props.image.length > 0 && (
                   <Grid container columnSpacing={3}>
-                    {image.map((image, index) => (
+                    {props.image.map((image, index) => (
                       <>
                         <Grid item xs={3}>
                           <Card sx={{
@@ -316,7 +308,7 @@ export default function UpdateProduct(props) {
                             }
                           }}>
                             <CardContent>
-                              <img src={URL.createObjectURL(image)} alt="" style={{
+                              <img src={image.urlPath} alt="" style={{
                                 width: '100%',
                                 borderRadius: '10px',
                               }} />
@@ -335,6 +327,55 @@ export default function UpdateProduct(props) {
                         </Grid >
                       </>
                     ))}
+                  </Grid>
+                )}
+                <h3>
+                  New images
+                </h3>
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<FileUploadIcon />}
+                >
+                  Upload image
+                  <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />
+                </Button>
+                {image.length > 0 && (
+                  <Grid container columnSpacing={3}>
+                    {
+                      image.map((image, index) => (
+                        <>
+                          <Grid item xs={3}>
+                            <Card sx={{
+                              width: 'auto',
+                              '&:hover': {
+                                backgroundColor: 'rgba(0,0,0,0.1)',
+                                borderRadius: '10px',
+                              }
+                            }}>
+                              <CardContent>
+                                <img src={URL.createObjectURL(image)} alt="" style={{
+                                  width: '100%',
+                                  borderRadius: '10px',
+                                }} />
+                                <p key={index}>{image.name}</p>
+                              </CardContent>
+
+                              <div style={{ textAlign: 'right' }}>
+                                <Button
+                                  color="error"
+                                  endIcon={<DeleteIcon sx={{ color: 'red', margin: 0, padding: 0 }} />}
+                                  onClick={() => handleDeleteImage(index)}>
+                                  Delete
+                                </Button>
+                              </div>
+                            </Card>
+                          </Grid >
+                        </>
+                      ))
+                    }
                   </Grid>
                 )}
               </div> <br />
