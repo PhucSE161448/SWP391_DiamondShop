@@ -28,6 +28,7 @@ namespace Infrastructures.Repositories.Products
             var query = _dbContext.Products.AsNoTracking()
                                           .Include(p => p.Category)
                                           .Include(p => p.ProductParts)
+                                          .ThenInclude(pp => pp.Diamond)
                                           .Include(p => p.ProductSizes)
                                           .Include(p => p.Images)
                                           .Include(p => p.WarrantyDocuments)
