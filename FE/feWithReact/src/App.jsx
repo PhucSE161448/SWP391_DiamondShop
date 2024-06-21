@@ -14,6 +14,7 @@ import Admin from './Admin/Admin'
 import ShowAllProduct from './Admin/Elements/Products/ShowAllProduct'
 import Warranty from './Admin/Elements/Warranty/Warranty'
 import Cart from './Pages/Cart'
+import ProductDetail from './Components/Products/ProductDetail'
 export default function App() {
   return (
     <>
@@ -24,7 +25,10 @@ export default function App() {
           <Route path='/' element={<Home />}>
             <Route index element={<Homepage />} />
             <Route path='diamondPage' element={<DiamondPage />}></Route>
-            <Route path='ring' element={<Ring />}></Route>
+            <Route path='ring' element={<Ring />}>
+
+            </Route>
+            <Route path='ring/detail/:id' element={<ProductDetail></ProductDetail>}></Route>
             <Route path='/cart' element={<Cart></Cart>}></Route>
           </Route>
 
@@ -33,8 +37,7 @@ export default function App() {
           <Route path='/admin' element={<Admin />}>
             <Route path='account' element={<Account />} />
             <Route path='category' element={<Category />} />
-            <Route path='product' element={<ShowAllProduct />}>
-            </Route>
+            <Route path='product' element={<ShowAllProduct />}></Route>
             <Route path='warranty' element={<Warranty></Warranty>}> </Route>
           </Route>
 
