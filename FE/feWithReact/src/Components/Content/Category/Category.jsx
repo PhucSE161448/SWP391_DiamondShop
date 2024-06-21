@@ -3,6 +3,7 @@ import { swiffyslider } from 'swiffy-slider';
 import "swiffy-slider/css"
 import './Category.css'
 import { CategoryData } from './listOfCategory'
+
 export default function Category() {
 	window.swiffyslider = swiffyslider;
 

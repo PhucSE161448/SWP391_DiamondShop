@@ -26,7 +26,6 @@ export default function CreateAccount(props) {
 	}
 	const handleSubmit = (event) => {
 		event.preventDefault()
-		// Gọi hàm CreateCaratWeight, truyền weight và price như là các đối số
 		CreateAccount(emailAccount, passwordAccount, nameAccount, addressAccount, genderAccount, passwordAccount, roleAccount)
 		setnameAccount('')
 		setEmailAccount('')
