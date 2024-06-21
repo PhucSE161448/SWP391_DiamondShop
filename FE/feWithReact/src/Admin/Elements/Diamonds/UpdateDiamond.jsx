@@ -8,12 +8,10 @@ import { styled } from '@mui/material/styles'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-export default function CreateDiamond(props) {
+export default function UpdateDiamond(props) {
     const [image, setImage] = useState([])
     const [open, setOpen] = useState(false)
-    const handleOpen = () => {
-      setOpen(true)
-    }
+    const handleOpen = () => setOpen(true)
     const handleClose = () => {
       setOpen(false)
   
@@ -31,33 +29,33 @@ export default function CreateDiamond(props) {
         width: 1,
     })
 
-    const ITEM_HEIGHT = 120;
-    const ITEM_PADDING_TOP = 8;
+    const ITEM_HEIGHT = 120
+    const ITEM_PADDING_TOP = 8
     const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      PaperProps: {
+        style: {
+          maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
         },
       },
-    } 
+    }
 
     const handleImageChange = (e) => {
         setImage((prevImages) => [...prevImages, ...e.target.files])
     }
     
-      const handleClear = () => {
+    const handleClear = () => {
         formik.resetForm()
         setImage([])
     }
     
-      const handleDeleteImage = (index) => {
+    const handleDeleteImage = (index) => {
         setImage((currentImages) => currentImages.filter((_, i) => i !== index))
     }
 
-    async function Create(values) {
-        const url = 'https://localhost:7122/api/Diamond/CreateDiamond'
-    
-        const formData = new FormData();
+    function Update(values) {
+        const url = 'https://localhost:7122/api/Diamond/UpdateDiamond/' + props.item.id
+        console.log(url)
+        const formData = new FormData()
         formData.append('Origin', values.origin);
         formData.append('Color', values.color);
         formData.append('CaratWeight', values.caratWeight);
@@ -72,18 +70,18 @@ export default function CreateDiamond(props) {
         for (let i = 0; i < image.length; i++) {
           const file = image[i];
           const fieldName = 'ProductImages';
-          const fieldValue = new File([file], `${file.name}`, { type: 'image/jpeg' });
-          formData.append(fieldName, fieldValue);
+          const fieldValue = new File([file], `${file.name}`, { type: 'image/jpeg' })
+          console.log(fieldName, fieldValue)
+          formData.append(fieldName, fieldValue)
         }
     
-        const responseCreateProduct = await fetch(url, {
-          method: 'POST',
+        fetch(url, {
+          method: 'PUT',
           headers: {
             'Accept': '*/*',
           },
           body: formData
         });
-        const responseData = await responseCreateProduct.json();
     }
 
     const validationSchema = Yup.object({
@@ -110,19 +108,17 @@ export default function CreateDiamond(props) {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-          Create(values);
+          Update(values);
         },
     });
 
     return (
         <div style={{
           display: 'flex',
-          justifyContent: 'flex-end',
-          marginRight: '10vw',
-          marginTop: '2vh'
+          justifyContent: 'center',
         }}>
           <Button variant="contained" type="button" size="large" onClick={handleOpen}>
-            CREATE DIAMOND
+            Update
           </Button>
           <Modal
             open={open}
@@ -141,11 +137,11 @@ export default function CreateDiamond(props) {
               boxShadow: 24,
               p: 4,
             }}>
-              <h3 className='titleOfForm'>CREATE DIAMOND</h3>
+              <h3 className='titleOfForm'>UPDATE DIAMOND</h3>
               <div>
                 <form onSubmit={formik.handleSubmit} >
                   <div className='row'>
-                    <div className='col'>
+                  <div className='col'>
                       <TextField type="text" value={formik.values.origin}
                         onChange={formik.handleChange}
                         name="origin"
@@ -157,6 +153,7 @@ export default function CreateDiamond(props) {
                         (<Alert severity="error">{formik.errors.origin}</Alert>)}
                     </div>
                   </div> <br />
+
                   <div className='row'>
                     <div className='col-3'>
                       <FormControl fullWidth>
@@ -223,7 +220,7 @@ export default function CreateDiamond(props) {
                       {formik.touched.clarity && formik.errors.clarity &&
                         (<Alert severity="error">{formik.errors.clarity}</Alert>)}
                     </div>
-                    
+
                     <div className='col-3'>
                       <FormControl fullWidth>
                         <InputLabel id="select-label">Cut</InputLabel>
@@ -257,19 +254,12 @@ export default function CreateDiamond(props) {
                   </div>
 
                   <div>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<FileUploadIcon />}
-                    >
-                      Upload image
-                      <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />
-                    </Button>
-                    {image.length > 0 && (
+                    <h3>
+                      Old images
+                    </h3>
+                    {props.image.length > 0 && (
                       <Grid container columnSpacing={3}>
-                        {image.map((image, index) => (
+                        {props.image.map((image, index) => (
                           <>
                             <Grid item xs={3}>
                               <Card sx={{
@@ -280,7 +270,7 @@ export default function CreateDiamond(props) {
                                 }
                               }}>
                                 <CardContent>
-                                  <img src={URL.createObjectURL(image)} alt="" style={{
+                                  <img src={image.urlPath} alt="" style={{
                                     width: '100%',
                                     borderRadius: '10px',
                                   }} />
@@ -301,8 +291,56 @@ export default function CreateDiamond(props) {
                         ))}
                       </Grid>
                     )}
+                    <h3>
+                      New images
+                    </h3>
+                    <Button
+                      component="label"
+                      role={undefined}
+                      variant="contained"
+                      tabIndex={-1}
+                      startIcon={<FileUploadIcon />}
+                    >
+                      Upload image
+                      <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />
+                    </Button>
+                    {image.length > 0 && (
+                      <Grid container columnSpacing={3}>
+                        {
+                          image.map((image, index) => (
+                            <>
+                              <Grid item xs={3}>
+                                <Card sx={{
+                                  width: 'auto',
+                                  '&:hover': {
+                                    backgroundColor: 'rgba(0,0,0,0.1)',
+                                    borderRadius: '10px',
+                                  }
+                                }}>
+                                  <CardContent>
+                                    <img src={URL.createObjectURL(image)} alt="" style={{
+                                      width: '100%',
+                                      borderRadius: '10px',
+                                    }} />
+                                    <p key={index}>{image.name}</p>
+                                  </CardContent>
+    
+                                  <div style={{ textAlign: 'right' }}>
+                                    <Button
+                                      color="error"
+                                      endIcon={<DeleteIcon sx={{ color: 'red', margin: 0, padding: 0 }} />}
+                                      onClick={() => handleDeleteImage(index)}>
+                                      Delete
+                                    </Button>
+                                  </div>
+                                </Card>
+                              </Grid >
+                            </>
+                          ))
+                        }
+                      </Grid>
+                    )}
                   </div> <br />
-                  
                   <div className='row'>
                     <div className='col-6'>
                       <TextField type="text" name='name'
@@ -334,6 +372,7 @@ export default function CreateDiamond(props) {
                         (<Alert severity="error">{formik.errors.quantity}</Alert>)}
                     </div>
                   </div>
+
                   <div className='formSubmit' >
                     <Button
                       type="submit"
@@ -359,7 +398,7 @@ export default function CreateDiamond(props) {
                 </form>
               </div>
             </Box >
-          </Modal>
+          </Modal>    
         </div >
     )
 }
