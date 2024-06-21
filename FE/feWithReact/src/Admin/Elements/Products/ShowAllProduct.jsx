@@ -1,15 +1,15 @@
 import { Box, Grid, Container } from '@mui/material'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import React, { useEffect, useState, setParams } from 'react'
+import { Outlet, Navigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
 import { Stack, Pagination, Button } from '@mui/material'
 import { Table, TableBody, TableContainer, TableHead, ImageList, TableRow, ImageListItem, styled } from '@mui/material'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import ButtonDeleteProduct from './ButtonDeleteProduct'
-import UpdateProduct from './UpdateProduct'
+import { useNavigate } from 'react-router-dom'
 import ShowDetails from './ShowDetails'
 import CreateProduct from './CreateProduct'
 import "swiffy-slider/css"
+import UpdateProduct from './UpdateProduct';
 export default function ShowAllProduct() {
   const [PageNumber, setPageNumber] = useState(1)
   const [PageSize, setPageSize] = useState(4)
@@ -17,6 +17,7 @@ export default function ShowAllProduct() {
   const [TotalPage, setTotalPage] = useState(null)
   const [data, setData] = useState(null)
   const [triggerRead, setTriggerRead] = useState(false)
+  const navigate = useNavigate()
   const params = {
     queryDTO: {
       PageNumber: PageNumber,
@@ -66,14 +67,29 @@ export default function ShowAllProduct() {
     <div style={{
       justifyContent: 'flex-end'
     }}>
-      <CreateProduct></CreateProduct>
+
       <div style={{
         display: 'flex',
         justifyContent: 'flex-end',
         marginRight: '10vw',
         marginTop: '2vh'
       }}>
-        <Button variant="contained" type="button" size="large" onClick={() => setTriggerRead(prev => !prev)}>
+        <CreateProduct></CreateProduct>
+
+        <Button
+          variant="contained"
+          type="button"
+          size="large"
+          onClick={() => setTriggerRead(prev => !prev)}
+          sx={{
+            backgroundColor: '#4d5b6b',
+            color: '#f2f2f2',
+            marginLeft: '1vw',
+            '&:hover': {
+              backgroundColor: '#4d5b6b',
+              color: '#f2f2f2',
+            }
+          }}>
           REFRESH
         </Button>
       </div>
