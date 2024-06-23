@@ -1,0 +1,12 @@
+.displayDetail {
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+@media (max-width: 768px) {
+  .displayDetail {
+
+    flex-direction: column !important;
+
+  }
+}
