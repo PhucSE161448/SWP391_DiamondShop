@@ -206,7 +206,6 @@ export default function CreateProduct(props) {
     }
     console.log(parsedValues)
     Create(parsedValues)
-
   }
 
   return (

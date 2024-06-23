@@ -41,6 +41,10 @@ export default function NavbarAdmin() {
 		navigate('/admin/product')
 	}
 
+	function goToDiamond() {
+		navigate('/admin/diamond')
+	}
+
 	const buttonStyle = {
 		color: '#fff',
 		width: '-webkit-fill-available',
@@ -70,6 +74,9 @@ export default function NavbarAdmin() {
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToAdmin} sx={buttonStyle}>Admin</Button>
 				</Menu.Item >
+				<Menu.Item style={paddingStyle}>
+					<Button onClick={goToDiamond} sx={buttonStyle}>Diamond</Button>
+				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToCategory} sx={buttonStyle}>Category</Button>
 				</Menu.Item>

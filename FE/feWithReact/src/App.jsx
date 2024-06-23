@@ -15,6 +15,7 @@ import ShowAllProduct from './Admin/Elements/Products/ShowAllProduct'
 import Warranty from './Admin/Elements/Warranty/Warranty'
 import Cart from './Pages/Cart'
 import ProductDetail from './Components/Products/ProductDetail'
+import ShowAllDiamond from './Admin/Elements/Diamonds/ShowAllDiamond'
 export default function App() {
   return (
     <>
@@ -39,6 +40,7 @@ export default function App() {
             <Route path='category' element={<Category />} />
             <Route path='product' element={<ShowAllProduct />}></Route>
             <Route path='warranty' element={<Warranty></Warranty>}> </Route>
+            <Route path='diamond' element={<ShowAllDiamond></ShowAllDiamond>}></Route>
           </Route>
 
         </Routes >
