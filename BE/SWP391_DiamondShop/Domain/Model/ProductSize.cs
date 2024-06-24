@@ -10,6 +10,6 @@ namespace Domain.Model
         public decimal Size { get; set; }
         public decimal Price { get; set; }
 
-        public virtual Product Product { get; set; }
+        public virtual Product Product { get; set; } = null!;
     }
 }
