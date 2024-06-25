@@ -60,7 +60,7 @@ namespace Infrastructures
         public IProductSizeRepo ProductSizeRepo => productSizeRepo;
         public IRoleRepo RoleRepo => roleRepo;
         public IImageRepo ImageRepo => imageRepo;
-        public ICartRepository CartRepo => cartRepo;
+        public ICartRepository CartRepository => cartRepo;
 
         public async Task<int> SaveChangeAsync()
         {
