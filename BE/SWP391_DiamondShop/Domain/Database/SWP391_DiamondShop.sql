@@ -1,3 +1,4 @@
+
 CREATE TABLE "Category"
 (
     "Id"           INT           NOT NULL Identity (1,1),
@@ -20,8 +21,9 @@ CREATE TABLE "Products"
     "Name"                 NVARCHAR(255) NOT NULL,
     "Gender"               bit           Not Null,
     "Quantity"             INT           NOT NULL,
+	"Wage"				   Decimal(8,2)  Null,
     "Category_Id"          INT           NOT NULL,
-    "WarrantyDocuments_Id" INT Unique    NULL,
+	"DiamondCase_Id"       INT           NOT NULL,
     "CreatedBy"            NVARCHAR(255) NULL,
     "CreatedDate"          DATE          NULL,
     "ModifiedBy"           NVARCHAR(255) NULL,
@@ -33,10 +35,24 @@ CREATE TABLE "Products"
 ALTER TABLE
     "Products"
     ADD CONSTRAINT "products_id_primary" PRIMARY KEY ("Id");
+	CREATE TABLE "DiamondCase"
+(
+    "Id"                   INT           NOT NULL Identity (1,1),
+    "Material"             NVARCHAR(255) NOT NULL,
+    "Color"                NVARCHAR(50)  NOT NULL,
+	"Name"				   NVARCHAR(50)  NOT NULL,
+    "CreatedBy"            NVARCHAR(255) NULL,
+    "CreatedDate"          DATE          NULL,
+    "ModifiedBy"           NVARCHAR(255) NULL,
+    "ModifiedDate"         DATE          NULL,
+    "DeletedBy"            NVARCHAR(255) NULL,
+    "DeletedDate"          DATE          NULL,
+    "IsDeleted"            BIT           NOT NULL DEFAULT '0'
+);
 CREATE TABLE "WarrantyDocuments"
 (
     "Id"                 INT           NOT NULL Identity (1,1),
-    "Period"             INT           NOT NULL,
+    "Period"             Date          NOT NULL,
     "TermsAndConditions" NVARCHAR(Max) NOT NULL,
     "CreatedBy"          NVARCHAR(255) NULL,
     "CreatedDate"        DATE          NULL,
@@ -64,13 +80,8 @@ CREATE TABLE "Orders"
     "Id"           INT           NOT NULL Identity (1,1),
     "Account_Id"   INT           NOT NULL,
     "TotalPrice"   DECIMAL(8, 2) NOT NULL,
-    "Status_Id"    INT           NOT NULL,
-    "CreatedBy"    NVARCHAR(255) NULL,
-    "CreatedDate"  DATE          NULL,
-    "ModifiedBy"   NVARCHAR(255) NULL,
-    "ModifiedDate" DATE          NULL,
-    "IsDeleted"    BIT           NOT NULL DEFAULT '0',
-    "PaymentId"    INT           NOT NULL
+    "PaymentId"    INT           NOT NULL,
+	"CreatedDate"  DATE			 NULL
 );
 ALTER TABLE
     "Orders"
@@ -83,7 +94,7 @@ CREATE TABLE "Account"
     "Password"          NVARCHAR(255) NOT NULL,
     "Address"           NVARCHAR(255) NOT NULL,
     "PhoneNumber"       NVARCHAR(255) NOT NULL,
-    "Point"             DECIMAL(8, 2) NOT NULL,
+	"Point"             DECIMAL(8, 2) NOT NULL,
     "Role_Id"           INT           NOT NULL,
     "Gender"            BIT           NOT NULL,
     "ConfirmationToken" NVARCHAR(255) NOT NULL,
@@ -99,15 +110,16 @@ CREATE TABLE "Account"
 ALTER TABLE
     "Account"
     ADD CONSTRAINT "account_id_primary" PRIMARY KEY ("Id");
-CREATE TABLE "Status"
+CREATE TABLE "OrderStatus"
 (
     "Id"          INT           NOT NULL Identity (1,1),
     "Account_Id"  INT           NOT NULL,
-    "Name"        Nvarchar(255) NOT NULL,
+	"OrderId"     INT			Not Null,
+    "Status"      Nvarchar(255) NOT NULL,
     "CreatedDate" DATE          NULL
 );
 ALTER TABLE
-    "Status"
+    "OrderStatus"
     ADD CONSTRAINT "status_id_primary" PRIMARY KEY ("Id");
 CREATE TABLE "Diamond"
 (
@@ -164,7 +176,7 @@ CREATE TABLE "ProductSizes"
     "DeletedDate"  DATE          NULL,
     "IsDeleted"    BIT           NOT NULL DEFAULT '0',
     PRIMARY KEY ("Id"),
-    FOREIGN KEY ("ProductId") REFERENCES "Products" ("Id")
+FOREIGN KEY ("ProductId") REFERENCES "Products" ("Id")
 );
 CREATE TABLE "Payment"
 (
@@ -211,18 +223,43 @@ create table [ProductPart]
     "DeletedDate"  DATE          NULL,
     "IsDeleted"    BIT           NOT NULL DEFAULT '0'
 );
-CREATE TABLE OrderItems
-(
-    OrderItemId INT PRIMARY KEY,
-    OrderId     INT,
-    ItemType    VARCHAR(20),
-    ItemId      INT,
-    Quantity    INT,
-    Price       DECIMAL(10, 2),
-    CONSTRAINT fk_order_items_orders FOREIGN KEY (OrderId) REFERENCES Orders (Id),
-    CONSTRAINT fk_order_items_diamonds FOREIGN KEY (ItemId) REFERENCES Diamond (Id),
-    CONSTRAINT fk_order_items_products FOREIGN KEY (ItemId) REFERENCES Products (Id)
+
+Create Table Cart(
+	CartId INT IDENTITY (1,1)Primary Key,
+	ProductId INT NULL ,
+	DiamondId INT NULL,
+	Quantity INT,
+	TotalPrice Decimal(8,2),
+	CreatedBy NVARCHAR(255) NULL,
+	CreatedDate DATE NULL,
+	DeletedDate DATE NULL,
+	DeletedBy NVARCHAR(255) NULL,
+	IsDeleted BIT  NOT NULL DEFAULT '0',
+	   constraint CHK_Cart_ForeignKey check (
+        (ProductId IS NOT NULL AND DiamondId IS NULL)
+            OR (ProductId IS NULL AND DiamondId IS NOT NULL)
+        ),
+	CONSTRAINT fk_cart_products FOREIGN KEY (ProductId) REFERENCES Products(Id),
+    CONSTRAINT fk_cart_diamonds FOREIGN KEY (DiamondId) REFERENCES Diamond(Id)
 );
+CREATE TABLE OrderCart
+(
+    CartId INT ,
+    OrderId INT,
+    Quantity    INT,
+	WarrantyDocument_Id INT UNIQUE,
+    Price       DECIMAL(10, 2),
+	PRIMARY KEY (OrderId, CartId),
+	CONSTRAINT fk_ordercart_orders FOREIGN KEY (OrderId) REFERENCES Orders(Id),
+    CONSTRAINT fk_ordercart_cart FOREIGN KEY (CartId) REFERENCES Cart(CartId),
+	CONSTRAINT fk_ordercart_warranty FOREIGN KEY (WarrantyDocument_Id) REFERENCES "WarrantyDocuments"(Id)
+);
+ALTER TABLE
+    "DiamondCase"
+    ADD CONSTRAINT "DiamondCase_id_primary" PRIMARY KEY ("Id");
+ALTER TABLE 
+"Products"
+ADD CONSTRAINT "FK_Products_DiamondCase" FOREIGN KEY ("DiamondCase_Id") REFERENCES "DiamondCase"("Id");
 ALTER TABLE
     "Promotions"
     ADD CONSTRAINT "promotions_id_primary" PRIMARY KEY ("Id");
@@ -232,18 +269,15 @@ ALTER TABLE
 ALTER TABLE
     "Orders"
     ADD CONSTRAINT "orders_paymentid_foreign" FOREIGN KEY ("PaymentId") REFERENCES "Payment" ("Id");
-ALTER TABLE
-    "Orders"
-    ADD CONSTRAINT "orders_status_id_foreign" FOREIGN KEY ("Status_Id") REFERENCES "Status" ("Id");
-ALTER TABLE
-    "Products"
-    ADD CONSTRAINT "products_warrantydocuments_id_foreign" FOREIGN KEY ("WarrantyDocuments_Id") REFERENCES "WarrantyDocuments" ("Id");
+ALTER TABLE "OrderStatus"
+ADD CONSTRAINT "FK_OrderStatus_Orders"
+FOREIGN KEY ("OrderId") REFERENCES "Orders"("Id");
 ALTER TABLE
     "Products"
     ADD CONSTRAINT "products_category_id_foreign" FOREIGN KEY ("Category_Id") REFERENCES "Category" ("Id");
 ALTER TABLE
-    "Status"
-    ADD CONSTRAINT "status_account_id_foreign" FOREIGN KEY ("Account_Id") REFERENCES "Account" ("Id");
+    "OrderStatus"
+ADD CONSTRAINT "status_account_id_foreign" FOREIGN KEY ("Account_Id") REFERENCES "Account" ("Id");
 ALTER TABLE
     "Orders"
     ADD CONSTRAINT "orders_account_id_foreign" FOREIGN KEY ("Account_Id") REFERENCES "Account" ("Id");

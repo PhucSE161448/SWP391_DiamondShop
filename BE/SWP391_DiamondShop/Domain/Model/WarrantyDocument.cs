@@ -6,9 +6,9 @@ namespace Domain.Model
     public partial class WarrantyDocument : BaseEntity
     {
         public int Id { get; set; }
-        public int Period { get; set; }
-        public string TermsAndConditions { get; set; }
+        public DateTime Period { get; set; }
+        public string TermsAndConditions { get; set; } = null!;
 
-        public virtual Product Product { get; set; }
+        public virtual OrderCart? OrderCart { get; set; }
     }
 }

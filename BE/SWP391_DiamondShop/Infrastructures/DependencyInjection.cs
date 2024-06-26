@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Account;
 using Application.Interfaces.Authenticates;
+using Application.Interfaces.Carts;
 using Application.Interfaces.Categories;
 using Application.Interfaces.Diamond;
 using Application.Interfaces.Images;
@@ -9,6 +10,7 @@ using Application.Interfaces.Products;
 using Application.Interfaces.ProductSizes;
 using Application.Interfaces.WarrantyDocument;
 using Application.IRepositories.Accounts;
+using Application.IRepositories.Carts;
 using Application.IRepositories.Categories;
 using Application.IRepositories.Diamonds;
 using Application.IRepositories.Images;
@@ -20,6 +22,7 @@ using Application.IRepositories.WarrantyDocuments;
 using Application.Services;
 using Application.Services.Accounts;
 using Application.Services.Authenticates;
+using Application.Services.Carts;
 using Application.Services.Categories;
 using Application.Services.Diamonds;
 using Application.Services.Images;
@@ -30,6 +33,7 @@ using Application.Services.WarrantyDocuments;
 using Google.Cloud.Storage.V1;
 using Infrastructures.Mappers;
 using Infrastructures.Repositories.Accounts;
+using Infrastructures.Repositories.Carts;
 using Infrastructures.Repositories.Categories;
 using Infrastructures.Repositories.Diamonds;
 using Infrastructures.Repositories.Images;
@@ -74,6 +78,9 @@ namespace Infrastructures
 
             services.AddScoped<IProductSizeRepo, ProductSizeRepo>();
             services.AddScoped<IProductSizeService, ProductSizeService>();
+
+            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<ICartService, CartService>();
 
             services.AddScoped<IRoleRepo, RoleRepo>();
 

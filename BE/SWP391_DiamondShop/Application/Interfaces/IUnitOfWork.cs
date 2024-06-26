@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.IRepositories.Carts;
 using Application.IRepositories.Categories;
 using Application.IRepositories.Images;
 using Application.IRepositories.ProductParts;
@@ -23,6 +24,7 @@ namespace Application.Interfaces
         public IAccountRepo AccountRepo { get; }
         public IProductRepo ProductRepo { get; }
         public ICategoryRepo CategoryRepo { get; }
+        public ICartRepository CartRepository { get; }
         public IProductPartRepo ProductPartRepo { get; }
         public IProductSizeRepo ProductSizeRepo { get; }
         public IRoleRepo RoleRepo { get; }

@@ -13,6 +13,6 @@ namespace WebAPI.Services
 
         }
 
-        public string GetCurrentUserId { get; }
+        public string? GetCurrentUserId { get; }
     }
 }
