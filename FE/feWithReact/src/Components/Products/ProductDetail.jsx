@@ -15,16 +15,9 @@ export default function ProductDetail() {
   const [productDetail, setProductDetail] = useState(null)
   const [currentTopImageIndex, setCurrentTopImageIndex] = useState(0)
   const [selectedSize, setSelectedSize] = useState(null);
-  const [priceDiamond1, setPriceDiamond1] = useState(0)
-  const [priceDiamond2, setPriceDiamond2] = useState(0)
-  const [priceDiamond3, setPriceDiamond3] = useState(0)
-  const [price, setPrice] = useState(0)
 
   const handleSelectSize = (size) => {
     setSelectedSize(size)
-  }
-  function calculatePrice(price1, price2, price3, price4) {
-    return price1 + price2 + price3 + price4
   }
 
   const AddToCartButton = styled(Button)(({ theme }) => ({
@@ -61,8 +54,8 @@ export default function ProductDetail() {
   })
 
   const initialValues = {
-    mainDiamond: '',
-    extraDiamond: '',
+    mainDiamond: productDetail?.productParts?.find(part => part.isMain)?.diamond?.id || '',
+    extraDiamond: productDetail?.productParts?.find(part => !part.isMain)?.diamond?.id || '',
     size: '',
   }
 
@@ -194,7 +187,6 @@ export default function ProductDetail() {
                     }}>
                       <div className='col-3' style={{
                         display: 'flex',
-                        justifyContent: 'center',
                         alignItems: 'center',
                       }}>
                         <h3>Main diamond</h3>
@@ -219,7 +211,6 @@ export default function ProductDetail() {
                                 .map((part, index) => (
                                   <MenuItem key={index}
                                     value={part.diamond.id}
-                                    onClick={() => setPriceDiamond1(part.diamond.price)}
                                   >
                                     {part.diamond.name}
                                   </MenuItem>
@@ -235,7 +226,7 @@ export default function ProductDetail() {
                     <div className='row'>
                       <div className='col-3' style={{
                         display: 'flex',
-                        justifyContent: 'center',
+
                         alignItems: 'center',
                       }}>
                         <h3>Extra diamond</h3>
@@ -259,8 +250,7 @@ export default function ProductDetail() {
                                 .filter(part => !part.isMain) // Filter parts where isMain is true
                                 .map((part, index) => (
                                   <MenuItem key={index}
-                                    value={part.diamond.id}
-                                    onClick={() => setPriceDiamond2(part.diamond.price)}>
+                                    value={part.diamond.id}>
                                     {part.diamond.name}
                                   </MenuItem>
                                 ))
@@ -298,13 +288,11 @@ export default function ProductDetail() {
                             <MenuItem key={index}
                               value={size.id}
                               onClick={() => {
-                                handleSelectSize(size.size);
-                                setPrice(size.price);
+                                handleSelectSize(size.size)
                               }}>
                               {size.size}
                             </MenuItem>
-                          ))
-                          }
+                          ))}
                         </Field>
                         <ErrorMessage name='size'>
                           {msg => <Alert severity="error">{msg}</Alert>}
@@ -313,10 +301,6 @@ export default function ProductDetail() {
                     </div>
                   </div>
                   <br />
-                  {() => setPriceDiamond3((priceDiamond1 + priceDiamond2) * 0.1)}
-                  <h3>
-                    Price: {calculatePrice(priceDiamond1, priceDiamond2, priceDiamond3, price)}
-                  </h3>
                   <AddToCartButton
                     type='submit'
                     variant='contained'
@@ -325,6 +309,15 @@ export default function ProductDetail() {
               </Form>
             )}
           </Formik>
+          {productDetail?.productSizes && productDetail?.productSizes.map((size, index) => (
+            size.size === selectedSize && (
+              <h3 key={index}
+                value={size.id}
+              >
+                Price: {size.price.toLocaleString()} $
+              </h3>
+            )
+          ))}
         </div>
       </div>
     </div >
