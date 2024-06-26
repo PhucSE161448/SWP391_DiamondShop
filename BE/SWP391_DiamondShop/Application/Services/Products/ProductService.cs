@@ -46,14 +46,14 @@ namespace Application.Services.Products
         public async Task<GetProductIdDTO> CreateProduct(CreateProductDTO createProductDto)
         {
             var category = await _unitOfWork.CategoryRepo.GetByIdAsync(createProductDto.CategoryId);
-            var warrantyDocument = await _unitOfWork.WarrantyDocumentRepo.GetByIdAsync(createProductDto.WarrantyDocumentsId);
+            var diamondCase = await _unitOfWork.DiamondCaseRepo.GetByIdAsync(createProductDto.DiamondCaseId);
             if (category is null)
             {
                 throw new NotFoundException("Category is not existed");
             }
-            if (warrantyDocument is null)
+            if (diamondCase is null)
             {
-                throw new NotFoundException("Warranty Document is not existed");
+                throw new NotFoundException("Diamond Case is not existed");
             }
             var product = createProductDto.Adapt<Product>(); 
             await _unitOfWork.ProductRepo.AddAsync(product);
@@ -97,14 +97,14 @@ namespace Application.Services.Products
                 throw new NotFoundException("Product is not existed");
             }
             var category = await _unitOfWork.CategoryRepo.GetByIdAsync(updateProductDto.CategoryId);
-            var warrantyDocument = await _unitOfWork.WarrantyDocumentRepo.GetByIdAsync(updateProductDto.WarrantyDocumentsId);
+            var diamondCase = await _unitOfWork.DiamondCaseRepo.GetByIdAsync(updateProductDto.DiamondCaseId);
             if (category is null)
             {
                 throw new NotFoundException("Category is not existed");
             }
-            if (warrantyDocument is null)
+            if (diamondCase is null)
             {
-                throw new NotFoundException("Warranty Document is not existed");
+                throw new NotFoundException("Diamond Case is not existed");
             }
             updateProductDto.Adapt(product);
             _unitOfWork.ProductRepo.Update(product);
