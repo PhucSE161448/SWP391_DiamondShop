@@ -15,10 +15,12 @@ import DeleteIcon from '@mui/icons-material/Delete'
 export default function CreateProduct(props) {
   const [image, setImage] = useState([])
   const [dataCategory, setDataCategory] = useState(null)
+  const [dataDiamondCase, setDataDiamondCase] = useState(null)
   const [dataDiamond, setDataDiamond] = useState(null)
   const [open, setOpen] = useState(false)
   const [priceMainPart, setPriceMainPart] = useState(0)
   const [priceExtraPart, setPriceExtraPart] = useState(0)
+
   const calculatePrice = (priceMain, priceExtra, priceSize) => {
     return priceMain + priceExtra + priceSize
   }
@@ -31,7 +33,7 @@ export default function CreateProduct(props) {
   }
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
-    function Read() {
+    function getDataCategory() {
       const url = 'https://localhost:7122/api/Category/GetAllCategories';
       fetch(url, {
         method: 'GET',
@@ -45,7 +47,7 @@ export default function CreateProduct(props) {
         })
         .catch((error) => console.error('Error:', error))
     }
-    Read()
+    getDataCategory()
   }, [])
 
   useEffect(() => {
@@ -60,6 +62,20 @@ export default function CreateProduct(props) {
         })
     }
     getDiamondData()
+  }, [])
+
+  useEffect(() => {
+    function getDiamondCaseData() {
+      fetch(`https://localhost:7122/api/DiamondCase/GetAllDiamondCases`)
+        .then(response => response.json())
+        .then(data => {
+          setDataDiamondCase(data)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    } getDiamondCaseData
+    getDiamondCaseData()
   }, [])
 
   const VisuallyHiddenInput = styled('input')({
@@ -105,7 +121,7 @@ export default function CreateProduct(props) {
     formData.append('Gender', values.gender);
     formData.append('Quantity', values.quantity);
     formData.append('CategoryId', values.categoryId);
-    formData.append('WarrantyDocumentsId', values.warrantyDocumentsId);
+    formData.append('DiamondCaseId', values.DiamondCaseId);
 
     console.log(values)
 
@@ -167,10 +183,8 @@ export default function CreateProduct(props) {
           .required('Type is required'),
       })
     ),
-    warrantyDocumentsId: Yup.number()
-      .required('Warranty ID is required')
-      .positive('Warranty ID must be positive')
-      .integer('Warranty ID must be an integer'),
+    DiamondCaseId: Yup.number()
+      .required('Diamond Case is required'),
     sizes: Yup.array().of(
       Yup.object().shape({
         size: Yup.number()
@@ -186,8 +200,8 @@ export default function CreateProduct(props) {
     gender: '',
     quantity: '',
     categoryId: '',
-    diamonds: [{ diamondId: '', isMain: '' }],
-    warrantyDocumentsId: '',
+    diamonds: [{ diamondId: '', isMain: true }, { diamondId: '', isMain: false }],
+    DiamondCaseId: '',
     sizes: [{ size: '', price: '' }]
   }
 
@@ -196,7 +210,7 @@ export default function CreateProduct(props) {
     const parsedValues = {
       ...values,
       quantity: parseInt(values.quantity, 10),
-      warrantyDocumentsId: parseInt(values.warrantyDocumentsId, 10),
+      DiamondCaseId: parseInt(values.DiamondCaseId, 10),
       diamonds: values.diamonds ? values.diamonds.map(diamond => ({
         diamondId: parseInt(diamond.diamondId, 10),
         isMain: diamond.isMain
@@ -206,8 +220,8 @@ export default function CreateProduct(props) {
         price: parseInt(size.price, 10)
       })) : []
     }
-    console.log(parsedValues)
     Create(parsedValues)
+    props.onProductCreated()
   }
 
   return (
@@ -319,15 +333,20 @@ export default function CreateProduct(props) {
                   </div>
                   <div className='col-3'>
                     <FormControl fullWidth>
+                      <InputLabel>Diamond Case</InputLabel>
                       <Field
-                        name="warrantyDocumentsId"
-                        as={TextField}
-                        label="Warranty documents"
+                        name="DiamondCaseId"
+                        as={Select}
+                        label="Diamond Case"
                         onChange={handleChange}
-                        value={values.warrantyDocumentsId}
-                      />
+                        value={values.DiamondCaseId}
+                      >
+                        {dataDiamondCase && dataDiamondCase.map((item) => (
+                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                        ))}
+                      </Field>
                     </FormControl>
-                    <ErrorMessage name="warrantyDocumentsId">
+                    <ErrorMessage name="DiamondCaseId">
                       {msg => <Alert severity="error">{msg}</Alert>}
                     </ErrorMessage>
                   </div>
@@ -407,7 +426,7 @@ export default function CreateProduct(props) {
                                 as={RadioGroup}
                                 label="isMain"
                                 onChange={form.handleChange}
-                                value={true}
+                                value={form.values.diamonds[0].isMain}
                                 sx={{
                                   display: 'flex',
                                   flexDirection: 'row',
@@ -466,7 +485,7 @@ export default function CreateProduct(props) {
                                 as={RadioGroup}
                                 label="isMain"
                                 onChange={form.handleChange}
-                                value={false}
+                                value={form.values.diamonds[1].isMain}
                                 sx={{
                                   display: 'flex',
                                   flexDirection: 'row',

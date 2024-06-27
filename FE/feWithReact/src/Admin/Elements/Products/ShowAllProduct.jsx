@@ -74,7 +74,7 @@ export default function ShowAllProduct() {
         marginRight: '10vw',
         marginTop: '2vh'
       }}>
-        <CreateProduct></CreateProduct>
+        <CreateProduct onProductCreated={() => setTriggerRead(prev => !prev)}></CreateProduct>
 
         <Button
           variant="contained"
@@ -136,7 +136,7 @@ export default function ShowAllProduct() {
                       </StyledTableCell>
                       <StyledTableCell>{item.name}</StyledTableCell>
                       <StyledTableCell><ButtonDeleteProduct id={item.id} isDeleted={item.isDeleted} /></StyledTableCell>
-                      <StyledTableCell><UpdateProduct item={item} image={item.images}></UpdateProduct></StyledTableCell>
+                      <StyledTableCell><UpdateProduct item={item} image={item.images} onProductUpdated={() => setTriggerRead(prev => !prev)}></UpdateProduct></StyledTableCell>
                       <StyledTableCell><ShowDetails id={item.id}></ShowDetails></StyledTableCell>
                     </TableRow>
                   </>

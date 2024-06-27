@@ -45,6 +45,10 @@ export default function NavbarAdmin() {
 		navigate('/admin/diamond')
 	}
 
+	function goToDiamondCase() {
+		navigate('/admin/diamondCase')
+	}
+
 	const buttonStyle = {
 		color: '#fff',
 		width: '-webkit-fill-available',
@@ -88,6 +92,9 @@ export default function NavbarAdmin() {
 				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToWarranty} sx={buttonStyle}>Warranty</Button>
+				</Menu.Item>
+				<Menu.Item style={paddingStyle}>
+				<Button onClick={goToDiamondCase} sx={buttonStyle}>Diamond Case</Button>
 				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={Logout} sx={{

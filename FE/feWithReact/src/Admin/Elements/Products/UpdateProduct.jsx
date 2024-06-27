@@ -13,13 +13,14 @@ import DeleteIcon from '@mui/icons-material/Delete'
 export default function UpdateProduct(props) {
   const [image, setImage] = useState([])
   const [dataCategory, setDataCategory] = useState(null)
+  const [dataDiamondCase, setDataDiamondCase] = useState(null)
   const [dataDiamond, setDataDiamond] = useState(null)
   const [open, setOpen] = useState(false)
   const [displayStatus, setDisplayStatus] = useState(false)
   const [responseCodeProduct, setResponseCodeProduct] = useState(null)
   const [responseCodeProductDetail, setResponseCodeProductDetail] = useState(null)
-  const [priceMainPart, setPriceMainPart] = useState(0)
-  const [priceExtraPart, setPriceExtraPart] = useState(0)
+  const [priceMainPart, setPriceMainPart] = useState(props.item.productParts[0]?.diamond?.price)
+  const [priceExtraPart, setPriceExtraPart] = useState(props.item.productParts[1]?.diamond?.price)
   const calculatePrice = (priceMain, priceExtra, priceSize) => {
     return priceMain + priceExtra + priceSize
   }
@@ -27,6 +28,7 @@ export default function UpdateProduct(props) {
   const handleClose = () => {
     setOpen(false)
     setDisplayStatus(false)
+    props.onProductUpdated()
   }
   const item = props.item
 
@@ -64,6 +66,20 @@ export default function UpdateProduct(props) {
         })
     }
     getDiamondData()
+  }, [])
+
+  useEffect(() => {
+    function getDiamondCaseData() {
+      fetch(`https://localhost:7122/api/DiamondCase/GetAllDiamondCases`)
+        .then(response => response.json())
+        .then(data => {
+          setDataDiamondCase(data)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    } getDiamondCaseData
+    getDiamondCaseData()
   }, [])
 
   const VisuallyHiddenInput = styled('input')({
@@ -109,7 +125,7 @@ export default function UpdateProduct(props) {
     formData.append('Gender', values.gender)
     formData.append('Quantity', values.quantity)
     formData.append('CategoryId', values.categoryId)
-    formData.append('WarrantyDocumentsId', values.warrantyDocumentsId)
+    formData.append('DiamondCaseId', values.DiamondCaseId)
 
 
     // Lặp qua mỗi file và thêm vào FormData
@@ -169,10 +185,8 @@ export default function UpdateProduct(props) {
           .required('Type is required'),
       })
     ),
-    warrantyDocumentsId: Yup.number()
-      .required('Warranty ID is required')
-      .positive('Warranty ID must be positive')
-      .integer('Warranty ID must be an integer'),
+    DiamondCaseId: Yup.number()
+      .required('Diamond is required'),
     sizes: Yup.array().of(
       Yup.object().shape({
         size: Yup.number()
@@ -188,7 +202,7 @@ export default function UpdateProduct(props) {
     gender: item.gender,
     quantity: item.quantity,
     categoryId: item.category.id,
-    warrantyDocumentsId: item.warrantyDocuments.id,
+    DiamondCaseId: item.diamondCase.id,
     diamonds: item.productParts?.map(partItem => ({
       diamondId: partItem?.diamond?.id,
       isMain: partItem?.isMain,
@@ -204,7 +218,7 @@ export default function UpdateProduct(props) {
     const parsedValues = {
       ...values,
       quantity: parseInt(values.quantity, 10),
-      warrantyDocumentsId: parseInt(values.warrantyDocumentsId, 10),
+      DiamondCaseId: parseInt(values.DiamondCaseId, 10),
       diamonds: values.diamonds ? values.diamonds.map(diamond => ({
         diamondId: parseInt(diamond.diamondId, 10),
         isMain: diamond.isMain
@@ -317,15 +331,21 @@ export default function UpdateProduct(props) {
                     </FormControl>
                   </div>
                   <div className='col-3'>
-                    <Field
-                      name="warrantyDocumentsId"
-                      as={TextField}
-                      label="Warranty documents"
-                      onChange={handleChange}
-                      value={values.warrantyDocumentsId}
-                      sx={{ width: '100%' }}
-                    />
-                    <ErrorMessage name="warrantyDocumentsId">
+                    <FormControl fullWidth>
+                      <InputLabel>Diamond Case</InputLabel>
+                      <Field
+                        name="DiamondCaseId"
+                        as={Select}
+                        label="Diamond Case"
+                        onChange={handleChange}
+                        value={values.DiamondCaseId}
+                      >
+                        {dataDiamondCase && dataDiamondCase.map((item) => (
+                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                        ))}
+                      </Field>
+                    </FormControl>
+                    <ErrorMessage name="DiamondCaseId">
                       {msg => <Alert severity="error" sx={{ width: '100%' }}>{msg}</Alert>}
                     </ErrorMessage>
                   </div>

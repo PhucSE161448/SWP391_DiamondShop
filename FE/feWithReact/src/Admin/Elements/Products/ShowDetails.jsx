@@ -66,8 +66,8 @@ export default function ShowDetails(props) {
               <p>Gender: {productDetails?.gender ? 'Male' : 'Female'}</p>
               <p>Quantity: {productDetails?.quantity}</p>
               <p>Category: {productDetails?.category.name}</p>
-              <p>Warranty Period: {productDetails?.warrantyDocuments.period} year(s)</p>
-              <p>Warranty Terms: {productDetails?.warrantyDocuments.termsAndConditions}</p>
+              {/* <p>Warranty Period: {productDetails?.warrantyDocuments.period} year(s)</p>
+              <p>Warranty Terms: {productDetails?.warrantyDocuments.termsAndConditions}</p> */}
             </div>
             <div className='col-6 row'>
               <h3>Parts</h3>

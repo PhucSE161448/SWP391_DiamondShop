@@ -2,22 +2,53 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Form, Formik, Field, ErrorMessage, } from 'formik'
-import { Alert } from '@mui/material'
+
+import { Alert, TextField } from '@mui/material'
 import * as Yup from 'yup';
 import { styled, } from '@mui/material'
 import Button from '@mui/material/Button'
 import './ProductDetail.css';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 export default function ProductDetail() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const { id } = useParams()
   const [productDetail, setProductDetail] = useState(null)
   const [currentTopImageIndex, setCurrentTopImageIndex] = useState(0)
   const [selectedSize, setSelectedSize] = useState(null);
-
+  const [selectedQuantity, setSelectedQuantity] = useState(1)
+  const [totalPrice, setTotalPrice] = useState(0)
   const handleSelectSize = (size) => {
     setSelectedSize(size)
+  }
+
+  const handleSelectQuantity = (quantity) => {
+    setSelectedQuantity(quantity)
+  }
+
+
+  const data = {
+    id: id,
+    quantity: selectedQuantity,
+    totalPrice: totalPrice,
+  }
+
+  const submitForm = async (data) => {
+    const body = {
+      id: data.id,
+      quantity: data.quantity,
+      totalPrice: data.totalPrice
+    }
+    try {
+      const response = await fetch('https://localhost:7122/api/Cart/Create?check=true', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const AddToCartButton = styled(Button)(({ theme }) => ({
@@ -27,6 +58,7 @@ export default function ProductDetail() {
       backgroundColor: ' #a32222',
     },
   }))
+
   const handleUp = () => {
     setCurrentTopImageIndex(prevIndex => {
       if (prevIndex === 0) {
@@ -45,22 +77,6 @@ export default function ProductDetail() {
         return Math.min(prevIndex + 1, productDetail?.images.length - 4)
       }
     })
-  }
-
-  const validationSchema = Yup.object({
-    mainDiamond: Yup.number().required('Required'),
-    extraDiamond: Yup.number().required('Required'),
-    size: Yup.number().required('Required'),
-  })
-
-  const initialValues = {
-    mainDiamond: productDetail?.productParts?.find(part => part.isMain)?.diamond?.id || '',
-    extraDiamond: productDetail?.productParts?.find(part => !part.isMain)?.diamond?.id || '',
-    size: '',
-  }
-
-  const onSubmit = (values) => {
-    console.log(values)
   }
 
   const [imageMain, setImageMain] = useState(null)
@@ -101,8 +117,6 @@ export default function ProductDetail() {
       backgroundColor: 'rgba(0,0,0,0.1)',
 
     }}>
-
-
       <div className='row displayDetail' style={{
         display: 'flex',
         flexDirection: 'row',
@@ -169,157 +183,70 @@ export default function ProductDetail() {
         <div className='col' style={{
           paddingTop: '5vh',
         }}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
-            {({ handleChange, values }) => (
-              <Form>
-                <div className='col' style={{
-                  paddingTop: '5vh',
-                }}>
-                  <h1>{productDetail?.name}</h1>
-                  <p>Category: {productDetail?.category?.name}</p>
-                  <div>
-                    <div className='row' style={{
-                      marginBottom: '20px',
-                    }}>
-                      <div className='col-3' style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}>
-                        <h3>Main diamond</h3>
-                      </div>
-                      <div className='col'>
-                        <FormControl sx={{
-                          width: '300px',
-                        }}>
-                          <InputLabel>Main diamond</InputLabel>
-                          <Field
-                            name="mainDiamond"
-                            id="mainDiamond"
-                            as={Select}
-                            label="Main diamond"
-                            onChange={handleChange}
-                            value={values.mainDiamond}
-                            MenuProps={MenuProps}
-                          >
-                            {
-                              productDetail?.productParts
-                                .filter(part => part.isMain) // Filter parts where isMain is true
-                                .map((part, index) => (
-                                  <MenuItem key={index}
-                                    value={part.diamond.id}
-                                  >
-                                    {part.diamond.name}
-                                  </MenuItem>
-                                ))
-                            }
-                          </Field>
-                          <ErrorMessage name='mainDiamond'>
-                            {msg => <Alert severity="error">{msg}</Alert>}
-                          </ErrorMessage>
-                        </FormControl>
-                      </div>
-                    </div>
-                    <div className='row'>
-                      <div className='col-3' style={{
-                        display: 'flex',
-
-                        alignItems: 'center',
-                      }}>
-                        <h3>Extra diamond</h3>
-                      </div>
-                      <div className='col'>
-                        <FormControl sx={{
-                          width: '300px',
-                        }}>
-                          <InputLabel>Extra diamond</InputLabel>
-                          <Field
-                            name="extraDiamond"
-                            id="extraDiamond"
-                            as={Select}
-                            label="Extra diamond"
-                            onChange={handleChange}
-                            value={values.extraDiamond}
-                            MenuProps={MenuProps}
-                          >
-                            {
-                              productDetail?.productParts
-                                .filter(part => !part.isMain) // Filter parts where isMain is true
-                                .map((part, index) => (
-                                  <MenuItem key={index}
-                                    value={part.diamond.id}>
-                                    {part.diamond.name}
-                                  </MenuItem>
-                                ))
-                            }
-                          </Field>
-                          <ErrorMessage name='extraDiamond'>
-                            {msg => <Alert severity="error">{msg}</Alert>}
-                          </ErrorMessage>
-                        </FormControl>
-                      </div>
-                    </div>
-                  </div> <br />
-                  <div className='row'>
-                    <div className='col-3' style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}>
-                      <h3>Size</h3>
-                    </div>
-                    <div className='col'>
-                      <FormControl sx={{
-                        width: '300px',
-                      }}>
-                        <InputLabel>Size</InputLabel>
-                        <Field
-                          name="size"
-                          id="size"
-                          as={Select}
-                          label="Size"
-                          onChange={handleChange}
-                          value={values.size}
-                          MenuProps={MenuProps}
-                        >
-                          {productDetail?.productSizes && productDetail?.productSizes.map((size, index) => (
-                            <MenuItem key={index}
-                              value={size.id}
-                              onClick={() => {
-                                handleSelectSize(size.size)
-                              }}>
-                              {size.size}
-                            </MenuItem>
-                          ))}
-                        </Field>
-                        <ErrorMessage name='size'>
-                          {msg => <Alert severity="error">{msg}</Alert>}
-                        </ErrorMessage>
-                      </FormControl>
-                    </div>
-                  </div>
-                  <br />
-                  <AddToCartButton
-                    type='submit'
-                    variant='contained'
-                    size='large'>Add to cart</AddToCartButton>
+          <h1>{productDetail?.name}</h1>
+          <p>Category: {productDetail?.category?.name}</p>
+          {productDetail?.productParts.map((diamond, index) => (
+            <div key={index}>
+              {diamond.isMain ? (
+                <div>
+                  <h4>Main Diamond: {diamond.diamond.name}</h4>
                 </div>
-              </Form>
-            )}
-          </Formik>
-          {productDetail?.productSizes && productDetail?.productSizes.map((size, index) => (
-            size.size === selectedSize && (
-              <h3 key={index}
-                value={size.id}
-              >
-                Price: {size.price.toLocaleString()} $
-              </h3>
-            )
+              ) : (
+                <div>
+                  <h4>Extra Diamond {diamond.diamond.name}</h4>
+                </div>
+              )}
+            </div>
           ))}
+          <FormControl sx={{
+            width: '300px',
+          }}>
+            <InputLabel id="size">Size</InputLabel>
+            <Select
+              label="Size"
+              onChange={e => {
+                const newSize = e.target.value;
+                handleSelectSize(newSize);
+                const newPrice = productDetail?.productSizes?.find(size => size.size === newSize)?.price * selectedQuantity;
+                setTotalPrice(newPrice)
+              }}
+              value={selectedSize}
+              MenuProps={MenuProps}
+
+            >
+              {productDetail?.productSizes?.map((size, index) => (
+                <MenuItem key={index} value={size.size}>
+                  {size.size}
+                </MenuItem>
+              ))}
+            </Select> <br />
+            <TextField
+              label="Quantity"
+              type="number" // Ensure input is treated as a number
+              onChange={e => {
+                const newQuantity = parseInt(e.target.value, 10); // Parse the quantity as an integer
+                handleSelectQuantity(newQuantity);
+                // Ensure we use the correct size to find the price
+                const newPrice = productDetail?.productSizes?.find(size => size.size === selectedSize)?.price * newQuantity;
+                setTotalPrice(newPrice)
+              }}
+              value={selectedQuantity}
+              inputProps={{ min: 1 }}
+            />
+            <h3>Total Price: {totalPrice.toLocaleString()} $</h3>
+            <AddToCartButton
+              type='submit'
+              variant='contained'
+              size='large'
+              onClick={() => submitForm(data)}
+            >
+              Add to cart
+            </AddToCartButton>
+          </FormControl>
         </div>
+        <br />
       </div>
     </div >
+
   )
 }
