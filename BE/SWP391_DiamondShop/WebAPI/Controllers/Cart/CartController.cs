@@ -21,7 +21,7 @@ namespace WebAPI.Controllers.Cart
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var response = _cartService.GetCartWithUserName();
+            var response = await _cartService.GetCartWithUserName();
             return Ok(response);
         }
     }
