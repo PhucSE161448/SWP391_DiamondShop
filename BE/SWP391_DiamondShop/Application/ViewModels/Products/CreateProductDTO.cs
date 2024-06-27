@@ -17,6 +17,8 @@ public class CreateProductDTO
     [Required]
     public int CategoryId { get; set; }
     [Required]
-    public int WarrantyDocumentsId { get; set; }
+    public int DiamondCaseId { get; set; }
+    public decimal Wage { get; set; }
+    [Required]
     public List<IFormFile> ProductImages { get; set; } = new List<IFormFile>();
 }
