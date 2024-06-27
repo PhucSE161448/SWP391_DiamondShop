@@ -29,22 +29,27 @@ namespace Infrastructures.Repositories.Carts
 
         public async Task<Cart> CreateCart(bool check, CreateCartDTO dto)
         {
+            var exist = await _dbContext.Carts.AsNoTracking().FirstOrDefaultAsync(x =>
+         ((x.ProductId == dto.Id && check) || (x.DiamondId == dto.Id && !check))
+         && !x.IsDeleted && x.CreatedBy == _currentUserName);
+
+            if (exist != null)
+            {
+                exist.Quantity++;
+                _dbContext.Carts.Update(exist);
+                return exist;
+            }
+
             var cart = new Cart
             {
                 Quantity = dto.Quantity,
                 TotalPrice = dto.TotalPrice,
                 CreatedDate = DateTime.Now,
-                CreatedBy = _currentUserName
-
+                CreatedBy = _currentUserName,
+                ProductId = check ? dto.Id : (int?)null,
+                DiamondId = !check ? dto.Id : (int?)null
             };
-            if (check)
-            {
-                cart.ProductId = dto.Id;
-            }
-            else
-            {
-                cart.DiamondId = dto.Id;
-            }
+
             await _dbContext.Carts.AddAsync(cart);
             return cart;
         }
