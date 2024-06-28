@@ -194,10 +194,10 @@ export default function GetPageProduct() {
         <div className='col-2'>
           <FormControl fullWidth>
             <InputLabel>
-              Order by price
+              Order by price range
             </InputLabel>
             <Select
-              label="Order by price"
+              label="Order by price range"
               MenuProps={MenuProps}
               value={Price}
               onChange={(e) => handleSelectPrice(e.target.value)}
@@ -232,7 +232,9 @@ export default function GetPageProduct() {
                 <Grid item xs={12} sm={4} md={3} key={index} sx={{
                   width: '15vw',
                 }} >
-                  <Link to={`/ring/detail/${item.id}`}>
+                  <Link
+                    to={`/ring/detail/${item.id}`}
+                  >
                     <Card>
                       <CardContent>
                         {item.images && item.images[0] && item.images[0].urlPath ? (
