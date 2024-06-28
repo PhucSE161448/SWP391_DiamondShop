@@ -57,7 +57,18 @@ namespace Infrastructures.Repositories.Carts
         public async Task<List<CartDTO>> GetCartWithUserId()
         {
             var cart = await _dbContext.Carts.Include(x => x.Product)
-                .Include(x => x.Diamond).Where(x => x.CreatedBy == _currentUserName).ToListAsync();
+                                                           .ThenInclude(xx => xx.Images)
+                                                           .Include(x => x.Product)
+                                                           .ThenInclude(xx => xx.Category)    
+                                                           .Include(x => x.Product)
+                                                           .ThenInclude(xx => xx.DiamondCase)
+                                                           .Include(x => x.Product)
+                                                           .ThenInclude(xx => xx.ProductParts)
+                                                           .Include(x => x.Product)
+                                                           .ThenInclude(xx => xx.ProductSizes)
+                                                      .Include(x => x.Diamond)
+                                                      .Where(x => x.CreatedBy == _currentUserName)
+                                                      .ToListAsync();
             return cart.Adapt<List<CartDTO>>();
         }
     }
