@@ -1,7 +1,3 @@
-table {
-    width: 50%;
-}
-
 .CRUDButton {
     margin: 10px 0;
     display: block;
@@ -10,7 +6,6 @@ table {
     padding: 14px;
     text-align: center;
 }
-
 
 .CRUDContainer {
     margin: 10px;
@@ -91,7 +86,7 @@ table {
 
 .contentAdminContainer {
     float: right;
-    min-width: 80vw;
+    min-width: 90vw;
 }
 
 p {

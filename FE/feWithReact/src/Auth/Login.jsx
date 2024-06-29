@@ -1,35 +1,35 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import "./Login.css"
-import { useState, useEffect } from 'react';
-import { validateUser } from './AuthFucntion';
-import { jwtDecode } from 'jwt-decode';
+import { useState, useEffect } from 'react'
+import { validateUser } from './AuthFunction'
+import { jwtDecode } from 'jwt-decode'
 export default function Login() {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  let navigate = useNavigate();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  let navigate = useNavigate()
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     if (token) {
-      const decodedToken = jwtDecode(token);
+      const decodedToken = jwtDecode(token)
       if (decodedToken.Role === '1') {
-        navigate('/admin');
+        navigate('/admin')
       } else {
-        navigate('/');
+        navigate('/')
       }
     }
   }, [navigate]);
 
   function getToken() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     if (token) {
-      const decodedToken = jwtDecode(token);
+      const decodedToken = jwtDecode(token)
       if (decodedToken.Role === '1') {
-        navigate('/admin');
+        navigate('/admin')
       } else {
-        navigate('/');
+        navigate('/')
       }
     }
   }

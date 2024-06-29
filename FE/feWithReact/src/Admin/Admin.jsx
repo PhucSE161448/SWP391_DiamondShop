@@ -1,28 +1,29 @@
 import React from 'react'
 import { jwtDecode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 import './Admin.css'
-
-import NavbarAdmin from './Navbar/NavbarAdmin';
+import NavbarAdmin from './Navbar/NavbarAdmin'
 export default function AdminNav() {
-    let navigate = useNavigate();
+	let navigate = useNavigate();
 
-    if (localStorage.getItem('token')) {
-        const decodedToken = jwtDecode(localStorage.getItem('token'))
-        useEffect(() => {
-            if (decodedToken.Role !== '1') {
-                navigate('/')
-            }
+	if (localStorage.getItem('token')) {
+		const decodedToken = jwtDecode(localStorage.getItem('token'))
+		useEffect(() => {
+			if (decodedToken.Role !== '1') {
+				navigate('/')
+			}
 
-        }, [decodedToken.Role]);
+		}, [decodedToken.Role]);
 
-        if (decodedToken.Role === '1') {
-            return (
-                <div className='pageAdminContainer'>
-                    <NavbarAdmin></NavbarAdmin>
-                </div>
-            )
-        }
-    }
+		if (decodedToken.Role === '1') {
+			return (
+				<>
+					<div className='pageAdminContainer'>
+						<NavbarAdmin />
+					</div>
+				</>
+			)
+		}
+	}
 }

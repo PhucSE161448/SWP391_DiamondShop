@@ -1,16 +1,15 @@
 import React from 'react'
-import ReadAccount from './CRUDAccount'
-import UpdateAccount from './UpdateAccount'
+import CRUDDiamondCase from './CRUDDiamondCase'
 
-export default function Account() {
+export default function DiamondCase() {
 	return (
 		<div className='contentAdminContainer'>
 			<div className='CRUDContainer '>
 				<div className='titleOfFormContainer'>
-					<h2>Account</h2>
+					<h2>Diamond Case</h2>
 				</div>
 				<div className='buttonContainer'>
-					<ReadAccount></ReadAccount>
+					<CRUDDiamondCase></CRUDDiamondCase>
 				</div>
 			</div>
 		</div>
