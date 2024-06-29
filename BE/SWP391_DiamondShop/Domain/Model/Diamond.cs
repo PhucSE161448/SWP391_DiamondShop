@@ -20,8 +20,8 @@ namespace Domain.Model
         public string Cut { get; set; } = null!;
         public string Name { get; set; } = null!;
         public decimal Price { get; set; }
+        public decimal? DiscountPrice { get; set; }
         public int Quantity { get; set; }
-
 
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Image> Images { get; set; }

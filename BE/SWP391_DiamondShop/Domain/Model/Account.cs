@@ -22,7 +22,6 @@ namespace Domain.Model
         public bool Gender { get; set; }
         public string ConfirmationToken { get; set; } = null!;
 
-
         public virtual Role Role { get; set; } = null!;
         public virtual ICollection<OrderStatus> OrderStatuses { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
