@@ -13,17 +13,16 @@ export default function Navbar() {
 							Home
 						</Link>
 					</div>
-					<CustomLink to="/diamondPage/">Diamond</CustomLink>
-					<CustomLink to="/ring">Engagement Rings</CustomLink>
-					<CustomLink to="/">Wedding Rings</CustomLink>
-					<CustomLink to="/">Jewelry</CustomLink>
-					<CustomLink to="/">Gifts</CustomLink>
-					<CustomLink to="/">Gemstones</CustomLink>
+					<CustomLink to="/diamondPage/1">Diamond</CustomLink>
+					<CustomLink to="/product/1">Product</CustomLink>
 					<CustomLink to="/cart"><ShoppingCartIcon fontSize='large'></ShoppingCartIcon></CustomLink>
 					<CustomLink to="/login">Login</CustomLink>
 				</div>
 			</nav >
 			<Outlet />
+			<h1>
+				Footer will go here in navbar.jsx
+			</h1>
 		</>
 	)
 }

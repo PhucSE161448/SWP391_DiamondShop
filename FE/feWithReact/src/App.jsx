@@ -2,7 +2,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Pages/Home'
 import Homepage from './Pages/Homepage'
-import Ring from './Pages/Ring'
+import Product from './Pages/Product'
 import DiamondPage from './Pages/DiamondPage'
 import Login from './Auth/Login'
 import SignUp from './Auth/SignUp'
@@ -16,6 +16,7 @@ import Warranty from './Admin/Elements/Warranty/Warranty'
 import Cart from './Pages/Cart'
 import ProductDetail from './Components/Products/ProductDetail'
 import ShowAllDiamond from './Admin/Elements/Diamonds/ShowAllDiamond'
+import DiamondDetail from './Components/Diamonds/DiamondDetail'
 import DiamondCase from './Admin/Elements/DiamondCase/DiamondCase'
 export default function App() {
   return (
@@ -26,11 +27,10 @@ export default function App() {
         <Routes>
           <Route path='/' element={<Home />}>
             <Route index element={<Homepage />} />
-            <Route path='diamondPage' element={<DiamondPage />}></Route>
-            <Route path='ring' element={<Ring />}>
-
-            </Route>
-            <Route path='ring/detail/:id' element={<ProductDetail></ProductDetail>}></Route>
+            <Route path='diamondPage/:PageNumberFromURL' element={<DiamondPage />}></Route>
+            <Route path='product/:PageNumberFromURL' element={<Product />}></Route>
+            <Route path='product/detail/:id' element={<ProductDetail></ProductDetail>}></Route>
+            <Route path='diamond/detail/:id' element={<DiamondDetail></DiamondDetail>}></Route>
             <Route path='/cart' element={<Cart></Cart>}></Route>
           </Route>
 
