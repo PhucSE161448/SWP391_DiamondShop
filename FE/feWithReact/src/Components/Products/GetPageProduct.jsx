@@ -6,10 +6,11 @@ import {
   Stack, Pagination, TextField, CardMedia, FormControl, InputLabel,
   Select, MenuItem, OutlinedInput, Checkbox, ListItemText,
 } from '@mui/material'
-import { Slider } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 export default function GetPageProduct() {
-  const [PageNumber, setPageNumber] = useState(1)
+  const { PageNumberFromURL } = useParams()
+  const navigate = useNavigate()
+  const [PageNumber, setPageNumber] = useState(PageNumberFromURL && parseInt(PageNumberFromURL))
   const [PageSize, setPageSize] = useState(12)
   const [OrderByDesc, setOrderByDesc] = useState(false)
   const [StartPrice, setStartPrice] = useState(null)
@@ -33,6 +34,7 @@ export default function GetPageProduct() {
 
   const handlePageChange = (event, value) => {
     setPageNumber(value)
+    navigate(`/product/${value}`)
     setTriggerRead(prev => !prev)
   }
 
@@ -77,8 +79,8 @@ export default function GetPageProduct() {
         } else {
           queryString.append(`queryDTO.${key}`, value);
         }
-      });
-      console.log(queryString.toString())
+      })
+
       fetch(`https://localhost:7122/api/Product/GetPagedProducts?${queryString.toString()}`)
         .then(response => response.json())
         .then(data => {
@@ -126,7 +128,8 @@ export default function GetPageProduct() {
 
   return (
     <div style={{
-      backgroundColor: 'rgba(0,0,0,0.1)',
+      background: 'url(https://img.freepik.com/free-vector/blue-white-crystal-textured-background_53876-85226.jpg?w=1380&t=st=1719599020~exp=1719599620~hmac=e182c45295cca98949de853e8f72341b687ed809b89663e38e1d78cbaec7314c)',
+      backgroundSize: 'cover',
     }}>
       <div className='row' style={{
         display: 'flex',
@@ -218,11 +221,9 @@ export default function GetPageProduct() {
           </FormControl>
         </div>
       </div>
-
       <Container sx={{
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
       }}>
         <Box sx={{
         }}>
@@ -233,7 +234,7 @@ export default function GetPageProduct() {
                   width: '15vw',
                 }} >
                   <Link
-                    to={`/ring/detail/${item.id}`}
+                    to={`/product/detail/${item.id}`}
                   >
                     <Card>
                       <CardContent>
