@@ -14,6 +14,7 @@ namespace Domain.Model
         public string Material { get; set; } = null!;
         public string Color { get; set; } = null!;
         public string Name { get; set; } = null!;
+        public decimal Price { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }

@@ -56,6 +56,7 @@ ALTER TABLE
     "Material"             NVARCHAR(255) NOT NULL,
     "Color"                NVARCHAR(50)  NOT NULL,
 	"Name"				   NVARCHAR(50)  NOT NULL,
+    "Price"                Decimal(8,2)  NOT NULL,
     "CreatedBy"            NVARCHAR(255) NULL,
     "CreatedDate"          DATE          NULL,
     "ModifiedBy"           NVARCHAR(255) NULL,

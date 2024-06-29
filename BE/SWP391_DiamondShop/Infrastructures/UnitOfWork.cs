@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.IRepositories.Carts;
 using Application.IRepositories.Categories;
+using Application.IRepositories.Collections;
 using Application.IRepositories.DiamondCases;
 using Application.IRepositories.Images;
 using Application.IRepositories.ProductParts;
@@ -33,11 +34,13 @@ namespace Infrastructures
         private readonly IImageRepo imageRepo;
         private readonly ICartRepository cartRepo;
         private readonly IDiamondCaseRepo diamondCaseRepo;
+        private readonly ICollectionRepo collectionRepo;
         public UnitOfWork(SWP391_DiamondShopContext _context, IWarrantyDocumentRepo _warrantyDocumentRepo,
             IAccountRepo _accountRepo, IProductRepo _productRepo,
             IDiamondRepo _diamondRepo, ICategoryRepo _categoryRepo,
             IProductPartRepo _productPartRepo, IProductSizeRepo _productSizeRepo, IRoleRepo _roleRepo,
-            IImageRepo _imageRepo, ICartRepository _cartRepo, IDiamondCaseRepo _diamondCaseRepo)
+            IImageRepo _imageRepo, ICartRepository _cartRepo, IDiamondCaseRepo _diamondCaseRepo,
+            ICollectionRepo _collectionRepo)
         {
             context = _context;
             warrantyDocumentRepo = _warrantyDocumentRepo;
@@ -51,6 +54,7 @@ namespace Infrastructures
             imageRepo = _imageRepo;
             cartRepo = _cartRepo;
             diamondCaseRepo = _diamondCaseRepo;
+            collectionRepo = _collectionRepo;
         }
         
         public IWarrantyDocumentRepo WarrantyDocumentRepo => warrantyDocumentRepo;
@@ -64,6 +68,7 @@ namespace Infrastructures
         public IRoleRepo RoleRepo => roleRepo;
         public IImageRepo ImageRepo => imageRepo;
         public IDiamondCaseRepo DiamondCaseRepo => diamondCaseRepo;
+        public ICollectionRepo CollectionRepo => collectionRepo;
         public ICartRepository CartRepository => cartRepo;
 
         public async Task<int> SaveChangeAsync()
