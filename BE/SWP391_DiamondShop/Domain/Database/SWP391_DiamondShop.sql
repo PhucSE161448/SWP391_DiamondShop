@@ -14,7 +14,21 @@ CREATE TABLE "Category"
 ALTER TABLE
     "Category"
     ADD CONSTRAINT "category_id_primary" PRIMARY KEY ("Id");
-
+CREATE TABLE "Collection"
+(
+    "Id"           INT           NOT NULL Identity (1,1),
+    "Name"         NVARCHAR(255) NOT NULL,
+    "CreatedBy"    NVARCHAR(255) NULL,
+    "CreatedDate"  DATE          NULL,
+    "ModifiedBy"   NVARCHAR(255) NULL,
+    "ModifiedDate" DATE          NULL,
+    "DeletedBy"    NVARCHAR(255) NULL,
+    "DeletedDate"  DATE          NULL,
+    "IsDeleted"    BIT           NOT NULL DEFAULT '0'
+);
+ALTER TABLE
+    "Collection"
+    ADD CONSTRAINT "collection_id_primary" PRIMARY KEY ("Id");
 CREATE TABLE "Products"
 (
     "Id"                   INT           NOT NULL Identity (1,1),
@@ -23,13 +37,15 @@ CREATE TABLE "Products"
 	"Wage"				   Decimal(8,2)  Null,
     "Category_Id"          INT           NOT NULL,
 	"DiamondCase_Id"       INT           NOT NULL,
+	"Collection_Id"		   INT			 NULL,
     "CreatedBy"            NVARCHAR(255) NULL,
     "CreatedDate"          DATE          NULL,
     "ModifiedBy"           NVARCHAR(255) NULL,
     "ModifiedDate"         DATE          NULL,
     "DeletedBy"            NVARCHAR(255) NULL,
     "DeletedDate"          DATE          NULL,
-    "IsDeleted"            BIT           NOT NULL DEFAULT '0'
+    "IsDeleted"            BIT           NOT NULL DEFAULT '0',
+	CONSTRAINT fk_products_Collection FOREIGN KEY (Collection_Id) REFERENCES "Collection"(Id)
 );
 ALTER TABLE
     "Products"
