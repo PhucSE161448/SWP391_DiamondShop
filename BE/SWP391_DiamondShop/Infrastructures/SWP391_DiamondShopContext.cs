@@ -40,7 +40,7 @@ namespace Infrastructures
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=12345;database=SWP391_DiamondShop;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Server=(local);database=SWP391_DiamondShop;uid=sa;pwd=12345;TrustServerCertificate=True;");
             }
         }
 
@@ -229,6 +229,8 @@ namespace Infrastructures
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -254,12 +256,12 @@ namespace Infrastructures
                 entity.HasOne(d => d.Diamond)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.DiamondId)
-                    .HasConstraintName("FK__Image__DiamondId__52593CB8");
+                    .HasConstraintName("FK__Image__DiamondId__5165187F");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Image__ProductId__534D60F1");
+                    .HasConstraintName("FK__Image__ProductId__52593CB8");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -286,11 +288,11 @@ namespace Infrastructures
             modelBuilder.Entity<OrderCart>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.CartId })
-                    .HasName("PK__OrderCar__A68B96B4294289A6");
+                    .HasName("PK__OrderCar__A68B96B4084D995F");
 
                 entity.ToTable("OrderCart");
 
-                entity.HasIndex(e => e.WarrantyDocumentId, "UQ__OrderCar__BD0CDCB7B2B91C8D")
+                entity.HasIndex(e => e.WarrantyDocumentId, "UQ__OrderCar__BD0CDCB737F014F2")
                     .IsUnique();
 
                 entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
@@ -433,13 +435,13 @@ namespace Infrastructures
                     .WithMany(p => p.ProductParts)
                     .HasForeignKey(d => d.DiamondId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductPa__Diamo__6383C8BA");
+                    .HasConstraintName("FK__ProductPa__Diamo__628FA481");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductParts)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductPa__Produ__628FA481");
+                    .HasConstraintName("FK__ProductPa__Produ__619B8048");
             });
 
             modelBuilder.Entity<ProductSize>(entity =>
@@ -473,7 +475,7 @@ namespace Infrastructures
                     .WithMany(p => p.ProductSizes)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductSi__Produ__59FA5E80");
+                    .HasConstraintName("FK__ProductSi__Produ__59063A47");
             });
 
             modelBuilder.Entity<Promotion>(entity =>

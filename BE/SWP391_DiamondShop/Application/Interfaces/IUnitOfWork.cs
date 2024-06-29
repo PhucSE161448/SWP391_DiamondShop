@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.IRepositories.Carts;
 using Application.IRepositories.Categories;
+using Application.IRepositories.Collections;
 using Application.IRepositories.DiamondCases;
 using Application.IRepositories.Images;
 using Application.IRepositories.ProductParts;
@@ -31,6 +32,7 @@ namespace Application.Interfaces
         public IRoleRepo RoleRepo { get; }
         public IImageRepo ImageRepo { get; }
         public IDiamondCaseRepo DiamondCaseRepo { get; }
+        public ICollectionRepo CollectionRepo { get; }
         public Task<int> SaveChangeAsync();
     }
 }
