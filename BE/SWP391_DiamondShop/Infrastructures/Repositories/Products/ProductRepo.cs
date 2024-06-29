@@ -27,6 +27,7 @@ namespace Infrastructures.Repositories.Products
             var (pageNumber, pageSize, sortBy, orderByDesc) = queryProductDTO.queryDTO;
             var query = _dbContext.Products.AsNoTracking()
                                           .Include(p => p.Category)
+                                          .Include(p => p.DiamondCase)
                                           .Include(p => p.ProductParts)
                                           .ThenInclude(pp => pp.Diamond)
                                           .Include(p => p.ProductSizes)
@@ -41,6 +42,7 @@ namespace Infrastructures.Repositories.Products
         {
            var product = await _dbContext.Products
                                         .Include(p => p.Category)
+                                        .Include(p => p.DiamondCase)
                                         .Include(p => p.ProductSizes)
                                         .Include(p => p.Images)
                                         .Include(p => p.ProductParts)

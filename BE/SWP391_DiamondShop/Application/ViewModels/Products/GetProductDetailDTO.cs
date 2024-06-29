@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.ViewModels.DiamondCases;
 using Application.ViewModels.ProductSizes;
 
 namespace Application.ViewModels.Products
@@ -19,8 +20,9 @@ namespace Application.ViewModels.Products
         public string? Name { get; set; }
         public bool Gender { get; set; }
         public int Quantity { get; set; }
+        public decimal Wage { get; set; }
         public CategoryDTO? Category { get; set; }
-        public WarrantyDocumentDTO? WarrantyDocuments { get; set; }
+        public GetDiamondCaseDetailDTO? DiamondCase { get; set; }
         public bool IsDeleted { get; set; }
         public ICollection<ProductPartDTO> ProductParts { get; set; } = new List<ProductPartDTO>();
         public ICollection<ProductSizeDTO> ProductSizes { get; set; } = new List<ProductSizeDTO>();
