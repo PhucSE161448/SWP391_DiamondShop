@@ -25,6 +25,18 @@ namespace Application.Services.Carts
            return cart;
         }
 
-        public Task<List<CartDTO>> GetCartWithUserName() => _unitOfWork.CartRepository.GetCartWithUserId();
+        public async Task<List<CartDTO>> GetCartWithUserName() => await _unitOfWork.CartRepository.GetCartWithUserId();
+
+        public async Task<CartDTO> UpdateQuantity(bool check, int cartId) {
+           var cart = await _unitOfWork.CartRepository.UpdateQuantity(check, cartId);
+           await _unitOfWork.SaveChangeAsync();
+           return cart;
+        }
+
+        public async Task Delete(int cartId)
+        {
+           await _unitOfWork.CartRepository.Delete(cartId);
+           await _unitOfWork.SaveChangeAsync();
+        }
     }
 }

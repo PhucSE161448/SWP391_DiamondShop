@@ -12,5 +12,7 @@ namespace Application.Interfaces.Carts
     {
         Task<Cart> CreateCart(bool check, CreateCartDTO dto);
         Task<List<CartDTO>> GetCartWithUserName();
+        Task<CartDTO> UpdateQuantity(bool check, int cartId);
+        Task Delete(int cartId);
     }
 }

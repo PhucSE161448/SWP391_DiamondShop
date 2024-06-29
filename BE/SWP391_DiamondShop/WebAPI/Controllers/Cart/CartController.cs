@@ -24,5 +24,19 @@ namespace WebAPI.Controllers.Cart
             var response = await _cartService.GetCartWithUserName();
             return Ok(response);
         }
+
+        [HttpPut("{cartId}")]
+        public async Task<IActionResult> Update(bool check, int cartId)
+        {
+            var response = await _cartService.UpdateQuantity(check, cartId);
+            return Ok(response);
+        }
+
+        [HttpDelete("{cartId}")]
+        public async Task<IActionResult> Delete(int cartId)
+        {
+            await _cartService.Delete(cartId);
+            return Ok();
+        }
     }
 }
