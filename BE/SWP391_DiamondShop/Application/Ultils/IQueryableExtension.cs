@@ -32,12 +32,15 @@ namespace Application.Ultils
             var categoryIds = queryProductDTO.CategoryIds;
             var name = queryProductDTO.Name;
             var diamondIds = queryProductDTO.DiamondIds;
+            var collectionIds = queryProductDTO.CollectionIds;
             if (startPrice < endPrice)
             {
                 query = query.Where(p => p.ProductSizes.Any(pp => pp.Price >= startPrice && pp.Price <= endPrice));
             }
             if (!categoryIds.IsNullOrEmpty())
                 query = query.Where(p =>  categoryIds.Contains(p.CategoryId));
+            if (!collectionIds.IsNullOrEmpty())
+                query = query.Where(p => collectionIds.Contains((int)p.CollectionId!));
             if (!string.IsNullOrEmpty(name))
                 query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
             if (!diamondIds.IsNullOrEmpty())

@@ -9,6 +9,7 @@ namespace Domain.Model
         public DateTime Period { get; set; }
         public string TermsAndConditions { get; set; } = null!;
 
+
         public virtual OrderCart? OrderCart { get; set; }
     }
 }

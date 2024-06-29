@@ -8,10 +8,10 @@ public class UpdateProductDTO
 {
     public string? Name { get; set; }
     public bool Gender { get; set; }
-    public int Quantity { get; set; }
     public int Wage { get; set; }
     public int CategoryId { get; set; }
     public int DiamondCaseId { get; set; }
+    public int CollectionId { get; set; }
     public List<IFormFile> ProductImages { get; set; } = new List<IFormFile>();
     
 }

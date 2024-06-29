@@ -11,5 +11,6 @@ namespace Application.ViewModels.ProductSizes
         public int Id { get; set; }
         public decimal Size { get; set; }
         public decimal Price { get; set; }
+        public int Quantity { get; set; }
     }
 }

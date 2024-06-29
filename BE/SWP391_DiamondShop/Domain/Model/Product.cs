@@ -16,12 +16,14 @@ namespace Domain.Model
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public bool Gender { get; set; }
-        public int Quantity { get; set; }
         public decimal? Wage { get; set; }
         public int CategoryId { get; set; }
         public int DiamondCaseId { get; set; }
+        public int? CollectionId { get; set; }
+
 
         public virtual Category Category { get; set; } = null!;
+        public virtual Collection? Collection { get; set; }
         public virtual DiamondCase DiamondCase { get; set; } = null!;
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Image> Images { get; set; }

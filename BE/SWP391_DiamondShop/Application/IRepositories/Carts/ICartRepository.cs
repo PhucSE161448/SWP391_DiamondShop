@@ -11,6 +11,8 @@ namespace Application.IRepositories.Carts
     public interface ICartRepository 
     {
         Task<Cart> CreateCart(bool check,CreateCartDTO dto);
+        Task<CartDTO> UpdateQuantity(bool check, int cartId);
         Task<List<CartDTO>> GetCartWithUserId();
+        Task Delete(int cartId);
     }
 }

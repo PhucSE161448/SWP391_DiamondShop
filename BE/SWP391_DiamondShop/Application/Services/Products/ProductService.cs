@@ -47,6 +47,7 @@ namespace Application.Services.Products
         {
             var category = await _unitOfWork.CategoryRepo.GetByIdAsync(createProductDto.CategoryId);
             var diamondCase = await _unitOfWork.DiamondCaseRepo.GetByIdAsync(createProductDto.DiamondCaseId);
+            var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(createProductDto.CollectionId);
             if (category is null)
             {
                 throw new NotFoundException("Category is not existed");
@@ -54,6 +55,11 @@ namespace Application.Services.Products
             if (diamondCase is null)
             {
                 throw new NotFoundException("Diamond Case is not existed");
+            }
+
+            if (collection is null)
+            {
+                throw new NotFoundException("Collection is not existed");
             }
             var product = createProductDto.Adapt<Product>(); 
             await _unitOfWork.ProductRepo.AddAsync(product);
@@ -98,6 +104,7 @@ namespace Application.Services.Products
             }
             var category = await _unitOfWork.CategoryRepo.GetByIdAsync(updateProductDto.CategoryId);
             var diamondCase = await _unitOfWork.DiamondCaseRepo.GetByIdAsync(updateProductDto.DiamondCaseId);
+            var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(updateProductDto.CollectionId);
             if (category is null)
             {
                 throw new NotFoundException("Category is not existed");
@@ -105,6 +112,10 @@ namespace Application.Services.Products
             if (diamondCase is null)
             {
                 throw new NotFoundException("Diamond Case is not existed");
+            }
+            if (collection is null)
+            {
+                throw new NotFoundException("Collection is not existed");
             }
             updateProductDto.Adapt(product);
             _unitOfWork.ProductRepo.Update(product);

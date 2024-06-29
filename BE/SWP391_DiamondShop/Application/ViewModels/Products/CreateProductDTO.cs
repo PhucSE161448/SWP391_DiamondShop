@@ -13,11 +13,11 @@ public class CreateProductDTO
     [Required]
     public bool Gender { get; set; }
     [Required]
-    public int Quantity { get; set; }
-    [Required]
     public int CategoryId { get; set; }
     [Required]
     public int DiamondCaseId { get; set; }
+    [Required]
+    public int CollectionId { get; set; }
     public decimal Wage { get; set; }
     [Required]
     public List<IFormFile> ProductImages { get; set; } = new List<IFormFile>();

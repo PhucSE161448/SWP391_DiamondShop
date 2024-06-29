@@ -14,23 +14,38 @@ CREATE TABLE "Category"
 ALTER TABLE
     "Category"
     ADD CONSTRAINT "category_id_primary" PRIMARY KEY ("Id");
-
+CREATE TABLE "Collection"
+(
+    "Id"           INT           NOT NULL Identity (1,1),
+    "Name"         NVARCHAR(255) NOT NULL,
+    "CreatedBy"    NVARCHAR(255) NULL,
+    "CreatedDate"  DATE          NULL,
+    "ModifiedBy"   NVARCHAR(255) NULL,
+    "ModifiedDate" DATE          NULL,
+    "DeletedBy"    NVARCHAR(255) NULL,
+    "DeletedDate"  DATE          NULL,
+    "IsDeleted"    BIT           NOT NULL DEFAULT '0'
+);
+ALTER TABLE
+    "Collection"
+    ADD CONSTRAINT "collection_id_primary" PRIMARY KEY ("Id");
 CREATE TABLE "Products"
 (
     "Id"                   INT           NOT NULL Identity (1,1),
     "Name"                 NVARCHAR(255) NOT NULL,
     "Gender"               bit           Not Null,
-    "Quantity"             INT           NOT NULL,
 	"Wage"				   Decimal(8,2)  Null,
     "Category_Id"          INT           NOT NULL,
 	"DiamondCase_Id"       INT           NOT NULL,
+	"Collection_Id"		   INT			 NULL,
     "CreatedBy"            NVARCHAR(255) NULL,
     "CreatedDate"          DATE          NULL,
     "ModifiedBy"           NVARCHAR(255) NULL,
     "ModifiedDate"         DATE          NULL,
     "DeletedBy"            NVARCHAR(255) NULL,
     "DeletedDate"          DATE          NULL,
-    "IsDeleted"            BIT           NOT NULL DEFAULT '0'
+    "IsDeleted"            BIT           NOT NULL DEFAULT '0',
+	CONSTRAINT fk_products_Collection FOREIGN KEY (Collection_Id) REFERENCES "Collection"(Id)
 );
 ALTER TABLE
     "Products"
@@ -41,6 +56,7 @@ ALTER TABLE
     "Material"             NVARCHAR(255) NOT NULL,
     "Color"                NVARCHAR(50)  NOT NULL,
 	"Name"				   NVARCHAR(50)  NOT NULL,
+    "Price"                Decimal(8,2)  NOT NULL,
     "CreatedBy"            NVARCHAR(255) NULL,
     "CreatedDate"          DATE          NULL,
     "ModifiedBy"           NVARCHAR(255) NULL,
@@ -131,6 +147,7 @@ CREATE TABLE "Diamond"
     "Cut"          NVarchar(255) NOT NULL,
     "Name"         NVARCHAR(255) Not Null,
     "Price"        DECIMAL(8, 2) NOT NULL,
+    "Discount_Price" DECIMAL(8,2) NULL DEFAULT '0',
     "Quantity"     INT           NOT NULL,
     "CreatedBy"    NVARCHAR(255) NULL,
     "CreatedDate"  DATE          NULL,
@@ -167,7 +184,9 @@ CREATE TABLE "ProductSizes"
     "Id"           INT           NOT NULL Identity (1,1),
     "ProductId"    INT           NOT NULL,
     "Size"         DECIMAL(8, 2) NOT NULL,
+    "Quantity"     INT           NOT NULL,
     "Price"        DECIMAL(8, 2) NOT NULL,
+    "Discount_Price" DECIMAL(8,2) NULL DEFAULT '0',
     "CreatedBy"    NVARCHAR(255) NULL,
     "CreatedDate"  DATE          NULL,
     "ModifiedBy"   NVARCHAR(255) NULL,
@@ -197,7 +216,10 @@ ALTER TABLE
 CREATE TABLE "Promotions"
 (
     "Id"                  INT           NOT NULL Identity (1,1),
+    "Name"                NVARCHAR(255) NOT NULL,
+    "Description"         NVARCHAR(MAX) NULL,
     "Discount_Percentage" DECIMAL(8, 2) NOT NULL,
+    "Category_Id"         INT           Null,
     "StartDate"           DATE          NOT NULL,
     "EndDate"             DATE          NOT NULL,
     "CreatedBy"           NVARCHAR(255) NULL,
@@ -206,7 +228,8 @@ CREATE TABLE "Promotions"
     "ModifiedDate"        DATE          NULL,
     "DeletedBy"           NVARCHAR(255) NULL,
     "DeletedDate"         DATE          NULL,
-    "IsDeleted"           BIT           NOT NULL DEFAULT '0'
+    "IsDeleted"           BIT           NOT NULL DEFAULT '0',
+    CONSTRAINT fk_promotions_category FOREIGN KEY (Category_Id) REFERENCES Category(Id)
 );
 create table [ProductPart]
 (
@@ -229,6 +252,7 @@ Create Table Cart(
 	ProductId INT NULL ,
 	DiamondId INT NULL,
 	Quantity INT,
+    Size     INT NULL,
 	TotalPrice Decimal(8,2),
 	CreatedBy NVARCHAR(255) NULL,
 	CreatedDate DATE NULL,

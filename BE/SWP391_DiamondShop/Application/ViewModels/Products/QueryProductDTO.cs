@@ -14,6 +14,7 @@ namespace Application.ViewModels.Products
         public decimal EndPrice { get; set; }
         public List<int> CategoryIds { get; set; } = new List<int>();
         public List<int> DiamondIds { get; set; } = new List<int>();
+        public List<int> CollectionIds { get; set; } = new List<int>();
         public string? Name {  get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace Infrastructures
         public virtual DbSet<Account> Accounts { get; set; } = null!;
         public virtual DbSet<Cart> Carts { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<Collection> Collections { get; set; } = null!;
         public virtual DbSet<Diamond> Diamonds { get; set; } = null!;
         public virtual DbSet<DiamondCase> DiamondCases { get; set; } = null!;
         public virtual DbSet<Image> Images { get; set; } = null!;
@@ -39,7 +40,7 @@ namespace Infrastructures
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=12345;database=SWP391_DiamondShop;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Server=(local);database=SWP391_DiamondShop;uid=sa;pwd=12345;TrustServerCertificate=True;");
             }
         }
 
@@ -140,6 +141,29 @@ namespace Infrastructures
                 entity.Property(e => e.Name).HasMaxLength(255);
             });
 
+            modelBuilder.Entity<Collection>(entity =>
+            {
+                entity.ToTable("Collection");
+
+                entity.Property(e => e.CreatedBy).HasMaxLength(255);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.DeletedBy).HasMaxLength(255);
+
+                entity.Property(e => e.DeletedDate).HasColumnType("date");
+
+                entity.Property(e => e.IsDeleted)
+                    .IsRequired()
+                    .HasDefaultValueSql("('0')");
+
+                entity.Property(e => e.ModifiedBy).HasMaxLength(255);
+
+                entity.Property(e => e.ModifiedDate).HasColumnType("date");
+
+                entity.Property(e => e.Name).HasMaxLength(255);
+            });
+
             modelBuilder.Entity<Diamond>(entity =>
             {
                 entity.ToTable("Diamond");
@@ -159,6 +183,11 @@ namespace Infrastructures
                 entity.Property(e => e.DeletedBy).HasMaxLength(255);
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
+
+                entity.Property(e => e.DiscountPrice)
+                    .HasColumnType("decimal(8, 2)")
+                    .HasColumnName("Discount_Price")
+                    .HasDefaultValueSql("('0')");
 
                 entity.Property(e => e.IsDeleted)
                     .IsRequired()
@@ -200,6 +229,8 @@ namespace Infrastructures
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -225,12 +256,12 @@ namespace Infrastructures
                 entity.HasOne(d => d.Diamond)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.DiamondId)
-                    .HasConstraintName("FK__Image__DiamondId__4D94879B");
+                    .HasConstraintName("FK__Image__DiamondId__5165187F");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Image__ProductId__4E88ABD4");
+                    .HasConstraintName("FK__Image__ProductId__52593CB8");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -257,11 +288,11 @@ namespace Infrastructures
             modelBuilder.Entity<OrderCart>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.CartId })
-                    .HasName("PK__OrderCar__A68B96B46146EC38");
+                    .HasName("PK__OrderCar__A68B96B4084D995F");
 
                 entity.ToTable("OrderCart");
 
-                entity.HasIndex(e => e.WarrantyDocumentId, "UQ__OrderCar__BD0CDCB71E4F9C4C")
+                entity.HasIndex(e => e.WarrantyDocumentId, "UQ__OrderCar__BD0CDCB737F014F2")
                     .IsUnique();
 
                 entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
@@ -338,6 +369,8 @@ namespace Infrastructures
             {
                 entity.Property(e => e.CategoryId).HasColumnName("Category_Id");
 
+                entity.Property(e => e.CollectionId).HasColumnName("Collection_Id");
+
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
@@ -365,6 +398,11 @@ namespace Infrastructures
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("products_category_id_foreign");
+
+                entity.HasOne(d => d.Collection)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.CollectionId)
+                    .HasConstraintName("fk_products_Collection");
 
                 entity.HasOne(d => d.DiamondCase)
                     .WithMany(p => p.Products)
@@ -397,13 +435,13 @@ namespace Infrastructures
                     .WithMany(p => p.ProductParts)
                     .HasForeignKey(d => d.DiamondId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductPa__Diamo__5CD6CB2B");
+                    .HasConstraintName("FK__ProductPa__Diamo__628FA481");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductParts)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductPa__Produ__5BE2A6F2");
+                    .HasConstraintName("FK__ProductPa__Produ__619B8048");
             });
 
             modelBuilder.Entity<ProductSize>(entity =>
@@ -415,6 +453,11 @@ namespace Infrastructures
                 entity.Property(e => e.DeletedBy).HasMaxLength(255);
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
+
+                entity.Property(e => e.DiscountPrice)
+                    .HasColumnType("decimal(8, 2)")
+                    .HasColumnName("Discount_Price")
+                    .HasDefaultValueSql("('0')");
 
                 entity.Property(e => e.IsDeleted)
                     .IsRequired()
@@ -432,11 +475,13 @@ namespace Infrastructures
                     .WithMany(p => p.ProductSizes)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductSi__Produ__5441852A");
+                    .HasConstraintName("FK__ProductSi__Produ__59063A47");
             });
 
             modelBuilder.Entity<Promotion>(entity =>
             {
+                entity.Property(e => e.CategoryId).HasColumnName("Category_Id");
+
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
@@ -459,7 +504,14 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
+                entity.Property(e => e.Name).HasMaxLength(255);
+
                 entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Promotions)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("fk_promotions_category");
             });
 
             modelBuilder.Entity<Role>(entity =>
