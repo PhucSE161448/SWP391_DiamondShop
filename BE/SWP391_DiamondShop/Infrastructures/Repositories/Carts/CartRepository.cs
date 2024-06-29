@@ -31,7 +31,7 @@ namespace Infrastructures.Repositories.Carts
         {
             var exist = await _dbContext.Carts.AsNoTracking().FirstOrDefaultAsync(x =>
          ((x.ProductId == dto.Id && check) || (x.DiamondId == dto.Id && !check))
-         && !x.IsDeleted && x.CreatedBy == _currentUserName);
+         && x.IsDeleted == false && x.CreatedBy == _currentUserName);
 
             if (exist != null)
             {
