@@ -51,19 +51,19 @@ namespace Infrastructures.Repositories.Accounts
 
         public async Task<IEnumerable<Account>> SearchAccountByNameAsync(string name)
         {
-            return await _dbContext.Accounts.Where(u => u.Name.Contains(name)).ToListAsync();
+            return await _dbContext.Accounts.Include(x => x.Role).Where(u => u.Name.Contains(name)).ToListAsync();
         }
 
         public async Task<IEnumerable<Account>> SearchAccountByRoleNameAsync(string roleName)
         {
-            return await _dbContext.Accounts
+            return await _dbContext.Accounts.Include(x => x.Role)
                 .Where(u => u.Role.Name.Contains(roleName))
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Account>> GetSortedAccountAsync()
         {
-            return await _dbContext.Accounts.OrderByDescending(a => a.CreatedDate).ToListAsync();
+            return await _dbContext.Accounts.Include(x => x.Role).OrderByDescending(a => a.CreatedDate).ToListAsync();
         }
     }
 }
