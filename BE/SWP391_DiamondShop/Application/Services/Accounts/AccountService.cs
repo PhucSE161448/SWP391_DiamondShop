@@ -83,7 +83,7 @@ namespace Application.Services.Accounts
 
         public async Task<IEnumerable<AccountDTO>> GetUserAsync()
         {
-            var accounts = await _unitOfWork.AccountRepo.GetAllAsync();
+            var accounts = await _unitOfWork.AccountRepo.GetAllAsync(null,"Role");
             var accountDtos = new List<AccountDTO>();
             foreach (var user in accounts)
             {
