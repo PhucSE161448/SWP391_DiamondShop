@@ -7,6 +7,39 @@ import * as Yup from 'yup';
 import { TextField, Button, Box, Grid, FormControl, InputLabel, Select, MenuItem, Card, CardContent, Alert, Switch } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 export default function SignUp() {
+  const [responseCode, setResponseCode] = useState(0)
+  const [displayStatus, setDisplayStatus] = useState(false)
+  const Register = (values) => {
+    const url = 'https://localhost:7122/api/Authentication/Register'
+    const data = {
+      name: values.name,
+      email: values.email,
+      gender: values.gender,
+      password: values.password,
+      address: values.address,
+      phoneNumber: values.phoneNumber
+    }
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => {
+        setResponseCode(response.status)
+        displayStatus(true)
+        return response.json()
+      })
+      .then(data => {
+        console.log('Success:', data)
+
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  }
+
 
   const styleForm = {
     backgroundColor: 'white',
@@ -68,7 +101,10 @@ export default function SignUp() {
 
   const onSubmit = (values) => {
     console.log('Form data', values)
+    Register(values)
+
   }
+
   return (
     <section className='pageLoginContainer'>
       <div className='loginContainer container-fluid'>
@@ -78,6 +114,18 @@ export default function SignUp() {
           display: 'flex',
           justifyContent: 'center'
         }}>
+          {displayStatus && (
+            <>
+              {
+                String(responseCode).startsWith('2') &&
+                <Alert severity="success" variant="filled">Create account successful</Alert>
+              }
+              {
+                !String(responseCode).startsWith('2') &&
+                <Alert severity="error" variant="filled">Create account failed</Alert>
+              }
+            </>
+          )}
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -223,7 +271,7 @@ export default function SignUp() {
           justifyContent: 'flex-start',
           marginRight: '50px',
         }}>
-          <Link to="/login" className='linkBackHome'>
+          <Link to="/login" className='linkBackHome' onClick={() => setDisplayStatus(false)}>
             Back to login page
           </Link>
         </div>

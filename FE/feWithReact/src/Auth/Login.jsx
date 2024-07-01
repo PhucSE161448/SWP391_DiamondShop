@@ -72,7 +72,7 @@ export default function Login() {
             </div>
             <button className='loginButton'>LOGIN</button>
           </form>
-          <Link to="/SignUp" className='signupLink'>
+          <Link to="/SignUp" className='signupLink' style={{ textDecoration: 'none' }}>
             <button className='signUpButton'>
               SIGN UP
             </button>

@@ -47,4 +47,5 @@ export function LogoutAndRedirect() {
 
 export function LogoutByButton() {
 	localStorage.removeItem('token')
+	window.location.reload()
 }
