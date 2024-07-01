@@ -38,9 +38,7 @@ export default function Cart() {
     }
     fetchCart()
   }, [])
-
   console.log(cart)
-
   return (
     token ? (
       <div style={{
@@ -63,12 +61,9 @@ export default function Cart() {
                   <Container sx={{
                     margin: '0 auto',
                     display: 'flex', // Added to align items to the left
-                    flexDirection: 'column', // Ensures the Grids are stacked vertically
-                    alignItems: 'center', // Aligns items to the left
                     padding: '0 0 0 0',
                   }}>
                     <div style={{
-                      width: '80vw',
                       height: '20vh',
                       display: 'flex',
                       flexDirection: 'column',
@@ -99,33 +94,35 @@ export default function Cart() {
               }} >
                 <Grid container justifyContent="center" spacing={3} columns={{ xs: 4, sm: 8, md: 12 }}>
                   <Grid item md={8} sm={4} xs={4} sx={border}>
-                    <Container sx={{
-                      margin: '0 auto',
-                      display: 'flex', // Added to align items to the left
-                      flexDirection: 'column', // Ensures the Grids are stacked vertically
-                      alignItems: 'center', // Aligns items to the left
-                    }}>
-                      {cart.map((item, index) => (
-                        item.product ? (
-                          <div key={index} style={{
-                            width: '80vw',
-                            height: '10vh',
+                    {cart.map((item, index) => (
+                      item.product ? (
+                        <div key={index} style={{
+                          display: 'flex',
+                          justifyContent: 'space-around',
+                          backgroundColor: '#f0f0f0',
+                          borderRadius: '50px',
+                          padding: 10
+                        }}>
+                          <div>
+                            <img src={item.product.images[0].urlPath} alt="" style={{
+                              width: '250px',
+                              borderRadius: '50px',
+                            }} />
+                          </div>
+                          <div style={{
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
-                            backgroundColor: '#f8f9f9',
-                            borderRadius: '50px',
                           }}>
-                            <h3 style={{
-                              margin: '0 auto',
+                            <h4 style={{
                               fontSize: '3em',
                             }}>
                               {item.product.name}
-                            </h3>
+                            </h4>
                           </div>
-                        ) : null
-                      ))}
-                    </Container>
+                        </div>
+                      ) : null
+                    ))}
                   </Grid>
                   <Grid item md={4} sm={4} xs={4} sx={border}>
                     <h1>

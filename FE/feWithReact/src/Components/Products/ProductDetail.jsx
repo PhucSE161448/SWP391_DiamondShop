@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { Container, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
-
+import { Box, Modal, Typography } from '@mui/material'
 import { TextField } from '@mui/material'
 
 import { styled, } from '@mui/material'
@@ -13,6 +13,7 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 export default function ProductDetail() {
   // const navigate = useNavigate()
   const { id } = useParams()
+  const [openSize, setOpenSize] = useState(false)
   const [productDetail, setProductDetail] = useState(null)
   const [currentTopImageIndex, setCurrentTopImageIndex] = useState(0)
   const [selectedSize, setSelectedSize] = useState(1);
@@ -20,6 +21,8 @@ export default function ProductDetail() {
   const [totalPrice, setTotalPrice] = useState(0)
   const token = localStorage.getItem('token')
 
+  const handleOpen = () => setOpenSize(true)
+  const handleClose = () => setOpenSize(false)
 
   useEffect(() => {
     async function getDetailData() {
@@ -269,7 +272,36 @@ export default function ProductDetail() {
                     </div> <br />
                   </div>
                 </div>
-                <h3 style={{ color: '#183471' }}>{totalPrice.toLocaleString()} $</h3>
+                <div>
+                  <div>
+                    <a onClick={handleOpen} style={{
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      fontSize: '20px',
+                    }}>How to Measure Ring Size</a>
+                  </div>
+                  <Modal
+                    open={openSize}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      bgcolor: 'background.paper',
+                      p: 4,
+                      overflow: 'auto',
+                    }}>
+                      <img src="https://www.alexmakina.com/Data/EditorFiles/alex/Blog%20G%C3%B6rsel/Ring%20Size%20Measurement%20Using%20Thread%20or%20Floss.jpg" alt="" />
+                    </Box>
+                  </Modal>
+                </div>
+                <div>
+                  <h3 style={{ color: '#183471' }}>{totalPrice.toLocaleString()} $</h3>
+                </div>
                 {token ? (
                   <AddToCartButton
                     type='submit'
@@ -300,7 +332,7 @@ export default function ProductDetail() {
             <h2>Descriptions</h2>
             <p style={{
               textAlign: 'justify',
-              fontSize: '1vw',
+              fontSize: '20px',
             }}>
               Authentic with a special design combining two types of white gold and yellow gold, creating a strong, masculine and luxurious style.
               Exquisitely crafted to every detail and flexible according to needs: freely change the color/gold age and freely change the size of the main stone,
