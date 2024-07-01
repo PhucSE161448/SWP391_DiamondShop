@@ -7,6 +7,7 @@ import {
   Select, MenuItem, OutlinedInput, Checkbox, ListItemText,
 } from '@mui/material'
 import { Link, useParams, useNavigate } from 'react-router-dom'
+import { createApi } from '../../Auth/AuthFunction'
 export default function GetPageProduct() {
   const { id } = useParams()
   const [CategoryIds, setCategoryIds] = useState([id])
@@ -92,8 +93,8 @@ export default function GetPageProduct() {
           queryString.append(`queryDTO.${key}`, value);
         }
       })
-      console.log(queryString.toString())
-      fetch(`https://localhost:7122/api/Product/GetPagedProducts?${queryString.toString()}`)
+      const url = createApi(`Product/GetPagedProducts?${queryString.toString()}`)
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           setData(data.items)

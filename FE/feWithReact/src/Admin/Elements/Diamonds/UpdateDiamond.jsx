@@ -7,6 +7,7 @@ import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import { styled } from '@mui/material/styles'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { createApi } from '../../../Auth/AuthFunction';
 
 export default function UpdateDiamond(props) {
   const [image, setImage] = useState([])
@@ -56,8 +57,7 @@ export default function UpdateDiamond(props) {
   }
 
   function Update(values) {
-    const url = 'https://localhost:7122/api/Diamond/UpdateDiamond/' + props.item.id
-    console.log(url)
+    const url = createApi(`Diamond/UpdateDiamond/${props.item.id}`)
     const formData = new FormData()
     formData.append('Origin', values.origin);
     formData.append('Color', values.color);
@@ -101,7 +101,6 @@ export default function UpdateDiamond(props) {
     price: Yup.number().required('Price is required').positive('Price must be positive'),
     quantity: Yup.number().required('Quantity is required').positive('Quantity must be positive').integer('Quantity must be an integer'),
   });
-  console.log(item.cut)
   const formik = useFormik({
     initialValues: {
       origin: item.origin,

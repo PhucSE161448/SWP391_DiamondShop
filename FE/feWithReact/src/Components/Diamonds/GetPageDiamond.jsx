@@ -4,11 +4,10 @@ import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState } from 'react'
 import {
   Stack, Pagination, CardMedia, FormControl, InputLabel,
-  Select, MenuItem, OutlinedInput, Checkbox, ListItemText
+  Select, MenuItem, Slider
 } from '@mui/material'
-import { useLocation } from 'react-router-dom';
-import { Typography, Slider } from '@mui/material'
 import { Link, useParams, useNavigate } from 'react-router-dom'
+import { createApi } from '../../Auth/AuthFunction'
 export default function GetPageDiamond() {
   const { PageNumberFromURL } = useParams()
   const [PageNumber, setPageNumber] = useState(PageNumberFromURL && parseInt(PageNumberFromURL))
@@ -40,7 +39,6 @@ export default function GetPageDiamond() {
   }
 
   const handleChangeColor = (newValue) => {
-    console.log(newValue)
     setValueColor(newValue)
     setTriggerRead(prev => !prev)
   }
@@ -159,7 +157,8 @@ export default function GetPageDiamond() {
           queryString.append(`queryDTO.${key}`, value);
         }
       })
-      fetch(`https://localhost:7122/api/Diamond/GetPagedDiamonds?${queryString.toString()}`)
+      const url = createApi(`Diamond/GetPagedDiamonds?${queryString.toString()}`)
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           setData(data.items)

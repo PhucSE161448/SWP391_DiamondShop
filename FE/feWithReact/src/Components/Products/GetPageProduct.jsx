@@ -7,6 +7,7 @@ import {
   Select, MenuItem, OutlinedInput, Checkbox, ListItemText,
 } from '@mui/material'
 import { Link, useParams, useNavigate } from 'react-router-dom'
+import { createApi } from '../../Auth/AuthFunction'
 export default function GetPageProduct() {
   const { PageNumberFromURL } = useParams()
   const navigate = useNavigate()
@@ -117,7 +118,7 @@ export default function GetPageProduct() {
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
     function Read() {
-      const url = 'https://localhost:7122/api/Category/GetAllCategories';
+      const url = createApi('Category/GetAllCategories')
       fetch(url, {
         method: 'GET',
         headers: {
@@ -133,8 +134,9 @@ export default function GetPageProduct() {
     Read()
   }, [])
   useEffect(() => {
+    const url = createApi('Diamond/GetPagedDiamonds?QueryDTO.PageSize=10000')
     function getDiamondData() {
-      fetch(`https://localhost:7122/api/Diamond/GetPagedDiamonds?QueryDTO.PageSize=1000`)
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           setDataDiamond(data.items)
@@ -147,8 +149,9 @@ export default function GetPageProduct() {
   }, [])
 
   useEffect(() => {
+    const url = createApi('Collection/GetAllCollections')
     function getCollectionData() {
-      fetch(`https://localhost:7122/api/Collection/GetAllCollections`)
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           setDataCollection(data)
@@ -183,8 +186,8 @@ export default function GetPageProduct() {
           queryString.append(`queryDTO.${key}`, value);
         }
       })
-
-      fetch(`https://localhost:7122/api/Product/GetPagedProducts?${queryString.toString()}`)
+      const url = createApi(`Product/GetPagedProducts?${queryString.toString()}`)
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           setData(data.items)

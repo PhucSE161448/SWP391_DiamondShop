@@ -10,6 +10,7 @@ import ShowDetails from './ShowDetails'
 import CreateProduct from './CreateProduct'
 import "swiffy-slider/css"
 import UpdateProduct from './UpdateProduct';
+import { createApi } from '../../../Auth/AuthFunction';
 export default function ShowAllProduct() {
   const [PageNumber, setPageNumber] = useState(1)
   const [PageSize, setPageSize] = useState(4)
@@ -37,7 +38,8 @@ export default function ShowAllProduct() {
       Object.entries(params.queryDTO).forEach(([key, value]) => {
         queryString.append(`queryDTO.${key}`, value)
       })
-      fetch(`https://localhost:7122/api/Product/GetPagedProducts?${queryString.toString()}`)
+      const url = createApi(`Product/GetPagedProducts?${queryString.toString()}`)
+      fetch(url)
         .then(response => response.json())
         // .then(response => response.json())
         .then(data => {

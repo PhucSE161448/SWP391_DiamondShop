@@ -3,7 +3,7 @@ import { TextField, Button, Box } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import Modal from '@mui/material/Modal'
-
+import { createApi } from '../../../Auth/AuthFunction'
 export default function CreateCategory(props) {
 	const [nameCategory, setnameCategory] = useState('')
 	const [data, setData] = useState(null)
@@ -36,7 +36,7 @@ export default function CreateCategory(props) {
 	}
 
 	function Create(Name) {
-		const url = 'https://localhost:7122/api/Category/CreateCategory'
+		const url = createApi('Category/CreateCategory')
 		const data = {
 			name: Name
 		}

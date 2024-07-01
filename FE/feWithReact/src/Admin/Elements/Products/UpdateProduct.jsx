@@ -9,6 +9,7 @@ import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import { styled } from '@mui/material/styles'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { createApi } from '../../../Auth/AuthFunction'
 
 export default function UpdateProduct(props) {
   const [image, setImage] = useState([])
@@ -39,7 +40,7 @@ export default function UpdateProduct(props) {
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
     function Read() {
-      const url = 'https://localhost:7122/api/Category/GetAllCategories'
+      const url = createApi('Category/GetAllCategories')
       fetch(url, {
         method: 'GET',
         headers: {
@@ -57,7 +58,8 @@ export default function UpdateProduct(props) {
 
   useEffect(() => {
     function getDiamondData() {
-      fetch(`https://localhost:7122/api/Diamond/GetPagedDiamonds?QueryDTO.PageSize=1000`)
+      const url = createApi('Diamond/GetPagedDiamonds?QueryDTO.PageSize=10000')
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           setDataDiamond(data.items)
@@ -71,7 +73,8 @@ export default function UpdateProduct(props) {
 
   useEffect(() => {
     function getDiamondCaseData() {
-      fetch(`https://localhost:7122/api/DiamondCase/GetAllDiamondCases`)
+      const url = createApi('DiamondCase/GetAllDiamondCases')
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           setDataDiamondCase(data)
@@ -85,7 +88,8 @@ export default function UpdateProduct(props) {
 
   useEffect(() => {
     function getCollectionData() {
-      fetch(`https://localhost:7122/api/Collection/GetAllCollections`)
+      const url = createApi('Collection/GetAllCollections')
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           setDataCollection(data)

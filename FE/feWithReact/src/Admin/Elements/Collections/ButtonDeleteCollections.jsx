@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
+import { createApi } from '../../../Auth/AuthFunction'
 export default function ButtonDeleteCollections(props) {
   const [isDeleted, setIsDeleted] = useState(props.isDeleted)
   const handleChange = (event) => {
@@ -9,7 +10,7 @@ export default function ButtonDeleteCollections(props) {
   }
 
   function DeleteDiamondCase(id, status) {
-    const url = 'https://localhost:7122/api/Collection/DeleteOrEnable/' + id + '/' + status
+    const url = createApi(`Collection/DeleteOrEnable/${id}/${status}`)
     fetch(url, {
       method: 'PUT',
       headers: {

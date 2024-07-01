@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Container, Box, Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-
+import { createApi } from '../Auth/AuthFunction'
 export default function Cart() {
   const [isEmpty, setIsEmpty] = useState(null)
   const [cart, setCart] = useState([])
@@ -19,8 +19,9 @@ export default function Cart() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    const url = createApi('Cart/Get')
     const fetchCart = async () => {
-      const response = await fetch('https://localhost:7122/api/Cart/Get', {
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

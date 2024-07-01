@@ -5,7 +5,7 @@ import { amber } from '@mui/material/colors'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import ButtonDeleteCollections from './ButtonDeleteCollections'
 import UpdateCollection from './UpdateCollection'
-
+import { createApi } from '../../../Auth/AuthFunction'
 export default function CRUDCollections() {
   const [data, setData] = useState(null)
   const [page, setPage] = useState(0)
@@ -24,7 +24,7 @@ export default function CRUDCollections() {
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
     function Read() {
-      const url = 'https://localhost:7122/api/Collection/GetAllCollections';
+      const url = createApi('Collection/GetAll')
       fetch(url, {
         method: 'GET',
         headers: {

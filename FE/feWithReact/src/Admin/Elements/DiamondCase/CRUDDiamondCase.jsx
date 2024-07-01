@@ -5,6 +5,7 @@ import { amber } from '@mui/material/colors'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import ButtonDeleteDiamondCase from './ButtonDeleteDiamondCase'
 import UpdateDiamondCase from './UpdateDiamondCase'
+import { createApi } from '../../../Auth/AuthFunction'
 
 export default function CRUDCategory() {
 	const [data, setData] = useState(null)
@@ -24,7 +25,7 @@ export default function CRUDCategory() {
 	useEffect(() => {
 		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
 		function Read() {
-			const url = 'https://localhost:7122/api/DiamondCase/GetAllDiamondCases';
+			const url = createApi('DiamondCase/GetAllDiamondCases')
 			fetch(url, {
 				method: 'GET',
 				headers: {

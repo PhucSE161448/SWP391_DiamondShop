@@ -3,10 +3,11 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState } from 'react'
 import {
-  Stack, Pagination, TextField, CardMedia, FormControl, InputLabel,
-  Select, MenuItem, OutlinedInput, Checkbox, ListItemText,
+  Stack, Pagination, CardMedia, FormControl, InputLabel,
+  Select, MenuItem, 
 } from '@mui/material'
 import { Link, useParams, useNavigate } from 'react-router-dom'
+import { createApi } from '../../Auth/AuthFunction'
 export default function GetPageCollection() {
   const { id } = useParams()
   const [CollectionIds, setCollectionIds] = useState([id])
@@ -93,15 +94,14 @@ export default function GetPageCollection() {
           queryString.append(`queryDTO.${key}`, value);
         }
       })
-      console.log(queryString.toString())
-      fetch(`https://localhost:7122/api/Product/GetPagedProducts?${queryString.toString()}`)
+      const url = createApi(`Product/GetPagedProducts?${queryString.toString()}`)
+      fetch(url)
         .then(response => response.json())
         .then(data => {
           setData(data.items)
           setTotalPage(Math.ceil(data.totalItemsCount / PageSize))
         })
         .catch(error => {
-          // Xử lý lỗi ở đây
           console.error(error)
         })
     }

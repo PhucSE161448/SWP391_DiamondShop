@@ -3,13 +3,12 @@ import { useParams } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { Container, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
-import { Box, Modal, Typography } from '@mui/material'
-import { TextField } from '@mui/material'
-
+import { Box, Modal, } from '@mui/material'
 import { styled, } from '@mui/material'
 import Button from '@mui/material/Button'
 import './ProductDetail.css';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import { FormControl } from '@mui/material'
+import { createApi } from '../../Auth/AuthFunction'
 export default function ProductDetail() {
   // const navigate = useNavigate()
   const { id } = useParams()
@@ -25,9 +24,10 @@ export default function ProductDetail() {
   const handleClose = () => setOpenSize(false)
 
   useEffect(() => {
+    const url = createApi(`Product/GetProductDetailById/${id}`)
     async function getDetailData() {
       try {
-        const response = await fetch(`https://localhost:7122/api/Product/GetProductDetailById/${id}`)
+        const response = await fetch(url)
         const data = await response.json()
         setProductDetail(data)
         setSelectedSize(data?.productSizes?.[0]?.size)
@@ -60,7 +60,8 @@ export default function ProductDetail() {
       totalPrice: data.totalPrice
     }
     console.log(body)
-    const response = await fetch('https://localhost:7122/api/Cart/Create?check=true', {
+    const url = createApi('Cart/Create?check=false')
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

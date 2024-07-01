@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import CloseIcon from '@mui/icons-material/Close'
+import { createApi } from '../../../Auth/AuthFunction'
 
 export default function UpdateCollection(props) {
   const [open, setOpen] = useState(false)
@@ -34,7 +35,7 @@ export default function UpdateCollection(props) {
   }
 
   const Update = (values) => {
-    const url = 'https://localhost:7122/api/Collection/UpdateCollection/' + props.id
+    const url = createApi(`Collection/UpdateCollection/'${props.id}`)
     const data = {
       "name": values.name,
     }

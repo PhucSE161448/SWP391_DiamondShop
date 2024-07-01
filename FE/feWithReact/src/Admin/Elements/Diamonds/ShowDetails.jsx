@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Box, Modal, Container } from '@mui/material';
+import { createApi } from '../../../Auth/AuthFunction';
 
 export default function ShowDetailsDiamond(props) {
   const [open, setOpen] = useState(false);
@@ -21,7 +22,7 @@ export default function ShowDetailsDiamond(props) {
   }, [open, props.id]);
 
   function GetDiamondDetails(id) {
-    const url = 'https://localhost:7122/api/Diamond/GetDiamondDetailById/' + id;
+    const url = createApi(`Diamond/GetDiamondDetailById/${id}`);
     fetch(url, {
       method: 'GET',
       headers: {

@@ -4,6 +4,7 @@ import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import { amber } from '@mui/material/colors'
 import UpdateIcon from '@mui/icons-material/Update'
+import { createApi } from '../../../Auth/AuthFunction'
 export default function UpdateAccount({ onClick, ...props }) {
 	const [idAccount, setIdAccount] = useState('')
 	const [nameAccount, setnameAccount] = useState('')
@@ -33,7 +34,6 @@ export default function UpdateAccount({ onClick, ...props }) {
 	}))
 	const handleSubmit = (event) => {
 		event.preventDefault()
-		// Gọi hàm CreateCaratWeight, truyền weight và price như là các đối số
 		updateAccount(idAccount, emailAccount, nameAccount, genderAccount, phoneAccount, addressAccount)
 	}
 
@@ -47,7 +47,7 @@ export default function UpdateAccount({ onClick, ...props }) {
 		setData(null)
 	}
 	function updateAccount(Id, Email, Name, Gender, Phone, Address) {
-		const url = 'https://localhost:7122/api/Account/UpdateUser/' + Id
+		const url = createApi(`Account/UpdateUser/${Id}`)
 		const data = {
 			"id": parseInt(Id),
 			"name": Name,

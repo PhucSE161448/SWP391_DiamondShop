@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, } from '@mui/material'
 import { swiffyslider } from 'swiffy-slider'
 import "swiffy-slider/css"
-
+import { createApi } from '../../../Auth/AuthFunction'
 export default function Category() {
 	const [CategoryData, setCategoryData] = useState([]);
 	const navigate = useNavigate();
@@ -14,9 +14,8 @@ export default function Category() {
 	});
 
 	useEffect(() => {
-		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
 		function Read() {
-			const url = 'https://localhost:7122/api/Category/GetAllCategories';
+			const url = createApi('Category/GetAllCategories')
 			fetch(url, {
 				method: 'GET',
 				headers: {

@@ -4,13 +4,14 @@ import './Login.css'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import { RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import * as Yup from 'yup';
-import { TextField, Button, Box, Grid, FormControl, InputLabel, Select, MenuItem, Card, CardContent, Alert, Switch } from '@mui/material'
+import { TextField, Button, Alert, Switch } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
+import { createApi } from './AuthFunction'
 export default function SignUp() {
   const [responseCode, setResponseCode] = useState(0)
   const [displayStatus, setDisplayStatus] = useState(false)
   const Register = (values) => {
-    const url = 'https://localhost:7122/api/Authentication/Register'
+    const url = createApi('Authentication/Register')
     const data = {
       name: values.name,
       email: values.email,

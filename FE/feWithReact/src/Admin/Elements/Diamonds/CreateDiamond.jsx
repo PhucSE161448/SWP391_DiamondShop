@@ -7,6 +7,7 @@ import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import { styled } from '@mui/material/styles'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { createApi } from '../../../Auth/AuthFunction';
 
 export default function CreateDiamond(props) {
   const [image, setImage] = useState([])
@@ -58,7 +59,7 @@ export default function CreateDiamond(props) {
   }
 
   async function Create(values) {
-    const url = 'https://localhost:7122/api/Diamond/CreateDiamond'
+    const url = createApi('Diamond/CreateDiamond')
 
     const formData = new FormData();
     formData.append('Origin', values.origin);

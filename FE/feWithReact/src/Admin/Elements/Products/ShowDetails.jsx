@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Box, Modal, Container } from '@mui/material'
+import { createApi } from '../../../Auth/AuthFunction'
 export default function ShowDetails(props) {
   const [open, setOpen] = useState(false)
   const [productDetails, setProductDetails] = useState(null)
@@ -17,7 +18,7 @@ export default function ShowDetails(props) {
     }
   }, [open, props.id])
   function GetProductDetails(id) {
-    const url = 'https://localhost:7122/api/Product/GetProductDetailById/' + id
+    const url = createApi(`Product/GetProductDetailById/${id}`)
     fetch(url, {
       method: 'GET',
       headers: {
@@ -27,7 +28,6 @@ export default function ShowDetails(props) {
       .then(response => response.json())
       .then(data => {
         setProductDetails(data)
-        console.log(data)
       })
   }
   return (

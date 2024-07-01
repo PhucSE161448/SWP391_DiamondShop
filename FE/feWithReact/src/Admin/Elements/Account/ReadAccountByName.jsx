@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination
 import DeleteIcon from '@mui/icons-material/Delete'
 import UpdateAccount from './UpdateAccount'
 import CancelIcon from '@mui/icons-material/Cancel'
+import { createApi } from '../../../Auth/AuthFunction'
 export default function ReadAccountByName(props) {
 	const [nameAccount, setNameAccount] = useState('')
 	const [data, setData] = useState(null)
@@ -60,7 +61,7 @@ export default function ReadAccountByName(props) {
 			setData('')
 		}
 		if (nameAccount) {
-			const url = 'https://localhost:7122/api/Account/SearchByName/' + nameAccount;
+			const url = createApi(`Account/SearchByName/${nameAccount}`);
 			fetch(url, {
 				method: 'GET',
 				headers: {
@@ -83,7 +84,7 @@ export default function ReadAccountByName(props) {
 
 	function handleSubmitDelete(idAccount) {
 		if (idAccount) {
-			const url = 'https://localhost:7122/api/Account/DeleteUser/' + idAccount
+			const url = createApi(`Account/DeleteUser/${idAccount}`)
 			fetch(url, {
 				method: 'DELETE',
 				headers: {

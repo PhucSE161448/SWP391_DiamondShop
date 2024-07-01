@@ -8,6 +8,7 @@ import { Button } from '@mui/material';
 import { Menu, Dropdown } from 'antd'
 import { LogoutByButton } from '../../Auth/AuthFunction'
 import { jwtDecode } from 'jwt-decode'
+import { createApi } from '../../Auth/AuthFunction';
 export default function Navbar() {
 	const [categories, setCategories] = useState([])
 	const [token, setToken] = useState(null)
@@ -28,7 +29,7 @@ export default function Navbar() {
 
 	useEffect(() => {
 		const GetAllCategories = async () => {
-			const url = "https://localhost:7122/api/Category/GetAllCategories";
+			const url = createApi('Category/GetAllCategories')
 			const response = await fetch(url);
 			const data = await response.json();
 			setCategories(data);
@@ -38,7 +39,7 @@ export default function Navbar() {
 
 	useEffect(() => {
 		const GetAllCollections = async () => {
-			const url = "https://localhost:7122/api/Collection/GetAllCollections";
+			const url = createApi('Collection/GetAllCollections')
 			const response = await fetch(url);
 			const data = await response.json();
 			setCollections(data);

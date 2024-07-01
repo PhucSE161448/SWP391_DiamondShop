@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import CloseIcon from '@mui/icons-material/Close'
+import { createApi } from '../../../Auth/AuthFunction'
 
 export default function UpdateDiamondCase(props) {
   const [open, setOpen] = useState(false)
@@ -38,7 +39,7 @@ export default function UpdateDiamondCase(props) {
   }
 
   const Update = (values) => {
-    const url = 'https://localhost:7122/api/DiamondCase/UpdateDiamondCase/' + props.id
+    const url = createApi(`DiamondCase/UpdateDiamondCase/'${props.id}`)
     const data = {
       "name": values.name,
       "color": values.color,

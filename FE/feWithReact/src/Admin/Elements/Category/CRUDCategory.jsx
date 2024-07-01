@@ -4,10 +4,10 @@ import SendIcon from '@mui/icons-material/Send'
 import CancelIcon from '@mui/icons-material/Cancel'
 import UpdateIcon from '@mui/icons-material/Update'
 import CreateCategory from './CreateCategory'
-import DeleteIcon from '@mui/icons-material/Delete'
 import { amber } from '@mui/material/colors'
 import ButtonDeleteCategory from './ButtonDeleteCategory'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
+import { createApi } from '../../../Auth/AuthFunction'
 const UpdateButton = styled(Button)(({ theme }) => ({
 	color: theme.palette.getContrastText(amber[500]),
 	backgroundColor: amber[500],
@@ -38,7 +38,7 @@ export default function CRUDCategory() {
 
 
 	function UpdateCategory(Id, Name) {
-		const url = 'https://localhost:7122/api/Category/UpdateCategory/' + Id
+		const url = createApi(`Category/UpdateCategory/${Id}`)
 		const Data = {
 			"name": Name,
 			"isDeleted": false
@@ -63,7 +63,7 @@ export default function CRUDCategory() {
 	useEffect(() => {
 		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
 		function Read() {
-			const url = 'https://localhost:7122/api/Category/GetAllCategories';
+			const url = createApi('Category/GetAllCategories')
 			fetch(url, {
 				method: 'GET',
 				headers: {

@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import { Button, Modal, Box, TextField, Select, InputLabel, MenuItem, OutlinedInput, FormControl } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
-
+import { createApi } from '../../../Auth/AuthFunction'
 export default function CreateDiamond(props) {
-    const [origin, setOrigin] = useState('')
+	const [origin, setOrigin] = useState('')
 	const [color, setColor] = useState('')
 	const [caratWeight, setCaratWeight] = useState('')
 	const [clarity, setClarity] = useState('')
 	const [cut, setCut] = useState('')
 	const [price, setPrice] = useState('')
-    const [quantity, setQuantity] = useState('')
+	const [quantity, setQuantity] = useState('')
 	const [dataDiamond, setDataDiamond] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => setOpen(true)
@@ -24,9 +24,9 @@ export default function CreateDiamond(props) {
 		setPrice('')
 		setQuantity('')
 		setDataDiamond(null)
-    }
+	}
 
-    const handleSubmit = (event) => {
+	const handleSubmit = (event) => {
 		event.preventDefault()
 		CreateDiamond('2', color, caratWeight, clarity, cut, price, quantity)
 		setOrigin('')
@@ -39,7 +39,7 @@ export default function CreateDiamond(props) {
 		setDataDiamond(null)
 	}
 
-    const handleClear = () => {
+	const handleClear = () => {
 		setOrigin('')
 		setColor('')
 		setCaratWeight('')
@@ -50,8 +50,8 @@ export default function CreateDiamond(props) {
 		setDataDiamond(null)
 	}
 
-    function CreateAccount(Origin, Color, CaratWeight, Clarity, Cut, Price, Quantity) {
-		const url = 'https://localhost:7122/api/Diamond/CreateDiamond'
+	function CreateAccount(Origin, Color, CaratWeight, Clarity, Cut, Price, Quantity) {
+		const url = createApi('Diamond/CreateDiamond')
 		const data = {
 			origin: Origin,
 			color: Color,
@@ -76,7 +76,7 @@ export default function CreateDiamond(props) {
 			})
 	}
 
-    return (
+	return (
 		<>
 			<div style={{
 				display: 'flex',
@@ -125,36 +125,36 @@ export default function CreateDiamond(props) {
 												<MenuItem value={2}>E</MenuItem>
 												<MenuItem value={3}>F</MenuItem>
 												<MenuItem value={4}>G</MenuItem>
-                                                <MenuItem value={1}>H</MenuItem>
+												<MenuItem value={1}>H</MenuItem>
 												<MenuItem value={2}>I</MenuItem>
 												<MenuItem value={3}>J</MenuItem>
 												<MenuItem value={4}>K</MenuItem>
-                                                <MenuItem value={1}>L</MenuItem>
+												<MenuItem value={1}>L</MenuItem>
 												<MenuItem value={2}>M</MenuItem>
 												<MenuItem value={3}>N</MenuItem>
 												<MenuItem value={4}>O</MenuItem>
-                                                <MenuItem value={1}>P</MenuItem>
+												<MenuItem value={1}>P</MenuItem>
 												<MenuItem value={2}>Q</MenuItem>
 												<MenuItem value={3}>R</MenuItem>
 												<MenuItem value={4}>S</MenuItem>
-                                                <MenuItem value={1}>T</MenuItem>
+												<MenuItem value={1}>T</MenuItem>
 												<MenuItem value={2}>U</MenuItem>
 												<MenuItem value={3}>V</MenuItem>
 												<MenuItem value={4}>W</MenuItem>
-                                                <MenuItem value={1}>X</MenuItem>
+												<MenuItem value={1}>X</MenuItem>
 												<MenuItem value={2}>Y</MenuItem>
 												<MenuItem value={3}>Z</MenuItem>
 											</Select>
 										</FormControl>
 									</div>
-                                    <div className='col-12'>
+									<div className='col-12'>
 										<TextField type="text" value={caratWeight} onChange={e => setCaratWeight(e.target.value)}
 											id="outlined-basic" label="Carat Weight" variant="outlined" className='form-control' />
 									</div>
 								</div><br />
 
 								<div className='row'>
-                                    <div className='col-12'>
+									<div className='col-12'>
 										<FormControl fullWidth>
 											<InputLabel id="select-label">Clarity</InputLabel>
 											<Select labelId="select-label"
@@ -169,17 +169,17 @@ export default function CreateDiamond(props) {
 												<MenuItem value={2}>IF</MenuItem>
 												<MenuItem value={3}>VVS1</MenuItem>
 												<MenuItem value={4}>VVS2</MenuItem>
-                                                <MenuItem value={1}>VS1</MenuItem>
+												<MenuItem value={1}>VS1</MenuItem>
 												<MenuItem value={2}>VS2</MenuItem>
 												<MenuItem value={3}>SI1</MenuItem>
 												<MenuItem value={4}>SI2</MenuItem>
-                                                <MenuItem value={1}>I1</MenuItem>
+												<MenuItem value={1}>I1</MenuItem>
 												<MenuItem value={2}>I2</MenuItem>
 												<MenuItem value={3}>I3</MenuItem>
 											</Select>
 										</FormControl>
 									</div>
-                                    <div className='col-12'>
+									<div className='col-12'>
 										<FormControl fullWidth>
 											<InputLabel id="select-label">Cut</InputLabel>
 											<Select labelId="select-label"
@@ -194,20 +194,20 @@ export default function CreateDiamond(props) {
 												<MenuItem value={2}>VeryGood</MenuItem>
 												<MenuItem value={3}>Good</MenuItem>
 												<MenuItem value={4}>Fair</MenuItem>
-                                                <MenuItem value={1}>Poor</MenuItem>
+												<MenuItem value={1}>Poor</MenuItem>
 											</Select>
 										</FormControl>
 									</div>
-                                    <div className='col-12'>
+									<div className='col-12'>
 										<TextField type="text" value={price} onChange={e => setPrice(e.target.value)}
 											id="outlined-basic" label="Price" variant="outlined" className='form-control' />
 									</div>
-                                    <div className='col-12'>
+									<div className='col-12'>
 										<TextField type="text" value={quantity} onChange={e => setQuantity(e.target.value)}
 											id="outlined-basic" label="Quantity" variant="outlined" className='form-control' />
-									</div>								
+									</div>
 								</div><br />
-								
+
 								{
 									dataDiamond ? (dataDiamond.StatusCode === 400 ? (
 										<h3>{dataDiamond.ErrorMessage}</h3>
