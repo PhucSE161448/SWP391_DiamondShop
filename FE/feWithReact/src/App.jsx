@@ -1,7 +1,7 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Pages/Home'
-import Homepage from './Pages/Homepage'
+import Homepage from '../src/Components/Content/HomePage'
 import Product from './Pages/Product'
 import DiamondPage from './Pages/DiamondPage'
 import Login from './Auth/Login'
@@ -18,6 +18,9 @@ import ProductDetail from './Components/Products/ProductDetail'
 import ShowAllDiamond from './Admin/Elements/Diamonds/ShowAllDiamond'
 import DiamondDetail from './Components/Diamonds/DiamondDetail'
 import DiamondCase from './Admin/Elements/DiamondCase/DiamondCase'
+import Collections from './Admin/Elements/Collections/Collections'
+import GetPageCategory from './Components/CategoryPage/GetPageCategory'
+import GetPageCollection from './Components/CollectionPage/GetPageCollection'
 export default function App() {
   return (
     <>
@@ -31,6 +34,8 @@ export default function App() {
             <Route path='product/:PageNumberFromURL' element={<Product />}></Route>
             <Route path='product/detail/:id' element={<ProductDetail></ProductDetail>}></Route>
             <Route path='diamond/detail/:id' element={<DiamondDetail></DiamondDetail>}></Route>
+            <Route path='category/:id' element={<GetPageCategory></GetPageCategory>}></Route>
+            <Route path='collection/:id' element={<GetPageCollection></GetPageCollection>}></Route>
             <Route path='/cart' element={<Cart></Cart>}></Route>
           </Route>
 
@@ -43,6 +48,7 @@ export default function App() {
             <Route path='warranty' element={<Warranty></Warranty>}> </Route>
             <Route path='diamond' element={<ShowAllDiamond></ShowAllDiamond>}></Route>
             <Route path='diamondCase' element={<DiamondCase></DiamondCase>}> </Route>
+            <Route path='collections' element={<Collections></Collections>}></Route>
           </Route>
 
         </Routes >
