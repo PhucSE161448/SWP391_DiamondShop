@@ -16,12 +16,14 @@ export default function CreateProduct(props) {
   const [dataCategory, setDataCategory] = useState(null)
   const [dataDiamondCase, setDataDiamondCase] = useState(null)
   const [dataDiamond, setDataDiamond] = useState(null)
+  const [dataCollection, setDataCollection] = useState(null)
   const [open, setOpen] = useState(false)
   const [priceMainPart, setPriceMainPart] = useState(0)
   const [priceExtraPart, setPriceExtraPart] = useState(0)
+  const [priceWage, setPriceWage] = useState(0)
 
-  const calculatePrice = (priceMain, priceExtra, priceSize) => {
-    return priceMain + priceExtra + priceSize
+  const calculatePrice = (priceMain, priceExtra, priceSize, priceWage) => {
+    return priceMain + priceExtra + priceSize + priceWage
   }
 
   const handleOpen = () => {
@@ -73,8 +75,22 @@ export default function CreateProduct(props) {
         .catch(error => {
           console.error(error)
         })
-    } getDiamondCaseData
+    }
     getDiamondCaseData()
+  }, [])
+
+  useEffect(() => {
+    function getCollectionData() {
+      fetch(`https://localhost:7122/api/Collection/GetAllCollections`)
+        .then(response => response.json())
+        .then(data => {
+          setDataCollection(data)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    }
+    getCollectionData()
   }, [])
 
   const VisuallyHiddenInput = styled('input')({
@@ -114,15 +130,14 @@ export default function CreateProduct(props) {
 
   async function Create(values) {
     const url = 'https://localhost:7122/api/Product/CreateProduct'
-
+    console.log(values)
     const formData = new FormData();
     formData.append('Name', values.nameProduct);
     formData.append('Gender', values.gender);
     formData.append('Quantity', values.quantity);
     formData.append('CategoryId', values.categoryId);
     formData.append('DiamondCaseId', values.DiamondCaseId);
-
-    console.log(values)
+    formData.append('CollectionId', values.collectionId);
 
     // Lặp qua mỗi file và thêm vào FormData
     for (let i = 0; i < image.length; i++) {
@@ -166,10 +181,7 @@ export default function CreateProduct(props) {
       .required('Product name is required'),
     gender: Yup.bool()
       .required('Gender is required'),
-    quantity: Yup.number('Input must be number')
-      .required('Quantity is required')
-      .positive('Number must not negative')
-      .integer('Number must be an integer'),
+    collectionId: Yup.number().required('Collection is required'),
     categoryId: Yup.number()
       .required('Category is required'),
     diamonds: Yup.array().of(
@@ -182,6 +194,7 @@ export default function CreateProduct(props) {
           .required('Type is required'),
       })
     ),
+    wage: Yup.number().required('Wage is required').positive('Wage must be positive'),
     DiamondCaseId: Yup.number()
       .required('Diamond Case is required'),
     sizes: Yup.array().of(
@@ -190,6 +203,10 @@ export default function CreateProduct(props) {
           .required('Size is required')
           .positive('Size must be positive')
           .integer('Size must be an integer'),
+        quantity: Yup.number()
+          .required('Quantity is required')
+          .positive('Quantity must be positive')
+          .integer('Quantity must be an integer'),
       })
     ),
   })
@@ -197,28 +214,30 @@ export default function CreateProduct(props) {
   const initialValues = {
     nameProduct: '',
     gender: '',
-    quantity: '',
+    collectionId: '',
     categoryId: '',
+    wage: '',
     diamonds: [{ diamondId: '', isMain: true }, { diamondId: '', isMain: false }],
     DiamondCaseId: '',
-    sizes: [{ size: '', price: '' }]
+    sizes: [{ size: '', price: '', quantity: '' }]
   }
 
   const onSubmit = (values) => {
-
+    console.log(values)
     const parsedValues = {
       ...values,
-      quantity: parseInt(values.quantity, 10),
-      DiamondCaseId: parseInt(values.DiamondCaseId, 10),
+      wage: parseInt(values.wage, 10),
       diamonds: values.diamonds ? values.diamonds.map(diamond => ({
         diamondId: parseInt(diamond.diamondId, 10),
         isMain: diamond.isMain
       })) : [],
       sizes: values.sizes ? values.sizes.map(size => ({
         size: parseInt(size.size, 10),
-        price: parseInt(size.price, 10)
+        price: parseInt(size.price, 10),
+        quantity: parseInt(size.quantity, 10)
       })) : []
     }
+    console.log(parsedValues)
     Create(parsedValues)
     props.onProductCreated()
   }
@@ -275,7 +294,7 @@ export default function CreateProduct(props) {
                   </div>
                 </div> <br />
                 <div className='row'>
-                  <div className='col-3'>
+                  <div className='col-2'>
                     <Field
                       name="gender"
                       as={RadioGroup}
@@ -296,16 +315,22 @@ export default function CreateProduct(props) {
                   </div>
                   <div className='col-3'>
                     <FormControl fullWidth>
+                      <InputLabel>Collection</InputLabel>
                       <Field
-                        name="quantity"
-                        as={TextField}
-                        label="Quantity"
+                        name="collectionId"
+                        as={Select}
+                        id="collectionId"
+                        label="Collection"
                         onChange={handleChange}
-                        value={values.quantity}
-
-                      />
+                        value={values.collectionId}
+                        MenuProps={MenuProps}
+                      >
+                        {dataCollection && dataCollection.map((item) => (
+                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                        ))}
+                      </Field>
                     </FormControl>
-                    <ErrorMessage name="quantity">
+                    <ErrorMessage name="collectionId">
                       {msg => <Alert severity="error">{msg}</Alert>}
                     </ErrorMessage>
                   </div>
@@ -330,7 +355,7 @@ export default function CreateProduct(props) {
                       </ErrorMessage>
                     </FormControl>
                   </div>
-                  <div className='col-3'>
+                  <div className='col-2'>
                     <FormControl fullWidth>
                       <InputLabel>Diamond Case</InputLabel>
                       <Field
@@ -346,6 +371,22 @@ export default function CreateProduct(props) {
                       </Field>
                     </FormControl>
                     <ErrorMessage name="DiamondCaseId">
+                      {msg => <Alert severity="error">{msg}</Alert>}
+                    </ErrorMessage>
+                  </div>
+                  <div className='col-2'>
+                    <Field
+                      name="wage"
+                      as={TextField}
+                      label="Wage"
+                      onChange={(e) => {
+                        handleChange(e)
+                        setPriceWage(e.target.value)
+                      }}
+                      value={values.wage}
+                      style={{ width: '100%' }}
+                    />
+                    <ErrorMessage name="wage">
                       {msg => <Alert severity="error">{msg}</Alert>}
                     </ErrorMessage>
                   </div>
@@ -511,50 +552,63 @@ export default function CreateProduct(props) {
                       {({ push, remove, form }) => (
                         <div>
                           {form.values.sizes.map((_, index) => (
-                            <>
-                              <div key={index} className='row'>
-                                <div className='col-4'>
-                                  <Field
-                                    name={`sizes[${index}].size`}
-                                    as={TextField}
-                                    label="Size"
-                                    onChange={form.handleChange}
-                                    value={form.values.sizes[index].size}
-                                    style={{ width: '100%' }}
-                                  />
-                                  <ErrorMessage name={`sizes[${index}].size`}>
-                                    {msg => <Alert severity="error">{msg}</Alert>}
-                                  </ErrorMessage>
-                                </div>
-
-                                <div className='col-4'>
-                                  <Field
-                                    name={`sizes[${index}].price`}
-                                    as={TextField}
-                                    label="Price"
-                                    value={form.values.sizes[index].price = calculatePrice(priceMainPart, priceExtraPart, form.values.sizes[index].size * 100)}
-                                    style={{ width: '100%' }}
-                                    onChange={form.handleChange}
-                                    readOnly={true}
-                                  />
-
-                                </div><br />
-                                <div className='col'>
-                                  <Button
-                                    variant="contained"
-                                    color="error"
-                                    onClick={() => remove(index)}
-                                    style={{ marginTop: '10px' }}
-                                  >
-                                    Remove
-                                  </Button>
-                                </div>
+                            <div key={index} className='row' style={{
+                              marginBottom: '10px'
+                            }}>
+                              <div className='col-4'>
+                                <Field
+                                  name={`sizes[${index}].size`}
+                                  as={TextField}
+                                  label="Size"
+                                  onChange={form.handleChange}
+                                  value={form.values.sizes[index].size}
+                                  style={{ width: '100%' }}
+                                />
+                                <ErrorMessage name={`sizes[${index}].size`}>
+                                  {msg => <Alert severity="error">{msg}</Alert>}
+                                </ErrorMessage>
                               </div>
-                            </>
+                              <div className='col-4'>
+                                <Field
+                                  name={`sizes[${index}].price`}
+                                  as={TextField}
+                                  label="Price"
+                                  value={form.values.sizes[index].price = calculatePrice(priceMainPart, priceExtraPart, form.values.sizes[index].size * 100, Number(priceWage))}
+                                  style={{ width: '100%' }}
+                                  onChange={form.handleChange}
+                                  readOnly={true}
+                                />
+                              </div><br />
+                              <div className='col-2'>
+                                <FormControl fullWidth>
+                                  <Field
+                                    name={`sizes[${index}].quantity`}
+                                    as={TextField}
+                                    label="Quantity"
+                                    onChange={form.handleChange}
+                                    value={form.values.sizes[index].quantity}
+
+                                  />
+                                </FormControl>
+                                <ErrorMessage name={`sizes[${index}].quantity`}>
+                                  {msg => <Alert severity="error">{msg}</Alert>}
+                                </ErrorMessage>
+                              </div>
+                              <div className='col'>
+                                <Button
+                                  variant="contained"
+                                  color="error"
+                                  onClick={() => remove(index)}
+                                  style={{ marginTop: '10px' }}
+                                >
+                                  Remove
+                                </Button>
+                              </div>
+                            </div>
                           ))}
                           <Button
                             variant="contained"
-                            onClick={() => push({ size: '', price: '' })}
+                            onClick={() => push({ size: '', price: '', quantity: '' })}
                             style={{ marginTop: '10px' }}
                           >
                             Add Size

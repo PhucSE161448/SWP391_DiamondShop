@@ -15,6 +15,7 @@ export default function UpdateProduct(props) {
   const [dataCategory, setDataCategory] = useState(null)
   const [dataDiamondCase, setDataDiamondCase] = useState(null)
   const [dataDiamond, setDataDiamond] = useState(null)
+  const [dataCollection, setDataCollection] = useState(null)
   const [open, setOpen] = useState(false)
   const [displayStatus, setDisplayStatus] = useState(false)
   const [responseCodeProduct, setResponseCodeProduct] = useState(null)
@@ -82,6 +83,20 @@ export default function UpdateProduct(props) {
     getDiamondCaseData()
   }, [])
 
+  useEffect(() => {
+    function getCollectionData() {
+      fetch(`https://localhost:7122/api/Collection/GetAllCollections`)
+        .then(response => response.json())
+        .then(data => {
+          setDataCollection(data)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    }
+    getCollectionData()
+  }, [])
+
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -126,7 +141,7 @@ export default function UpdateProduct(props) {
     formData.append('Quantity', values.quantity)
     formData.append('CategoryId', values.categoryId)
     formData.append('DiamondCaseId', values.DiamondCaseId)
-
+    formData.append('CollectionId', values.CollectionId)
 
     // Lặp qua mỗi file và thêm vào FormData
     for (let i = 0; i < image.length; i++) {
@@ -169,7 +184,7 @@ export default function UpdateProduct(props) {
       .required('Product name is required'),
     gender: Yup.bool()
       .required('Gender is required'),
-    quantity: Yup.number('Input must be number')
+    CollectionId: Yup.number('Input must be number')
       .required('Quantity is required')
       .positive('Number must not negative')
       .integer('Number must be an integer'),
@@ -193,6 +208,10 @@ export default function UpdateProduct(props) {
           .required('Size is required')
           .positive('Size must be positive')
           .integer('Size must be an integer'),
+        quantity: Yup.number()
+          .required('Quantity is required')
+          .positive('Quantity must be positive')
+          .integer('Quantity must be an integer'),
       })
     ),
   })
@@ -200,7 +219,7 @@ export default function UpdateProduct(props) {
   const initialValues = {
     nameProduct: item.name,
     gender: item.gender,
-    quantity: item.quantity,
+    CollectionId: item.collection.id,
     categoryId: item.category.id,
     DiamondCaseId: item.diamondCase.id,
     diamonds: item.productParts?.map(partItem => ({
@@ -210,6 +229,7 @@ export default function UpdateProduct(props) {
     sizes: item.productSizes?.map(sizeItem => ({
       size: sizeItem.size,
       price: sizeItem.price,
+      quantity: sizeItem.quantity
     })),
   }
 
@@ -217,7 +237,7 @@ export default function UpdateProduct(props) {
 
     const parsedValues = {
       ...values,
-      quantity: parseInt(values.quantity, 10),
+      CollectionId: parseInt(values.CollectionId, 10),
       DiamondCaseId: parseInt(values.DiamondCaseId, 10),
       diamonds: values.diamonds ? values.diamonds.map(diamond => ({
         diamondId: parseInt(diamond.diamondId, 10),
@@ -225,7 +245,8 @@ export default function UpdateProduct(props) {
       })) : [],
       sizes: values.sizes ? values.sizes.map(size => ({
         size: parseFloat(size.size),
-        price: parseFloat(size.price)
+        price: parseFloat(size.price),
+        quantity: parseInt(size.quantity, 10)
       })) : []
     }
     Update(parsedValues)
@@ -297,15 +318,21 @@ export default function UpdateProduct(props) {
                     </ErrorMessage>
                   </div>
                   <div className='col-3'>
-                    <Field
-                      name="quantity"
-                      as={TextField}
-                      label="Quantity"
-                      onChange={handleChange}
-                      value={values.quantity}
-                      sx={{ width: '100%' }}
-                    />
-                    <ErrorMessage name="quantity">
+                    <FormControl fullWidth>
+                      <InputLabel>Collection</InputLabel>
+                      <Field
+                        name="CollectionId"
+                        as={Select}
+                        label="Collection"
+                        onChange={handleChange}
+                        value={values.CollectionId}
+                      >
+                        {dataCollection && dataCollection.map((item) => (
+                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                        ))}
+                      </Field>
+                    </FormControl>
+                    <ErrorMessage name="CollectionId">
                       {msg => <Alert severity="error">{msg}</Alert>}
                     </ErrorMessage>
                   </div>
@@ -563,6 +590,21 @@ export default function UpdateProduct(props) {
                                     readOnly={true}
                                   />
                                 </div><br />
+                                <div className='col-2'>
+                                  <FormControl fullWidth>
+                                    <Field
+                                      name={`sizes[${index}].quantity`}
+                                      as={TextField}
+                                      label="Quantity"
+                                      onChange={form.handleChange}
+                                      value={form.values.sizes[index].quantity}
+
+                                    />
+                                  </FormControl>
+                                  <ErrorMessage name={`sizes[${index}].quantity`}>
+                                    {msg => <Alert severity="error">{msg}</Alert>}
+                                  </ErrorMessage>
+                                </div>
                                 <div className='col'>
                                   <Button
                                     variant="contained"
@@ -578,7 +620,7 @@ export default function UpdateProduct(props) {
                           ))}
                           <Button
                             variant="contained"
-                            onClick={() => push({ size: '', price: '' })}
+                            onClick={() => push({ size: '', price: '', quantity: '' })}
                             style={{ marginTop: '10px' }}
                           >
                             Add Size
