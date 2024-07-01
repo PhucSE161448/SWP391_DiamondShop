@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, styled } from '@mui/material'
-import CreateCategory from './CreateDiamondCase'
+import CreateDiamondCase from './CreateDiamondCase'
 import { amber } from '@mui/material/colors'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import ButtonDeleteDiamondCase from './ButtonDeleteDiamondCase'
@@ -50,8 +50,10 @@ export default function CRUDCategory() {
 							<TableRow>
 								<TableCell>#</TableCell>
 								<TableCell>Name</TableCell>
+								<TableCell>Color</TableCell>
+								<TableCell>Material</TableCell>
 								<TableCell></TableCell>
-								<TableCell><CreateCategory onDiamondCaseCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
+								<TableCell><CreateDiamondCase onDiamondCaseCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -71,10 +73,22 @@ export default function CRUDCategory() {
 												maxWidth: '11vw',
 												minWidth: '11vw'
 											}}>
+												{data.color}
+											</TableCell>
+											<TableCell style={{
+												maxWidth: '11vw',
+												minWidth: '11vw'
+											}}>
+												{data.material}
+											</TableCell>
+											<TableCell style={{
+												maxWidth: '11vw',
+												minWidth: '11vw'
+											}}>
 												<ButtonDeleteDiamondCase id={data.id} isDeleted={data.isDeleted} />
 											</TableCell>
 											<TableCell>
-												<UpdateDiamondCase id={data.id} onDiamondCaseUpdated={() => setTriggerRead(prev => !prev)}></UpdateDiamondCase>
+												<UpdateDiamondCase id={data.id} data={data} onDiamondCaseUpdated={() => setTriggerRead(prev => !prev)}></UpdateDiamondCase>
 											</TableCell>
 										</TableRow>
 									))

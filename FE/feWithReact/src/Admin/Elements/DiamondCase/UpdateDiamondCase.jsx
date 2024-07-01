@@ -27,14 +27,14 @@ export default function UpdateDiamondCase(props) {
   })
 
   const initialValues = {
-    name: '',
-    color: '',
-    material: ''
+    name: props.data.name,
+    color: props.data.color,
+    material: props.data.material
   }
 
   const onSubmit = (values) => {
     Update(values)
-    props.onDiamondCaseUpdated()
+
   }
 
   const Update = (values) => {
@@ -63,12 +63,14 @@ export default function UpdateDiamondCase(props) {
       })
       .then(responseData => {
         if (responseData) {
-          setResponseCode(responseData.status);
+          setResponseCode(responseData.status)
+
         }
       })
       .catch(error => {
         console.error("Error parsing JSON:", error);
-      });
+      })
+    props.onDiamondCaseUpdated()
   }
   return (
     <div style={{
@@ -105,7 +107,9 @@ export default function UpdateDiamondCase(props) {
             {({ handleChange, values }) => (
               <Form>
                 <div className='row'>
-                  <div className='col-12'>
+                  <div className='col-12' style={{
+                    marginBottom: '20px'
+                  }}>
                     <Field
                       name="name"
                       as={TextField}
@@ -118,7 +122,9 @@ export default function UpdateDiamondCase(props) {
                       {msg => <Alert severity="error">{msg}</Alert>}
                     </ErrorMessage>
                   </div>
-                  <div className='col-12'>
+                  <div className='col-12' style={{
+                    marginBottom: '20px'
+                  }}>
                     <Field
                       name="color"
                       as={TextField}
@@ -131,7 +137,9 @@ export default function UpdateDiamondCase(props) {
                       {msg => <Alert severity="error">{msg}</Alert>}
                     </ErrorMessage>
                   </div>
-                  <div className='col-12'>
+                  <div className='col-12' style={{
+                    marginBottom: '20px'
+                  }}>
                     <Field
                       name="material"
                       as={TextField}

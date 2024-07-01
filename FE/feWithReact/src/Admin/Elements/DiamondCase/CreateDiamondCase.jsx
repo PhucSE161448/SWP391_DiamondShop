@@ -38,6 +38,7 @@ export default function CreateDiamondCase(props) {
 			.then(response => response.json())
 			.then(responseData => {
 				setData(responseData)
+				props.onDiamondCaseCreated()
 			})
 	}
 	const validationSchema = Yup.object({
@@ -54,7 +55,7 @@ export default function CreateDiamondCase(props) {
 
 	const onSubmit = (values) => {
 		Create(values)
-		props.onDiamondCaseCreated()
+
 	}
 
 	return (
