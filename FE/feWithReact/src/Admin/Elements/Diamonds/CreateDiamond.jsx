@@ -11,6 +11,9 @@ import DeleteIcon from '@mui/icons-material/Delete'
 export default function CreateDiamond(props) {
   const [image, setImage] = useState([])
   const [open, setOpen] = useState(false)
+  const dataColors = ["D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+  const dataClarity = ["FL", "IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "I1", "I2", "I3"]
+  const dataCut = ["Excellent", "Very Good", "Good", "Fair", "Poor"].reverse()
   const handleOpen = () => {
     setOpen(true)
   }
@@ -89,7 +92,11 @@ export default function CreateDiamond(props) {
   const validationSchema = Yup.object({
     origin: Yup.string().required('Origin is required'),
     color: Yup.string().required('Color is required'),
-    caratWeight: Yup.number().required('Carat Weight is required').positive('Carat Weight must be positive'),
+    caratWeight: Yup.number()
+      .required('Carat Weight is required')
+      .positive('Carat Weight must be positive')
+      .min(0.1, 'Carat Weight must be at least 0.1')
+      .max(10.2, 'Carat Weight must be 10.2 or less'),
     clarity: Yup.string().required('Clarity is required'),
     cut: Yup.string().required('Cut is required'),
     name: Yup.string().required('Name is required'),
@@ -169,32 +176,13 @@ export default function CreateDiamond(props) {
                       id="demo-simple-select" variant="outlined"
                       label="Color" value={formik.values.color}
                       onChange={formik.handleChange} className='form-control'
+                      MenuProps={MenuProps}
                       sx={{
                         padding: '0'
                       }}>
-                      <MenuItem value={'D'}>D</MenuItem>
-                      <MenuItem value={'E'}>E</MenuItem>
-                      <MenuItem value={'F'}>F</MenuItem>
-                      <MenuItem value={'G'}>G</MenuItem>
-                      <MenuItem value={'H'}>H</MenuItem>
-                      <MenuItem value={'I'}>I</MenuItem>
-                      <MenuItem value={'J'}>J</MenuItem>
-                      <MenuItem value={'K'}>K</MenuItem>
-                      <MenuItem value={'L'}>L</MenuItem>
-                      <MenuItem value={'M'}>M</MenuItem>
-                      <MenuItem value={'N'}>N</MenuItem>
-                      <MenuItem value={'O'}>O</MenuItem>
-                      <MenuItem value={'P'}>P</MenuItem>
-                      <MenuItem value={'Q'}>Q</MenuItem>
-                      <MenuItem value={'R'}>R</MenuItem>
-                      <MenuItem value={'S'}>S</MenuItem>
-                      <MenuItem value={'T'}>T</MenuItem>
-                      <MenuItem value={'U'}>U</MenuItem>
-                      <MenuItem value={'V'}>V</MenuItem>
-                      <MenuItem value={'W'}>W</MenuItem>
-                      <MenuItem value={'X'}>X</MenuItem>
-                      <MenuItem value={'Y'}>Y</MenuItem>
-                      <MenuItem value={'Z'}>Z</MenuItem>
+                      {dataColors.map((color, index) => (
+                        <MenuItem key={index} value={color}>{color}</MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                   {formik.touched.color && formik.errors.color &&
@@ -208,20 +196,13 @@ export default function CreateDiamond(props) {
                       id="demo-simple-select" variant="outlined"
                       label="Clarity" value={formik.values.clarity}
                       onChange={formik.handleChange} className='form-control'
+                      MenuProps={MenuProps}
                       sx={{
                         padding: '0'
                       }}>
-                      <MenuItem value={'FL'}>FL</MenuItem>
-                      <MenuItem value={'IF'}>IF</MenuItem>
-                      <MenuItem value={'VVS1'}>VVS1</MenuItem>
-                      <MenuItem value={'VVS2'}>VVS2</MenuItem>
-                      <MenuItem value={'VS1'}>VS1</MenuItem>
-                      <MenuItem value={'VS2'}>VS2</MenuItem>
-                      <MenuItem value={'SI1'}>SI1</MenuItem>
-                      <MenuItem value={'SI2'}>SI2</MenuItem>
-                      <MenuItem value={'I1'}>I1</MenuItem>
-                      <MenuItem value={'I2'}>I2</MenuItem>
-                      <MenuItem value={'I3'}>I3</MenuItem>
+                      {dataClarity.map((clarity, index) => (
+                        <MenuItem key={index} value={clarity}>{clarity}</MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                   {formik.touched.clarity && formik.errors.clarity &&
@@ -235,14 +216,13 @@ export default function CreateDiamond(props) {
                       id="demo-simple-select" variant="outlined"
                       label="Clarity" value={formik.values.cut}
                       onChange={formik.handleChange} className='form-control'
+                      MenuProps={MenuProps}
                       sx={{
                         padding: '0'
                       }}>
-                      <MenuItem value={'Excellent'}>Excellent</MenuItem>
-                      <MenuItem value={'VeryGood'}>Very Good</MenuItem>
-                      <MenuItem value={'Good'}>Good</MenuItem>
-                      <MenuItem value={'Fair'}>Fair</MenuItem>
-                      <MenuItem value={'Poor'}>Poor</MenuItem>
+                      {dataCut.map((cut, index) => (
+                        <MenuItem key={index} value={cut}>{cut}</MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                   {formik.touched.cut && formik.errors.cut &&
