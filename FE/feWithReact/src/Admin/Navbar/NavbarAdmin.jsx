@@ -49,6 +49,10 @@ export default function NavbarAdmin() {
 		navigate('/admin/diamondCase')
 	}
 
+	function goToCollections() {
+		navigate('/admin/collections')
+	}
+
 	const buttonStyle = {
 		color: '#fff',
 		width: '-webkit-fill-available',
@@ -79,22 +83,25 @@ export default function NavbarAdmin() {
 					<Button onClick={goToAdmin} sx={buttonStyle}>Admin</Button>
 				</Menu.Item >
 				<Menu.Item style={paddingStyle}>
-					<Button onClick={goToDiamond} sx={buttonStyle}>Diamond</Button>
+					<Button onClick={goToAccount} sx={buttonStyle}>Account</Button>
 				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToCategory} sx={buttonStyle}>Category</Button>
 				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
-					<Button onClick={goToAccount} sx={buttonStyle}>Account</Button>
+					<Button onClick={goToCollections} sx={buttonStyle}>Collection</Button>
+				</Menu.Item>
+				<Menu.Item style={paddingStyle}>
+					<Button onClick={goToDiamond} sx={buttonStyle}>Diamond</Button>
+				</Menu.Item>
+				<Menu.Item style={paddingStyle}>
+					<Button onClick={goToDiamondCase} sx={buttonStyle}>Diamond Case</Button>
 				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToProduct} sx={buttonStyle}>Product</Button>
 				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToWarranty} sx={buttonStyle}>Warranty</Button>
-				</Menu.Item>
-				<Menu.Item style={paddingStyle}>
-				<Button onClick={goToDiamondCase} sx={buttonStyle}>Diamond Case</Button>
 				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={Logout} sx={{
