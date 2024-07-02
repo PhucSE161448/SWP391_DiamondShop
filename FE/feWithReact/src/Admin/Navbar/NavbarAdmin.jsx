@@ -2,11 +2,12 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom'
 import './NavbarAdmin.css'
-import { LogoutByButton } from '../../Auth/AuthFunction'
+import { LogoutByButtonAdmin } from '../../Auth/AuthFunction'
 import { Menu, } from 'antd'
 import { Button } from '@mui/material'
 export default function NavbarAdmin() {
 	const navigate = useNavigate()
+	const role = localStorage.getItem('role')
 
 	function goToCategory() {
 		navigate('/admin/category')
@@ -25,7 +26,7 @@ export default function NavbarAdmin() {
 	}
 
 	function Logout() {
-		LogoutByButton()
+		LogoutByButtonAdmin()
 		navigate('/')
 	}
 
@@ -78,27 +79,33 @@ export default function NavbarAdmin() {
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToAdmin} sx={buttonStyle}>Admin</Button>
 				</Menu.Item >
-				<Menu.Item style={paddingStyle}>
-					<Button onClick={goToAccount} sx={buttonStyle}>Account</Button>
-				</Menu.Item>
-				<Menu.Item style={paddingStyle}>
-					<Button onClick={goToCategory} sx={buttonStyle}>Category</Button>
-				</Menu.Item>
-				<Menu.Item style={paddingStyle}>
-					<Button onClick={goToCollections} sx={buttonStyle}>Collection</Button>
-				</Menu.Item>
-				<Menu.Item style={paddingStyle}>
-					<Button onClick={goToDiamond} sx={buttonStyle}>Diamond</Button>
-				</Menu.Item>
-				<Menu.Item style={paddingStyle}>
-					<Button onClick={goToDiamondCase} sx={buttonStyle}>Diamond Case</Button>
-				</Menu.Item>
-				<Menu.Item style={paddingStyle}>
-					<Button onClick={goToProduct} sx={buttonStyle}>Product</Button>
-				</Menu.Item>
-				<Menu.Item style={paddingStyle}>
-					<Button onClick={goToWarranty} sx={buttonStyle}>Warranty</Button>
-				</Menu.Item>
+				{role === '1' || role === '2' ? (
+					<Menu.Item style={paddingStyle}>
+						<Button onClick={goToAccount} sx={buttonStyle}>Account</Button>
+					</Menu.Item>
+				) : null}
+				{role === '1' && (
+					<>
+						<Menu.Item style={paddingStyle}>
+							<Button onClick={goToCategory} sx={buttonStyle}>Category</Button>
+						</Menu.Item>
+						<Menu.Item style={paddingStyle}>
+							<Button onClick={goToCollections} sx={buttonStyle}>Collection</Button>
+						</Menu.Item>
+						<Menu.Item style={paddingStyle}>
+							<Button onClick={goToDiamond} sx={buttonStyle}>Diamond</Button>
+						</Menu.Item>
+						<Menu.Item style={paddingStyle}>
+							<Button onClick={goToDiamondCase} sx={buttonStyle}>Diamond Case</Button>
+						</Menu.Item>
+						<Menu.Item style={paddingStyle}>
+							<Button onClick={goToProduct} sx={buttonStyle}>Product</Button>
+						</Menu.Item>
+						<Menu.Item style={paddingStyle}>
+							<Button onClick={goToWarranty} sx={buttonStyle}>Warranty</Button>
+						</Menu.Item>
+					</>
+				)}
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={Logout} sx={{
 						color: '#fff',

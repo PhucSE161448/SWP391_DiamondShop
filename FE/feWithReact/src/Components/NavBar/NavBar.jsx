@@ -120,8 +120,7 @@ export default function Navbar() {
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={() => navigate('/diamondPage/1')} sx={buttonStyle}>Diamond</Button>
 				</Menu.Item>
-
-				<Menu.SubMenu
+				<Menu.SubMenu key='productMenu'
 					title={
 						<Button onClick={() => navigate('/product/1')} sx={buttonStyle}>
 							Product
@@ -147,8 +146,8 @@ export default function Navbar() {
 				{token ? (
 					<>
 						<Menu.Item key="navigate" style={paddingStyle}>
-							<Button onClick={() => navigate(role === '1' ? '/admin' : '/profile')} sx={buttonStyle}>
-								{role === '1' ? 'Admin' : 'Profile'}
+							<Button onClick={() => navigate(role >= '1' && role <= '4' ? '/admin' : '/profile')} sx={buttonStyle}>
+								{role === '1' && 'Admin' || role === '2' && 'Manager' || role === '3' && 'Sales Staff' || role === '4' && 'DeliveryStaff' || role === '5' && 'Profile'}
 							</Button>
 						</Menu.Item>
 						<Menu.Item key="logout" style={paddingStyle}>

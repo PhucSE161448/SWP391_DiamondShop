@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { jwtDecode } from 'jwt-decode'
 
 export function createApi(endpointPath) {
 	const BaseUrl = "https://localhost:7122/api/"
@@ -7,9 +8,9 @@ export function createApi(endpointPath) {
 }
 
 export function validateUser(userData) {
-	let BaseUrl = "https://localhost:7122/api/Authentication/Login/"
+	const url = createApi('Authentication/Login/')
 	return new Promise((resolve, reject) => {
-		fetch(BaseUrl, {
+		fetch(url, {
 			method: "POST",
 			headers: {
 				Accept: "application/json",
@@ -25,6 +26,8 @@ export function validateUser(userData) {
 			})
 			.then(responseJson => {
 				localStorage.setItem('token', responseJson.accessToken)
+				const decodedToken = jwtDecode(responseJson.accessToken)
+				localStorage.setItem('role', decodedToken.Role)
 				resolve()
 			})
 			.catch(error => {
@@ -51,6 +54,12 @@ export function LogoutAndRedirect() {
 }
 
 export function LogoutByButton() {
+	localStorage.removeItem('role')
 	localStorage.removeItem('token')
 	window.location.reload()
+}
+
+export function LogoutByButtonAdmin() {
+	localStorage.removeItem('role')
+	localStorage.removeItem('token')
 }

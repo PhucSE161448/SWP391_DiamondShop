@@ -54,9 +54,7 @@ export default function UpdateDiamondCase(props) {
       body: JSON.stringify(data)
     })
       .then(response => {
-        setResponseCode(response.status);
         if (response.status === 204 || response.headers.get("content-length") === "0") {
-          // No content to parse
           return null;
         } else {
           return response.json();
@@ -65,7 +63,6 @@ export default function UpdateDiamondCase(props) {
       .then(responseData => {
         if (responseData) {
           setResponseCode(responseData.status)
-
         }
       })
       .catch(error => {

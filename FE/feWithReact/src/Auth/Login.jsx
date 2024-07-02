@@ -10,27 +10,18 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   let navigate = useNavigate()
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      const decodedToken = jwtDecode(token)
-      if (decodedToken.Role === '1') {
-        navigate('/admin')
-      } else {
-        navigate('/')
-      }
-    }
-  }, [navigate]);
 
   function getToken() {
     const token = localStorage.getItem('token')
+    const role = localStorage.getItem('role')
     if (token) {
-      const decodedToken = jwtDecode(token)
-      if (decodedToken.Role === '1') {
+      if (role >= '1' && role <= '4') {
         navigate('/admin')
       } else {
         navigate('/')
       }
+    } else {
+      navigate('/')
     }
   }
 
@@ -39,6 +30,8 @@ export default function Login() {
     validateUser({ email: email, password: password })
       .then(() => {
         getToken()
+        setEmail('')
+        setPassword('')
       })
       .catch(error => {
         setError(error.message);
@@ -47,7 +40,7 @@ export default function Login() {
   return (
     <section className='pageLoginContainer' >
       <div className='loginContainer container-fluid'>
-        <h1>LOGIN TO DASHBOARD</h1>
+        <h1>LOGIN</h1>
         {error && <div className="error-message">{error}</div>}
         <div className='loginInputContainer'>
           <form onSubmit={submitForm}>

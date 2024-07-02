@@ -134,7 +134,6 @@ export default function CreateProduct(props) {
 
   async function Create(values) {
     const url = createApi('Product/CreateProduct')
-    console.log(values)
     const formData = new FormData();
     formData.append('Name', values.nameProduct);
     formData.append('Gender', values.gender);
@@ -163,7 +162,6 @@ export default function CreateProduct(props) {
 
     // Set data and productID after the response is received
     const productID = responseData.id;
-    console.log(productID)
     // Use const to define productID for this scope
     const urlCreateProductProperties = createApi(`Product/CreateProductProperties/${productID}`)
     const productProperties = {
@@ -227,7 +225,6 @@ export default function CreateProduct(props) {
   }
 
   const onSubmit = (values) => {
-    console.log(values)
     const parsedValues = {
       ...values,
       wage: parseInt(values.wage, 10),
@@ -241,7 +238,6 @@ export default function CreateProduct(props) {
         quantity: parseInt(size.quantity, 10)
       })) : []
     }
-    console.log(parsedValues)
     Create(parsedValues)
     props.onProductCreated()
   }

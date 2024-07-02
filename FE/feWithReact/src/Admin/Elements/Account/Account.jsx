@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReadAccount from './CRUDAccount'
-import UpdateAccount from './UpdateAccount'
+import { useNavigate } from 'react-router-dom'
 
 export default function Account() {
+	const role = localStorage.getItem('role')
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		if (role !== '1' && role !== '2') {
+			navigate('/admin')
+		}
+	})
 	return (
 		<div className='contentAdminContainer'>
 			<div className='CRUDContainer '>

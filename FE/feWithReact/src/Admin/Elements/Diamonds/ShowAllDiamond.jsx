@@ -1,7 +1,8 @@
 import { Box, Grid, Container } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import React, { useEffect, useState, setParams } from 'react'
+import React, { useEffect, useState,  } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Stack, Pagination, Button } from '@mui/material'
 import { Table, TableBody, TableContainer, TableHead, ImageList, TableRow, ImageListItem, styled } from '@mui/material'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -19,6 +20,14 @@ export default function ShowAllDiamond() {
   const [TotalPage, setTotalPage] = useState(null)
   const [data, setData] = useState(null)
   const [triggerRead, setTriggerRead] = useState(false)
+  const role = localStorage.getItem('role')
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (role !== '1') {
+      navigate('/admin')
+    }
+  })
   const params = {
     queryDTO: {
       PageNumber: PageNumber,

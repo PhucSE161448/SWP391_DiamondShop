@@ -24,7 +24,7 @@ export default function CRUDCollections() {
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
     function Read() {
-      const url = createApi('Collection/GetAll')
+      const url = createApi('Collection/GetAllCollections')
       fetch(url, {
         method: 'GET',
         headers: {

@@ -137,8 +137,7 @@ export default function UpdateProduct(props) {
   }
 
   function Update(values) {
-    const url = 'https://localhost:7122/api/Product/UpdateProduct/' + item.id
-    console.log(values)
+    const url = createApi(`Product/UpdateProduct/${item.id}`)
     const formData = new FormData()
     formData.append('Name', values.nameProduct)
     formData.append('Gender', values.gender)
@@ -165,7 +164,7 @@ export default function UpdateProduct(props) {
       setResponseCodeProduct(response.status)
     })
 
-    const urlCreateProductProperties = 'https://localhost:7122/api/Product/UpdateProductProperties/' + item.id
+    const urlCreateProductProperties = createApi(`Product/UpdateProductProperties/${item.id}`)
     const productProperties = {
       "createProductPartDtos": values.diamonds,
       "createProductSizeDtos": values.sizes
