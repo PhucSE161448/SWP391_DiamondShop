@@ -1,7 +1,8 @@
 import React from 'react';
 import Banner from './Banner/Banner';
 import Category from './Category/Category';
-import Banner2 from './Banner/Banner2'; import SummerCollection from './Category/SummerCollection';
+import Banner2 from './Banner/Banner2';
+import Collection from './Category/Collection';
 './Banner/Banner2';
 import AboutUs from './Banner/AboutUs';
 export default function HomePage() {
@@ -13,8 +14,8 @@ export default function HomePage() {
     }}>
       <Banner></Banner>
       <Category></Category>
-      <Banner2></Banner2>
-      <SummerCollection></SummerCollection>
+      {/* <Banner2></Banner2> */}
+      <Collection></Collection>
       <AboutUs></AboutUs>
     </div>
   );
