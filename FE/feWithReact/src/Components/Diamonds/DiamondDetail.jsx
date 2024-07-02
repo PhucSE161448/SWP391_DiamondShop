@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Container, Table, TableBody, TableCell, TableContainer, TableRow, TableHead } from '@mui/material'
-
+import { Container, TableCell, Alert } from '@mui/material'
+import CheckIcon from '@mui/icons-material/Check';
 import { TextField } from '@mui/material'
 
 import { styled, } from '@mui/material'
@@ -18,6 +18,7 @@ export default function DiamondDetail() {
   const [currentTopImageIndex, setCurrentTopImageIndex] = useState(0)
   const [selectedQuantity, setSelectedQuantity] = useState(1)
   const [price, setPrice] = useState(0)
+  const [responseStatus, setResponseStatus] = useState('')
   const token = localStorage.getItem('token')
 
 
@@ -50,7 +51,7 @@ export default function DiamondDetail() {
     const body = {
       id: data.id,
       quantity: data.quantity,
-      price: data.price
+      totalPrice: data.price
     }
     const url = createApi('Cart/Create?check=false')
     const response = await fetch(url, {
@@ -60,8 +61,8 @@ export default function DiamondDetail() {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify(body),
-    });
-    console.log(response)
+    })
+    setResponseStatus(response.status)
   }
 
   const AddToCartButton = styled(Button)(({ theme }) => ({
@@ -254,6 +255,11 @@ export default function DiamondDetail() {
                   </h4>
                 )}
               </FormControl>
+              {responseStatus.toString().startsWith('2') && (
+                <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+                  Add to cart successful
+                </Alert>
+              )}
             </div>
             <br />
           </div>

@@ -1,22 +1,40 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Container, Box, Button } from '@mui/material'
+import { Grid, Container, Box, Button, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, TextField } from '@mui/material'
+import { IconButton } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { createApi } from '../Auth/AuthFunction'
+import RemoveIcon from '@mui/icons-material/Remove'
+import AddIcon from '@mui/icons-material/Add'
+import DeleteIcon from '@mui/icons-material/Delete';
 export default function Cart() {
   const [isEmpty, setIsEmpty] = useState(null)
   const [cart, setCart] = useState([])
+  const [totalPriceCalculate, setTotalPriceCalculate] = useState(0)
+  const [triggerRead, setTriggerRead] = useState(false)
   const token = localStorage.getItem('token')
+  const dataTableHead = ['#', 'Product', 'Quantity', 'Price', 'Total amount']
+  const navigate = useNavigate()
   const border = {
     padding: '0px',
     margin: 0
   }
-  const color = {
-    backgroundColor: '#737373',
+  const colorContinueShopping = {
+    backgroundColor: '#999999',
     '&:hover': {
-      backgroundColor: '#737373',
+      backgroundColor: '#fff',
+      color: '#000',
     }
   }
-  const navigate = useNavigate()
+
+  const colorPayment = {
+    backgroundColor: '#000',
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: '#fff',
+      color: '#000',
+    }
+
+  }
 
   useEffect(() => {
     const url = createApi('Cart/Get')
@@ -38,8 +56,55 @@ export default function Cart() {
         })
     }
     fetchCart()
-  }, [])
-  console.log(cart)
+  }, [triggerRead])
+
+  const handleDecrease = async (id) => {
+    const url = createApi(`Cart/Update/${id}?check=false`)
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
+    setTriggerRead(prev => !prev)
+  }
+
+  const handleDeleteCart = async (id) => {
+    const url = createApi(`Cart/Delete/${id}`)
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
+    setTriggerRead(prev => !prev)
+  }
+
+  const handleIncrease = async (id) => {
+    const url = createApi(`Cart/Update/${id}?check=true`)
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
+    setTriggerRead(prev => !prev)
+  }
+
+  useEffect(() => {
+    const calculatePrice = () => {
+      let total = 0
+      cart.map((item) => {
+        total += item.totalPrice
+      })
+      setTotalPriceCalculate(total)
+    }
+    calculatePrice()
+  }, [cart])
+
   return (
     token ? (
       <div style={{
@@ -80,7 +145,11 @@ export default function Cart() {
                     </div>
                     <div style={{
                       margin: '20px auto',
-                    }}><Button onClick={() => navigate('/')} variant="contained" size="large" sx={color}>Click here to continue shopping</Button></div>
+                    }}>
+                      <Button onClick={() => navigate('/')} variant="contained" size="large" sx={color}>
+                        Click here to continue shopping
+                      </Button>
+                    </div>
                   </Container>
                 </Grid>
               </Box>
@@ -94,48 +163,172 @@ export default function Cart() {
                 padding: '0 0 0 24px',
               }} >
                 <Grid container justifyContent="center" spacing={3} columns={{ xs: 4, sm: 8, md: 12 }}>
-                  <Grid item md={8} sm={4} xs={4} sx={border}>
-                    {cart.map((item, index) => (
-                      item.product ? (
-                        <div key={index} style={{
-                          display: 'flex',
-                          justifyContent: 'space-around',
-                          backgroundColor: '#f0f0f0',
-                          borderRadius: '50px',
-                          padding: 10
+                  <Grid item lg={6} md={8} sm={12} xs={12} sx={border}>
+                    <TableContainer sx={{
+                      overflow: 'auto',
+                      borderRadius: '10px',
+                      boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                    }}>
+                      <Table>
+                        <TableHead sx={{
+                          backgroundColor: '#000'
                         }}>
-                          <div>
-                            <img src={item.product.images[0].urlPath} alt="" style={{
-                              width: '250px',
-                              borderRadius: '50px',
-                            }} />
-                          </div>
-                          <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                          }}>
-                            <h4 style={{
-                              fontSize: '3em',
-                            }}>
-                              {item.product.name}
-                            </h4>
-                          </div>
-                        </div>
-                      ) : null
-                    ))}
+                          <TableRow>
+                            {dataTableHead.map((head, index) => (
+                              <TableCell key={index} sx={{
+                                borderRight: '1px solid #fff',
+                              }}>
+                                <div style={{
+                                  color: '#fff',
+                                  fontWeight: 'bold',
+                                  fontSize: '1.2em',
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                }}>
+                                  {head}
+                                </div>
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {cart.map((item, index) => (
+                            <TableRow key={index}> {/* Ensure each row has a unique key */}
+                              <TableCell>
+                                {index + 1}
+                              </TableCell>
+                              <TableCell>
+                                <Grid container spacing={2} sx={{
+                                  display: 'flex',
+                                  padding: '10px'
+                                }}>
+                                  <Grid item xs={12} sm={12} md={3} lg={3} sx={{
+                                    marginRight: '25px',
+                                  }}>
+                                    <img src={item.product ? item.product.images[0].urlPath : item.diamond.images[0]?.urlPath} alt="" style={{
+                                      width: '125px',
+                                      borderRadius: '10px',
+                                      cursor: 'pointer',
+                                    }}
+                                      onClick={() => navigate(`/${item.product ? 'product/detail' : 'diamond/detail'}/${item.product ? item.product.id : item.diamond.id}`)}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={12} sm={12} md={6} lg={6} sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                  }}>
+                                    <div
+                                      style={{
+                                        margin: '0 auto',
+                                      }}
+                                      onClick={() => navigate(`/${item.product ? 'product/detail' : 'diamond/detail'}/${item.product ? item.product.id : item.diamond.id}`)}>
+                                      <h4 style={{
+                                        cursor: 'pointer',
+                                      }}>
+                                        {item.product ? item.product.name : item.diamond.name}
+                                      </h4>
+                                    </div>
+                                  </Grid>
+                                  <Grid item xs={12} sm={12} md={3} lg={2} sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+
+                                  }}>
+                                    <div style={{
+                                      display: 'flex',
+                                      justifyContent: 'flex-end',
+                                      alignItems: 'center',
+                                    }}>
+                                      <IconButton color='error' onClick={() => handleDeleteCart(item.cartId)}>
+                                        <DeleteIcon></DeleteIcon>
+                                      </IconButton>
+                                    </div>
+                                  </Grid>
+                                </Grid>
+                              </TableCell>
+                              <TableCell>
+                                <div style={{
+                                  display: 'flex',
+                                  width: '150px',
+                                }}>
+                                  <IconButton onClick={() => handleDecrease(item.cartId)} disabled={item.quantity <= 1}>
+                                    <RemoveIcon />
+                                  </IconButton>
+                                  <TextField
+                                    value={item.quantity}
+                                    inputProps={{
+                                      readOnly: true,
+                                      style: { textAlign: 'center' },
+                                      min: 0,
+                                    }}
+                                  />
+                                  <IconButton onClick={() => handleIncrease(item.cartId)}>
+                                    <AddIcon />
+                                  </IconButton>
+                                </div>
+
+                              </TableCell>
+                              <TableCell>
+                                {item.product ?
+                                  (item.totalPrice / item.quantity).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) :
+                                  item.diamond.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                                }
+                              </TableCell>
+                              <TableCell>
+                                {item.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+
+                      </Table>
+                    </TableContainer>
                   </Grid>
-                  <Grid item md={4} sm={4} xs={4} sx={border}>
-                    <h1>
-                      Orders:
-                    </h1>
+                  <Grid item lg={4} md={4} sm={12} xs={12} sx={border}>
+                    <Grid>
+                      <h1>
+                        Total: {totalPriceCalculate.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                      </h1>
+                    </Grid>
+                    <Container>
+                      <Grid container spacing={10}>
+                        <Grid item lg={6} md={6} sm={12} xs={12} >
+                          <div style={{
+                            margin: '20px auto',
+                            width: '250px',
+                          }}>
+                            <Button onClick={() => navigate('/')} variant="contained" size="large" sx={{
+                              ...colorContinueShopping,
+                              width: '100%',
+                            }}>
+                              Continue shopping
+                            </Button>
+                          </div>
+                        </Grid>
+                        <Grid item lg={6} md={6} sm={12} xs={12} >
+                          <div style={{
+                            margin: '20px auto',
+                            width: '250px',
+                          }}>
+                            <Button onClick={() => navigate('/')} variant="contained" size="large" sx={{
+                              ...colorPayment,
+                              width: '100%',
+                            }}>
+                              Payment
+                            </Button>
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </Container>
                   </Grid>
                 </Grid>
               </Box>
             </Container>
           )
         }
-
       </div >
     ) : (
       <div style={{

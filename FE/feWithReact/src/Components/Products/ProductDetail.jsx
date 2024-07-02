@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Container, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
+import { Container, Table, TableBody, TableCell, TableContainer, TableRow, Alert } from '@mui/material'
 import { Box, Modal, } from '@mui/material'
 import { styled, } from '@mui/material'
 import Button from '@mui/material/Button'
+import CheckIcon from '@mui/icons-material/Check'
 import './ProductDetail.css';
 import { FormControl } from '@mui/material'
 import { createApi } from '../../Auth/AuthFunction'
@@ -17,6 +18,7 @@ export default function ProductDetail() {
   const [currentTopImageIndex, setCurrentTopImageIndex] = useState(0)
   const [selectedSize, setSelectedSize] = useState(1);
   const [selectedQuantity, setSelectedQuantity] = useState(1)
+  const [responseStatus, setResponseStatus] = useState(1)
   const [totalPrice, setTotalPrice] = useState(0)
   const token = localStorage.getItem('token')
 
@@ -43,9 +45,6 @@ export default function ProductDetail() {
     setSelectedSize(size)
   }
 
-  const handleSelectQuantity = (quantity) => {
-    setSelectedQuantity(quantity)
-  }
 
   const data = {
     id: id,
@@ -59,8 +58,7 @@ export default function ProductDetail() {
       quantity: data.quantity,
       totalPrice: data.totalPrice
     }
-    console.log(body)
-    const url = createApi('Cart/Create?check=false')
+    const url = createApi('Cart/Create?check=true')
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -69,7 +67,7 @@ export default function ProductDetail() {
       },
       body: JSON.stringify(body),
     });
-    console.log(response)
+    setResponseStatus(response.status)
   }
 
   const AddToCartButton = styled(Button)(({ theme }) => ({
@@ -110,16 +108,6 @@ export default function ProductDetail() {
     setImageMain(image.urlPath)
   }
 
-  const ITEM_HEIGHT = 120;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      },
-    },
-  }
-  // console.log(productDetail)
   return (
     <div style={{
       background: 'url(https://img.freepik.com/free-vector/blue-white-crystal-textured-background_53876-85226.jpg?w=1380&t=st=1719599020~exp=1719599620~hmac=e182c45295cca98949de853e8f72341b687ed809b89663e38e1d78cbaec7314c)',
@@ -316,6 +304,11 @@ export default function ProductDetail() {
                   <h4 style={{ color: '#ad2a36' }}>
                     Please login to add to cart
                   </h4>
+                )}
+                {responseStatus.toString().startsWith('2') && (
+                  <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+                    Add to cart successful
+                  </Alert>
                 )}
               </FormControl>
             </div>
