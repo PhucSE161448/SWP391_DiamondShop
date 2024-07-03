@@ -126,7 +126,10 @@ export default function Cart() {
                 <Grid container justifyContent="center">
                   <Container sx={{
                     margin: '0 auto',
-                    display: 'flex', // Added to align items to the left
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+
                     padding: '0 0 0 0',
                   }}>
                     <div style={{
@@ -134,19 +137,23 @@ export default function Cart() {
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'center',
-                      backgroundColor: '#f8f9f9',
                       borderRadius: '50px',
                     }}>
                       <h3 style={{
                         margin: '0 auto',
                         fontSize: '3em',
 
-                      }}>Nothing in cart</h3>
+                      }}>
+                        Nothing in cart
+                      </h3>
                     </div>
                     <div style={{
-                      margin: '20px auto',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      borderRadius: '50px',
                     }}>
-                      <Button onClick={() => navigate('/')} variant="contained" size="large" sx={color}>
+                      <Button onClick={() => navigate('/')} variant="contained" size="large" sx={colorContinueShopping}>
                         Click here to continue shopping
                       </Button>
                     </div>

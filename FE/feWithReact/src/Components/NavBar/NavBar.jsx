@@ -70,8 +70,9 @@ export default function Navbar() {
 	}
 
 	const Logout = () => {
-		LogoutByButton()
 		navigate('/')
+		LogoutByButton()
+		window.location.reload();
 	}
 
 	const goToCategory = (id) => {

@@ -10,6 +10,7 @@ import { createApi } from './AuthFunction'
 export default function SignUp() {
   const [responseCode, setResponseCode] = useState(0)
   const [displayStatus, setDisplayStatus] = useState(false)
+  const [ErrorAlert, setErrorAlert] = useState('')
   const Register = (values) => {
     const url = createApi('Authentication/Register')
     const data = {
@@ -29,10 +30,11 @@ export default function SignUp() {
     })
       .then(response => {
         setResponseCode(response.status)
-        displayStatus(true)
+        setDisplayStatus(true)
         return response.json()
       })
       .then(data => {
+        setErrorAlert(data.ErrorMessage)
         console.log('Success:', data)
 
       })
@@ -41,6 +43,12 @@ export default function SignUp() {
       })
   }
 
+  const styleAlert = {
+    borderRadius: '50px',
+    width: '100%',
+    marginBottom: '10px',
+    marginTop: '10px',
+  }
 
   const styleForm = {
     backgroundColor: 'white',
@@ -83,7 +91,7 @@ export default function SignUp() {
   const initialValues = {
     name: '',
     email: '',
-    gender: '',
+    gender: false,
     password: '',
     address: '',
     phoneNumber: ''
@@ -93,7 +101,7 @@ export default function SignUp() {
     email: Yup.string().email('Invalid email format').required('Required'),
     gender: Yup.boolean().required('Required'),
     password: Yup.string().required('Required'),
-    confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
+    confirmPassword: Yup.string().required('Required').oneOf([Yup.ref('password'), null], 'Passwords must match'),
     address: Yup.string().required('Required'),
     phoneNumber: Yup.string()
       .matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/, 'Invalid phone number')
@@ -123,7 +131,16 @@ export default function SignUp() {
               }
               {
                 !String(responseCode).startsWith('2') &&
-                <Alert severity="error" variant="filled">Create account failed</Alert>
+                (
+                  <div style={{
+                    margin: '20px',
+                  }}>
+                    <Alert severity="error" variant="filled" sx={{
+                      marginBottom: '10px',
+                    }}>Create account failed</Alert>
+                    <Alert severity="error" variant="filled">{ErrorAlert}</Alert>
+                  </div>
+                )
               }
             </>
           )}
@@ -147,6 +164,9 @@ export default function SignUp() {
                       onChange={handleChange}
                       value={values.name}
                     />
+                    <ErrorMessage name="name" >
+                      {msg => <Alert severity="error" sx={styleAlert}>{msg}</Alert>}
+                    </ErrorMessage>
                   </div>
                   <div className='col-4'>
                     <Field
@@ -160,6 +180,9 @@ export default function SignUp() {
                       onChange={handleChange}
                       value={values.email}
                     />
+                    <ErrorMessage name="email" >
+                      {msg => <Alert severity="error" sx={styleAlert}>{msg}</Alert>}
+                    </ErrorMessage>
                   </div>
                   <div className='col-4' style={{
                     display: 'flex',
@@ -196,6 +219,9 @@ export default function SignUp() {
                       onChange={handleChange}
                       value={values.password}
                     />
+                    <ErrorMessage name="password" >
+                      {msg => <Alert severity="error" sx={styleAlert}>{msg}</Alert>}
+                    </ErrorMessage>
                   </div>
                   <div className='col-6'>
                     <Field
@@ -209,8 +235,8 @@ export default function SignUp() {
                       onChange={handleChange}
                       value={values.confirmPassword}
                     />
-                    <ErrorMessage name="confirmPassword">
-                      {msg => <Alert severity="error">{msg}</Alert>}
+                    <ErrorMessage name="confirmPassword" >
+                      {msg => <Alert severity="error" sx={styleAlert}>{msg}</Alert>}
                     </ErrorMessage>
                   </div>
                 </div> <br />
@@ -227,6 +253,9 @@ export default function SignUp() {
                       onChange={handleChange}
                       value={values.address}
                     />
+                    <ErrorMessage name="address" >
+                      {msg => <Alert severity="error" sx={styleAlert}>{msg}</Alert>}
+                    </ErrorMessage>
                   </div>
                 </div> <br />
                 <div className='row col'>
@@ -242,8 +271,8 @@ export default function SignUp() {
                       onChange={handleChange}
                       value={values.phoneNumber}
                     />
-                    <ErrorMessage name="phoneNumber">
-                      {msg => <Alert severity="error">{msg}</Alert>}
+                    <ErrorMessage name="phoneNumber" >
+                      {msg => <Alert severity="error" sx={styleAlert}>{msg}</Alert>}
                     </ErrorMessage>
                   </div>
                 </div>
@@ -257,6 +286,9 @@ export default function SignUp() {
                     backgroundColor: '#003468',
                     height: '50px',
                     borderRadius: '50px',
+                    '&:hover': {
+                      backgroundColor: '#003468',
+                    }
                   }}
                 >
                   Send
@@ -270,10 +302,15 @@ export default function SignUp() {
           width: '100%',
           display: 'flex',
           justifyContent: 'flex-start',
-          marginRight: '50px',
         }}>
-          <Link to="/login" className='linkBackHome' onClick={() => setDisplayStatus(false)}>
-            Back to login page
+          <Link to="/login"
+            onClick={() => setDisplayStatus(false)}
+            className='linkBackHome'
+          >
+
+            <div >
+              Back to login page
+            </div>
           </Link>
         </div>
       </div>

@@ -7,34 +7,7 @@ export function createApi(endpointPath) {
 	return BaseUrl + endpointPath
 }
 
-export function validateUser(userData) {
-	const url = createApi('Authentication/Login/')
-	return new Promise((resolve, reject) => {
-		fetch(url, {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json-patch+json",
-			},
-			body: JSON.stringify(userData)
-		})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Network response was not ok')
-				}
-				return response.json()
-			})
-			.then(responseJson => {
-				localStorage.setItem('token', responseJson.accessToken)
-				const decodedToken = jwtDecode(responseJson.accessToken)
-				localStorage.setItem('role', decodedToken.Role)
-				resolve()
-			})
-			.catch(error => {
-				reject(error)
-			})
-	})
-}
+
 
 export function LogoutAndRedirect() {
 	let navigate = useNavigate();
@@ -56,7 +29,6 @@ export function LogoutAndRedirect() {
 export function LogoutByButton() {
 	localStorage.removeItem('role')
 	localStorage.removeItem('token')
-	window.location.reload()
 }
 
 export function LogoutByButtonAdmin() {
