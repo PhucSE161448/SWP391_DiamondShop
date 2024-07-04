@@ -2,6 +2,7 @@
 {
     public interface IClaimsService
     {
-        public string? GetCurrentUserId { get; }
+        public string? GetCurrentUserName { get; }
+        public int GetCurrentUserId { get; }
     }
 }

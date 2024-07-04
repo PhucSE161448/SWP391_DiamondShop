@@ -16,6 +16,7 @@ namespace Application.ViewModels.Carts
         public int? Quantity { get; set; }
         [Required]
         public decimal? TotalPrice { get; set; }
+        public decimal? Size { get; set; }
     }
 
 }

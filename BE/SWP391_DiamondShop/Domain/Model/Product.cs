@@ -21,7 +21,6 @@ namespace Domain.Model
         public int DiamondCaseId { get; set; }
         public int? CollectionId { get; set; }
 
-
         public virtual Category Category { get; set; } = null!;
         public virtual Collection? Collection { get; set; }
         public virtual DiamondCase DiamondCase { get; set; } = null!;

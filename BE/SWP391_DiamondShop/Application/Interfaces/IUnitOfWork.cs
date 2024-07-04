@@ -13,6 +13,8 @@ using Application.IRepositories.Categories;
 using Application.IRepositories.Collections;
 using Application.IRepositories.DiamondCases;
 using Application.IRepositories.Images;
+using Application.IRepositories.Orders;
+using Application.IRepositories.Payments;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.ProductSizes;
 using Application.IRepositories.Roles;
@@ -33,6 +35,8 @@ namespace Application.Interfaces
         public IImageRepo ImageRepo { get; }
         public IDiamondCaseRepo DiamondCaseRepo { get; }
         public ICollectionRepo CollectionRepo { get; }
+        public IPaymentRepo PaymentRepo { get; }
+        public IOrderRepo OrderRepo { get; }
         public Task<int> SaveChangeAsync();
     }
 }

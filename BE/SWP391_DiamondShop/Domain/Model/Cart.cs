@@ -14,7 +14,7 @@ namespace Domain.Model
         public int? ProductId { get; set; }
         public int? DiamondId { get; set; }
         public int? Quantity { get; set; }
-        public int? Size { get; set; }
+        public decimal? Size { get; set; }
         public decimal? TotalPrice { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

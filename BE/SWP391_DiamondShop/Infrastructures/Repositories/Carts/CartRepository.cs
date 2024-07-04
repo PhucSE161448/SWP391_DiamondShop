@@ -23,7 +23,7 @@ namespace Infrastructures.Repositories.Carts
         )
         {
             _dbContext = context;
-            _currentUserName = claimsService.GetCurrentUserId;
+            _currentUserName = claimsService.GetCurrentUserName;
         } 
         
         public async Task<List<CartDTO>> GetCartWithUserId()
@@ -60,6 +60,7 @@ namespace Infrastructures.Repositories.Carts
 
             var cart = new Cart
             {
+                Size = dto.Size,
                 Quantity = dto.Quantity,
                 TotalPrice = dto.TotalPrice,
                 CreatedDate = DateTime.Now,

@@ -14,11 +14,11 @@ namespace Domain.Model
         public int Id { get; set; }
         public int AccountId { get; set; }
         public decimal TotalPrice { get; set; }
-        public int PaymentId { get; set; }
+        public int? PaymentId { get; set; }
         public DateTime? CreatedDate { get; set; }
 
         public virtual Account Account { get; set; } = null!;
-        public virtual Payment Payment { get; set; } = null!;
+        public virtual Payment? Payment { get; set; }
         public virtual ICollection<OrderCart> OrderCarts { get; set; }
         public virtual ICollection<OrderStatus> OrderStatuses { get; set; }
     }
