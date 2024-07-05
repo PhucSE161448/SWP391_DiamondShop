@@ -9,7 +9,7 @@ namespace WebAPI.Controllers.WarrantyDocument
     [ApiController]
     public class WarrantyDocumentController : ControllerBase
     {
-        private readonly IWarrantyDocumentService _warrantyDocumentService;
+        /*private readonly IWarrantyDocumentService _warrantyDocumentService;
 
         public WarrantyDocumentController(IWarrantyDocumentService warrantyDocumentService)
         {
@@ -46,6 +46,6 @@ namespace WebAPI.Controllers.WarrantyDocument
         {
             await _warrantyDocumentService.DeleteWarrantyDocumentAsync(id);
             return NoContent();
-        }
+        }*/
     }
 }

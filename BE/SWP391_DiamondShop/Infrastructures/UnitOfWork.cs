@@ -13,6 +13,8 @@ using Application.IRepositories.Categories;
 using Application.IRepositories.Collections;
 using Application.IRepositories.DiamondCases;
 using Application.IRepositories.Images;
+using Application.IRepositories.Orders;
+using Application.IRepositories.Payments;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.ProductSizes;
 using Application.IRepositories.Roles;
@@ -35,12 +37,16 @@ namespace Infrastructures
         private readonly ICartRepository cartRepo;
         private readonly IDiamondCaseRepo diamondCaseRepo;
         private readonly ICollectionRepo collectionRepo;
+        private readonly IPaymentRepo _paymentRepo;
+        private readonly IOrderRepo _orderRepo;
+
         public UnitOfWork(SWP391_DiamondShopContext _context, IWarrantyDocumentRepo _warrantyDocumentRepo,
             IAccountRepo _accountRepo, IProductRepo _productRepo,
             IDiamondRepo _diamondRepo, ICategoryRepo _categoryRepo,
             IProductPartRepo _productPartRepo, IProductSizeRepo _productSizeRepo, IRoleRepo _roleRepo,
             IImageRepo _imageRepo, ICartRepository _cartRepo, IDiamondCaseRepo _diamondCaseRepo,
-            ICollectionRepo _collectionRepo)
+            ICollectionRepo _collectionRepo, IPaymentRepo paymentRepo,
+            IOrderRepo orderRepo)
         {
             context = _context;
             warrantyDocumentRepo = _warrantyDocumentRepo;
@@ -55,6 +61,8 @@ namespace Infrastructures
             cartRepo = _cartRepo;
             diamondCaseRepo = _diamondCaseRepo;
             collectionRepo = _collectionRepo;
+            _paymentRepo = paymentRepo;
+            _orderRepo = orderRepo;
         }
         
         public IWarrantyDocumentRepo WarrantyDocumentRepo => warrantyDocumentRepo;
@@ -70,6 +78,8 @@ namespace Infrastructures
         public IDiamondCaseRepo DiamondCaseRepo => diamondCaseRepo;
         public ICollectionRepo CollectionRepo => collectionRepo;
         public ICartRepository CartRepository => cartRepo;
+        public IPaymentRepo PaymentRepo => _paymentRepo;
+        public IOrderRepo OrderRepo => _orderRepo;
 
         public async Task<int> SaveChangeAsync()
         {

@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.IRepositories.WarrantyDocuments
+namespace Application.IRepositories.Payments
 {
-    public interface IWarrantyDocumentRepo
+    public interface IPaymentRepo : IGenericRepository<Payment>
     {
+
     }
 }

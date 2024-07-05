@@ -10,10 +10,10 @@ namespace Application.Interfaces.WarrantyDocument
 {
     public interface IWarrantyDocumentService
     {
-        Task<IEnumerable<WarrantyDocumentDTO>> GetAllWarrantyDocumenttAsync();
+        /*Task<IEnumerable<WarrantyDocumentDTO>> GetAllWarrantyDocumenttAsync();
         Task<WarrantyDocumentDTO> GetWarrantyDocumentAsync(int id);
         Task<WarrantyDocumentDTO> CreateWarrantyDocumentAsync(UpsertWarrantyDocumentDTO CreatedWarrantyDocumentDTO);
         Task<WarrantyDocumentDTO> UpdateWarrantyDocumentAsync(int id, UpsertWarrantyDocumentDTO warrantyDocumentDTO);
-        Task DeleteWarrantyDocumentAsync(int id);
+        Task DeleteWarrantyDocumentAsync(int id);*/
     }
 }

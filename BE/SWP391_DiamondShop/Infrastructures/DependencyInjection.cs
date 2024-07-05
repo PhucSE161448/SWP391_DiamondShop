@@ -7,6 +7,8 @@ using Application.Interfaces.Collections;
 using Application.Interfaces.Diamond;
 using Application.Interfaces.DiamondCases;
 using Application.Interfaces.Images;
+using Application.Interfaces.Orders;
+using Application.Interfaces.Payments;
 using Application.Interfaces.ProductParts;
 using Application.Interfaces.Products;
 using Application.Interfaces.ProductSizes;
@@ -18,6 +20,8 @@ using Application.IRepositories.Collections;
 using Application.IRepositories.DiamondCases;
 using Application.IRepositories.Diamonds;
 using Application.IRepositories.Images;
+using Application.IRepositories.Orders;
+using Application.IRepositories.Payments;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.Products;
 using Application.IRepositories.ProductSizes;
@@ -32,6 +36,8 @@ using Application.Services.Collections;
 using Application.Services.DiamondCases;
 using Application.Services.Diamonds;
 using Application.Services.Images;
+using Application.Services.Orders;
+using Application.Services.Payments;
 using Application.Services.ProductParts;
 using Application.Services.Products;
 using Application.Services.ProductSizes;
@@ -45,6 +51,8 @@ using Infrastructures.Repositories.Collections;
 using Infrastructures.Repositories.DiamondCases;
 using Infrastructures.Repositories.Diamonds;
 using Infrastructures.Repositories.Images;
+using Infrastructures.Repositories.Orders;
+using Infrastructures.Repositories.Payments;
 using Infrastructures.Repositories.ProductParts;
 using Infrastructures.Repositories.Products;
 using Infrastructures.Repositories.ProductSizes;
@@ -90,6 +98,9 @@ namespace Infrastructures
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<ICartService, CartService>();
 
+            services.AddScoped<IPaymentRepo, PaymentRepo>();
+            services.AddScoped<IPaymentService, PaymentService>();
+
             services.AddScoped<IRoleRepo, RoleRepo>();
 
             services.AddSingleton<ICurrentTime, CurrentTime>();
@@ -106,6 +117,9 @@ namespace Infrastructures
 
             services.AddScoped<ICollectionRepo, CollectionRepo>();
             services.AddScoped<ICollectionService, CollectionService>();
+
+            services.AddScoped<IOrderRepo, OrderRepo>();
+            services.AddScoped<IOrderService, OrderService>();
             
             //services.AddDbContext<AppDbContext>(option => option.UseInMemoryDatabase("test"));
             services.AddDbContext<SWP391_DiamondShopContext>(options =>

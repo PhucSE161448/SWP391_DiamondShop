@@ -15,7 +15,7 @@ namespace Application.Services.WarrantyDocuments
 {
     public class WarrantyDocumentService : IWarrantyDocumentService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        /*private readonly IUnitOfWork _unitOfWork;
 
         public WarrantyDocumentService(IUnitOfWork unitOfWork)
         {
@@ -71,6 +71,6 @@ namespace Application.Services.WarrantyDocuments
             _unitOfWork.WarrantyDocumentRepo.Update(warrantyDocument);
             await _unitOfWork.SaveChangeAsync();
             return warrantyDocument.Adapt<WarrantyDocumentDTO>();
-        }
+        }*/
     }
 }

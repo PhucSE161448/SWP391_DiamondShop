@@ -37,11 +37,11 @@ namespace Infrastructures
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            /*if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(local);database=SWP391_DiamondShop;uid=sa;pwd=12345;TrustServerCertificate=True;");
-            }
+                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=12345;database=SWP391_DiamondShop;TrustServerCertificate=True");
+            }*/
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -105,7 +105,9 @@ namespace Infrastructures
                     .IsRequired()
                     .HasDefaultValueSql("('0')");
 
-                entity.Property(e => e.TotalPrice).HasColumnType("decimal(8, 2)");
+                entity.Property(e => e.Size).HasColumnType("decimal(8, 2)");
+
+                entity.Property(e => e.TotalPrice).HasColumnType("decimal(12, 2)");
 
                 entity.HasOne(d => d.Diamond)
                     .WithMany(p => p.Carts)
@@ -201,7 +203,7 @@ namespace Infrastructures
 
                 entity.Property(e => e.Origin).HasMaxLength(255);
 
-                entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
+                entity.Property(e => e.Price).HasColumnType("decimal(12, 2)");
             });
 
             modelBuilder.Entity<DiamondCase>(entity =>
@@ -230,7 +232,7 @@ namespace Infrastructures
 
                 entity.Property(e => e.Name).HasMaxLength(50);
 
-                entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
+                entity.Property(e => e.Price).HasColumnType("decimal(12, 2)");
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -256,12 +258,12 @@ namespace Infrastructures
                 entity.HasOne(d => d.Diamond)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.DiamondId)
-                    .HasConstraintName("FK__Image__DiamondId__5165187F");
+                    .HasConstraintName("FK__Image__DiamondId__52593CB8");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Image__ProductId__52593CB8");
+                    .HasConstraintName("FK__Image__ProductId__534D60F1");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -270,7 +272,7 @@ namespace Infrastructures
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.TotalPrice).HasColumnType("decimal(8, 2)");
+                entity.Property(e => e.TotalPrice).HasColumnType("decimal(12, 2)");
 
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.Orders)
@@ -281,21 +283,17 @@ namespace Infrastructures
                 entity.HasOne(d => d.Payment)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.PaymentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("orders_paymentid_foreign");
             });
 
             modelBuilder.Entity<OrderCart>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.CartId })
-                    .HasName("PK__OrderCar__A68B96B4084D995F");
+                    .HasName("PK__OrderCar__A68B96B4D672FC40");
 
                 entity.ToTable("OrderCart");
 
-                entity.HasIndex(e => e.WarrantyDocumentId, "UQ__OrderCar__BD0CDCB737F014F2")
-                    .IsUnique();
-
-                entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+                entity.Property(e => e.Price).HasColumnType("decimal(12, 2)");
 
                 entity.Property(e => e.WarrantyDocumentId).HasColumnName("WarrantyDocument_Id");
 
@@ -312,8 +310,8 @@ namespace Infrastructures
                     .HasConstraintName("fk_ordercart_orders");
 
                 entity.HasOne(d => d.WarrantyDocument)
-                    .WithOne(p => p.OrderCart)
-                    .HasForeignKey<OrderCart>(d => d.WarrantyDocumentId)
+                    .WithMany(p => p.OrderCarts)
+                    .HasForeignKey(d => d.WarrantyDocumentId)
                     .HasConstraintName("fk_ordercart_warranty");
             });
 
@@ -435,13 +433,13 @@ namespace Infrastructures
                     .WithMany(p => p.ProductParts)
                     .HasForeignKey(d => d.DiamondId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductPa__Diamo__628FA481");
+                    .HasConstraintName("FK__ProductPa__Diamo__6383C8BA");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductParts)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductPa__Produ__619B8048");
+                    .HasConstraintName("FK__ProductPa__Produ__628FA481");
             });
 
             modelBuilder.Entity<ProductSize>(entity =>
@@ -467,7 +465,7 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Price).HasColumnType("decimal(8, 2)");
+                entity.Property(e => e.Price).HasColumnType("decimal(12, 2)");
 
                 entity.Property(e => e.Size).HasColumnType("decimal(8, 2)");
 
@@ -475,7 +473,7 @@ namespace Infrastructures
                     .WithMany(p => p.ProductSizes)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductSi__Produ__59063A47");
+                    .HasConstraintName("FK__ProductSi__Produ__59FA5E80");
             });
 
             modelBuilder.Entity<Promotion>(entity =>
