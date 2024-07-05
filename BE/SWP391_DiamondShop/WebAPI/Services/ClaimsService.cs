@@ -13,8 +13,11 @@ namespace WebAPI.Services
             
             var id = httpContextAccessor.HttpContext?.User?.FindFirstValue("Id");
             GetCurrentUserId = string.IsNullOrEmpty(id) ? 0 : Convert.ToInt32(id);
-        }
 
+            var role = httpContextAccessor.HttpContext?.User?.FindFirstValue("Role");
+            GetCurrentUserRole = string.IsNullOrEmpty(role) ? "" : role;
+        }
+        public string? GetCurrentUserRole { get; }
         public string? GetCurrentUserName { get; }
         public int GetCurrentUserId { get; }
     }

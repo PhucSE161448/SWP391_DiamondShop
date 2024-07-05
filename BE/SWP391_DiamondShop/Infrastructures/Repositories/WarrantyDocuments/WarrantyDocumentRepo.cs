@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructures.Repositories.WarrantyDocuments
 {
-    public class WarrantyDocumentRepo : GenericRepository<WarrantyDocument>, IWarrantyDocumentRepo
+    public class WarrantyDocumentRepo : IWarrantyDocumentRepo
     {
-        public WarrantyDocumentRepo(SWP391_DiamondShopContext context, ICurrentTime timeService, IClaimsService claimsService) : base(context, timeService, claimsService)
+        public WarrantyDocumentRepo()
         {
         }
     }

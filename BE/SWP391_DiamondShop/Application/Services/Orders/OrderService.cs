@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Interfaces;
 using Application.Interfaces.Orders;
+using Application.ViewModels.Orders;
 using Domain.Model;
 
 namespace Application.Services.Orders
@@ -27,7 +28,22 @@ namespace Application.Services.Orders
         public async Task<bool> CreateOrderCartAsync(List<int> cartId, int orderId)
         {
             var result = await _unitOfWork.OrderRepo.CreateOrderCartAsync(cartId, orderId);
-            await _unitOfWork.SaveChangeAsync();
+            if (result)
+            {
+                await _unitOfWork.SaveChangeAsync();
+            }
+            return result;
+        }
+
+        public async Task<List<OrderDTO>> GetOrderAsync() => await _unitOfWork.OrderRepo.GetOrderAsync();
+
+        public async Task<bool> CreateOrderStatusAsync(int orderId, string status)
+        {
+            var result = await _unitOfWork.OrderRepo.CreateOrderStatusAsync(orderId, status);
+            if (result)
+            {
+                await _unitOfWork.SaveChangeAsync();
+            }
             return result;
         }
     }

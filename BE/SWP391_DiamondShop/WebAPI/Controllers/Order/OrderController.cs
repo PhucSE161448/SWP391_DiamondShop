@@ -14,12 +14,23 @@ namespace WebAPI.Controllers.Order
             _orderService = orderService;
         }
 
+        [HttpGet("")]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _orderService.GetOrderAsync());
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] OrderCreateDTO createCartDto)
+        public async Task<IActionResult> CreateStatus(int orderId, string status)
+        {
+            return Created(nameof(CreateStatus), await _orderService.CreateOrderStatusAsync(orderId, status));
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDTO createCartDto)
         {
             var order = await _orderService.CreateOrderAsync(createCartDto.TotalPrice);
             var result = await _orderService.CreateOrderCartAsync(createCartDto.CartId, order.Id);
-            return Created(nameof(Create), result);
+            return Created(nameof(CreateOrder), result);
         }
     }
 }

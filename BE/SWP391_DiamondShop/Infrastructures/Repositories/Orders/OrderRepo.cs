@@ -16,6 +16,8 @@ namespace Infrastructures.Repositories.Orders
     {
         private readonly SWP391_DiamondShopContext _dbContext;
         private readonly int _currentUserId;
+        private readonly string? _currentRole;
+        private const decimal Percentage = 0.01m;
         public OrderRepo(
             SWP391_DiamondShopContext context,
             IClaimsService claimsService
@@ -23,6 +25,30 @@ namespace Infrastructures.Repositories.Orders
         {
             _dbContext = context;
             _currentUserId = claimsService.GetCurrentUserId;
+            _currentRole = claimsService.GetCurrentUserRole;
+        }
+
+        public async Task<List<OrderDTO>> GetOrderAsync()
+        {
+            IQueryable<Order> query = _currentRole == "1" ? _dbContext.Orders : _dbContext.Orders.Where(x => x.AccountId == _currentUserId);
+
+            var orders = await query
+                .Include(op => op.OrderStatuses)
+                .Include(x => x.Account)
+                .Include(x => x.Payment)
+                .ToListAsync();
+
+            var orderDTOs = orders.Select(order => new OrderDTO
+            {
+                Id = order.Id,
+                AccountName = order.Account.Name,
+                CreatedDate = order.CreatedDate,
+                TotalPrice = order.TotalPrice,
+                PaymentName = order.PaymentId != null ? order.Payment.Name : null,
+                Status = order.OrderStatuses.Select(o => o.Status).LastOrDefault()
+            }).ToList();
+
+            return orderDTOs;
         }
 
         public async Task<Order> CreateOrderAsync(decimal totalPrice)
@@ -88,6 +114,47 @@ namespace Infrastructures.Repositories.Orders
             {
                 return false;
             }
+        }
+
+        public async Task<bool> CreateOrderStatusAsync(int orderId, string status)
+        {
+            var orders = await _dbContext.Orders
+                .Include(o => o.OrderCarts)
+                .ThenInclude(x => x.Cart)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (orders == null)
+            {
+                return false;
+            }
+
+            await _dbContext.OrderStatuses.AddAsync(new OrderStatus
+            {
+                CreatedDate = DateTime.Now,
+                Status = status,
+                AccountId = _currentUserId,
+                OrderId = orderId,
+            });
+            if (status.Equals("Paid"))
+            {
+                foreach (var orderCart in orders.OrderCarts)
+                {
+                    var warrantyDocument = new WarrantyDocument
+                    {
+                        Period = DateTime.UtcNow.AddYears(1),
+                        TermsAndConditions = "Standard Warranty Terms",
+                        CreatedDate = DateTime.Now,
+                    };
+                    await _dbContext.WarrantyDocuments.AddAsync(warrantyDocument);
+                    orderCart.WarrantyDocument = warrantyDocument;
+                }
+            }
+            if (status.Equals("Finished"))
+            {
+                var user = await _dbContext.Accounts.FindAsync(orders.AccountId);
+                user.Point += (orders.TotalPrice * Percentage);
+            }
+            return true;
         }
     }
 }

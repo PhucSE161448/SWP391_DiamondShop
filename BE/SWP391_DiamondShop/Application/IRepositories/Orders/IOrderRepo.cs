@@ -8,9 +8,11 @@ using Domain.Model;
 
 namespace Application.IRepositories.Orders
 {
-    public interface IOrderRepo 
+    public interface IOrderRepo
     {
+        Task<List<OrderDTO>> GetOrderAsync();
         Task<Order> CreateOrderAsync(decimal totalPrice);
         Task<bool> CreateOrderCartAsync(List<int> cartId, int orderId);
+        Task<bool> CreateOrderStatusAsync(int orderId, string status);
     }
 }
