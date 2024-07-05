@@ -4,8 +4,8 @@ import './navBar.css';
 import { Link, useNavigate, Outlet } from "react-router-dom"
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useEffect, useState } from 'react'
-import { Button } from '@mui/material';
-import { Menu, Dropdown } from 'antd'
+import { Button, hexToRgb } from '@mui/material';
+import { Menu, } from 'antd'
 import { LogoutByButton } from '../../Auth/AuthFunction'
 import { jwtDecode } from 'jwt-decode'
 import { createApi } from '../../Auth/AuthFunction';
@@ -51,6 +51,7 @@ export default function Navbar() {
 		color: '#fff',
 		width: '-webkit-fill-available',
 		borderRadius: '50px',
+		height: '100%',
 		backgroundColor: '#001529',
 		':hover': {
 			backgroundColor: '#6f6f6f', // Adjust the color as needed
@@ -59,6 +60,8 @@ export default function Navbar() {
 
 	const paddingStyle = {
 		padding: 0,
+		width: '100%',
+		height: '100%',
 		backgroundColor: '#001529',
 		':hover': {
 			backgroundColor: '#004085', // Adjust the color as needed
@@ -112,8 +115,10 @@ export default function Navbar() {
 	return (
 		<div>
 			<Menu theme="dark" style={{
-				Height: '-webkit-fill-available',
+				height: '100%',
 				display: 'flex',
+				justifyContent: 'space-between',
+				alignItems: 'center',
 			}}>
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToHome} sx={buttonStyle}>Home</Button>
@@ -142,7 +147,7 @@ export default function Navbar() {
 					</Menu.SubMenu>
 				</Menu.SubMenu>
 				<Menu.Item style={paddingStyle}>
-					<Button onClick={() => navigate('/cart')} sx={buttonStyle}><ShoppingCartIcon fontSize='large'></ShoppingCartIcon></Button>
+					<Button onClick={() => navigate('/cart')} sx={buttonStyle}><ShoppingCartIcon ></ShoppingCartIcon></Button>
 				</Menu.Item>
 				{token ? (
 					<>

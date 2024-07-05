@@ -37,11 +37,14 @@ export default function Category() {
 
 	return (
 		<div className='container-fluid' style={{
-			display: "flex",
-			justifyContent: "center",
-			alignItems: "center",
-			flexWrap: "wrap",
-			padding: "100px",
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			flexDirection: 'column',
+			fontSize: '2rem',
+			color: 'black',
+			marginTop: '50px',
+			marginBottom: '100px'
 		}}>
 			<div>
 				<h1 className>CATEGORY</h1>
@@ -60,7 +63,7 @@ export default function Category() {
 									border: '1px solid #000000',
 									borderRadius: '50px',
 									margin: '10px',
-									width: '400px',
+									width: '350px',
 									height: '100px',
 									display: 'flex',
 									justifyContent: 'center',
