@@ -56,7 +56,8 @@ export default function ProductDetail() {
     const body = {
       id: data.id,
       quantity: data.quantity,
-      totalPrice: data.totalPrice
+      totalPrice: data.totalPrice,
+      size: selectedSize,
     }
     const url = createApi('Cart/Create?check=true')
     const response = await fetch(url, {

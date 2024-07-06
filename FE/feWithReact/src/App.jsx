@@ -22,6 +22,7 @@ import Collections from './Admin/Elements/Collections/Collections'
 import GetPageCategory from './Components/CategoryPage/GetPageCategory'
 import GetPageCollection from './Components/CollectionPage/GetPageCollection'
 import Profile from './Pages/Profile'
+import Order from './Pages/Order'
 export default function App() {
   return (
     <>
@@ -39,6 +40,7 @@ export default function App() {
             <Route path='collection/:id' element={<GetPageCollection></GetPageCollection>}></Route>
             <Route path='/cart' element={<Cart></Cart>}></Route>
             <Route path='/profile' element={<Profile></Profile>}></Route>
+            <Route path='/order' element={<Order></Order>}></Route>
           </Route>
 
           <Route path='/login' element={<Login />}></Route>

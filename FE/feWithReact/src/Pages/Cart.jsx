@@ -48,12 +48,13 @@ export default function Cart() {
         }
       }).then(response => response.json())
         .then(data => {
-          if (data.length === 0) {
-            setIsEmpty(true)
+          const filteredData = data.filter(item => !item.isDeleted); // Filter out items where isDeleted is true
+          if (filteredData.length === 0) {
+            setIsEmpty(true);
           } else {
-            setIsEmpty(false)
-            setCart(data)
-            const allCartIds = data.map(item => item.cartId);
+            setIsEmpty(false);
+            setCart(filteredData); // Set only the filtered data
+            const allCartIds = filteredData.map(item => item.cartId);
             setCartId(allCartIds);
           }
         })
@@ -122,7 +123,8 @@ export default function Cart() {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify(data)
-    }).then(navigate('/order'))
+    })
+      .then(navigate('/order'))
   }
 
   return (
@@ -175,6 +177,23 @@ export default function Cart() {
                     }}>
                       <Button onClick={() => navigate('/')} variant="contained" size="large" sx={colorContinueShopping}>
                         Click here to continue shopping
+                      </Button>
+                    </div>
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      borderRadius: '50px',
+                    }}>
+                      <Button onClick={() => navigate('/order')} variant="contained" size="large" sx={{
+                        backgroundColor: '#000',
+                        color: '#fff',
+                        '&:hover': {
+                          backgroundColor: '#fff',
+                          color: '#000',
+                        }
+                      }}>
+                        Click here to go to your order
                       </Button>
                     </div>
                   </Container>
