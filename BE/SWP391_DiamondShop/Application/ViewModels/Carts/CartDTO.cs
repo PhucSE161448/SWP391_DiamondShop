@@ -14,6 +14,7 @@ namespace Application.ViewModels.Carts
         public int? Quantity { get; set; }
         public decimal? TotalPrice { get; set; }
         public decimal? Size { get; set; }
+        public bool? IsDeleted { get; set; }
         public GetProductDetailDTO Product { get; set; }
         public GetDiamondDetailDTO Diamond { get; set; }
     }

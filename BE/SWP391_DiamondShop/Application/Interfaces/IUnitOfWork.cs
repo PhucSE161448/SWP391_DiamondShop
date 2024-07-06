@@ -18,6 +18,7 @@ using Application.IRepositories.Payments;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.ProductSizes;
 using Application.IRepositories.Roles;
+using Application.IRepositories.Groups;
 
 namespace Application.Interfaces
 {
@@ -37,6 +38,7 @@ namespace Application.Interfaces
         public ICollectionRepo CollectionRepo { get; }
         public IPaymentRepo PaymentRepo { get; }
         public IOrderRepo OrderRepo { get; }
+        public IGroupRepo GroupRepo { get; }
         public Task<int> SaveChangeAsync();
     }
 }

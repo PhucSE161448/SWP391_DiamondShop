@@ -11,6 +11,7 @@ namespace Application.Interfaces.Orders
     public interface IOrderService
     {
         Task<List<OrderDTO>> GetOrderAsync();
+        Task<List<OrderDetailDTO>> GetOrderDetailAsync(int orderId);
         Task<Order> CreateOrderAsync(decimal totalPrice);
         Task<bool> CreateOrderCartAsync(List<int> cartId, int orderId);
         Task<bool> CreateOrderStatusAsync(int orderId, string status);

@@ -26,7 +26,7 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryDTO?> GetCategoryById(int id)
     {
-        var category = await _unitOfWork.CategoryRepo.GetAsync(x => x.Id == id);
+        var category = await _unitOfWork.CategoryRepo.GetAsync(x => x.Id == id, includeProperties: "Group");
         if (category is null)
         {
             throw new NotFoundException("Category is not existed");
@@ -50,7 +50,7 @@ public class CategoryService : ICategoryService
 
     public async Task<List<CategoryDTO>> GetAllCategory()
     {
-        var categories = await _unitOfWork.CategoryRepo.GetAllAsync();
+        var categories = await _unitOfWork.CategoryRepo.GetAllAsync(includeProperties: "Group");
         return categories.Adapt<List<CategoryDTO>>();
     }
 

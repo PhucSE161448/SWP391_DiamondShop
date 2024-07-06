@@ -6,6 +6,7 @@ using Application.Interfaces.Categories;
 using Application.Interfaces.Collections;
 using Application.Interfaces.Diamond;
 using Application.Interfaces.DiamondCases;
+using Application.Interfaces.Groups;
 using Application.Interfaces.Images;
 using Application.Interfaces.Orders;
 using Application.Interfaces.Payments;
@@ -19,6 +20,7 @@ using Application.IRepositories.Categories;
 using Application.IRepositories.Collections;
 using Application.IRepositories.DiamondCases;
 using Application.IRepositories.Diamonds;
+using Application.IRepositories.Groups;
 using Application.IRepositories.Images;
 using Application.IRepositories.Orders;
 using Application.IRepositories.Payments;
@@ -35,6 +37,7 @@ using Application.Services.Categories;
 using Application.Services.Collections;
 using Application.Services.DiamondCases;
 using Application.Services.Diamonds;
+using Application.Services.Groups;
 using Application.Services.Images;
 using Application.Services.Orders;
 using Application.Services.Payments;
@@ -50,6 +53,7 @@ using Infrastructures.Repositories.Categories;
 using Infrastructures.Repositories.Collections;
 using Infrastructures.Repositories.DiamondCases;
 using Infrastructures.Repositories.Diamonds;
+using Infrastructures.Repositories.Groups;
 using Infrastructures.Repositories.Images;
 using Infrastructures.Repositories.Orders;
 using Infrastructures.Repositories.Payments;
@@ -100,6 +104,9 @@ namespace Infrastructures
 
             services.AddScoped<IPaymentRepo, PaymentRepo>();
             services.AddScoped<IPaymentService, PaymentService>();
+
+            services.AddScoped<IGroupRepo, GroupRepo>();
+            services.AddScoped<IGroupService, GroupService>();
 
             services.AddScoped<IRoleRepo, RoleRepo>();
 
