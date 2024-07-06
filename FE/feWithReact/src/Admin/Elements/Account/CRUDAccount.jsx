@@ -57,7 +57,8 @@ export default function ReadAccount() {
 			fetch(url, {
 				method: 'GET',
 				headers: {
-					'Accept': '*/*'
+					'Accept': '*/*',
+					'Authorization': `Bearer ${localStorage.getItem('token')}`
 				},
 			})
 				.then(response => response.json())
@@ -88,7 +89,8 @@ export default function ReadAccount() {
 			fetch(url, {
 				method: 'DELETE',
 				headers: {
-					'Accept': '*/*'
+					'Accept': '*/*',
+					'Authorization': `Bearer ${localStorage.getItem('token')}`
 				},
 			})
 				.then(responseData => {

@@ -21,8 +21,6 @@ export default function CRUDCategory() {
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(9)
 	const [nameCategory, setnameCategory] = useState(null)
-	const [showDelete, setShowDelete] = useState(false)
-	const [selectedForDeletion, setSelectedForDeletion] = useState(null)
 	const [selectedForUpdate, setSelectedForUpdate] = useState(null)
 	const [showUpdate, setShowUpdate] = useState(true)
 	const [triggerRead, setTriggerRead] = useState(false);
@@ -47,7 +45,8 @@ export default function CRUDCategory() {
 			method: 'PUT',
 			headers: {
 				'Accept': '*/*',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${localStorage.getItem('token')}`
 			},
 			body: JSON.stringify(Data)
 		})
@@ -67,7 +66,8 @@ export default function CRUDCategory() {
 			fetch(url, {
 				method: 'GET',
 				headers: {
-					'Accept': '*/*'
+					'Accept': '*/*',
+					'Authorization': `Bearer ${localStorage.getItem('token')}`
 				},
 			})
 				.then(response => response.json())

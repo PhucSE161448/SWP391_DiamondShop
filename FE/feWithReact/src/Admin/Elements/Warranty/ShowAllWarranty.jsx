@@ -44,7 +44,8 @@ export default function ShowAllProduct() {
       fetch(url, {
         method: 'GET',
         headers: {
-          'Accept': '*/*'
+          'Accept': '*/*',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       })
         .then(response => response.json())

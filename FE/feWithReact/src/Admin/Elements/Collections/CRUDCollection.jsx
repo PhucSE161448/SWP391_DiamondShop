@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, styled } from '@mui/material'
 import CreateCollection from './CreateCollection'
-import { amber } from '@mui/material/colors'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import ButtonDeleteCollections from './ButtonDeleteCollections'
 import UpdateCollection from './UpdateCollection'
@@ -28,7 +26,8 @@ export default function CRUDCollections() {
       fetch(url, {
         method: 'GET',
         headers: {
-          'Accept': '*/*'
+          'Accept': '*/*',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       })
         .then(response => response.json())

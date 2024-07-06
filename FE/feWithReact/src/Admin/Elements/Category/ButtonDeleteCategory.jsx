@@ -11,12 +11,12 @@ export default function ButtonDeleteCategory(props) {
 
   function DeleteCategory(id, status) {
     const url = createApi(`Category/DeleteOrEnable/${id}/${status}`)
-    console.log(url)
     fetch(url, {
       method: 'PUT',
       headers: {
         'Accept': '*/*',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
     })
   }

@@ -44,7 +44,8 @@ export default function UpdateProduct(props) {
       fetch(url, {
         method: 'GET',
         headers: {
-          'Accept': '*/*'
+          'Accept': '*/*',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       })
         .then(response => response.json())
@@ -158,6 +159,7 @@ export default function UpdateProduct(props) {
       method: 'PUT',
       headers: {
         'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: formData
     }).then(response => {
@@ -173,7 +175,8 @@ export default function UpdateProduct(props) {
       method: 'PUT',
       headers: {
         'Accept': '*/*',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify(productProperties)
     }).then(response => {

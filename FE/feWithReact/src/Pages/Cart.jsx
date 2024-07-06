@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 export default function Cart() {
   const [isEmpty, setIsEmpty] = useState(null)
   const [cart, setCart] = useState([])
+  const [cartId, setCartId] = useState(null)
   const [totalPriceCalculate, setTotalPriceCalculate] = useState(0)
   const [triggerRead, setTriggerRead] = useState(false)
   const token = localStorage.getItem('token')
@@ -52,6 +53,7 @@ export default function Cart() {
           } else {
             setIsEmpty(false)
             setCart(data)
+            setCartId(data[0].cartId)
           }
         })
     }
@@ -104,6 +106,10 @@ export default function Cart() {
     }
     calculatePrice()
   }, [cart])
+
+  const confirmOrder = () => {
+    
+  }
 
   return (
     token ? (
@@ -324,7 +330,7 @@ export default function Cart() {
                               ...colorPayment,
                               width: '100%',
                             }}>
-                              Payment
+                              Accept Order
                             </Button>
                           </div>
                         </Grid>
@@ -367,7 +373,7 @@ export default function Cart() {
                 Login to view cart
               </h1>
             </div>
-            <Button onClick={() => navigate('/login')} variant="contained" size="large" sx={{
+            <Button onClick={confirmOrder} variant="contained" size="large" sx={{
               backgroundColor: '#003468',
               width: '100%',
               borderRadius: '30px',

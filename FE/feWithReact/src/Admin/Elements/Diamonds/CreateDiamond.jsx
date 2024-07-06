@@ -84,6 +84,7 @@ export default function CreateDiamond(props) {
       method: 'POST',
       headers: {
         'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: formData
     });

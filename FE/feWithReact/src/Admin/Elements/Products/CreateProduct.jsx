@@ -155,6 +155,7 @@ export default function CreateProduct(props) {
       method: 'POST',
       headers: {
         'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: formData
     });
@@ -172,7 +173,8 @@ export default function CreateProduct(props) {
       method: 'POST',
       headers: {
         'Accept': '*/*',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify(productProperties)
     })

@@ -23,6 +23,7 @@ export default function ShowDetails(props) {
       method: 'GET',
       headers: {
         'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
       .then(response => response.json())

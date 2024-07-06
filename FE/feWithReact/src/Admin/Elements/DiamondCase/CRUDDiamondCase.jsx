@@ -29,7 +29,8 @@ export default function CRUDCategory() {
 			fetch(url, {
 				method: 'GET',
 				headers: {
-					'Accept': '*/*'
+					'Accept': '*/*',
+					'Authorization': `Bearer ${localStorage.getItem('token')}`
 				},
 			})
 				.then(response => response.json())

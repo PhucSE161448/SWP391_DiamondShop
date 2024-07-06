@@ -29,7 +29,8 @@ export default function CreateDiamondCase(props) {
 			method: 'POST',
 			headers: {
 				'Accept': '*/*',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${localStorage.getItem('token')}`
 			},
 			body: JSON.stringify(data)
 		})

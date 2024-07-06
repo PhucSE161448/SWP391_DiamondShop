@@ -82,6 +82,7 @@ export default function UpdateDiamond(props) {
       method: 'PUT',
       headers: {
         'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: formData
     });

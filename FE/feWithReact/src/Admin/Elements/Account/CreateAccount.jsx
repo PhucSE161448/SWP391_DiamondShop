@@ -65,6 +65,7 @@ export default function CreateAccount(props) {
 			headers: {
 				'Content-Type': 'application/json-patch+json',
 				'Accept': '*/*',
+				'Authorization': `Bearer ${localStorage.getItem('token')}`
 			},
 			body: JSON.stringify(data)
 		}).then(response => response.json())
