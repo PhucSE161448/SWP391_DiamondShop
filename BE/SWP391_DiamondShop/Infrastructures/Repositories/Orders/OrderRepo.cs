@@ -8,6 +8,7 @@ using Application.IRepositories.Orders;
 using Application.ViewModels.Orders;
 using Domain.Model;
 using Google.Apis.Storage.v1.Data;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructures.Repositories.Orders
@@ -60,6 +61,18 @@ namespace Infrastructures.Repositories.Orders
             return orderDTOs;
         }
 
+        public async Task<List<OrderDetailDTO>> GetOrderDetailAsync(int orderId)
+        {
+            var orderCarts = await _dbContext.OrderCarts
+                .Where(x => x.OrderId == orderId)
+                .Include(x => x.Cart)
+                .ThenInclude(x => x.Product)
+                .ThenInclude(x => x.Images)
+                .Include(x => x.Cart)
+                .ThenInclude(x => x.Diamond)
+                .ToListAsync();
+            return orderCarts.Adapt<List<OrderDetailDTO>>();
+        }
         public async Task<Order> CreateOrderAsync(decimal totalPrice)
         {
             try

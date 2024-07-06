@@ -19,7 +19,12 @@ namespace WebAPI.Controllers.Order
         {
             return Ok(await _orderService.GetOrderAsync());
         }
-
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductDetailById(int id)
+        {
+            var response = await _orderService.GetOrderDetailAsync(id);
+            return Ok(response);
+        }
         [HttpPost]
         public async Task<IActionResult> CreateStatus(int orderId, string status)
         {

@@ -1,8 +1,21 @@
 
+CREATE TABLE "Type"
+(
+    "Id"       INT           NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    "Name"     NVARCHAR(255) NOT NULL,
+    "CreatedBy"    NVARCHAR(255) NULL,
+    "CreatedDate"  DATE          NULL,
+    "ModifiedBy"   NVARCHAR(255) NULL,
+    "ModifiedDate" DATE          NULL,
+    "DeletedBy"    NVARCHAR(255) NULL,
+    "DeletedDate"  DATE          NULL,
+    "IsDeleted"    BIT           NOT NULL DEFAULT '0'
+);
 CREATE TABLE "Category"
 (
     "Id"           INT           NOT NULL Identity (1,1),
     "Name"         NVARCHAR(255) NOT NULL,
+	"Type_Id"	   INT           NOT NULL,
     "CreatedBy"    NVARCHAR(255) NULL,
     "CreatedDate"  DATE          NULL,
     "ModifiedBy"   NVARCHAR(255) NULL,
@@ -305,3 +318,6 @@ ADD CONSTRAINT "status_account_id_foreign" FOREIGN KEY ("Account_Id") REFERENCES
 ALTER TABLE
     "Orders"
     ADD CONSTRAINT "orders_account_id_foreign" FOREIGN KEY ("Account_Id") REFERENCES "Account" ("Id");
+ALTER TABLE "Category"
+ADD CONSTRAINT FK_Category_Type
+FOREIGN KEY ("Type_Id") REFERENCES "Type"("Id");

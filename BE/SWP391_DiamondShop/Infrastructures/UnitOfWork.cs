@@ -18,6 +18,7 @@ using Application.IRepositories.Payments;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.ProductSizes;
 using Application.IRepositories.Roles;
+using Application.IRepositories.Groups;
 
 namespace Infrastructures
 {
@@ -39,6 +40,7 @@ namespace Infrastructures
         private readonly ICollectionRepo collectionRepo;
         private readonly IPaymentRepo _paymentRepo;
         private readonly IOrderRepo _orderRepo;
+        private readonly IGroupRepo _groupRepo;
 
         public UnitOfWork(SWP391_DiamondShopContext _context, IWarrantyDocumentRepo _warrantyDocumentRepo,
             IAccountRepo _accountRepo, IProductRepo _productRepo,
@@ -46,7 +48,7 @@ namespace Infrastructures
             IProductPartRepo _productPartRepo, IProductSizeRepo _productSizeRepo, IRoleRepo _roleRepo,
             IImageRepo _imageRepo, ICartRepository _cartRepo, IDiamondCaseRepo _diamondCaseRepo,
             ICollectionRepo _collectionRepo, IPaymentRepo paymentRepo,
-            IOrderRepo orderRepo)
+            IOrderRepo orderRepo, IGroupRepo groupRepo)
         {
             context = _context;
             warrantyDocumentRepo = _warrantyDocumentRepo;
@@ -63,6 +65,7 @@ namespace Infrastructures
             collectionRepo = _collectionRepo;
             _paymentRepo = paymentRepo;
             _orderRepo = orderRepo;
+            _groupRepo = groupRepo;
         }
         
         public IWarrantyDocumentRepo WarrantyDocumentRepo => warrantyDocumentRepo;
@@ -80,6 +83,7 @@ namespace Infrastructures
         public ICartRepository CartRepository => cartRepo;
         public IPaymentRepo PaymentRepo => _paymentRepo;
         public IOrderRepo OrderRepo => _orderRepo;
+        public IGroupRepo GroupRepo => _groupRepo;
 
         public async Task<int> SaveChangeAsync()
         {

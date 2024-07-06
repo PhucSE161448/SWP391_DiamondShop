@@ -36,6 +36,7 @@ namespace Application.Services.Orders
         }
 
         public async Task<List<OrderDTO>> GetOrderAsync() => await _unitOfWork.OrderRepo.GetOrderAsync();
+        public async Task<List<OrderDetailDTO>> GetOrderDetailAsync(int orderId) => await _unitOfWork.OrderRepo.GetOrderDetailAsync(orderId);
 
         public async Task<bool> CreateOrderStatusAsync(int orderId, string status)
         {
