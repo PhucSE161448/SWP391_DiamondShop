@@ -14,13 +14,7 @@ export default function ShowAllProduct() {
   const [TotalPage, setTotalPage] = useState(null)
   const [data, setData] = useState(null)
   const [triggerRead, setTriggerRead] = useState(false)
-  const role = localStorage.getItem('role')
-
-  useEffect(() => {
-    if (role !== '1') {
-      navigate('/admin')
-    }
-  })
+  
   const params = {
     queryDTO: {
       PageNumber: PageNumber,
