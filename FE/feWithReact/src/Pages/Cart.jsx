@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 export default function Cart() {
   const [isEmpty, setIsEmpty] = useState(null)
   const [cart, setCart] = useState([])
-  const [cartId, setCartId] = useState(null)
+  const [cartId, setCartId] = useState([])
   const [totalPriceCalculate, setTotalPriceCalculate] = useState(0)
   const [triggerRead, setTriggerRead] = useState(false)
   const token = localStorage.getItem('token')
@@ -53,12 +53,14 @@ export default function Cart() {
           } else {
             setIsEmpty(false)
             setCart(data)
-            setCartId(data[0].cartId)
+            const allCartIds = data.map(item => item.cartId);
+            setCartId(allCartIds);
           }
         })
     }
     fetchCart()
   }, [triggerRead])
+
 
   const handleDecrease = async (id) => {
     const url = createApi(`Cart/Update/${id}?check=false`)
@@ -108,7 +110,19 @@ export default function Cart() {
   }, [cart])
 
   const confirmOrder = () => {
-    
+    const data = {
+      totalPrice: totalPriceCalculate,
+      cartId: cartId
+    }
+    const url = createApi('Order/CreateOrder')
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(data)
+    }).then(navigate('/order'))
   }
 
   return (
@@ -326,11 +340,11 @@ export default function Cart() {
                             margin: '20px auto',
                             width: '250px',
                           }}>
-                            <Button onClick={() => navigate('/')} variant="contained" size="large" sx={{
+                            <Button onClick={confirmOrder} variant="contained" size="large" sx={{
                               ...colorPayment,
                               width: '100%',
                             }}>
-                              Accept Order
+                              Confirm Order
                             </Button>
                           </div>
                         </Grid>
