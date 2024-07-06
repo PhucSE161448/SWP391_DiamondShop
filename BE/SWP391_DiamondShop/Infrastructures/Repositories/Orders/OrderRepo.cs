@@ -30,7 +30,16 @@ namespace Infrastructures.Repositories.Orders
 
         public async Task<List<OrderDTO>> GetOrderAsync()
         {
-            IQueryable<Order> query = _currentRole == "1" ? _dbContext.Orders : _dbContext.Orders.Where(x => x.AccountId == _currentUserId);
+            IQueryable<Order> query;
+
+            if (_currentRole == "1" || _currentRole == "3" || _currentRole == "4")
+            {
+                query = _dbContext.Orders;
+            }
+            else
+            {
+                query = _dbContext.Orders.Where(x => x.AccountId == _currentUserId);
+            }
 
             var orders = await query
                 .Include(op => op.OrderStatuses)
