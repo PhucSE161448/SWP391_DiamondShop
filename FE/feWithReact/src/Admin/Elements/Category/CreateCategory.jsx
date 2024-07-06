@@ -1,44 +1,61 @@
 import React, { useState, useEffect } from 'react'
-import { TextField, Button, Box } from '@mui/material'
+import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, Alert } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
-import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
+import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
+import * as Yup from 'yup'
 import Modal from '@mui/material/Modal'
 import { createApi } from '../../../Auth/AuthFunction'
 export default function CreateCategory(props) {
-	const [nameCategory, setnameCategory] = useState('')
+	const [dataType, setDataType] = useState(null)
 	const [data, setData] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => {
 		setOpen(false)
-		setnameCategory('')
 		setData(null)
 	}
 
 	useEffect(() => {
-		// This effect runs when `data` changes
-		if (data && data.status !== 400) {
-			// Assuming `data.status` not being 400 means success
-			setnameCategory(''); // Reset the nameCategory only on successful creation
+		const url = createApi('Group/GetAllGroup')
+		fetch(url, {
+			method: 'GET',
+			headers: {
+				'Accept': '*/*',
+				'Authorization': `Bearer ${localStorage.getItem('token')}`
+			},
+		})
+			.then(response => response.json())
+			.then(responseData => {
+				setDataType(responseData)
+			})
+			.catch((error) => console.error('Error:', error))
+	}, [])
+
+	const validationSchema = Yup.object({
+		nameCategory: Yup.string().required('Required'),
+		typeCategory: Yup.string().required('Required'),
+	})
+
+	const initialValues = {
+		nameCategory: '',
+		typeCategory: ''
+	}
+
+	const onSubmit = (values) => {
+		const parsedValues = {
+			...values,
+			typeCategory: parseInt(values.typeCategory)
 		}
-	}, [data])
-
-	const handleSubmit = (event) => {
-		event.preventDefault()
-		// Gọi hàm CreateCaratWeight, truyền weight và price như là các đối số
-		Create(nameCategory)
-
+		Create(parsedValues)
+		// formik.resetForm()
 	}
 
-	const handleClear = () => {
-		setnameCategory('')
-		setData(null)
-	}
 
-	function Create(Name) {
+	function Create(Values) {
 		const url = createApi('Category/CreateCategory')
 		const data = {
-			name: Name
+			name: Values.nameCategory,
+			groupId: Values.typeCategory
 		}
 		fetch(url, {
 			method: 'POST',
@@ -76,51 +93,79 @@ export default function CreateCategory(props) {
 					top: '50%',
 					left: '50%',
 					transform: 'translate(-50%, -50%)',
-					width: 400,
+					width: 800,
+					height: 400,
 					bgcolor: 'background.paper',
 					border: '1px solid #000',
 					boxShadow: 24,
 					p: 4,
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignContent: 'center'
 				}}>
 					<h3 className='titleOfForm'>CREATE CATEGORY</h3>
 					<div>
-						<form onSubmit={handleSubmit} className='row' style={{
-							maxWidth: '25vw'
-						}}>
-							<div className='col'>
-								<TextField type="text" value={nameCategory}
-									onChange={e => setnameCategory(e.target.value)} id="outlined-basic" label="Name" variant="outlined" className='form-control' />
-							</div>
-							{
-								data && (data.status === 400 ? (
-									<h3>{data.errors.Price}</h3>
-								) : (
-									<h3>Create successful</h3>
-								))
-							}
-							<div className='formSubmit' >
-								<Button
-									type="submit"
-									className='submitButton'
-									value="Submit" variant="contained"
-									size="large" endIcon={<SendIcon />}
-									sx={{
-										margin: '5px',
-									}}>
-									Send
-								</Button>
-								<Button type="button"
-									value="Clear" onClick={handleClear}
-									className='submitButton'
-									variant="contained" size="large" color="error"
-									endIcon={<CancelScheduleSendIcon />}
-									sx={{
-										margin: '5px',
-									}}>
-									Clear
-								</Button>
-							</div>
-						</form>
+						<Formik
+							initialValues={initialValues}
+							validationSchema={validationSchema}
+							onSubmit={onSubmit}
+						>
+							{({ handleChange, values }) => (
+								<Form>
+									<div className='row'>
+										<div className='col-6'>
+											<Field
+												name="nameCategory"
+												as={TextField}
+												label="Category Name"
+												onChange={handleChange}
+												value={values.nameCategory}
+												style={{ width: '100%' }}
+											/>
+											<ErrorMessage name="nameCategory">
+												{msg => <Alert severity="error">{msg}</Alert>}
+											</ErrorMessage>
+										</div>
+										<div className='col-6'>
+											<FormControl sx={{ width: '100%' }}>
+												<InputLabel id="typeCategory-label">Type</InputLabel>
+												<Field
+													name="typeCategory"
+													as={Select}
+													labelId="typeCategory-label"
+													onChange={handleChange}
+													value={values.typeCategory}
+													style={{ width: '100%' }}
+													label="Type"
+												>
+													{dataType && dataType.map((data) => (
+														<MenuItem key={data.id} value={data.id}>{data.name}</MenuItem>
+													))}
+												</Field>
+												<ErrorMessage name="typeCategory">
+													{msg => <Alert severity="error">{msg}</Alert>}
+												</ErrorMessage>
+											</FormControl>
+										</div>
+										<div>
+											<Button
+												variant="contained"
+												color="primary"
+												startIcon={<SendIcon />}
+												type="submit"
+												sx={{
+													width: '100%',
+													marginTop: '25px',
+												}}
+											>
+												Send
+											</Button>
+										</div>
+									</div>
+								</Form>
+							)}
+						</Formik>
 					</div>
 				</Box>
 			</Modal>

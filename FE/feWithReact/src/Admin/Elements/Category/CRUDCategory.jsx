@@ -8,19 +8,14 @@ import { amber } from '@mui/material/colors'
 import ButtonDeleteCategory from './ButtonDeleteCategory'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import { createApi } from '../../../Auth/AuthFunction'
-const UpdateButton = styled(Button)(({ theme }) => ({
-	color: theme.palette.getContrastText(amber[500]),
-	backgroundColor: amber[500],
-	'&:hover': {
-		backgroundColor: amber[700],
-	},
-}))
+import UpdateCategory from './UpdateCategory'
 
 export default function CRUDCategory() {
 	const [data, setData] = useState(null)
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(9)
-	const [nameCategory, setnameCategory] = useState(null)
+	const [nameCategory, setNameCategory] = useState(null)
+	const [typeCategory, setTypeCategory] = useState(null)
 	const [selectedForUpdate, setSelectedForUpdate] = useState(null)
 	const [showUpdate, setShowUpdate] = useState(true)
 	const [triggerRead, setTriggerRead] = useState(false);
@@ -35,30 +30,6 @@ export default function CRUDCategory() {
 	}
 
 
-	function UpdateCategory(Id, Name) {
-		const url = createApi(`Category/UpdateCategory/${Id}`)
-		const Data = {
-			"name": Name,
-			"isDeleted": false
-		}
-		fetch(url, {
-			method: 'PUT',
-			headers: {
-				'Accept': '*/*',
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${localStorage.getItem('token')}`
-			},
-			body: JSON.stringify(Data)
-		})
-			.then(response => response.json())
-			.then(responseData => {
-				setData(responseData)
-				setShowUpdate(true)
-				setTriggerRead(prev => !prev)
-			})
-
-	}
-
 	useEffect(() => {
 		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
 		function Read() {
@@ -72,7 +43,7 @@ export default function CRUDCategory() {
 			})
 				.then(response => response.json())
 				.then(responseData => {
-					setData(responseData) // Access the array using the key
+					setData(responseData)
 				})
 				.catch((error) => console.error('Error:', error))
 		}
@@ -85,10 +56,10 @@ export default function CRUDCategory() {
 		setShowUpdate(false)
 	}
 
-	function handleSubmitUpdate(id, name) {
+	function handleSubmitUpdate(id, name, type) {
 		UpdateCategory(id, name)
 		setSelectedForUpdate(null)
-		setnameCategory(null)
+		setNameCategory(null)
 	}
 
 	return (
@@ -100,6 +71,7 @@ export default function CRUDCategory() {
 							<TableRow>
 								<TableCell>#</TableCell>
 								<TableCell>Name</TableCell>
+								<TableCell>Type</TableCell>
 								<TableCell></TableCell>
 								<TableCell><CreateCategory onCategoryCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
 							</TableRow>
@@ -115,50 +87,13 @@ export default function CRUDCategory() {
 												maxWidth: '11vw',
 												minWidth: '11vw'
 											}}>
-												{selectedForUpdate !== data.id && (data.name)}
-
-												{selectedForUpdate === data.id && !showUpdate && (
-													<>
-														<form onSubmit={() => handleSubmitUpdate(data.id, nameCategory)}>
-															<TextField
-																required
-																defaultValue={data.name}
-																onChange={(e) => setnameCategory(e.target.value)}
-																id="outlined-basic"
-																label="Name"
-																variant="outlined"
-																sx={{
-																	margin: '10px'
-																}}
-															/> <br />
-															<Button
-																type="submit"
-																value="Submit" variant="contained" color="success"
-																size="large" endIcon={<SendIcon />}
-																sx={{
-																	margin: '5px',
-																}}
-															>
-																Confirm
-															</Button>
-															<Button type="button"
-																value="Clear" onClick={() => {
-																	setShowUpdate(!showUpdate)
-																	setnameCategory(null)
-																	setSelectedForUpdate(null)
-																}}
-																variant="contained" size="large" color="error"
-																endIcon={<CancelIcon />}
-																sx={{
-																	margin: '5px',
-																}}>
-																Cancel
-															</Button>
-														</form>
-
-													</>
-
-												)}
+												{data.name}
+											</TableCell>
+											<TableCell style={{
+												maxWidth: '11vw',
+												minWidth: '11vw'
+											}}>
+												{data.group.name}
 											</TableCell>
 											<TableCell style={{
 												maxWidth: '11vw',
@@ -167,15 +102,7 @@ export default function CRUDCategory() {
 												<ButtonDeleteCategory id={data.id} isDeleted={data.isDeleted}></ButtonDeleteCategory>
 											</TableCell>
 											<TableCell>
-												<UpdateButton onClick={() => handleUpdate(data.id)}
-													variant="contained" size="large"
-													endIcon={<UpdateIcon />}
-													sx={{
-														margin: '5px',
-														backgroundColor: '#ffc107'
-													}}>
-													Update
-												</UpdateButton>
+												<UpdateCategory data={data} onUpdateCategory={() => setTriggerRead(prev => !prev)}></UpdateCategory>
 											</TableCell>
 										</TableRow>
 									))

@@ -334,7 +334,7 @@ export default function UpdateProduct(props) {
                         value={values.CollectionId}
                       >
                         {dataCollection && dataCollection.map((item) => (
-                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          <MenuItem value={item.id} key={item.id}>{item.name} </MenuItem>
                         ))}
                       </Field>
                     </FormControl>
@@ -355,7 +355,7 @@ export default function UpdateProduct(props) {
                         MenuProps={MenuProps}
                       >
                         {dataCategory && dataCategory.map((item) => (
-                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          <MenuItem value={item.id} key={item.id}>{item.name} {item.group.name}</MenuItem>
                         ))}
                       </Field>
                       <ErrorMessage name="categoryId">
