@@ -1,5 +1,5 @@
 
-CREATE TABLE "Type"
+CREATE TABLE "Group"
 (
     "Id"       INT           NOT NULL IDENTITY(1,1) PRIMARY KEY,
     "Name"     NVARCHAR(255) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE "Category"
 (
     "Id"           INT           NOT NULL Identity (1,1),
     "Name"         NVARCHAR(255) NOT NULL,
-	"Type_Id"	   INT           NOT NULL,
+	"Group_Id"	   INT           NOT NULL,
     "CreatedBy"    NVARCHAR(255) NULL,
     "CreatedDate"  DATE          NULL,
     "ModifiedBy"   NVARCHAR(255) NULL,
@@ -319,5 +319,5 @@ ALTER TABLE
     "Orders"
     ADD CONSTRAINT "orders_account_id_foreign" FOREIGN KEY ("Account_Id") REFERENCES "Account" ("Id");
 ALTER TABLE "Category"
-ADD CONSTRAINT FK_Category_Type
-FOREIGN KEY ("Type_Id") REFERENCES "Type"("Id");
+ADD CONSTRAINT FK_Category_Group
+FOREIGN KEY ("Group_Id") REFERENCES "Group"("Id");
