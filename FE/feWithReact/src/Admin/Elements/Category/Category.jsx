@@ -1,8 +1,16 @@
-import React from 'react'
-
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import CRUDCategory from './CRUDCategory'
 
 export default function Category() {
+	const role = localStorage.getItem('role')
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		if (role !== '1') {
+			navigate('/admin')
+		}
+	})
 	return (
 		<div className='contentAdminContainer'>
 			<div className='CRUDContainer '>

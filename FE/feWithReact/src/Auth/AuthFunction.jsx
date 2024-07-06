@@ -1,32 +1,13 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { jwtDecode } from 'jwt-decode'
 
-export function validateUser(userData) {
-	let BaseUrl = "https://localhost:7122/api/Authentication/Login/"
-	return new Promise((resolve, reject) => {
-		fetch(BaseUrl, {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json-patch+json",
-			},
-			body: JSON.stringify(userData)
-		})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Network response was not ok')
-				}
-				return response.json()
-			})
-			.then(responseJson => {
-				localStorage.setItem('token', responseJson.accessToken)
-				resolve()
-			})
-			.catch(error => {
-				reject(error)
-			})
-	})
+export function createApi(endpointPath) {
+	const BaseUrl = "https://localhost:7122/api/"
+	return BaseUrl + endpointPath
 }
+
+
 
 export function LogoutAndRedirect() {
 	let navigate = useNavigate();
@@ -46,5 +27,11 @@ export function LogoutAndRedirect() {
 }
 
 export function LogoutByButton() {
+	localStorage.removeItem('role')
+	localStorage.removeItem('token')
+}
+
+export function LogoutByButtonAdmin() {
+	localStorage.removeItem('role')
 	localStorage.removeItem('token')
 }

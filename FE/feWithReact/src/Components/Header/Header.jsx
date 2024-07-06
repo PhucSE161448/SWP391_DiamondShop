@@ -5,10 +5,10 @@ function Header() {
 		<div className='container-fluid'>
 			<div className='containerHeader'>
 				<div>
-					<img src="src/assets/img/diamondLogo.png" alt="" id='logoHeader' />
+					<img src="https://cdn-icons-png.flaticon.com/512/14676/14676921.png" alt="" id='logoHeader' />
 				</div>
 				<div>
-					<h1 className='shopName'>DIAMOND OFFCIAL STORE</h1>
+					<h1 className='shopName'>DIAMOND STORE</h1>
 				</div>
 
 			</div>

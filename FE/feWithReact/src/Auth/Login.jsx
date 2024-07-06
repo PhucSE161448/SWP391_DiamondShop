@@ -2,87 +2,232 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import "./Login.css"
 import { useState, useEffect } from 'react'
-import { validateUser } from './AuthFunction'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { TextField, Button, FormControl, Alert } from '@mui/material'
+import { createApi } from './AuthFunction'
 import { jwtDecode } from 'jwt-decode'
+import * as Yup from 'yup'
 export default function Login() {
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
   let navigate = useNavigate()
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      const decodedToken = jwtDecode(token)
-      if (decodedToken.Role === '1') {
-        navigate('/admin')
-      } else {
-        navigate('/')
-      }
-    }
-  }, [navigate]);
+  const [responseStatus, setResponseStatus] = useState('')
+  const [error, setError] = useState('')
 
   function getToken() {
     const token = localStorage.getItem('token')
+    const role = localStorage.getItem('role')
     if (token) {
-      const decodedToken = jwtDecode(token)
-      if (decodedToken.Role === '1') {
+      if (role >= '1' && role <= '4') {
         navigate('/admin')
       } else {
         navigate('/')
       }
+    } else {
+      navigate('/')
     }
   }
 
-  const submitForm = e => {
-    e.preventDefault()
-    validateUser({ email: email, password: password })
-      .then(() => {
-        getToken()
+  function validateUser(data) {
+    const url = createApi('Authentication/Login/')
+    data = {
+      email: data.email,
+      password: data.password
+    }
+    return new Promise((resolve, reject) => {
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json-patch+json",
+        },
+        body: JSON.stringify(data)
       })
-      .catch(error => {
-        setError(error.message);
-      })
+        .then(response => {
+          if (!response.ok) {
+            response.json().then(data => {
+              setResponseStatus(data.StatusCode);
+              setError(data.ErrorMessage);
+            });
+            return; // Ensure we don't proceed to parse the response again if it's not OK
+          }
+          return response.json()
+        })
+        .then(responseJson => {
+          localStorage.setItem('token', responseJson.accessToken)
+          const decodedToken = jwtDecode(responseJson.accessToken)
+          localStorage.setItem('role', decodedToken.Role)
+          resolve()
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+
   }
+
+
+
+  const styleAlert = {
+    borderRadius: '50px',
+    width: '100%',
+    marginBottom: '5px',
+    marginTop: '5px',
+    margin: '5px',
+  }
+  const initialValues = {
+    email: '',
+    password: '',
+  }
+
+  const validationSchema = Yup.object({
+    email: Yup.string().required('Required'),
+    password: Yup.string().required('Required'),
+  })
+
+  const onSubmit = (values) => {
+    validateUser(values)
+      .then(() => getToken())
+  }
+
+  const styleForm = {
+    backgroundColor: 'white',
+    borderRadius: '50px',
+    width: '100%',
+    color: 'black',
+    margin: '5px',
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        border: 'none',
+      },
+      '&:hover fieldset': {
+        border: 'none',
+      },
+      '&.Mui-focused fieldset': {
+        border: 'none', // This ensures the border color is black when focused
+      },
+      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        border: 'none', // Specifically targeting the focused state for notched outline
+      },
+    },
+    '& .MuiInputBase-input': {
+      color: 'black',
+    },
+    '& .MuiInputLabel-root': {
+      color: 'black',
+    },
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: 'black', // Ensuring label text color is black when focused
+    },
+  }
+
   return (
     <section className='pageLoginContainer' >
-      <div className='loginContainer container-fluid'>
-        <h1>LOGIN TO DASHBOARD</h1>
-        {error && <div className="error-message">{error}</div>}
-        <div className='loginInputContainer'>
-          <form onSubmit={submitForm}>
-            <input
-              type="text"
-              placeholder="Enter your email here"
-              className='form-control'
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className='form-control'
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-            <div className='forgotPassword'>
-              <Link to="/" className='linkForgotPassword'>
-                Forgot password?
-              </Link>
-            </div>
-            <button className='loginButton'>LOGIN</button>
-          </form>
-          <Link to="/SignUp" className='signupLink'>
-            <button className='signUpButton'>
-              SIGN UP
-            </button>
-          </Link>
+      <div className='loginContainer container-fluid' style={{
+        width: '50%',
+      }}>
+        <div style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <h1>LOGIN</h1>
 
-          <div className='backToHomePageLink'>
-            <Link to="/" className='linkBackHome'>
-              Back to homepage
-            </Link>
-          </div>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+          >
+            {({ handleChange }) => (
+              <Form>
+                {
+                  responseStatus === 500 && <Alert severity="error" sx={styleAlert}>{error}</Alert>
+                }
+                <FormControl>
+                  <div className='row'>
+                    <div className='col-12'>
+                      <Field
+                        as={TextField}
+                        type="text"
+                        name="email"
+                        label="Email"
+                        onChange={handleChange}
+                        sx={styleForm}
+                      />
+                      <ErrorMessage name="email" >
+                        {msg => <Alert severity="error" sx={styleAlert}>{msg}</Alert>}
+                      </ErrorMessage>
+                    </div>
+                    <div className='col-12'>
+                      <Field
+                        as={TextField}
+                        type="password"
+                        name="password"
+                        label="Password"
+                        onChange={handleChange}
+                        sx={styleForm}
+                      />
+                      <ErrorMessage name="password" >
+                        {msg => <Alert severity="error" sx={styleAlert}>{msg}</Alert>}
+                      </ErrorMessage>
+                    </div>
+                  </div>
+                </FormControl>
+
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}>
+                  <Link to="/" className='linkForgotPassword' >
+                    Forgot password?
+                  </Link>
+                </div>
+                <Button type="submit"
+                  className='submitButton'
+                  value="Submit" variant="contained"
+                  size="large"
+                  sx={{
+                    margin: '5px',
+                    backgroundColor: '#003468',
+                    height: '50px',
+                    borderRadius: '50px',
+                    '&:hover': {
+                      backgroundColor: '#003468',
+                    }
+                  }}>
+                  LOGIN
+                </Button>
+                <div style={{
+                  width: '100%',
+                }}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      margin: '5px',
+                      height: '50px',
+                      backgroundColor: '#ad2a36',
+                      color: 'white',
+                      width: '100%',
+                      borderRadius: '50px',
+                      '&:hover': {
+                        backgroundColor: '#ad2a36',
+                      }
+                    }}
+                    onClick={() => navigate('/signup')}>
+                    SIGN UP
+                  </Button>
+                </div>
+                <div className='backToHomePageLink'>
+                  <Link to="/" className='linkBackHome' >
+                    Back to homepage
+                  </Link>
+                </div>
+              </Form>
+            )}
+          </Formik>
+
+
         </div>
       </div>
     </section >

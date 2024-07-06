@@ -3,6 +3,7 @@ import { TextField, Button, Box } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import Modal from '@mui/material/Modal'
+import { createApi } from '../../../Auth/AuthFunction'
 
 export default function CreateWarranty(props) {
   const [nameWarranty, setNameWarranty] = useState('')
@@ -35,7 +36,7 @@ export default function CreateWarranty(props) {
   }
 
   function Create(period, termsAndConditions) {
-    const url = 'https://localhost:7122/api/WarrantyDocument'
+    const url = createApi('WarrantyDocument')
     const data = {
       period: period,
       termsAndConditions: termsAndConditions
@@ -44,7 +45,8 @@ export default function CreateWarranty(props) {
       method: 'POST',
       headers: {
         'Accept': '*/*',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify(data)
     })
