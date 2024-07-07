@@ -295,7 +295,7 @@ export default function GetPageProduct() {
                 onChange={(e) => handleChangeDiamondId(e.target.value)}
                 input={<OutlinedInput label="Diamond" />}
                 renderValue={(selected) =>
-                  Category.filter(cat => selected.includes(cat.id)).map(cat => cat.name).join(', ')
+                  dataDiamond.filter(cat => selected.includes(cat.id)).map(cat => cat.name).join(', ')
                 }
               >
                 {dataDiamond && dataDiamond.map((item, index) => (
