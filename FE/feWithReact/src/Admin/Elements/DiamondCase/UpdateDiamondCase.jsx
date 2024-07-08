@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import CloseIcon from '@mui/icons-material/Close'
+import { createApi } from '../../../Auth/AuthFunction'
 
 export default function UpdateDiamondCase(props) {
   const [open, setOpen] = useState(false)
@@ -27,18 +28,18 @@ export default function UpdateDiamondCase(props) {
   })
 
   const initialValues = {
-    name: '',
-    color: '',
-    material: ''
+    name: props.data.name,
+    color: props.data.color,
+    material: props.data.material
   }
 
   const onSubmit = (values) => {
     Update(values)
-    props.onDiamondCaseUpdated()
+
   }
 
   const Update = (values) => {
-    const url = 'https://localhost:7122/api/DiamondCase/UpdateDiamondCase/' + props.id
+    const url = createApi(`DiamondCase/UpdateDiamondCase/'${props.id}`)
     const data = {
       "name": values.name,
       "color": values.color,
@@ -48,14 +49,13 @@ export default function UpdateDiamondCase(props) {
       method: 'PUT',
       headers: {
         'Accept': '*/*',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify(data)
     })
       .then(response => {
-        setResponseCode(response.status);
         if (response.status === 204 || response.headers.get("content-length") === "0") {
-          // No content to parse
           return null;
         } else {
           return response.json();
@@ -63,12 +63,13 @@ export default function UpdateDiamondCase(props) {
       })
       .then(responseData => {
         if (responseData) {
-          setResponseCode(responseData.status);
+          setResponseCode(responseData.status)
         }
       })
       .catch(error => {
         console.error("Error parsing JSON:", error);
-      });
+      })
+    props.onDiamondCaseUpdated()
   }
   return (
     <div style={{
@@ -105,7 +106,9 @@ export default function UpdateDiamondCase(props) {
             {({ handleChange, values }) => (
               <Form>
                 <div className='row'>
-                  <div className='col-12'>
+                  <div className='col-12' style={{
+                    marginBottom: '20px'
+                  }}>
                     <Field
                       name="name"
                       as={TextField}
@@ -118,7 +121,9 @@ export default function UpdateDiamondCase(props) {
                       {msg => <Alert severity="error">{msg}</Alert>}
                     </ErrorMessage>
                   </div>
-                  <div className='col-12'>
+                  <div className='col-12' style={{
+                    marginBottom: '20px'
+                  }}>
                     <Field
                       name="color"
                       as={TextField}
@@ -131,7 +136,9 @@ export default function UpdateDiamondCase(props) {
                       {msg => <Alert severity="error">{msg}</Alert>}
                     </ErrorMessage>
                   </div>
-                  <div className='col-12'>
+                  <div className='col-12' style={{
+                    marginBottom: '20px'
+                  }}>
                     <Field
                       name="material"
                       as={TextField}

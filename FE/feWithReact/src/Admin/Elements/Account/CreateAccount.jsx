@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Modal, Box, TextField, Select, InputLabel, MenuItem, OutlinedInput, FormControl } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
+import { createApi } from '../../../Auth/AuthFunction'
 export default function CreateAccount(props) {
 	const [nameAccount, setnameAccount] = useState('')
 	const [emailAccount, setEmailAccount] = useState('')
@@ -49,7 +50,7 @@ export default function CreateAccount(props) {
 	}
 
 	function CreateAccount(Email, Password, Name, Address, Gender, Phone, Role) {
-		const url = 'https://localhost:7122/api/Account/CreateUser'
+		const url = createApi('Account/CreateUser')
 		const data = {
 			name: Name,
 			email: Email,
@@ -64,6 +65,7 @@ export default function CreateAccount(props) {
 			headers: {
 				'Content-Type': 'application/json-patch+json',
 				'Accept': '*/*',
+				'Authorization': `Bearer ${localStorage.getItem('token')}`
 			},
 			body: JSON.stringify(data)
 		}).then(response => response.json())

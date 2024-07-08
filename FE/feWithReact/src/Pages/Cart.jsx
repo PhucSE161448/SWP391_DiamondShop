@@ -1,26 +1,46 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Container, Box, Button } from '@mui/material'
+import { Grid, Container, Box, Button, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, TextField } from '@mui/material'
+import { IconButton } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-
+import { createApi } from '../Auth/AuthFunction'
+import RemoveIcon from '@mui/icons-material/Remove'
+import AddIcon from '@mui/icons-material/Add'
+import DeleteIcon from '@mui/icons-material/Delete';
 export default function Cart() {
   const [isEmpty, setIsEmpty] = useState(null)
   const [cart, setCart] = useState([])
+  const [cartId, setCartId] = useState([])
+  const [totalPriceCalculate, setTotalPriceCalculate] = useState(0)
+  const [triggerRead, setTriggerRead] = useState(false)
   const token = localStorage.getItem('token')
+  const dataTableHead = ['#', 'Product', 'Quantity', 'Price', 'Total amount']
+  const navigate = useNavigate()
   const border = {
     padding: '0px',
     margin: 0
   }
-  const color = {
-    backgroundColor: '#737373',
+  const colorContinueShopping = {
+    backgroundColor: '#999999',
     '&:hover': {
-      backgroundColor: '#737373',
+      backgroundColor: '#fff',
+      color: '#000',
     }
   }
-  const navigate = useNavigate()
+
+  const colorPayment = {
+    backgroundColor: '#000',
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: '#fff',
+      color: '#000',
+    }
+
+  }
 
   useEffect(() => {
+    const url = createApi('Cart/Get')
     const fetchCart = async () => {
-      const response = await fetch('https://localhost:7122/api/Cart/Get', {
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -28,18 +48,84 @@ export default function Cart() {
         }
       }).then(response => response.json())
         .then(data => {
-          if (data.length === 0) {
-            setIsEmpty(true)
+          const filteredData = data.filter(item => !item.isDeleted); // Filter out items where isDeleted is true
+          if (filteredData.length === 0) {
+            setIsEmpty(true);
           } else {
-            setIsEmpty(false)
-            setCart(data)
+            setIsEmpty(false);
+            setCart(filteredData); // Set only the filtered data
+            const allCartIds = filteredData.map(item => item.cartId);
+            setCartId(allCartIds);
           }
         })
     }
     fetchCart()
-  }, [])
+  }, [triggerRead])
 
-  console.log(cart)
+
+  const handleDecrease = async (id) => {
+    const url = createApi(`Cart/Update/${id}?check=false`)
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
+    setTriggerRead(prev => !prev)
+  }
+
+  const handleDeleteCart = async (id) => {
+    const url = createApi(`Cart/Delete/${id}`)
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
+    setTriggerRead(prev => !prev)
+  }
+
+  const handleIncrease = async (id) => {
+    const url = createApi(`Cart/Update/${id}?check=true`)
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
+    setTriggerRead(prev => !prev)
+  }
+
+  useEffect(() => {
+    const calculatePrice = () => {
+      let total = 0
+      cart.map((item) => {
+        total += item.totalPrice
+      })
+      setTotalPriceCalculate(total)
+    }
+    calculatePrice()
+  }, [cart])
+
+  const confirmOrder = () => {
+    const data = {
+      totalPrice: totalPriceCalculate,
+      cartId: cartId
+    }
+    const url = createApi('Order/CreateOrder')
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(data)
+    })
+      .then(navigate('/order'))
+  }
 
   return (
     token ? (
@@ -62,29 +148,54 @@ export default function Cart() {
                 <Grid container justifyContent="center">
                   <Container sx={{
                     margin: '0 auto',
-                    display: 'flex', // Added to align items to the left
-                    flexDirection: 'column', // Ensures the Grids are stacked vertically
-                    alignItems: 'center', // Aligns items to the left
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+
                     padding: '0 0 0 0',
                   }}>
                     <div style={{
-                      width: '80vw',
                       height: '20vh',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'center',
-                      backgroundColor: '#f8f9f9',
                       borderRadius: '50px',
                     }}>
                       <h3 style={{
                         margin: '0 auto',
                         fontSize: '3em',
 
-                      }}>Nothing in cart</h3>
+                      }}>
+                        Nothing in cart
+                      </h3>
                     </div>
                     <div style={{
-                      margin: '20px auto',
-                    }}><Button onClick={() => navigate('/')} variant="contained" size="large" sx={color}>Click here to continue shopping</Button></div>
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      borderRadius: '50px',
+                    }}>
+                      <Button onClick={() => navigate('/')} variant="contained" size="large" sx={colorContinueShopping}>
+                        Click here to continue shopping
+                      </Button>
+                    </div>
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      borderRadius: '50px',
+                    }}>
+                      <Button onClick={() => navigate('/order')} variant="contained" size="large" sx={{
+                        backgroundColor: '#000',
+                        color: '#fff',
+                        '&:hover': {
+                          backgroundColor: '#fff',
+                          color: '#000',
+                        }
+                      }}>
+                        Click here to go to your order
+                      </Button>
+                    </div>
                   </Container>
                 </Grid>
               </Box>
@@ -98,46 +209,172 @@ export default function Cart() {
                 padding: '0 0 0 24px',
               }} >
                 <Grid container justifyContent="center" spacing={3} columns={{ xs: 4, sm: 8, md: 12 }}>
-                  <Grid item md={8} sm={4} xs={4} sx={border}>
-                    <Container sx={{
-                      margin: '0 auto',
-                      display: 'flex', // Added to align items to the left
-                      flexDirection: 'column', // Ensures the Grids are stacked vertically
-                      alignItems: 'center', // Aligns items to the left
+                  <Grid item lg={6} md={8} sm={12} xs={12} sx={border}>
+                    <TableContainer sx={{
+                      overflow: 'auto',
+                      borderRadius: '10px',
+                      boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
+                      backdropFilter: 'blur(10px)',
                     }}>
-                      {cart.map((item, index) => (
-                        item.product ? (
-                          <div key={index} style={{
-                            width: '80vw',
-                            height: '10vh',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            backgroundColor: '#f8f9f9',
-                            borderRadius: '50px',
-                          }}>
-                            <h3 style={{
-                              margin: '0 auto',
-                              fontSize: '3em',
-                            }}>
-                              {item.product.name}
-                            </h3>
-                          </div>
-                        ) : null
-                      ))}
-                    </Container>
+                      <Table>
+                        <TableHead sx={{
+                          backgroundColor: '#000'
+                        }}>
+                          <TableRow>
+                            {dataTableHead.map((head, index) => (
+                              <TableCell key={index} sx={{
+                                borderRight: '1px solid #fff',
+                              }}>
+                                <div style={{
+                                  color: '#fff',
+                                  fontWeight: 'bold',
+                                  fontSize: '1.2em',
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                }}>
+                                  {head}
+                                </div>
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {cart.map((item, index) => (
+                            <TableRow key={index}> {/* Ensure each row has a unique key */}
+                              <TableCell>
+                                {index + 1}
+                              </TableCell>
+                              <TableCell>
+                                <Grid container spacing={2} sx={{
+                                  display: 'flex',
+                                  padding: '10px'
+                                }}>
+                                  <Grid item xs={12} sm={12} md={3} lg={3} sx={{
+                                    marginRight: '25px',
+                                  }}>
+                                    <img src={item.product ? item.product.images[0].urlPath : item.diamond.images[0]?.urlPath} alt="" style={{
+                                      width: '125px',
+                                      borderRadius: '10px',
+                                      cursor: 'pointer',
+                                    }}
+                                      onClick={() => navigate(`/${item.product ? 'product/detail' : 'diamond/detail'}/${item.product ? item.product.id : item.diamond.id}`)}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={12} sm={12} md={6} lg={6} sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                  }}>
+                                    <div
+                                      style={{
+                                        margin: '0 auto',
+                                      }}
+                                      onClick={() => navigate(`/${item.product ? 'product/detail' : 'diamond/detail'}/${item.product ? item.product.id : item.diamond.id}`)}>
+                                      <h4 style={{
+                                        cursor: 'pointer',
+                                      }}>
+                                        {item.product ? item.product.name : item.diamond.name}
+                                      </h4>
+                                    </div>
+                                  </Grid>
+                                  <Grid item xs={12} sm={12} md={3} lg={2} sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+
+                                  }}>
+                                    <div style={{
+                                      display: 'flex',
+                                      justifyContent: 'flex-end',
+                                      alignItems: 'center',
+                                    }}>
+                                      <IconButton color='error' onClick={() => handleDeleteCart(item.cartId)}>
+                                        <DeleteIcon></DeleteIcon>
+                                      </IconButton>
+                                    </div>
+                                  </Grid>
+                                </Grid>
+                              </TableCell>
+                              <TableCell>
+                                <div style={{
+                                  display: 'flex',
+                                  width: '150px',
+                                }}>
+                                  <IconButton onClick={() => handleDecrease(item.cartId)} disabled={item.quantity <= 1}>
+                                    <RemoveIcon />
+                                  </IconButton>
+                                  <TextField
+                                    value={item.quantity}
+                                    inputProps={{
+                                      readOnly: true,
+                                      style: { textAlign: 'center' },
+                                      min: 0,
+                                    }}
+                                  />
+                                  <IconButton onClick={() => handleIncrease(item.cartId)}>
+                                    <AddIcon />
+                                  </IconButton>
+                                </div>
+
+                              </TableCell>
+                              <TableCell>
+                                {item.product ?
+                                  (item.totalPrice / item.quantity).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) :
+                                  item.diamond.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                                }
+                              </TableCell>
+                              <TableCell>
+                                {item.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+
+                      </Table>
+                    </TableContainer>
                   </Grid>
-                  <Grid item md={4} sm={4} xs={4} sx={border}>
-                    <h1>
-                      Orders:
-                    </h1>
+                  <Grid item lg={4} md={4} sm={12} xs={12} sx={border}>
+                    <Grid>
+                      <h1>
+                        Total: {totalPriceCalculate.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                      </h1>
+                    </Grid>
+                    <Container>
+                      <Grid container spacing={10}>
+                        <Grid item lg={6} md={6} sm={12} xs={12} >
+                          <div style={{
+                            margin: '20px auto',
+                            width: '250px',
+                          }}>
+                            <Button onClick={() => navigate('/')} variant="contained" size="large" sx={{
+                              ...colorContinueShopping,
+                              width: '100%',
+                            }}>
+                              Continue shopping
+                            </Button>
+                          </div>
+                        </Grid>
+                        <Grid item lg={6} md={6} sm={12} xs={12} >
+                          <div style={{
+                            margin: '20px auto',
+                            width: '250px',
+                          }}>
+                            <Button onClick={confirmOrder} variant="contained" size="large" sx={{
+                              ...colorPayment,
+                              width: '100%',
+                            }}>
+                              Confirm Order
+                            </Button>
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </Container>
                   </Grid>
                 </Grid>
               </Box>
             </Container>
           )
         }
-
       </div >
     ) : (
       <div style={{
@@ -169,7 +406,7 @@ export default function Cart() {
                 Login to view cart
               </h1>
             </div>
-            <Button onClick={() => navigate('/login')} variant="contained" size="large" sx={{
+            <Button onClick={confirmOrder} variant="contained" size="large" sx={{
               backgroundColor: '#003468',
               width: '100%',
               borderRadius: '30px',

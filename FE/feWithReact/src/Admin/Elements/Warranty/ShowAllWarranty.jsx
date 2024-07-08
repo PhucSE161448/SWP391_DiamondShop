@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState, setParams } from 'react'
 import { Stack, Pagination, TextField } from '@mui/material'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination } from '@mui/material'
+import { createApi } from '../../../Auth/AuthFunction'
 export default function ShowAllProduct() {
   const [PageNumber, setPageNumber] = useState(1)
   const [PageSize, setPageSize] = useState(10)
@@ -13,6 +14,7 @@ export default function ShowAllProduct() {
   const [TotalPage, setTotalPage] = useState(null)
   const [data, setData] = useState(null)
   const [triggerRead, setTriggerRead] = useState(false)
+  
   const params = {
     queryDTO: {
       PageNumber: PageNumber,
@@ -32,11 +34,12 @@ export default function ShowAllProduct() {
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
     function Read() {
-      const url = 'https://localhost:7122/api/WarrantyDocument';
+      const url = createApi('WarrantyDocument')
       fetch(url, {
         method: 'GET',
         headers: {
-          'Accept': '*/*'
+          'Accept': '*/*',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       })
         .then(response => response.json())

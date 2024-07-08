@@ -6,17 +6,16 @@ import './Admin.css'
 import NavbarAdmin from './Navbar/NavbarAdmin'
 export default function AdminNav() {
 	let navigate = useNavigate();
-
+	const role = localStorage.getItem('role');
 	if (localStorage.getItem('token')) {
-		const decodedToken = jwtDecode(localStorage.getItem('token'))
+
 		useEffect(() => {
-			if (decodedToken.Role !== '1') {
+			if (role === '5') {
 				navigate('/')
 			}
+		}, [role]);
 
-		}, [decodedToken.Role]);
-
-		if (decodedToken.Role === '1') {
+		if (role >= '1' && role <= '4') {
 			return (
 				<>
 					<div className='pageAdminContainer'>

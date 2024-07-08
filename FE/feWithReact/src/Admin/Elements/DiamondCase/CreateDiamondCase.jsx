@@ -5,7 +5,7 @@ import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import Modal from '@mui/material/Modal'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
-
+import { createApi } from '../../../Auth/AuthFunction'
 export default function CreateDiamondCase(props) {
 	const [data, setData] = useState(null)
 	const [open, setOpen] = useState(false)
@@ -21,7 +21,7 @@ export default function CreateDiamondCase(props) {
 	}
 
 	function Create(values) {
-		const url = 'https://localhost:7122/api/DiamondCase/CreateDiamondCase'
+		const url = createApi('DiamondCase/CreateDiamondCase')
 		const data = {
 			"name": values.name,
 			"color": values.color,
@@ -31,13 +31,15 @@ export default function CreateDiamondCase(props) {
 			method: 'POST',
 			headers: {
 				'Accept': '*/*',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${localStorage.getItem('token')}`
 			},
 			body: JSON.stringify(data)
 		})
 			.then(response => response.json())
 			.then(responseData => {
 				setData(responseData)
+				props.onDiamondCaseCreated()
 			})
 	}
 	const validationSchema = Yup.object({
@@ -54,7 +56,7 @@ export default function CreateDiamondCase(props) {
 
 	const onSubmit = (values) => {
 		Create(values)
-		props.onDiamondCaseCreated()
+
 	}
 
 	return (

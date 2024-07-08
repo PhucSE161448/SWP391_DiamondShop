@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Button, styled } from '@mui/material'
-import CreateCategory from './CreateDiamondCase'
+import CreateDiamondCase from './CreateDiamondCase'
 import { amber } from '@mui/material/colors'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import ButtonDeleteDiamondCase from './ButtonDeleteDiamondCase'
 import UpdateDiamondCase from './UpdateDiamondCase'
+import { createApi } from '../../../Auth/AuthFunction'
 
 export default function CRUDCategory() {
 	const [data, setData] = useState(null)
@@ -24,11 +25,12 @@ export default function CRUDCategory() {
 	useEffect(() => {
 		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
 		function Read() {
-			const url = 'https://localhost:7122/api/DiamondCase/GetAllDiamondCases';
+			const url = createApi('DiamondCase/GetAllDiamondCases')
 			fetch(url, {
 				method: 'GET',
 				headers: {
-					'Accept': '*/*'
+					'Accept': '*/*',
+					'Authorization': `Bearer ${localStorage.getItem('token')}`
 				},
 			})
 				.then(response => response.json())
@@ -50,8 +52,10 @@ export default function CRUDCategory() {
 							<TableRow>
 								<TableCell>#</TableCell>
 								<TableCell>Name</TableCell>
+								<TableCell>Color</TableCell>
+								<TableCell>Material</TableCell>
 								<TableCell></TableCell>
-								<TableCell><CreateCategory onDiamondCaseCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
+								<TableCell><CreateDiamondCase onDiamondCaseCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -71,10 +75,22 @@ export default function CRUDCategory() {
 												maxWidth: '11vw',
 												minWidth: '11vw'
 											}}>
+												{data.color}
+											</TableCell>
+											<TableCell style={{
+												maxWidth: '11vw',
+												minWidth: '11vw'
+											}}>
+												{data.material}
+											</TableCell>
+											<TableCell style={{
+												maxWidth: '11vw',
+												minWidth: '11vw'
+											}}>
 												<ButtonDeleteDiamondCase id={data.id} isDeleted={data.isDeleted} />
 											</TableCell>
 											<TableCell>
-												<UpdateDiamondCase id={data.id} onDiamondCaseUpdated={() => setTriggerRead(prev => !prev)}></UpdateDiamondCase>
+												<UpdateDiamondCase id={data.id} data={data} onDiamondCaseUpdated={() => setTriggerRead(prev => !prev)}></UpdateDiamondCase>
 											</TableCell>
 										</TableRow>
 									))

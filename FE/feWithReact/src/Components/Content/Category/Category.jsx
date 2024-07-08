@@ -1,38 +1,77 @@
-import React from 'react'
-import { swiffyslider } from 'swiffy-slider';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Card, CardContent, } from '@mui/material'
+import { swiffyslider } from 'swiffy-slider'
 import "swiffy-slider/css"
-import './Category.css'
-import { CategoryData } from './listOfCategory'
-
+import { createApi } from '../../../Auth/AuthFunction'
 export default function Category() {
+	const [CategoryData, setCategoryData] = useState([]);
+	const navigate = useNavigate();
 	window.swiffyslider = swiffyslider;
 
 	window.addEventListener("load", () => {
 		window.swiffyslider.init();
 	});
 
-	return (
+	useEffect(() => {
+		function Read() {
+			const url = createApi('Category/GetAllCategories')
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					'Accept': '*/*'
+				},
+			})
+				.then(response => response.json())
+				.then(responseData => {
+					setCategoryData(responseData)
+				})
+				.catch((error) => console.error('Error:', error))
+		}
+		Read()
+	}, [])
 
-		<div className='container-fluid categoryContainer'>
+	const handleNavigateCategory = (id) => {
+		navigate(`/category/${id}`)
+	}
+
+	return (
+		<div className='container-fluid' style={{
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			flexDirection: 'column',
+			fontSize: '2rem',
+			color: 'black',
+			marginTop: '50px',
+			marginBottom: '100px'
+		}}>
 			<div>
-				<h1 className='categoryTitle'>CATEGORY</h1>
+				<h1 className>CATEGORY</h1>
 			</div>
-			<div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm' id='centered'>
-				<ul className='slider-container productContainer ' id='productContainerId'>
+			<div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm'>
+				<ul className='slider-container'>
 					{CategoryData.map((CategoryData) => (
 						<li key={CategoryData.id}>
-							<a href='' className='linkCategoryContainer'>
-								<div className='card border-0'>
-									<div className='ratio ratio-1x1'>
-										<img src={CategoryData.img} alt='' className='imgListProduct' />
-									</div>
-									<div className='card-body p-0 pt-2'>
-										<div className='d-flex' id='textContainer'>
-											<h3 className='flex-grow-1'>{CategoryData.name}</h3>
-										</div>
-									</div>
-								</div>
-							</a>
+							<div onClick={() => handleNavigateCategory(CategoryData.id)} style={{
+								cursor: 'pointer',
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}>
+								<Card sx={{
+									border: '1px solid #000000',
+									borderRadius: '50px',
+									margin: '10px',
+									width: '350px',
+									height: '100px',
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}>
+									<h5>{CategoryData.name}</h5>
+								</Card>
+							</div>
 						</li>
 					))}
 				</ul>

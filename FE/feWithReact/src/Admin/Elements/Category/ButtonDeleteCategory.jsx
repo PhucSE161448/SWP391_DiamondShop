@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
+import { createApi } from '../../../Auth/AuthFunction'
 export default function ButtonDeleteCategory(props) {
   const [isDeleted, setIsDeleted] = useState(props.isDeleted)
   const handleChange = (event) => {
@@ -9,12 +10,13 @@ export default function ButtonDeleteCategory(props) {
   }
 
   function DeleteCategory(id, status) {
-    const url = 'https://localhost:7122/api/Category/DeleteOrEnable/' + id + '/' + status
+    const url = createApi(`Category/DeleteOrEnable/${id}/${status}`)
     fetch(url, {
       method: 'PUT',
       headers: {
         'Accept': '*/*',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
     })
   }

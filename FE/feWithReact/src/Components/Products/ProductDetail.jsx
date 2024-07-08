@@ -2,29 +2,34 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Container, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
-
-import { TextField } from '@mui/material'
-
+import { Container, Table, TableBody, TableCell, TableContainer, TableRow, Alert } from '@mui/material'
+import { Box, Modal, } from '@mui/material'
 import { styled, } from '@mui/material'
 import Button from '@mui/material/Button'
+import CheckIcon from '@mui/icons-material/Check'
 import './ProductDetail.css';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import { FormControl } from '@mui/material'
+import { createApi } from '../../Auth/AuthFunction'
 export default function ProductDetail() {
   // const navigate = useNavigate()
   const { id } = useParams()
+  const [openSize, setOpenSize] = useState(false)
   const [productDetail, setProductDetail] = useState(null)
   const [currentTopImageIndex, setCurrentTopImageIndex] = useState(0)
   const [selectedSize, setSelectedSize] = useState(1);
   const [selectedQuantity, setSelectedQuantity] = useState(1)
+  const [responseStatus, setResponseStatus] = useState(1)
   const [totalPrice, setTotalPrice] = useState(0)
   const token = localStorage.getItem('token')
 
+  const handleOpen = () => setOpenSize(true)
+  const handleClose = () => setOpenSize(false)
 
   useEffect(() => {
+    const url = createApi(`Product/GetProductDetailById/${id}`)
     async function getDetailData() {
       try {
-        const response = await fetch(`https://localhost:7122/api/Product/GetProductDetailById/${id}`)
+        const response = await fetch(url)
         const data = await response.json()
         setProductDetail(data)
         setSelectedSize(data?.productSizes?.[0]?.size)
@@ -40,9 +45,6 @@ export default function ProductDetail() {
     setSelectedSize(size)
   }
 
-  const handleSelectQuantity = (quantity) => {
-    setSelectedQuantity(quantity)
-  }
 
   const data = {
     id: id,
@@ -54,10 +56,11 @@ export default function ProductDetail() {
     const body = {
       id: data.id,
       quantity: data.quantity,
-      totalPrice: data.totalPrice
+      totalPrice: data.totalPrice,
+      size: selectedSize,
     }
-    console.log(body)
-    const response = await fetch('https://localhost:7122/api/Cart/Create?check=true', {
+    const url = createApi('Cart/Create?check=true')
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -65,7 +68,7 @@ export default function ProductDetail() {
       },
       body: JSON.stringify(body),
     });
-    console.log(response)
+    setResponseStatus(response.status)
   }
 
   const AddToCartButton = styled(Button)(({ theme }) => ({
@@ -106,16 +109,6 @@ export default function ProductDetail() {
     setImageMain(image.urlPath)
   }
 
-  const ITEM_HEIGHT = 120;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      },
-    },
-  }
-  // console.log(productDetail)
   return (
     <div style={{
       background: 'url(https://img.freepik.com/free-vector/blue-white-crystal-textured-background_53876-85226.jpg?w=1380&t=st=1719599020~exp=1719599620~hmac=e182c45295cca98949de853e8f72341b687ed809b89663e38e1d78cbaec7314c)',
@@ -269,7 +262,36 @@ export default function ProductDetail() {
                     </div> <br />
                   </div>
                 </div>
-                <h3 style={{ color: '#183471' }}>{totalPrice.toLocaleString()} $</h3>
+                <div>
+                  <div>
+                    <a onClick={handleOpen} style={{
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      fontSize: '20px',
+                    }}>How to Measure Ring Size</a>
+                  </div>
+                  <Modal
+                    open={openSize}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      bgcolor: 'background.paper',
+                      p: 4,
+                      overflow: 'auto',
+                    }}>
+                      <img src="https://www.alexmakina.com/Data/EditorFiles/alex/Blog%20G%C3%B6rsel/Ring%20Size%20Measurement%20Using%20Thread%20or%20Floss.jpg" alt="" />
+                    </Box>
+                  </Modal>
+                </div>
+                <div>
+                  <h3 style={{ color: '#183471' }}>{totalPrice.toLocaleString()} $</h3>
+                </div>
                 {token ? (
                   <AddToCartButton
                     type='submit'
@@ -283,6 +305,11 @@ export default function ProductDetail() {
                   <h4 style={{ color: '#ad2a36' }}>
                     Please login to add to cart
                   </h4>
+                )}
+                {responseStatus.toString().startsWith('2') && (
+                  <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+                    Add to cart successful
+                  </Alert>
                 )}
               </FormControl>
             </div>
@@ -300,7 +327,7 @@ export default function ProductDetail() {
             <h2>Descriptions</h2>
             <p style={{
               textAlign: 'justify',
-              fontSize: '1vw',
+              fontSize: '20px',
             }}>
               Authentic with a special design combining two types of white gold and yellow gold, creating a strong, masculine and luxurious style.
               Exquisitely crafted to every detail and flexible according to needs: freely change the color/gold age and freely change the size of the main stone,

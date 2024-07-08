@@ -2,43 +2,40 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Container, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
-
+import { Container, TableCell, Alert } from '@mui/material'
+import CheckIcon from '@mui/icons-material/Check';
 import { TextField } from '@mui/material'
 
 import { styled, } from '@mui/material'
 import Button from '@mui/material/Button'
 
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import { FormControl, } from '@mui/material'
+import { createApi } from '../../Auth/AuthFunction'
 export default function DiamondDetail() {
   // const navigate = useNavigate()
   const { id } = useParams()
   const [DiamondDetail, setDiamondDetail] = useState(null)
   const [currentTopImageIndex, setCurrentTopImageIndex] = useState(0)
-  const [selectedSize, setSelectedSize] = useState(1);
   const [selectedQuantity, setSelectedQuantity] = useState(1)
-  const [totalPrice, setTotalPrice] = useState(0)
+  const [price, setPrice] = useState(0)
+  const [responseStatus, setResponseStatus] = useState('')
   const token = localStorage.getItem('token')
 
 
   useEffect(() => {
+    const url = createApi(`Diamond/GetDiamondDetailById/${id}`)
     async function getDetailData() {
       try {
-        const response = await fetch(`https://localhost:7122/api/Diamond/GetDiamondDetailById/${id}`)
+        const response = await fetch(url)
         const data = await response.json()
         setDiamondDetail(data)
-        setSelectedSize(data?.DiamondSizes?.[0]?.size)
-        setTotalPrice(data?.DiamondSizes?.[0]?.price * selectedQuantity)
+        setPrice(data.price * selectedQuantity)
       } catch (error) {
         console.error(error)
       }
     }
     getDetailData()
   }, [id])
-
-  const handleSelectSize = (size) => {
-    setSelectedSize(size)
-  }
 
   const handleSelectQuantity = (quantity) => {
     setSelectedQuantity(quantity)
@@ -47,25 +44,25 @@ export default function DiamondDetail() {
   const data = {
     id: id,
     quantity: selectedQuantity,
-    totalPrice: totalPrice,
+    price: price,
   }
 
   const submitForm = async (data) => {
     const body = {
       id: data.id,
       quantity: data.quantity,
-      totalPrice: data.totalPrice
+      totalPrice: data.price
     }
-    // console.log(body)
-    // const response = await fetch('https://localhost:7122/api/Cart/Create?check=false', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    //   },
-    //   body: JSON.stringify(body),
-    // });
-    // console.log(response)
+    const url = createApi('Cart/Create?check=false')
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(body),
+    })
+    setResponseStatus(response.status)
   }
 
   const AddToCartButton = styled(Button)(({ theme }) => ({
@@ -209,52 +206,26 @@ export default function DiamondDetail() {
               textAlign: 'center',
             }}>
               <h1>{DiamondDetail?.name}</h1>
-              <TableContainer sx={{
-                borderTop: '1px dashed black',
-                borderBottom: '1px dashed black',
-                width: 'auto',
-              }}>
-                <Table>
-                  {console.log(DiamondDetail)}
-                  {/* <TableBody>
-                    {DiamondDetail?.DiamondParts.map((diamond, index) => (
-                      <TableRow key={index} >
-                        {diamond.isMain ? (
-                          <TableCell>
-                            <h4>Main Diamond: {diamond.diamond.name}</h4>
-                          </TableCell>
-                        ) : (
-                          <TableCell>
-                            <h4>Extra Diamond {diamond.diamond.name}</h4>
-                          </TableCell>
-                        )}
-                      </TableRow>
-                    ))}
-                  </TableBody> */}
-                </Table>
-              </TableContainer><br />
+              <TableCell>
+                <h5>Origin: {DiamondDetail?.origin}</h5>
+              </TableCell>
+              <TableCell>
+                <h5>Carat weight: {DiamondDetail?.caratWeight}</h5>
+              </TableCell>
+              <TableCell>
+                <h5>Clarity: {DiamondDetail?.clarity}</h5>
+              </TableCell>
+              <TableCell>
+                <h5>Color: {DiamondDetail?.color}</h5>
+              </TableCell>
+              <TableCell>
+                <h5>Cut: {DiamondDetail?.cut}</h5>
+              </TableCell>
+              <br />
 
               <FormControl sx={{
                 width: '300px',
               }}>
-                <InputLabel id="size">Size</InputLabel>
-                <Select
-                  label="Size"
-                  onChange={e => {
-                    const newSize = e.target.value;
-                    handleSelectSize(newSize);
-                    const newPrice = DiamondDetail?.DiamondSizes?.find(size => size.size === newSize)?.price * selectedQuantity;
-                    setTotalPrice(newPrice)
-                  }}
-                  value={selectedSize}
-                  MenuProps={MenuProps}
-                >
-                  {DiamondDetail?.DiamondSizes?.map((size, index) => (
-                    <MenuItem key={index} value={size.size}>
-                      {size.size}
-                    </MenuItem>
-                  ))}
-                </Select> <br />
                 <TextField
                   label="Quantity"
                   type="number" // Ensure input is treated as a number
@@ -262,13 +233,13 @@ export default function DiamondDetail() {
                     const newQuantity = parseInt(e.target.value, 10); // Parse the quantity as an integer
                     handleSelectQuantity(newQuantity);
                     // Ensure we use the correct size to find the price
-                    const newPrice = DiamondDetail?.DiamondSizes?.find(size => size.size === selectedSize)?.price * newQuantity;
-                    setTotalPrice(newPrice)
+                    const newPrice = DiamondDetail.price * newQuantity;
+                    setPrice(newPrice)
                   }}
                   value={selectedQuantity}
                   inputProps={{ min: 1 }}
                 />
-                <h3 style={{ color: '#183471' }}>{totalPrice.toLocaleString()} $</h3>
+                <h3 style={{ color: '#183471' }}>{price.toLocaleString()} $</h3>
                 {token ? (
                   <AddToCartButton
                     type='submit'
@@ -284,6 +255,11 @@ export default function DiamondDetail() {
                   </h4>
                 )}
               </FormControl>
+              {responseStatus.toString().startsWith('2') && (
+                <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+                  Add to cart successful
+                </Alert>
+              )}
             </div>
             <br />
           </div>

@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import SendIcon from '@mui/icons-material/Send'
 import CancelIcon from '@mui/icons-material/Cancel'
 import UpdateAccount from './UpdateAccount'
+import { createApi } from '../../../Auth/AuthFunction';
 
 export default function ReadAccount() {
 	const [page, setPage] = useState(0)
@@ -52,11 +53,12 @@ export default function ReadAccount() {
 	useEffect(() => {
 		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
 		function Read() {
-			const url = 'https://localhost:7122/api/Account/GetAccountList';
+			const url = createApi('Account/GetAccountList')
 			fetch(url, {
 				method: 'GET',
 				headers: {
-					'Accept': '*/*'
+					'Accept': '*/*',
+					'Authorization': `Bearer ${localStorage.getItem('token')}`
 				},
 			})
 				.then(response => response.json())
@@ -87,7 +89,8 @@ export default function ReadAccount() {
 			fetch(url, {
 				method: 'DELETE',
 				headers: {
-					'Accept': '*/*'
+					'Accept': '*/*',
+					'Authorization': `Bearer ${localStorage.getItem('token')}`
 				},
 			})
 				.then(responseData => {
