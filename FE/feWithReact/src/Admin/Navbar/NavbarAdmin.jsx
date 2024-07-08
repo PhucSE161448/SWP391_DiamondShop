@@ -58,6 +58,10 @@ export default function NavbarAdmin() {
 		navigate('/admin/order')
 	}
 
+	function goToPayment() {
+		navigate('/admin/payment')
+	}
+
 	const buttonStyle = {
 		color: '#fff',
 		width: '-webkit-fill-available',
@@ -114,6 +118,9 @@ export default function NavbarAdmin() {
 						</Menu.Item>
 						<Menu.Item style={paddingStyle}>
 							<Button onClick={goToType} sx={buttonStyle}>Type</Button>
+						</Menu.Item>
+						<Menu.Item style={paddingStyle}>
+							<Button onClick={goToPayment} sx={buttonStyle}>Payment</Button>
 						</Menu.Item>
 					</>
 				)}

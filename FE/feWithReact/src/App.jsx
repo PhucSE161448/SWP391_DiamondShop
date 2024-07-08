@@ -25,6 +25,8 @@ import Profile from './Pages/Profile'
 import Order from './Pages/Order'
 import ShowAllType from './Admin/Elements/Type/ShowAllType'
 import OrderAdmin from './Admin/Elements/Orders/OrderAdmin'
+import OrderHistory from './Pages/OrderHistory'
+import ShowAllPayment from './Admin/Elements/Payment/ShowAllPayment'
 export default function App() {
   return (
     <>
@@ -43,6 +45,7 @@ export default function App() {
             <Route path='/cart' element={<Cart></Cart>}></Route>
             <Route path='/profile' element={<Profile></Profile>}></Route>
             <Route path='/order' element={<Order></Order>}></Route>
+            <Route path='/orderHistory' element={<OrderHistory></OrderHistory>}></Route>
           </Route>
 
           <Route path='/login' element={<Login />}></Route>
@@ -57,6 +60,7 @@ export default function App() {
             <Route path='collections' element={<Collections></Collections>}></Route>
             <Route path='type' element={<ShowAllType></ShowAllType>}></Route>
             <Route path='order' element={<OrderAdmin></OrderAdmin>}></Route>
+            <Route path='payment' element={<ShowAllPayment></ShowAllPayment>}></Route>
           </Route>
 
         </Routes >
