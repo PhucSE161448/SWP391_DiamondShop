@@ -14,10 +14,6 @@ export default function CRUDCategory() {
 	const [data, setData] = useState(null)
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(9)
-	const [nameCategory, setNameCategory] = useState(null)
-	const [typeCategory, setTypeCategory] = useState(null)
-	const [selectedForUpdate, setSelectedForUpdate] = useState(null)
-	const [showUpdate, setShowUpdate] = useState(true)
 	const [triggerRead, setTriggerRead] = useState(false);
 
 	const handleChangePage = (event, newPage) => {
@@ -28,7 +24,6 @@ export default function CRUDCategory() {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
 	}
-
 
 	useEffect(() => {
 		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
@@ -49,18 +44,6 @@ export default function CRUDCategory() {
 		}
 		Read()
 	}, [triggerRead])
-
-
-	const handleUpdate = (id) => {
-		setSelectedForUpdate(id)
-		setShowUpdate(false)
-	}
-
-	function handleSubmitUpdate(id, name, type) {
-		UpdateCategory(id, name)
-		setSelectedForUpdate(null)
-		setNameCategory(null)
-	}
 
 	return (
 		<>

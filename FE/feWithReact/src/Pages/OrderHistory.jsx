@@ -154,6 +154,24 @@ export default function OrderHistory() {
     }}>
       <div style={{
         display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        paddingRight: '120px',
+        paddingTop: '20px',
+      }}>
+        <Button onClick={() => navigate('/orderHistory')} variant='contained' style={{
+          backgroundColor: '#000',
+          color: '#fff',
+          '&:hover': {
+            backgroundColor: '#fff',
+            color: '#000',
+          }
+        }}>
+          Order History
+        </Button>
+      </div>
+      <div style={{
+        display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',

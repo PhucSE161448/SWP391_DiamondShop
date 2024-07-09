@@ -7,8 +7,6 @@ export function createApi(endpointPath) {
 	return BaseUrl + endpointPath
 }
 
-
-
 export function LogoutAndRedirect() {
 	let navigate = useNavigate();
 	useEffect(() => {

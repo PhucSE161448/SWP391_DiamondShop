@@ -50,7 +50,7 @@ export default function UpdateCategory(props) {
       body: JSON.stringify(Data)
     })
       .then(response => response.json())
-    props.onUpdateCategory()
+      .then(data => props.onUpdateCategory())
   }
 
 

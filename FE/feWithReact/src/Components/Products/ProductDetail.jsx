@@ -306,9 +306,13 @@ export default function ProductDetail() {
                     Please login to add to cart
                   </h4>
                 )}
-                {responseStatus.toString().startsWith('2') && (
+                {responseStatus.toString().startsWith('2') ? (
                   <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
                     Add to cart successful
+                  </Alert>
+                ) : (
+                  <Alert severity="error">
+                    Add to cart failed
                   </Alert>
                 )}
               </FormControl>
