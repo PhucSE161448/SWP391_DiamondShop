@@ -13,6 +13,7 @@ namespace Domain.Model
         }
 
         public int Id { get; set; }
+        public int CertificateId { get; set; }
         public string Origin { get; set; } = null!;
         public string Color { get; set; } = null!;
         public decimal CaratWeight { get; set; }
@@ -22,6 +23,7 @@ namespace Domain.Model
         public decimal Price { get; set; }
         public int Quantity { get; set; }
 
+        public virtual Certificate Certificate { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<ProductPart> ProductParts { get; set; }
