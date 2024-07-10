@@ -17,34 +17,34 @@ namespace Infrastructures
         {
         }
 
-        public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<Cart> Carts { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Certificate> Certificates { get; set; }
-        public virtual DbSet<Collection> Collections { get; set; }
-        public virtual DbSet<Diamond> Diamonds { get; set; }
-        public virtual DbSet<DiamondCase> DiamondCases { get; set; }
-        public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderCart> OrderCarts { get; set; }
-        public virtual DbSet<OrderStatus> OrderStatuses { get; set; }
-        public virtual DbSet<Payment> Payments { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<ProductPart> ProductParts { get; set; }
-        public virtual DbSet<ProductSize> ProductSizes { get; set; }
-        public virtual DbSet<Promotion> Promotions { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Voucher> Vouchers { get; set; }
-        public virtual DbSet<WarrantyDocument> WarrantyDocuments { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; } = null!;
+        public virtual DbSet<Cart> Carts { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<Certificate> Certificates { get; set; } = null!;
+        public virtual DbSet<Collection> Collections { get; set; } = null!;
+        public virtual DbSet<Diamond> Diamonds { get; set; } = null!;
+        public virtual DbSet<DiamondCase> DiamondCases { get; set; } = null!;
+        public virtual DbSet<Group> Groups { get; set; } = null!;
+        public virtual DbSet<Image> Images { get; set; } = null!;
+        public virtual DbSet<Order> Orders { get; set; } = null!;
+        public virtual DbSet<OrderCart> OrderCarts { get; set; } = null!;
+        public virtual DbSet<OrderStatus> OrderStatuses { get; set; } = null!;
+        public virtual DbSet<Payment> Payments { get; set; } = null!;
+        public virtual DbSet<Product> Products { get; set; } = null!;
+        public virtual DbSet<ProductPart> ProductParts { get; set; } = null!;
+        public virtual DbSet<ProductSize> ProductSizes { get; set; } = null!;
+        public virtual DbSet<Promotion> Promotions { get; set; } = null!;
+        public virtual DbSet<Role> Roles { get; set; } = null!;
+        public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
+        public virtual DbSet<WarrantyDocument> WarrantyDocuments { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            /*if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=12345;database=SWP391_DiamondShop");
-            }
+                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=12345;database=SWP391_DiamondShop;TrustServerCertificate=True");
+            }*/
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -65,9 +65,7 @@ namespace Infrastructures
 
                 entity.Property(e => e.DeletedDate).HasColumnType("date");
 
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Email).HasMaxLength(255);
 
                 entity.Property(e => e.IsDeleted)
                     .IsRequired()
@@ -77,9 +75,7 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Name).HasMaxLength(255);
 
                 entity.Property(e => e.Password).HasMaxLength(255);
 
@@ -151,9 +147,7 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Name).HasMaxLength(255);
 
                 entity.HasOne(d => d.Group)
                     .WithMany(p => p.Categories)
@@ -168,21 +162,15 @@ namespace Infrastructures
 
                 entity.Property(e => e.CaratWeight).HasColumnType("decimal(8, 2)");
 
-                entity.Property(e => e.Clarity)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Clarity).HasMaxLength(255);
 
-                entity.Property(e => e.Color)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Color).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.Cut)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Cut).HasMaxLength(255);
 
                 entity.Property(e => e.DateOfIssue)
                     .HasColumnType("date")
@@ -200,9 +188,9 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Origin)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Origin).HasMaxLength(255);
+
+                entity.Property(e => e.ReportNumber).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Collection>(entity =>
@@ -225,37 +213,29 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Name).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Diamond>(entity =>
             {
                 entity.ToTable("Diamond");
 
-                entity.HasIndex(e => e.CertificateId, "UQ__Diamond__3AE4120B82F39B96")
+                entity.HasIndex(e => e.CertificateId, "UQ__Diamond__3AE4120B8983177E")
                     .IsUnique();
 
                 entity.Property(e => e.CaratWeight).HasColumnType("decimal(8, 2)");
 
                 entity.Property(e => e.CertificateId).HasColumnName("Certificate_Id");
 
-                entity.Property(e => e.Clarity)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Clarity).HasMaxLength(255);
 
-                entity.Property(e => e.Color)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Color).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.Cut)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Cut).HasMaxLength(255);
 
                 entity.Property(e => e.DeletedBy).HasMaxLength(255);
 
@@ -269,13 +249,9 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Name).HasMaxLength(255);
 
-                entity.Property(e => e.Origin)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Origin).HasMaxLength(255);
 
                 entity.Property(e => e.Price).HasColumnType("decimal(12, 2)");
 
@@ -290,9 +266,7 @@ namespace Infrastructures
             {
                 entity.ToTable("DiamondCase");
 
-                entity.Property(e => e.Color)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Color).HasMaxLength(50);
 
                 entity.Property(e => e.CreatedBy).HasMaxLength(255);
 
@@ -306,17 +280,13 @@ namespace Infrastructures
                     .IsRequired()
                     .HasDefaultValueSql("('0')");
 
-                entity.Property(e => e.Material)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Material).HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedBy).HasMaxLength(255);
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.Property(e => e.Price).HasColumnType("decimal(12, 2)");
             });
@@ -341,9 +311,7 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Name).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -400,7 +368,7 @@ namespace Infrastructures
             modelBuilder.Entity<OrderCart>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.CartId })
-                    .HasName("PK__OrderCar__A68B96B46AEC302E");
+                    .HasName("PK__OrderCar__A68B96B406A3E292");
 
                 entity.ToTable("OrderCart");
 
@@ -434,9 +402,7 @@ namespace Infrastructures
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.Status)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Status).HasMaxLength(255);
 
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.OrderStatuses)
@@ -471,13 +437,9 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Name).HasMaxLength(255);
 
-                entity.Property(e => e.PaymentType)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.PaymentType).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -504,9 +466,7 @@ namespace Infrastructures
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Name).HasMaxLength(255);
 
                 entity.Property(e => e.Wage).HasColumnType("decimal(8, 2)");
 
@@ -601,9 +561,7 @@ namespace Infrastructures
             {
                 entity.ToTable("Role");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Name).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Voucher>(entity =>
@@ -640,8 +598,6 @@ namespace Infrastructures
                 entity.Property(e => e.ModifiedDate).HasColumnType("date");
 
                 entity.Property(e => e.Period).HasColumnType("date");
-
-                entity.Property(e => e.TermsAndConditions).IsRequired();
             });
 
             OnModelCreatingPartial(modelBuilder);
