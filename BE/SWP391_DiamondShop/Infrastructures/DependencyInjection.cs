@@ -13,6 +13,7 @@ using Application.Interfaces.Payments;
 using Application.Interfaces.ProductParts;
 using Application.Interfaces.Products;
 using Application.Interfaces.ProductSizes;
+using Application.Interfaces.Vouchers;
 using Application.Interfaces.WarrantyDocument;
 using Application.IRepositories.Accounts;
 using Application.IRepositories.Carts;
@@ -28,6 +29,7 @@ using Application.IRepositories.ProductParts;
 using Application.IRepositories.Products;
 using Application.IRepositories.ProductSizes;
 using Application.IRepositories.Roles;
+using Application.IRepositories.Vouchers;
 using Application.IRepositories.WarrantyDocuments;
 using Application.Services;
 using Application.Services.Accounts;
@@ -44,6 +46,7 @@ using Application.Services.Payments;
 using Application.Services.ProductParts;
 using Application.Services.Products;
 using Application.Services.ProductSizes;
+using Application.Services.Vouchers;
 using Application.Services.WarrantyDocuments;
 using Google.Cloud.Storage.V1;
 using Infrastructures.Mappers;
@@ -61,6 +64,7 @@ using Infrastructures.Repositories.ProductParts;
 using Infrastructures.Repositories.Products;
 using Infrastructures.Repositories.ProductSizes;
 using Infrastructures.Repositories.Roles;
+using Infrastructures.Repositories.Vouchers;
 using Infrastructures.Repositories.WarrantyDocuments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,8 +78,10 @@ namespace Infrastructures
         {
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
 
+            services.AddScoped<IVoucherService, VoucherService>();
+            services.AddScoped<IVoucherRepository, VoucherRepository>();
+            
             services.AddScoped<IWarrantyDocumentRepo, WarrantyDocumentRepo>();
             services.AddScoped<IWarrantyDocumentService, WarrantyDocumentService>();
 
