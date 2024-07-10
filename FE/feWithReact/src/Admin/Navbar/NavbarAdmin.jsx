@@ -86,9 +86,6 @@ export default function NavbarAdmin() {
 				width: '10%',
 			}}>
 				<Menu.Item style={paddingStyle}>
-					<Button onClick={goToHome} sx={buttonStyle}>Home</Button>
-				</Menu.Item>
-				<Menu.Item style={paddingStyle}>
 					<Button onClick={goToAdmin} sx={buttonStyle}>Admin</Button>
 				</Menu.Item >
 				{role === '1' || role === '2' ? (

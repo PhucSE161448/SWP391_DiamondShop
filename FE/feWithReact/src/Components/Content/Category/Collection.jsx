@@ -62,7 +62,7 @@ export default function Collection() {
                       borderRadius: '20px',
                     }}>
                       <CardMedia>
-                        <img src={data.images[0].urlPath} style={{
+                        <img src={data.images[0]?.urlPath} style={{
                           width: '100%',
                           height: '100%',
                           borderRadius: '20px 20px 0 0',
