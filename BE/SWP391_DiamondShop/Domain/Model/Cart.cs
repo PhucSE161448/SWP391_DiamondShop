@@ -16,14 +16,14 @@ namespace Domain.Model
         public int? Quantity { get; set; }
         public decimal? Size { get; set; }
         public decimal? TotalPrice { get; set; }
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public string DeletedBy { get; set; }
+        public string? DeletedBy { get; set; }
         public bool? IsDeleted { get; set; }
 
-        public virtual Diamond Diamond { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual Diamond? Diamond { get; set; }
+        public virtual Product? Product { get; set; }
         public virtual ICollection<OrderCart> OrderCarts { get; set; }
     }
 }
