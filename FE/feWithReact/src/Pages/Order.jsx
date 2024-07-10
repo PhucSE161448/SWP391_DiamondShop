@@ -1,20 +1,32 @@
 import React, { useEffect, useState } from 'react'
+import { Fragment } from 'react'
 import { createApi } from '../Auth/AuthFunction'
 import { Button, Modal, Box, TableRow, TableCell, TableBody, TableHead, Table, TableContainer, Paper } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined'
 export default function Order() {
   const [order, setOrder] = useState([])
-  const navigate = useNavigate()
-  const [open, setOpen] = useState(false)
+
+  const [openPayment, setOpenPayment] = useState(false)
+  const [openDetail, setOpenDetail] = useState(false)
   const [orderDetail, setOrderDetail] = useState([])
   const handleOpen = (id) => {
-    setOpen(true)
+    setOpenPayment(true)
     getOrderDetail(id)
   }
   const handleClose = () => {
-    setOpen(false)
+    setOpenPayment(false)
   }
+
+  const handleOpenDetail = (id) => {
+    setOpenDetail(true)
+    getOrderDetail(id)
+  }
+
+  const handleCloseDetail = (id) => {
+    setOpenDetail(false)
+  }
+
   const styleOrderContainer = {
     display: 'flex',
     flexDirection: 'column',
@@ -30,7 +42,7 @@ export default function Order() {
   }
 
   const styleButton = {
-    backgroundColor: '#ad2a36',
+    backgroundColor: '#000',
     color: '#fff',
     '&:hover': {
       backgroundColor: '#fff',
@@ -69,100 +81,8 @@ export default function Order() {
       })
   }
 
-  const headerTable = ['Image', 'Product Name', 'Quantity', 'Price']
+  const headerTable = ['#', 'Order date', 'Total price', 'Status', '']
 
-  const OrderDetailComponent = (props) => {
-    const [orderDetail, setOrderDetail] = useState([])
-    const totalPrice = props.totalPrice
-    const status = props.status
-
-    const getOrderDetail = (id) => {
-      const url = createApi(`Order/GetProductDetailById/${id}`);
-      fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      }).then(response => response.json())
-        .then(data => {
-          setOrderDetail(prevDetails => {
-            const newData = Array.isArray(data) ? data : [data]
-            if (JSON.stringify(prevDetails) !== JSON.stringify(newData)) {
-              return newData
-            }
-            return prevDetails
-          })
-        })
-    }
-
-    useEffect(() => {
-      if (props.item.id) {
-        getOrderDetail(props.item.id)
-      }
-    }, [props.item.id])
-
-    return (
-      <TableContainer component={Paper} sx={{
-        width: '100%',
-        margin: '10px',
-        padding: '10px',
-        borderRadius: '10px',
-
-      }}>
-        <Table >
-          <TableHead>
-            <TableRow sx={{
-              backgroundColor: '#001529',
-            }}>
-              {headerTable.map((item, index) => (
-                <TableCell key={index} sx={{
-                  color: '#fff',
-                  fontWeight: 'bold',
-                  fontSize: '20px',
-                }}>
-                  {item}
-                </TableCell>
-
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {orderDetail.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  <img src={item.cart.product ? (item.cart.product.images[0].urlPath) : null} style={{
-                    width: '150px',
-                    height: '150px',
-                  }} />
-                </TableCell>
-                <TableCell>{item.cart.product ? (item.cart.product.name) : null}</TableCell>
-                <TableCell>{item.cart.quantity}</TableCell>
-                <TableCell>${item.cart.totalPrice.toLocaleString()}</TableCell>
-              </TableRow>
-            ))}
-
-          </TableBody>
-        </Table>
-        <div>
-          <h2>Total: ${totalPrice.toLocaleString()}</h2>
-        </div>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%'
-        }}>
-          {status === 'Approved' &&
-            <Button variant='contained' size='large' endIcon={<PaymentOutlinedIcon></PaymentOutlinedIcon>} sx={styleButton} onClick={() => handleOpen(props.item.id)}>
-              Pay now
-            </Button>
-          }
-        </div>
-      </TableContainer>
-    )
-  }
 
   return (
     <div style={{
@@ -170,24 +90,7 @@ export default function Order() {
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
     }}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        paddingRight: '120px',
-        paddingTop: '20px',
-      }}>
-        <Button onClick={() => navigate('/orderHistory')} variant='contained' style={{
-          backgroundColor: '#000',
-          color: '#fff',
-          '&:hover': {
-            backgroundColor: '#fff',
-            color: '#000',
-          }
-        }}>
-          Order History
-        </Button>
-      </div>
+
       <div style={{
         paddingBottom: '20px',
         display: 'flex',
@@ -195,7 +98,6 @@ export default function Order() {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -206,17 +108,71 @@ export default function Order() {
           <h1>Order</h1>
         </div>
         <div style={styleOrderContainer}>
-          {order.filter(item => item.status === 'Approved').map((item) => (
-            <div key={item.id} style={{
-              width: '100%'
-            }}>
-              <OrderDetailComponent item={item} status={item.status} totalPrice={item.totalPrice}></OrderDetailComponent>
-            </div>
-          ))}
+          <TableContainer component={Paper} fullWidth>
+            <Table >
+              <TableHead sx={{
+                width: '100%'
+              }}>
+                <TableRow>
+                  {headerTable.map((item, index) => (
+                    <TableCell key={index} sx={{
+                      color: '#000',
+                      fontWeight: 'bold',
+                      fontSize: '20px',
+                    }}>
+                      {item}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody sx={{
+                width: '100%'
+              }}>
+                {order.sort((a, b) => a.status.localeCompare(b.status)).map((item, index) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(item.createdDate).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      {item.totalPrice}
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="contained"
+                        color={item.status === 'Approved' ? 'success' : item.status === 'Wait To Approve' ? 'error' : 'primary'}>
+                        {item.status}
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      {item.status === 'Approved' ?
+                        <Button variant='contained' size='large' endIcon={<PaymentOutlinedIcon />} sx={styleButton} onClick={() => handleOpen(item.id)}>
+                          Pay now
+                        </Button> :
+                        <Button variant='contained' size='large' onClick={() => handleOpenDetail(item.id)} sx={{
+                          backgroundColor: '#f1c232',
+                          color: '#000',
+                          '&:hover': {
+                            backgroundColor: '#fff',
+                            color: '#000',
+                          }
+                        }}>
+                          Detail
+                        </Button>
+                      }
+                    </TableCell>
+
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
+
       </div>
       <Modal
-        open={open}
+        open={openPayment}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -276,20 +232,67 @@ export default function Order() {
             alignItems: 'center',
             width: '100%'
           }}>
-            <div >
-              <Button >
-                <img src='https://developers.momo.vn/v3/vi/assets/images/monotone2-6cba14ec790b5c80874da2ef5bfdb1c5.png' alt="" style={{
-                  width: '100px',
-                }} />
-              </Button>
-            </div>
             <div>
               <Button>
-                <img src="https://vudigital.co/wp-content/uploads/2022/04/9.webp" alt="" style={{
+                <img src="https://payos.vn/docs/img/logo.svg" alt="" style={{
                   height: '100px',
                 }} />
               </Button>
             </div>
+          </div>
+        </Box>
+      </Modal>
+      <Modal
+        open={openDetail}
+        onClose={handleCloseDetail}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          bgcolor: 'background.paper',
+          border: '1px solid #000',
+          boxShadow: 24,
+          width: '80%',
+          p: 4,
+        }}>
+          <div>
+            <h2>Detail</h2>
+            <Table >
+              <TableHead>
+                <TableRow sx={{
+                  backgroundColor: '#001529',
+                }}>
+                  {headerTable.map((item, index) => (
+                    <TableCell key={index} sx={{
+                      color: '#fff',
+                      fontWeight: 'bold',
+                      fontSize: '20px',
+                    }}>
+                      {item}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {orderDetail.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <img src={item.cart.product ? (item.cart.product.images[0].urlPath) : null} style={{
+                        width: '150px',
+                        height: '150px',
+                      }} />
+                    </TableCell>
+                    <TableCell>{item.cart.product ? (item.cart.product.name) : null}</TableCell>
+                    <TableCell>{item.cart.quantity}</TableCell>
+                    <TableCell>${item.cart.totalPrice.toLocaleString()}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </Box>
       </Modal>

@@ -2,7 +2,7 @@ import React from 'react'
 import { jwtDecode } from 'jwt-decode'
 export default function Profile() {
   const userDetail = jwtDecode(localStorage.getItem('token'))
-  console.log(userDetail)
+  console.log()
   return (
     <>
       <div>Profile</div>
