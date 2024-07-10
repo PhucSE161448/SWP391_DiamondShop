@@ -13,14 +13,13 @@ namespace Domain.Model
         }
 
         public int Id { get; set; }
-        public string Origin { get; set; } = null!;
-        public string Color { get; set; } = null!;
+        public string Origin { get; set; }
+        public string Color { get; set; }
         public decimal CaratWeight { get; set; }
-        public string Clarity { get; set; } = null!;
-        public string Cut { get; set; } = null!;
-        public string Name { get; set; } = null!;
+        public string Clarity { get; set; }
+        public string Cut { get; set; }
+        public string Name { get; set; }
         public decimal Price { get; set; }
-        public decimal? DiscountPrice { get; set; }
         public int Quantity { get; set; }
 
         public virtual ICollection<Cart> Carts { get; set; }

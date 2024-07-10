@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.IRepositories.WarrantyDocuments
 {
-    public interface IWarrantyDocumentRepo
+    public interface IWarrantyDocumentRepo 
     {
     }
 }
