@@ -31,7 +31,7 @@ namespace Application.Services.Diamonds
 
         public async Task<GetDiamondDetailDTO> GetDiamondDetailById(int id)
         {
-            var diamond = await _unitOfWork.DiamondRepo.GetAsync(d => d.Id == id, "Images");
+            var diamond = await _unitOfWork.DiamondRepo.GetDiamondDetailById(id);
             if (diamond is null)
             {
                 throw new NotFoundException("Diamond is not existed");
@@ -57,6 +57,17 @@ namespace Application.Services.Diamonds
 
         public async Task<GetDiamondIdDTO> CreateDiamond(CreateDiamondDTO createDiamondDto)
         {
+            var certificate = await _unitOfWork.CertificateRepo.GetAsync(x => x.Id == createDiamondDto.CertificateId,
+                includeProperties: "Diamond");
+            if (certificate is  null)
+            {
+                throw new NotFoundException("Certificate is not existed");
+            }
+
+            if (certificate.Diamond is not null)
+            {
+                throw new BadRequestException("This certificate is already related to another diamond");
+            }
             var diamond = createDiamondDto.Adapt<Diamond>();
             diamond.Name = createDiamondDto.Origin + " " + createDiamondDto.CaratWeight + " " + createDiamondDto.Color + " "
                            + createDiamondDto.Clarity + " "
@@ -72,12 +83,16 @@ namespace Application.Services.Diamonds
 
         public async Task UpdateDiamond(int id, UpdateDiamondDTO updateDiamondDto)
         {
-            var diamond = await _unitOfWork.DiamondRepo.GetAsync(p => p.Id == id, "Images");
+            var diamond = await _unitOfWork.DiamondRepo.GetDiamondDetailById(id);
             if (diamond is null)
             {
                 throw new NotFoundException("Diamond is not existed");
             }
             _unitOfWork.DiamondRepo.Update(updateDiamondDto.Adapt(diamond));
+            diamond.Name = diamond.Origin + " " + diamond.CaratWeight + " " + diamond.Color + " "
+                           + diamond.Clarity + " "
+                           + diamond.Cut;
+            _unitOfWork.CertificateRepo.Update(updateDiamondDto.Adapt(diamond.Certificate));
             if (diamond.Images.Any())
             {
                 await _imageService.DeleteImages(diamond.Images);

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.IRepositories.Carts;
 using Application.IRepositories.Categories;
+using Application.IRepositories.Certificates;
 using Application.IRepositories.Collections;
 using Application.IRepositories.DiamondCases;
 using Application.IRepositories.Images;
@@ -43,6 +44,7 @@ namespace Infrastructures
         private readonly IOrderRepo _orderRepo;
         private readonly IGroupRepo _groupRepo;
         private readonly IVoucherRepository _voucherRepository;
+        private readonly ICertificateRepo _certificateRepo;
 
         public UnitOfWork(SWP391_DiamondShopContext _context, IWarrantyDocumentRepo _warrantyDocumentRepo,
             IAccountRepo _accountRepo, IProductRepo _productRepo,
@@ -50,7 +52,8 @@ namespace Infrastructures
             IProductPartRepo _productPartRepo, IProductSizeRepo _productSizeRepo, IRoleRepo _roleRepo,
             IImageRepo _imageRepo, ICartRepository _cartRepo, IDiamondCaseRepo _diamondCaseRepo,
             ICollectionRepo _collectionRepo, IPaymentRepo paymentRepo,
-            IOrderRepo orderRepo, IGroupRepo groupRepo, IVoucherRepository voucherRepository)
+            IOrderRepo orderRepo, IGroupRepo groupRepo, IVoucherRepository voucherRepository,
+            ICertificateRepo certificateRepo)
         {
             context = _context;
             warrantyDocumentRepo = _warrantyDocumentRepo;
@@ -69,6 +72,7 @@ namespace Infrastructures
             _orderRepo = orderRepo;
             _groupRepo = groupRepo;
             _voucherRepository = voucherRepository;
+            _certificateRepo = certificateRepo;
         }
         
         public IWarrantyDocumentRepo WarrantyDocumentRepo => warrantyDocumentRepo;
@@ -88,6 +92,7 @@ namespace Infrastructures
         public IOrderRepo OrderRepo => _orderRepo;
         public IGroupRepo GroupRepo => _groupRepo;
         public IVoucherRepository VoucherRepository => _voucherRepository;
+        public ICertificateRepo CertificateRepo => _certificateRepo;
 
         public async Task<int> SaveChangeAsync()
         {
