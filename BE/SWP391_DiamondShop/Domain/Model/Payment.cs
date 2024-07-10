@@ -11,8 +11,8 @@ namespace Domain.Model
         }
 
         public int Id { get; set; }
-        public string Name { get; set; } = null!;
-        public string PaymentType { get; set; } = null!;
+        public string Name { get; set; }
+        public string PaymentType { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
     }

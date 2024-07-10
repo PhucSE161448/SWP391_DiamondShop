@@ -1,4 +1,5 @@
-
+CREATE DATABASE SWP391_DiamondShop
+USE SWP391_DiamondShop
 CREATE TABLE "Group"
 (
     "Id"       INT           NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -120,13 +121,13 @@ CREATE TABLE "Account"
     "Id"                INT           NOT NULL Identity (1,1),
     "Name"              NVARCHAR(255) NOT NULL,
     "Email"             NVARCHAR(255) NOT NULL,
-    "Password"          NVARCHAR(255) NOT NULL,
-    "Address"           NVARCHAR(255) NOT NULL,
-    "PhoneNumber"       NVARCHAR(255) NOT NULL,
-	"Point"             DECIMAL(8, 2) NOT NULL,
+    "Password"          NVARCHAR(255)  NULL,
+    "Address"           NVARCHAR(255)  NULL,
+    "PhoneNumber"       NVARCHAR(255)  NULL,
+	"Point"             DECIMAL(12, 2) NOT NULL DEFAULT '0',
     "Role_Id"           INT           NOT NULL,
-    "Gender"            BIT           NOT NULL,
-    "ConfirmationToken" NVARCHAR(255) NOT NULL,
+    "Gender"            BIT            NULL,
+    "ConfirmationToken" NVARCHAR(255)  NULL,
     "CreatedBy"         NVARCHAR(255) NULL,
     "CreatedDate"       DATE          NULL,
     "ModifiedBy"        NVARCHAR(255) NULL,
@@ -160,7 +161,6 @@ CREATE TABLE "Diamond"
     "Cut"          NVarchar(255) NOT NULL,
     "Name"         NVARCHAR(255) Not Null,
     "Price"        DECIMAL(12, 2) NOT NULL,
-    "Discount_Price" DECIMAL(8,2) NULL DEFAULT '0',
     "Quantity"     INT           NOT NULL,
     "CreatedBy"    NVARCHAR(255) NULL,
     "CreatedDate"  DATE          NULL,
@@ -199,7 +199,6 @@ CREATE TABLE "ProductSizes"
     "Size"         DECIMAL(8, 2) NOT NULL,
     "Quantity"     INT           NOT NULL,
     "Price"        DECIMAL(12, 2) NOT NULL,
-    "Discount_Price" DECIMAL(8,2) NULL DEFAULT '0',
     "CreatedBy"    NVARCHAR(255) NULL,
     "CreatedDate"  DATE          NULL,
     "ModifiedBy"   NVARCHAR(255) NULL,
@@ -229,21 +228,21 @@ ALTER TABLE
 CREATE TABLE "Promotions"
 (
     "Id"                  INT           NOT NULL Identity (1,1),
-    "Name"                NVARCHAR(255) NOT NULL,
-    "Description"         NVARCHAR(MAX) NULL,
+    "Point"               INT           NOT NULL, 
     "Discount_Percentage" DECIMAL(8, 2) NOT NULL,
-    "Category_Id"         INT           Null,
+);
+CREATE TABLE "Vouchers"
+(
+    "Id"                  INT           NOT NULL Identity (1,1),
+    "ProductId"           INT           NULL,
+    "IsAllProduct"        BIT           NOT NULL DEFAULT '0',
+    "Discount_Percentage" DECIMAL(8, 2) NOT NULL,
     "StartDate"           DATE          NOT NULL,
     "EndDate"             DATE          NOT NULL,
-    "CreatedBy"           NVARCHAR(255) NULL,
-    "CreatedDate"         DATE          NULL,
-    "ModifiedBy"          NVARCHAR(255) NULL,
-    "ModifiedDate"        DATE          NULL,
-    "DeletedBy"           NVARCHAR(255) NULL,
-    "DeletedDate"         DATE          NULL,
-    "IsDeleted"           BIT           NOT NULL DEFAULT '0',
-    CONSTRAINT fk_promotions_category FOREIGN KEY (Category_Id) REFERENCES Category(Id)
 );
+ALTER TABLE
+    "Vouchers"
+    ADD CONSTRAINT "vouchers_id_primary" PRIMARY KEY ("Id");
 create table [ProductPart]
 (
     Id             int Identity (1,1) primary key,

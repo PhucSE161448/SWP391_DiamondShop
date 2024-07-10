@@ -11,8 +11,8 @@ namespace Domain.Model
         public int? WarrantyDocumentId { get; set; }
         public decimal? Price { get; set; }
 
-        public virtual Cart Cart { get; set; } = null!;
-        public virtual Order Order { get; set; } = null!;
-        public virtual WarrantyDocument? WarrantyDocument { get; set; }
+        public virtual Cart Cart { get; set; }
+        public virtual Order Order { get; set; }
+        public virtual WarrantyDocument WarrantyDocument { get; set; }
     }
 }
