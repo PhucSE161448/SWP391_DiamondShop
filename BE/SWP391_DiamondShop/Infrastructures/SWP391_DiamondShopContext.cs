@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Domain.Model
+namespace Infrastructures
 {
     public partial class SWP391_DiamondShopContext : DbContext
     {
