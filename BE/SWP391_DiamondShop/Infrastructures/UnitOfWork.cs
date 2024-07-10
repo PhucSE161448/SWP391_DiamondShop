@@ -19,6 +19,7 @@ using Application.IRepositories.ProductParts;
 using Application.IRepositories.ProductSizes;
 using Application.IRepositories.Roles;
 using Application.IRepositories.Groups;
+using Application.IRepositories.Vouchers;
 
 namespace Infrastructures
 {
@@ -41,6 +42,7 @@ namespace Infrastructures
         private readonly IPaymentRepo _paymentRepo;
         private readonly IOrderRepo _orderRepo;
         private readonly IGroupRepo _groupRepo;
+        private readonly IVoucherRepository _voucherRepository;
 
         public UnitOfWork(SWP391_DiamondShopContext _context, IWarrantyDocumentRepo _warrantyDocumentRepo,
             IAccountRepo _accountRepo, IProductRepo _productRepo,
@@ -48,7 +50,7 @@ namespace Infrastructures
             IProductPartRepo _productPartRepo, IProductSizeRepo _productSizeRepo, IRoleRepo _roleRepo,
             IImageRepo _imageRepo, ICartRepository _cartRepo, IDiamondCaseRepo _diamondCaseRepo,
             ICollectionRepo _collectionRepo, IPaymentRepo paymentRepo,
-            IOrderRepo orderRepo, IGroupRepo groupRepo)
+            IOrderRepo orderRepo, IGroupRepo groupRepo, IVoucherRepository voucherRepository)
         {
             context = _context;
             warrantyDocumentRepo = _warrantyDocumentRepo;
@@ -66,6 +68,7 @@ namespace Infrastructures
             _paymentRepo = paymentRepo;
             _orderRepo = orderRepo;
             _groupRepo = groupRepo;
+            _voucherRepository = voucherRepository;
         }
         
         public IWarrantyDocumentRepo WarrantyDocumentRepo => warrantyDocumentRepo;
@@ -84,6 +87,7 @@ namespace Infrastructures
         public IPaymentRepo PaymentRepo => _paymentRepo;
         public IOrderRepo OrderRepo => _orderRepo;
         public IGroupRepo GroupRepo => _groupRepo;
+        public IVoucherRepository VoucherRepository => _voucherRepository;
 
         public async Task<int> SaveChangeAsync()
         {
