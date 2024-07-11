@@ -31,7 +31,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false }
         };
     });
-
+    // builder.Services.AddAuthentication()
+    //     .AddGoogle(options =>
+    //     {
+    //         options.ClientId = configuration.GoogleSetting.ClientId;
+    //         options.ClientSecret = configuration.GoogleSetting.ClientSecret;
+    //     });
 builder.Services.AddSwaggerGen(setup =>
 {
     // Include 'SecurityScheme' to use JWT Authentication
@@ -58,6 +63,7 @@ builder.Services.AddSwaggerGen(setup =>
         { jwtSecurityScheme, Array.Empty<string>() }
     });
 });
+
 builder.Services.AddSingleton(configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

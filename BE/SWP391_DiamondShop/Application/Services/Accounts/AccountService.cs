@@ -29,8 +29,8 @@ namespace Application.Services.Accounts
             if (exist)
             {
                 throw new BadRequestException("Email is existed");
-            }
-            else if (existed)
+            } 
+            if (existed)
             {
                 throw new BadRequestException("Phone is existed");
             }
@@ -83,16 +83,8 @@ namespace Application.Services.Accounts
 
         public async Task<IEnumerable<AccountDTO>> GetUserAsync()
         {
-            var accounts = await _unitOfWork.AccountRepo.GetAllAsync(null,"Role");
-            var accountDtos = new List<AccountDTO>();
-            foreach (var user in accounts)
-            {
-                if (user.IsDeleted == false)
-                {
-                    accountDtos.Add(user.Adapt<AccountDTO>());
-                }
-            }
-            return accountDtos;
+            var accounts = await _unitOfWork.AccountRepo.GetAllAsync(null,"Role"); 
+            return accounts.Adapt<IEnumerable<AccountDTO>>();
         }
 
         public async Task<AccountDTO> GetUserByIdAsync(int id)
@@ -107,17 +99,8 @@ namespace Application.Services.Accounts
 
         public async Task<IEnumerable<AccountDTO>> SearchUserByNameAsync(string name)
         {
-            var users = await _unitOfWork.AccountRepo.SearchAccountByNameAsync(name);
-            var userDTOs = new List<AccountDTO>();
-
-            foreach (var acc in users)
-            {
-                if (acc.IsDeleted == false)
-                {
-                    userDTOs.Add(acc.Adapt<AccountDTO>());
-                }
-            }
-            return userDTOs;
+            var accounts = await _unitOfWork.AccountRepo.SearchAccountByNameAsync(name);
+            return accounts.Adapt<List<AccountDTO>>();
         }
 
         public async Task<AccountDTO> UpdateUserAsync(int id, UpdatedAccountDTO accountDTO)

@@ -13,5 +13,7 @@ namespace Application.Interfaces.Authenticates
     {
         public Task<AccountDTO> RegisterAsync(RegisterAccountDTO registerAccountDTO);
         public Task<GetAuthTokenDTO> LoginAsync(AuthenAccountDTO accountDto);
+
+        Task<GetAuthTokenDTO> LoginWithGoogle(string googleToke);
     }
 }
