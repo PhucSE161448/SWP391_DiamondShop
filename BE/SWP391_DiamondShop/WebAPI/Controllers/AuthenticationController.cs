@@ -3,6 +3,7 @@ using Application.ViewModels.Accounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Application.ViewModels.Auths;
 using WebAPI.CustomActionFilter;
 
 namespace WebAPI.Controllers
@@ -30,6 +31,13 @@ namespace WebAPI.Controllers
         {
             var result = await _authenticationService.LoginAsync(loginObject);
 
+            return Ok(result);
+        }
+        [HttpPost]
+        [ValidateModel]
+        public async Task<IActionResult> LoginGoogleAsync(LoginGoogleDTO loginGoogleDto)
+        {
+            var result = await _authenticationService.LoginWithGoogle(loginGoogleDto.GoogleToken);
             return Ok(result);
         }
     }

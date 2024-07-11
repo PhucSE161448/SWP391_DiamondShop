@@ -24,7 +24,7 @@ namespace WebAPI
             //services.AddSingleton<GlobalExceptionMiddleware>();
             services.AddSingleton<PerformanceMiddleware>();
             services.AddSingleton<Stopwatch>();
-
+            
             services.AddHttpContextAccessor();
            
             return services;
