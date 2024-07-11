@@ -27,6 +27,7 @@ import ShowAllType from './Admin/Elements/Type/ShowAllType'
 import OrderAdmin from './Admin/Elements/Orders/OrderAdmin'
 import ShowAllPayment from './Admin/Elements/Payment/ShowAllPayment'
 import PaymentSuccessful from './Pages/PaymentSuccessful'
+import Certificate from './Admin/Elements/Certificate/Certificate'
 export default function App() {
   return (
     <>
@@ -61,6 +62,7 @@ export default function App() {
             <Route path='type' element={<ShowAllType></ShowAllType>}></Route>
             <Route path='order' element={<OrderAdmin></OrderAdmin>}></Route>
             <Route path='payment' element={<ShowAllPayment></ShowAllPayment>}></Route>
+            <Route path='certificate' element={<Certificate></Certificate>}></Route>
           </Route>
 
         </Routes >

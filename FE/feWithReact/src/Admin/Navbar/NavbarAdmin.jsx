@@ -62,6 +62,9 @@ export default function NavbarAdmin() {
 		navigate('/admin/payment')
 	}
 
+	function goToCertificate() {
+		navigate('/admin/certificate')
+	}
 	const buttonStyle = {
 		color: '#fff',
 		width: '-webkit-fill-available',
@@ -85,48 +88,52 @@ export default function NavbarAdmin() {
 				Height: '-webkit-fill-available',
 				width: '10%',
 			}}>
-				<Menu.Item style={paddingStyle}>
+				<Menu.Item style={paddingStyle} key="admin">
 					<Button onClick={goToAdmin} sx={buttonStyle}>Admin</Button>
 				</Menu.Item >
 				{role === '1' || role === '2' ? (
-					<Menu.Item style={paddingStyle}>
+					<Menu.Item style={paddingStyle} key="Account">
 						<Button onClick={goToAccount} sx={buttonStyle}>Account</Button>
 					</Menu.Item>
 				) : null}
 				{role === '1' && (
 					<>
-						<Menu.Item style={paddingStyle}>
+						<Menu.Item key="Category" style={paddingStyle}>
 							<Button onClick={goToCategory} sx={buttonStyle}>Category</Button>
 						</Menu.Item>
-						<Menu.Item style={paddingStyle}>
+						<Menu.Item key="Certificate" style={paddingStyle}>
+							<Button onClick={goToCertificate} sx={buttonStyle}>Certificate</Button>
+						</Menu.Item>
+						<Menu.Item key="Collection" style={paddingStyle}>
 							<Button onClick={goToCollections} sx={buttonStyle}>Collection</Button>
 						</Menu.Item>
-						<Menu.Item style={paddingStyle}>
+						<Menu.Item key="Diamond" style={paddingStyle}>
 							<Button onClick={goToDiamond} sx={buttonStyle}>Diamond</Button>
 						</Menu.Item>
-						<Menu.Item style={paddingStyle}>
+						<Menu.Item key="Diamond Case" style={paddingStyle}>
 							<Button onClick={goToDiamondCase} sx={buttonStyle}>Diamond Case</Button>
 						</Menu.Item>
-						<Menu.Item style={paddingStyle}>
+						<Menu.Item key="Product" style={paddingStyle}>
 							<Button onClick={goToProduct} sx={buttonStyle}>Product</Button>
 						</Menu.Item>
-						<Menu.Item style={paddingStyle}>
+						<Menu.Item key="Warranty" style={paddingStyle}>
 							<Button onClick={goToWarranty} sx={buttonStyle}>Warranty</Button>
 						</Menu.Item>
-						<Menu.Item style={paddingStyle}>
+						<Menu.Item key="Type" style={paddingStyle}>
 							<Button onClick={goToType} sx={buttonStyle}>Type</Button>
 						</Menu.Item>
-						<Menu.Item style={paddingStyle}>
+						<Menu.Item key="Payment" style={paddingStyle}>
 							<Button onClick={goToPayment} sx={buttonStyle}>Payment</Button>
 						</Menu.Item>
+
 					</>
 				)}
 				{role === '1' || role === '3' || role === '4' ? (
-					<Menu.Item style={paddingStyle}>
+					<Menu.Item style={paddingStyle} key="Order">
 						<Button onClick={goToOrder} sx={buttonStyle}>Order</Button>
 					</Menu.Item>
 				) : null}
-				<Menu.Item style={paddingStyle}>
+				<Menu.Item style={paddingStyle} key="Logout">
 					<Button onClick={Logout} sx={{
 						color: '#fff',
 						width: '-webkit-fill-available',

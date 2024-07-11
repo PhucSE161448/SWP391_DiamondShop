@@ -134,7 +134,7 @@ export default function Order() {
                       {index + 1}
                     </TableCell>
                     <TableCell>
-                      {new Date(item.createdDate).toLocaleDateString()}
+                      {new Date(item.createdDate).toLocaleDateString('en-GB')}
                     </TableCell>
                     <TableCell>
                       {item.totalPrice}
