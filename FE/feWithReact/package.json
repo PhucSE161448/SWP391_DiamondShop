@@ -16,6 +16,7 @@
     "@mui/material": "^5.15.19",
     "@mui/styled-engine": "^5.15.14",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@mui/x-date-pickers": "^7.9.0",
     "antd": "^5.17.4",
     "formik": "^2.4.6",
     "jwt-decode": "^4.0.0",

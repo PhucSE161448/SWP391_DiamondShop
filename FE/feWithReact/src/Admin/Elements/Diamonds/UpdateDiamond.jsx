@@ -101,27 +101,14 @@ export default function UpdateDiamond(props) {
     name: Yup.string().required('Name is required'),
     price: Yup.number().required('Price is required').positive('Price must be positive'),
     quantity: Yup.number().required('Quantity is required').positive('Quantity must be positive').integer('Quantity must be an integer'),
-  });
-  const formik = useFormik({
-    initialValues: {
-      origin: item.origin,
-      color: item.color,
-      caratWeight: item.caratWeight,
-      clarity: item.clarity,
-      cut: item.cut,
-      name: item.name,
-      price: item.price,
-      quantity: item.quantity,
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      const modifiedValues = {
-        ...values,
-        price: parseFloat(values.price),
-      };
-      Update(modifiedValues);
-    },
-  });
+  })
+
+  const initialValues = {
+
+  }
+  const onSubmit = (values) => {
+
+  }
 
   return (
     <div style={{
@@ -150,100 +137,61 @@ export default function UpdateDiamond(props) {
         }}>
           <h3 className='titleOfForm'>UPDATE DIAMOND</h3>
           <div>
-            <form onSubmit={formik.handleSubmit} >
-              <div className='row'>
-                <div className='col'>
-                  <TextField type="text" value={formik.values.origin}
-                    onChange={formik.handleChange}
-                    name="origin"
-                    id="outlined-basic"
-                    label="Origin"
-                    variant="outlined"
-                    className='form-control' />
-                  {formik.touched.nameProduct && formik.errors.nameProduct &&
-                    (<Alert severity="error">{formik.errors.origin}</Alert>)}
-                </div>
-              </div> <br />
+            <div>
+              <h3>
+                Old images
+              </h3>
+              {props.image.length > 0 && (
+                <Grid container columnSpacing={3}>
+                  {props.image.map((image, index) => (
+                    <>
+                      <Grid item xs={3}>
+                        <Card sx={{
+                          width: 'auto',
+                          '&:hover': {
+                            backgroundColor: 'rgba(0,0,0,0.1)',
+                            borderRadius: '10px',
+                          }
+                        }}>
+                          <CardContent>
+                            <img src={image.urlPath} alt="" style={{
+                              width: '100%',
+                              borderRadius: '10px',
+                            }} />
+                            <p key={index}>{image.name}</p>
+                          </CardContent>
 
-              <div className='row'>
-                <div className='col-3'>
-                  <FormControl fullWidth>
-                    <InputLabel id="select-label">Color</InputLabel>
-                    <Select labelId="select-label" name='color'
-                      id="demo-simple-select" variant="outlined"
-                      label="Color" value={formik.values.color}
-                      onChange={formik.handleChange} className='form-control'
-                      MenuProps={MenuProps}
-                      sx={{
-                        padding: '0'
-                      }}>
-                      {dataColors.map((color, index) => (
-                        <MenuItem key={index} value={color}>{color}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  {formik.touched.color && formik.errors.color &&
-                    (<Alert severity="error">{formik.errors.color}</Alert>)}
-                </div>
-
-                <div className='col-3'>
-                  <FormControl fullWidth>
-                    <InputLabel id="select-label">Clarity</InputLabel>
-                    <Select labelId="select-label" name='clarity'
-                      id="demo-simple-select" variant="outlined"
-                      label="Clarity" value={formik.values.clarity}
-                      onChange={formik.handleChange} className='form-control'
-                      MenuProps={MenuProps}
-                      sx={{
-                        padding: '0'
-                      }}>
-                      {dataClarity.map((clarity, index) => (
-                        <MenuItem key={index} value={clarity}>{clarity}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  {formik.touched.clarity && formik.errors.clarity &&
-                    (<Alert severity="error">{formik.errors.clarity}</Alert>)}
-                </div>
-
-                <div className='col-3'>
-                  <FormControl fullWidth>
-                    <InputLabel id="select-label">Cut</InputLabel>
-                    <Select labelId="select-label" name='cut'
-                      id="demo-simple-select" variant="outlined"
-                      label="Clarity" value={formik.values.cut}
-                      onChange={formik.handleChange} className='form-control'
-                      MenuProps={MenuProps}
-                      sx={{
-                        padding: '0'
-                      }}>
-                      {dataCut.map((cut, index) => (
-                        <MenuItem key={index} value={cut}>{cut}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  {formik.touched.cut && formik.errors.cut &&
-                    (<Alert severity="error">{formik.errors.cut}</Alert>)}
-                </div>
-
-                <div className='col-3'>
-                  <TextField type="text" value={formik.values.caratWeight}
-                    onChange={formik.handleChange}
-                    name='caratWeight' id="outlined-basic"
-                    label="Carat Weight" variant="outlined"
-                    className='form-control' />
-                  {formik.touched.caratWeight && formik.errors.caratWeight &&
-                    (<Alert severity="error">{formik.errors.caratWeight}</Alert>)}
-                </div>
-              </div>
-
-              <div>
-                <h3>
-                  Old images
-                </h3>
-                {props.image.length > 0 && (
-                  <Grid container columnSpacing={3}>
-                    {props.image.map((image, index) => (
+                          <div style={{ textAlign: 'right' }}>
+                            <Button
+                              color="error"
+                              endIcon={<DeleteIcon sx={{ color: 'red', margin: 0, padding: 0 }} />}
+                              onClick={() => handleDeleteImage(index)}>
+                              Delete
+                            </Button>
+                          </div>
+                        </Card>
+                      </Grid >
+                    </>
+                  ))}
+                </Grid>
+              )}
+              <h3>
+                New images
+              </h3>
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<FileUploadIcon />}
+              >
+                Upload image
+                <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />
+              </Button>
+              {image.length > 0 && (
+                <Grid container columnSpacing={3}>
+                  {
+                    image.map((image, index) => (
                       <>
                         <Grid item xs={3}>
                           <Card sx={{
@@ -254,7 +202,7 @@ export default function UpdateDiamond(props) {
                             }
                           }}>
                             <CardContent>
-                              <img src={image.urlPath} alt="" style={{
+                              <img src={URL.createObjectURL(image)} alt="" style={{
                                 width: '100%',
                                 borderRadius: '10px',
                               }} />
@@ -272,114 +220,12 @@ export default function UpdateDiamond(props) {
                           </Card>
                         </Grid >
                       </>
-                    ))}
-                  </Grid>
-                )}
-                <h3>
-                  New images
-                </h3>
-                <Button
-                  component="label"
-                  role={undefined}
-                  variant="contained"
-                  tabIndex={-1}
-                  startIcon={<FileUploadIcon />}
-                >
-                  Upload image
-                  <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />
-                </Button>
-                {image.length > 0 && (
-                  <Grid container columnSpacing={3}>
-                    {
-                      image.map((image, index) => (
-                        <>
-                          <Grid item xs={3}>
-                            <Card sx={{
-                              width: 'auto',
-                              '&:hover': {
-                                backgroundColor: 'rgba(0,0,0,0.1)',
-                                borderRadius: '10px',
-                              }
-                            }}>
-                              <CardContent>
-                                <img src={URL.createObjectURL(image)} alt="" style={{
-                                  width: '100%',
-                                  borderRadius: '10px',
-                                }} />
-                                <p key={index}>{image.name}</p>
-                              </CardContent>
+                    ))
+                  }
+                </Grid>
+              )}
+            </div> <br />
 
-                              <div style={{ textAlign: 'right' }}>
-                                <Button
-                                  color="error"
-                                  endIcon={<DeleteIcon sx={{ color: 'red', margin: 0, padding: 0 }} />}
-                                  onClick={() => handleDeleteImage(index)}>
-                                  Delete
-                                </Button>
-                              </div>
-                            </Card>
-                          </Grid >
-                        </>
-                      ))
-                    }
-                  </Grid>
-                )}
-              </div> <br />
-              <div className='row'>
-                <div className='col-6'>
-                  <TextField type="text" name='name'
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    id="outlined-basic" label="Name"
-                    variant="outlined" className='form-control' />
-                  {formik.touched.name && formik.errors.name &&
-                    (<Alert severity="error">{formik.errors.name}</Alert>)}
-                </div>
-
-                <div className='col-6'>
-                  <TextField type="text" name='price'
-                    value={formik.values.price}
-                    onChange={formik.handleChange}
-                    id="outlined-basic" label="Price"
-                    variant="outlined" className='form-control' />
-                  {formik.touched.price && formik.errors.price &&
-                    (<Alert severity="error">{formik.errors.price}</Alert>)}
-                </div> <br />
-
-                <div className='col-6'>
-                  <TextField type="text" name='quantity'
-                    value={formik.values.quantity}
-                    onChange={formik.handleChange}
-                    id="outlined-basic" label="Quantity"
-                    variant="outlined" className='form-control' />
-                  {formik.touched.quantity && formik.errors.quantity &&
-                    (<Alert severity="error">{formik.errors.quantity}</Alert>)}
-                </div>
-              </div>
-
-              <div className='formSubmit' >
-                <Button
-                  type="submit"
-                  className='submitButton'
-                  value="Submit" variant="contained"
-                  size="large" endIcon={<SendIcon />}
-                  sx={{
-                    margin: '5px',
-                  }}>
-                  Send
-                </Button>
-                <Button type="button"
-                  value="Clear" onClick={handleClear}
-                  className='submitButton'
-                  variant="contained" size="large" color="error"
-                  endIcon={<CancelScheduleSendIcon />}
-                  sx={{
-                    margin: '5px',
-                  }}>
-                  Clear
-                </Button>
-              </div>
-            </form>
           </div>
         </Box >
       </Modal>

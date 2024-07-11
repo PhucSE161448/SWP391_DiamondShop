@@ -1,7 +1,7 @@
 import { Box, Grid, Container } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import React, { useEffect, useState,  } from 'react'
+import React, { useEffect, useState, } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Stack, Pagination, Button } from '@mui/material'
 import { Table, TableBody, TableContainer, TableHead, ImageList, TableRow, ImageListItem, styled } from '@mui/material'
@@ -22,7 +22,9 @@ export default function ShowAllDiamond() {
   const [triggerRead, setTriggerRead] = useState(false)
   const role = localStorage.getItem('role')
   const navigate = useNavigate()
-
+  const rowsHeader = ["#", "Image", "Origin", "Color", "Carat Weight",
+    "Clarity", "Cut", "Price", "Quantity", "Deleted", "Update", "Details",
+  ]
   useEffect(() => {
     if (role !== '1') {
       navigate('/admin')
@@ -78,18 +80,7 @@ export default function ShowAllDiamond() {
     <div style={{
       justifyContent: 'flex-end'
     }}>
-      <CreateDiamond></CreateDiamond>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        marginRight: '10vw',
-        marginTop: '2vh'
-      }}>
-        <Button variant="contained" type="button" size="large" onClick={() => setTriggerRead(prev => !prev)}>
-          REFRESH
-        </Button>
-      </div>
-
+      <CreateDiamond onDiamondCreated={() => setTriggerRead(prev => !prev)}></CreateDiamond>
       <Container sx={{
         display: 'flex',
         alignItems: 'center',
@@ -103,18 +94,9 @@ export default function ShowAllDiamond() {
             }}>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell>#</StyledTableCell>
-                  <StyledTableCell>Image</StyledTableCell>
-                  <StyledTableCell>Origin</StyledTableCell>
-                  <StyledTableCell>Color</StyledTableCell>
-                  <StyledTableCell>Carat Weight</StyledTableCell>
-                  <StyledTableCell>Clarity</StyledTableCell>
-                  <StyledTableCell>Cut</StyledTableCell>
-                  <StyledTableCell>Price</StyledTableCell>
-                  <StyledTableCell>Quantity</StyledTableCell>
-                  <StyledTableCell>Deleted</StyledTableCell>
-                  <StyledTableCell>Update</StyledTableCell>
-                  <StyledTableCell>Details</StyledTableCell>
+                  {rowsHeader.map((item, index) => (
+                    <StyledTableCell key={index}>{item}</StyledTableCell>
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody>
