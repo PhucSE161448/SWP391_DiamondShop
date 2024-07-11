@@ -36,6 +36,18 @@ namespace Application.Services.Diamonds
             {
                 throw new NotFoundException("Diamond is not existed");
             }
+
+            //Check if voucher exist?
+            var voucherList = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
+            foreach(var voucher in voucherList)
+            {
+                if(voucher.IsAllProduct == true)
+                {
+                    //Final price = Price - (Price * discount/100)
+                    diamond.Price = diamond.Price - (diamond.Price * (voucher.DiscountPercentage / 100));
+                }
+            }
+
             return diamond.Adapt<GetDiamondDetailDTO>();
         }
 
@@ -112,7 +124,23 @@ namespace Application.Services.Diamonds
             {
                 throw new BadRequestException("Start price must be less than end price");
             }
-            return (await _unitOfWork.DiamondRepo.GetPagedDiamonds(queryDiamondDTO)).Adapt<Pagination<GetDiamondPaginationDTO>>();
+            var pagedDiamondList = await _unitOfWork.DiamondRepo.GetPagedDiamonds(queryDiamondDTO);
+
+            // Check voucher
+            var voucherList = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
+
+            foreach (var voucher in voucherList)
+            {
+                if (voucher.IsAllProduct == true)
+                {
+                    foreach (var diamond in pagedDiamondList.Items)
+                    {
+                        diamond.Price = diamond.Price - (diamond.Price * voucher.DiscountPercentage / 100);
+                    }
+                }
+            }
+
+            return pagedDiamondList.Adapt<Pagination<GetDiamondPaginationDTO>>();
             
         }
     }

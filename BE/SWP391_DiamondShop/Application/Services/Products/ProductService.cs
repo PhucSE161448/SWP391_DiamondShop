@@ -39,7 +39,33 @@ namespace Application.Services.Products
             {
                 throw new BadRequestException("Start price must be less than end price");
             }
-            return (await _unitOfWork.ProductRepo.GetPagedProducts(queryProductDTO)).Adapt<Pagination<GetProductPaginationDTO>>();
+            var pagedProductsList = await _unitOfWork.ProductRepo.GetPagedProducts(queryProductDTO);
+            // Check voucher
+            var voucherList = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
+            foreach (var product in pagedProductsList.Items)
+            {
+                foreach (var productSize in product.ProductSizes)
+                {
+                    decimal voucherPrice = 0;
+                    foreach (var voucher in voucherList)
+                    {
+                        
+                        if(voucher.IsAllProduct == true )
+                        {
+                            voucherPrice += voucher.DiscountPercentage;
+                        }
+                        if(voucher.ProductId == product.Id)
+                        {
+                            voucherPrice += voucher.DiscountPercentage;
+
+                        }
+                    }
+                    //Final price
+                    productSize.Price -= (productSize.Price * voucherPrice/100);
+                }
+                
+            }
+            return pagedProductsList.Adapt<Pagination<GetProductPaginationDTO>>();
             
         }
 
@@ -197,6 +223,30 @@ namespace Application.Services.Products
             {
                 throw new NotFoundException("Product not found");
             }
+            // Check voucher
+            var voucherList = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
+
+                foreach (var productSize in product.ProductSizes)
+                {
+                    decimal voucherPrice = 0;
+                    foreach (var voucher in voucherList)
+                    {
+
+                        if (voucher.IsAllProduct == true)
+                        {
+                            voucherPrice += voucher.DiscountPercentage;
+                        }
+                        if (voucher.ProductId == product.Id)
+                        {
+                            voucherPrice += voucher.DiscountPercentage;
+
+                        }
+                    }
+                    //Final price
+                    productSize.Price -= (productSize.Price * voucherPrice / 100);
+                }
+
+            
             return product.Adapt<GetProductDetailDTO>();
         }
     }
