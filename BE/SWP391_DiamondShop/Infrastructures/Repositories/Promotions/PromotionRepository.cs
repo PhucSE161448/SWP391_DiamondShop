@@ -19,11 +19,11 @@ namespace Infrastructures.Repositories.Promotions
             _dbContext = dbContext;
 
         }
-        public async Task<IEnumerable<Promotion>> GetAllVoucherAsync()
+        public async Task<IEnumerable<Promotion>> GetAllPromotionAsync()
         {
             return await _dbContext.Promotions.ToListAsync();
         }
-        public async Task<Promotion> GetVoucherByIdAsync(int id)
+        public async Task<Promotion> GetPromotionByIdAsync(int id)
         {
             return await _dbContext.Promotions.FindAsync(id);
         }
@@ -34,7 +34,7 @@ namespace Infrastructures.Repositories.Promotions
             return promotion;
         }
 
-        public async Task<bool> DeleteVoucherAsync(int id)
+        public async Task<bool> DeletePromotionAsync(int id)
         {
             var voucher = await _dbContext.Vouchers.FindAsync(id);
             if (voucher == null)

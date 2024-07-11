@@ -9,9 +9,9 @@ namespace Application.IRepositories.Promotions
 {
     public interface IPromotionRepository
     {
-        Task<IEnumerable<Promotion>> GetAllVoucherAsync();
-        Task<Promotion> GetVoucherByIdAsync(int id);
+        Task<IEnumerable<Promotion>> GetAllPromotionAsync();
+        Task<Promotion> GetPromotionByIdAsync(int id);
         Task<Promotion> CreatePromotionAsync(Promotion promotion);
-        Task<bool> DeleteVoucherAsync(int id);
+        Task<bool> DeletePromotionAsync(int id);
     }
 }
