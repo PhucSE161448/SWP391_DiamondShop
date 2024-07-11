@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.ViewModels.Orders
 {
-    public class OrderCreateDTO
+    public class GetOrderProduct
     {
-        public string Address { get; set; }
-        public decimal TotalPrice { get; set; }
-        public List<int> CartId { get; set; }
+        public string Name { get; set; }
+        public decimal? Price { get; set; }
     }
 }

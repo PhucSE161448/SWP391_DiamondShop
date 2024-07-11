@@ -126,6 +126,7 @@ CREATE TABLE "Orders"
 (
     "Id"           INT           NOT NULL Identity (1,1),
     "Account_Id"   INT           NOT NULL,
+	"Address"	   NVARCHAR(255)  NULL,
     "TotalPrice"   DECIMAL(12, 2) NOT NULL,
     "PaymentId"    INT           NULL,
 	"CreatedDate"  DATE			 NULL
