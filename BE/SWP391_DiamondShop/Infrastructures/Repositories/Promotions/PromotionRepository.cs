@@ -36,12 +36,12 @@ namespace Infrastructures.Repositories.Promotions
 
         public async Task<bool> DeletePromotionAsync(int id)
         {
-            var voucher = await _dbContext.Vouchers.FindAsync(id);
-            if (voucher == null)
+            var promotion = await _dbContext.Promotions.FindAsync(id);
+            if (promotion == null)
             {
                 return false;
             }
-            _dbContext.Vouchers.Remove(voucher);
+            _dbContext.Promotions.Remove(promotion);
             await _dbContext.SaveChangesAsync();
             return true;
         }
