@@ -42,19 +42,28 @@ namespace Application.Services.Products
             var pagedProductsList = await _unitOfWork.ProductRepo.GetPagedProducts(queryProductDTO);
             // Check voucher
             var voucherList = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
-
-            foreach (var voucher in voucherList)
+            foreach (var product in pagedProductsList.Items)
             {
-                if (voucher.IsAllProduct == true)
+                foreach (var productSize in product.ProductSizes)
                 {
-                    foreach (var product in pagedProductsList.Items)
+                    decimal voucherPrice = 0;
+                    foreach (var voucher in voucherList)
                     {
-                        foreach(var productSize in product.ProductSizes)
+                        
+                        if(voucher.IsAllProduct == true )
                         {
-                            productSize.Price = productSize.Price - (productSize.Price * (voucher.DiscountPercentage / 100));
+                            voucherPrice += voucher.DiscountPercentage;
+                        }
+                        if(voucher.ProductId == product.Id)
+                        {
+                            voucherPrice += voucher.DiscountPercentage;
+
                         }
                     }
+                    //Final price
+                    productSize.Price -= (productSize.Price * voucherPrice/100);
                 }
+                
             }
             return pagedProductsList.Adapt<Pagination<GetProductPaginationDTO>>();
             
@@ -214,18 +223,30 @@ namespace Application.Services.Products
             {
                 throw new NotFoundException("Product not found");
             }
-            //Check if voucher exist?
+            // Check voucher
             var voucherList = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
-            foreach (var voucher in voucherList)
-            {
-                if (voucher.IsAllProduct == true)
+
+                foreach (var productSize in product.ProductSizes)
                 {
-                    foreach(var productSize in product.ProductSizes)
+                    decimal voucherPrice = 0;
+                    foreach (var voucher in voucherList)
                     {
-                        productSize.Price = productSize.Price - (productSize.Price * (voucher.DiscountPercentage / 100));
+
+                        if (voucher.IsAllProduct == true)
+                        {
+                            voucherPrice += voucher.DiscountPercentage;
+                        }
+                        if (voucher.ProductId == product.Id)
+                        {
+                            voucherPrice += voucher.DiscountPercentage;
+
+                        }
                     }
+                    //Final price
+                    productSize.Price -= (productSize.Price * voucherPrice / 100);
                 }
-            }
+
+            
             return product.Adapt<GetProductDetailDTO>();
         }
     }
