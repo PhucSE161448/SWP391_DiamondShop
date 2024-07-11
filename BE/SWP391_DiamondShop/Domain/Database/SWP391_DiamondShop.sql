@@ -2,19 +2,20 @@
 USE SWP391_DiamondShop
 Create Table "Certificate"(
 "Id"       INT           NOT NULL IDENTITY(1,1) PRIMARY KEY,
- "Origin"       NVarchar(255) NOT NULL,
- "Color"        NVarchar(255) NOT NULL,
- "CaratWeight"  DECIMAL(8, 2) NOT NULL,
- "Clarity"      NVarchar(255) NOT NULL,
- "Cut"          NVarchar(255) NOT NULL,
- "Date Of Issue" Date		  NOT NULL,
- "CreatedBy"    NVARCHAR(255) NULL,
- "CreatedDate"  DATE          NULL,
- "ModifiedBy"   NVARCHAR(255) NULL,
- "ModifiedDate" DATE          NULL,
- "DeletedBy"    NVARCHAR(255) NULL,
- "DeletedDate"  DATE          NULL,
- "IsDeleted"    BIT           NOT NULL DEFAULT '0'
+"ReportNumber" NVarchar(255) NOT NULL,
+"Origin"       NVarchar(255) NOT NULL,
+"Color"        NVarchar(255) NOT NULL,
+"CaratWeight"  DECIMAL(8, 2) NOT NULL,
+"Clarity"      NVarchar(255) NOT NULL,
+"Cut"          NVarchar(255) NOT NULL,
+"Date Of Issue" Date		  NOT NULL,
+"CreatedBy"    NVARCHAR(255) NULL,
+"CreatedDate"  DATE          NULL,
+"ModifiedBy"   NVARCHAR(255) NULL,
+"ModifiedDate" DATE          NULL,
+"DeletedBy"    NVARCHAR(255) NULL,
+"DeletedDate"  DATE          NULL,
+"IsDeleted"    BIT           NOT NULL DEFAULT '0'
 )
 CREATE TABLE "Group"
 (
