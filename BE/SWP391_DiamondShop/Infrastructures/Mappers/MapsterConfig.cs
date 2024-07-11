@@ -1,4 +1,5 @@
 ﻿using Application.ViewModels.Categories;
+using Application.ViewModels.Certificates;
 using Application.ViewModels.DiamondCases;
 using Application.ViewModels.Diamonds;
 using Application.ViewModels.Products;
@@ -16,6 +17,9 @@ public static class MapsterConfig
         TypeAdapterConfig<UpdateProductDTO, Product>.NewConfig().IgnoreNullValues(true);
         TypeAdapterConfig<UpdateCategoryDTO, Category>.NewConfig().IgnoreNullValues(true);
         TypeAdapterConfig<UpdateDiamondCaseDTO, DiamondCase>.NewConfig().IgnoreNullValues(true);
+        TypeAdapterConfig<UpdateCertificateDTO, Certificate>.NewConfig().IgnoreNullValues(true);
+        TypeAdapterConfig<UpdateCertificateDTO, Diamond>.NewConfig().IgnoreNullValues(true);
+        TypeAdapterConfig<UpdateDiamondDTO, Certificate>.NewConfig().IgnoreNullValues(true);
         return services;
     }
 }

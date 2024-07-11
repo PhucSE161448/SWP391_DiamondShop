@@ -9,8 +9,8 @@ namespace Application.ViewModels.WarrantyDocuments
     public class WarrantyDocumentDTO
     {
         public int Id { get; set; }
-        public int Period { get; set; }
+        public DateTime Period { get; set; }
         public string TermsAndConditions { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
     }   
 }

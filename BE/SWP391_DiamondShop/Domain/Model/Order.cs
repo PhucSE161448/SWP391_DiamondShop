@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain.Model
 {
-    public partial class Order
+    public partial class Order : BaseEntity
     {
         public Order()
         {
@@ -13,6 +13,7 @@ namespace Domain.Model
 
         public int Id { get; set; }
         public int AccountId { get; set; }
+        public string? Address { get; set; }
         public decimal TotalPrice { get; set; }
         public int? PaymentId { get; set; }
         public DateTime? CreatedDate { get; set; }

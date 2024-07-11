@@ -3,6 +3,7 @@ using Application.Interfaces.Account;
 using Application.Interfaces.Authenticates;
 using Application.Interfaces.Carts;
 using Application.Interfaces.Categories;
+using Application.Interfaces.Certificates;
 using Application.Interfaces.Collections;
 using Application.Interfaces.Diamond;
 using Application.Interfaces.DiamondCases;
@@ -13,11 +14,13 @@ using Application.Interfaces.Payments;
 using Application.Interfaces.ProductParts;
 using Application.Interfaces.Products;
 using Application.Interfaces.ProductSizes;
+using Application.Interfaces.Promotions;
 using Application.Interfaces.Vouchers;
 using Application.Interfaces.WarrantyDocument;
 using Application.IRepositories.Accounts;
 using Application.IRepositories.Carts;
 using Application.IRepositories.Categories;
+using Application.IRepositories.Certificates;
 using Application.IRepositories.Collections;
 using Application.IRepositories.DiamondCases;
 using Application.IRepositories.Diamonds;
@@ -28,6 +31,7 @@ using Application.IRepositories.Payments;
 using Application.IRepositories.ProductParts;
 using Application.IRepositories.Products;
 using Application.IRepositories.ProductSizes;
+using Application.IRepositories.Promotions;
 using Application.IRepositories.Roles;
 using Application.IRepositories.Vouchers;
 using Application.IRepositories.WarrantyDocuments;
@@ -36,6 +40,7 @@ using Application.Services.Accounts;
 using Application.Services.Authenticates;
 using Application.Services.Carts;
 using Application.Services.Categories;
+using Application.Services.Certificates;
 using Application.Services.Collections;
 using Application.Services.DiamondCases;
 using Application.Services.Diamonds;
@@ -46,6 +51,7 @@ using Application.Services.Payments;
 using Application.Services.ProductParts;
 using Application.Services.Products;
 using Application.Services.ProductSizes;
+using Application.Services.Promotions;
 using Application.Services.Vouchers;
 using Application.Services.WarrantyDocuments;
 using Google.Cloud.Storage.V1;
@@ -53,6 +59,7 @@ using Infrastructures.Mappers;
 using Infrastructures.Repositories.Accounts;
 using Infrastructures.Repositories.Carts;
 using Infrastructures.Repositories.Categories;
+using Infrastructures.Repositories.Certificates;
 using Infrastructures.Repositories.Collections;
 using Infrastructures.Repositories.DiamondCases;
 using Infrastructures.Repositories.Diamonds;
@@ -63,6 +70,7 @@ using Infrastructures.Repositories.Payments;
 using Infrastructures.Repositories.ProductParts;
 using Infrastructures.Repositories.Products;
 using Infrastructures.Repositories.ProductSizes;
+using Infrastructures.Repositories.Promotions;
 using Infrastructures.Repositories.Roles;
 using Infrastructures.Repositories.Vouchers;
 using Infrastructures.Repositories.WarrantyDocuments;
@@ -79,6 +87,9 @@ namespace Infrastructures
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddScoped<IPromotionRepository, PromotionRepository>();
+            services.AddScoped<IPromotionService, PromotionService>();
+            
             services.AddScoped<IVoucherService, VoucherService>();
             services.AddScoped<IVoucherRepository, VoucherRepository>();
             
@@ -133,6 +144,9 @@ namespace Infrastructures
 
             services.AddScoped<IOrderRepo, OrderRepo>();
             services.AddScoped<IOrderService, OrderService>();
+            
+            services.AddScoped<ICertificateRepo, CertificateRepo>();
+            services.AddScoped<ICertificateService, CertificateService>();
             
             //services.AddDbContext<AppDbContext>(option => option.UseInMemoryDatabase("test"));
             services.AddDbContext<SWP391_DiamondShopContext>(options =>

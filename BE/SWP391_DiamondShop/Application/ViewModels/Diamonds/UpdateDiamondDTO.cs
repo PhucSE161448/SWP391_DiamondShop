@@ -8,7 +8,7 @@ public class UpdateDiamondDTO
 {
     [EnumDataType(typeof(DiamondColor))]
     public string? Color { get; set; }
-        
+    [EnumDataType(typeof(DiamondOrigin))]    
     public string? Origin { get; set; }
 
     public decimal CaratWeight { get; set; }

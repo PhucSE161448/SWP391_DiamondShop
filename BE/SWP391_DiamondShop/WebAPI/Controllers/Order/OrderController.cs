@@ -33,7 +33,7 @@ namespace WebAPI.Controllers.Order
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDTO createCartDto)
         {
-            var order = await _orderService.CreateOrderAsync(createCartDto.TotalPrice);
+            var order = await _orderService.CreateOrderAsync(createCartDto.Address,createCartDto.TotalPrice);
             var result = await _orderService.CreateOrderCartAsync(createCartDto.CartId, order.Id);
             return Created(nameof(CreateOrder), result);
         }

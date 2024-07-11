@@ -73,7 +73,7 @@ namespace Infrastructures.Repositories.Orders
                 .ToListAsync();
             return orderCarts.Adapt<List<OrderDetailDTO>>();
         }
-        public async Task<Order> CreateOrderAsync(decimal totalPrice)
+        public async Task<Order> CreateOrderAsync(string address,decimal totalPrice)
         {
             try
             {
@@ -82,6 +82,7 @@ namespace Infrastructures.Repositories.Orders
                     CreatedDate = DateTime.Now,
                     TotalPrice = totalPrice,
                     AccountId = _currentUserId,
+                    Address = address
                 };
                 await _dbContext.Orders.AddAsync(order);
                 return order;
@@ -98,7 +99,12 @@ namespace Infrastructures.Repositories.Orders
             {
                 foreach (int id in cartId)
                 {
-                    var cart = await _dbContext.Carts.FirstOrDefaultAsync(x => x.CartId == id);
+                    var cart = await _dbContext.Carts.Include(x => x.Product).ThenInclude(x => x.ProductSizes)
+                        .Include(x => x.Diamond)
+                        .FirstOrDefaultAsync(x => x.CartId == id);
+                    decimal? price = cart.ProductId.HasValue
+                        ? cart.Product?.ProductSizes.FirstOrDefault(ps => ps.Size == cart.Size)?.Price
+                        : cart.Diamond?.Price;
                     if (cart != null)
                     {
                         await _dbContext.OrderCarts.AddAsync(new OrderCart
@@ -106,7 +112,7 @@ namespace Infrastructures.Repositories.Orders
                             CartId = id,
                             OrderId = orderId,
                             Quantity = cart?.Quantity,
-                            Price = cart?.TotalPrice
+                            Price = price 
                         });
 
                         if (cart.DiamondId != null)

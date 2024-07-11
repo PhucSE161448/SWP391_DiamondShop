@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.IRepositories.Carts;
 using Application.IRepositories.Categories;
+using Application.IRepositories.Certificates;
 using Application.IRepositories.Collections;
 using Application.IRepositories.DiamondCases;
 using Application.IRepositories.Images;
@@ -20,6 +21,7 @@ using Application.IRepositories.ProductSizes;
 using Application.IRepositories.Roles;
 using Application.IRepositories.Groups;
 using Application.IRepositories.Vouchers;
+using Application.IRepositories.Promotions;
 
 namespace Application.Interfaces
 {
@@ -41,6 +43,8 @@ namespace Application.Interfaces
         public IOrderRepo OrderRepo { get; }
         public IGroupRepo GroupRepo { get; }
         public IVoucherRepository VoucherRepository { get; }
+        public ICertificateRepo CertificateRepo { get; }
+        public IPromotionRepository PromotionRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }

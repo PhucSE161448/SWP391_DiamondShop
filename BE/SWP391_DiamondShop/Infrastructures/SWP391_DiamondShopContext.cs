@@ -40,11 +40,11 @@ namespace Infrastructures
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            /*if (!optionsBuilder.IsConfigured)
+            if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=12345;database=SWP391_DiamondShop;TrustServerCertificate=True");
-            }*/
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -220,7 +220,7 @@ namespace Infrastructures
             {
                 entity.ToTable("Diamond");
 
-                entity.HasIndex(e => e.CertificateId, "UQ__Diamond__3AE4120B8983177E")
+                entity.HasIndex(e => e.CertificateId, "UQ__Diamond__3AE4120BF562EF87")
                     .IsUnique();
 
                 entity.Property(e => e.CaratWeight).HasColumnType("decimal(8, 2)");
@@ -349,6 +349,8 @@ namespace Infrastructures
             {
                 entity.Property(e => e.AccountId).HasColumnName("Account_Id");
 
+                entity.Property(e => e.Address).HasMaxLength(255);
+
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.TotalPrice).HasColumnType("decimal(12, 2)");
@@ -368,7 +370,7 @@ namespace Infrastructures
             modelBuilder.Entity<OrderCart>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.CartId })
-                    .HasName("PK__OrderCar__A68B96B406A3E292");
+                    .HasName("PK__OrderCar__A68B96B4807C6609");
 
                 entity.ToTable("OrderCart");
 
