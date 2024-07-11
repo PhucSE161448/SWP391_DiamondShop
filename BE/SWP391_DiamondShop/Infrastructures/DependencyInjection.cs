@@ -3,6 +3,7 @@ using Application.Interfaces.Account;
 using Application.Interfaces.Authenticates;
 using Application.Interfaces.Carts;
 using Application.Interfaces.Categories;
+using Application.Interfaces.Certificates;
 using Application.Interfaces.Collections;
 using Application.Interfaces.Diamond;
 using Application.Interfaces.DiamondCases;
@@ -18,6 +19,7 @@ using Application.Interfaces.WarrantyDocument;
 using Application.IRepositories.Accounts;
 using Application.IRepositories.Carts;
 using Application.IRepositories.Categories;
+using Application.IRepositories.Certificates;
 using Application.IRepositories.Collections;
 using Application.IRepositories.DiamondCases;
 using Application.IRepositories.Diamonds;
@@ -36,6 +38,7 @@ using Application.Services.Accounts;
 using Application.Services.Authenticates;
 using Application.Services.Carts;
 using Application.Services.Categories;
+using Application.Services.Certificates;
 using Application.Services.Collections;
 using Application.Services.DiamondCases;
 using Application.Services.Diamonds;
@@ -53,6 +56,7 @@ using Infrastructures.Mappers;
 using Infrastructures.Repositories.Accounts;
 using Infrastructures.Repositories.Carts;
 using Infrastructures.Repositories.Categories;
+using Infrastructures.Repositories.Certificates;
 using Infrastructures.Repositories.Collections;
 using Infrastructures.Repositories.DiamondCases;
 using Infrastructures.Repositories.Diamonds;
@@ -133,6 +137,9 @@ namespace Infrastructures
 
             services.AddScoped<IOrderRepo, OrderRepo>();
             services.AddScoped<IOrderService, OrderService>();
+            
+            services.AddScoped<ICertificateRepo, CertificateRepo>();
+            services.AddScoped<ICertificateService, CertificateService>();
             
             //services.AddDbContext<AppDbContext>(option => option.UseInMemoryDatabase("test"));
             services.AddDbContext<SWP391_DiamondShopContext>(options =>

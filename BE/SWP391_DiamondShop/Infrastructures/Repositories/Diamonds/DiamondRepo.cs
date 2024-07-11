@@ -27,6 +27,7 @@ namespace Infrastructures.Repositories.Diamonds
         public async Task<Diamond?> GetDiamondDetailById(int id)
         {
             return await _dbContext.Diamonds.Include(p => p.Images)
+                .Include(p => p.Certificate)
                                             .SingleOrDefaultAsync(x => x.Id == id);
         }
 
