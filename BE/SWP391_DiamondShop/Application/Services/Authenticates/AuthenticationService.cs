@@ -13,7 +13,9 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Google.Apis.Oauth2.v2.Data;
 using Mapster;
+using Newtonsoft.Json.Linq;
 
 namespace Application.Services.Authenticates
 {
@@ -52,6 +54,53 @@ namespace Application.Services.Authenticates
                     _currentTime.GetCurrentTime()
                 );
             return new GetAuthTokenDTO { AccessToken = token };
+        }
+
+        public async Task<GetAuthTokenDTO> LoginWithGoogle(string googleToken)
+        {
+            using var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync("https://oauth2.googleapis.com/tokeninfo?id_token=" + googleToken);
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var userInfoJson = JObject.Parse(json);
+                var userInfo = new Userinfo
+                {
+                    Id = userInfoJson["sub"]?.ToString(),
+                    Email = userInfoJson["email"]?.ToString(),
+                    Name = userInfoJson["name"]?.ToString(),
+                };
+                var existAccount = await _unitOfWork.AccountRepo.GetAsync(x => x.Email == userInfo.Email);
+                if (existAccount is not null)
+                    return new GetAuthTokenDTO()
+                    {
+                        AccessToken = existAccount.GenerateJsonWebToken(
+                            _configuration,
+                            _configuration.JWTSection.SecretKey,
+                            _currentTime.GetCurrentTime())
+                    };
+                var newAccount = new Account
+                {
+                    Email = userInfo.Email!,
+                    Name = userInfo.Name!,
+                    RoleId = (int)Roles.Customer,
+                    Point = 0
+                };
+                await _unitOfWork.AccountRepo.AddAsync(newAccount);
+                await _unitOfWork.SaveChangeAsync();
+                return new GetAuthTokenDTO()
+                {
+                    AccessToken = newAccount.GenerateJsonWebToken(
+                        _configuration,
+                        _configuration.JWTSection.SecretKey,
+                        _currentTime.GetCurrentTime())
+                };
+            }
+
+            return new GetAuthTokenDTO()
+            {
+                AccessToken = null
+            };
         }
 
         public async Task<AccountDTO> RegisterAsync(RegisterAccountDTO registerAccountDTO)

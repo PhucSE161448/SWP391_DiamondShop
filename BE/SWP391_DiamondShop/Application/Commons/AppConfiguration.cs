@@ -28,11 +28,18 @@
         public string client_x509_cert_url { get; set; }
         public string universe_domain { get; set; }
     }
+
+    public class GoogleSetting
+    {
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
+    }
     public class AppConfiguration
     {
         public string DatabaseConnection { get; set; }
         public JWTSection JWTSection { get; set; }
         public EmailConfig EmailConfiguration { get; set; }
         public GoogleImage GoogleImage { get; set; }
+        public GoogleSetting GoogleSetting { get; set; }
     }
 }
