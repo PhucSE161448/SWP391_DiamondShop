@@ -39,7 +39,24 @@ namespace Application.Services.Products
             {
                 throw new BadRequestException("Start price must be less than end price");
             }
-            return (await _unitOfWork.ProductRepo.GetPagedProducts(queryProductDTO)).Adapt<Pagination<GetProductPaginationDTO>>();
+            var pagedProductsList = await _unitOfWork.ProductRepo.GetPagedProducts(queryProductDTO);
+            // Check voucher
+            var voucherList = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
+
+            foreach (var voucher in voucherList)
+            {
+                if (voucher.IsAllProduct == true)
+                {
+                    foreach (var product in pagedProductsList.Items)
+                    {
+                        foreach(var productSize in product.ProductSizes)
+                        {
+                            productSize.Price = productSize.Price - (productSize.Price * (voucher.DiscountPercentage / 100));
+                        }
+                    }
+                }
+            }
+            return pagedProductsList.Adapt<Pagination<GetProductPaginationDTO>>();
             
         }
 
@@ -196,6 +213,18 @@ namespace Application.Services.Products
             if (product is null)
             {
                 throw new NotFoundException("Product not found");
+            }
+            //Check if voucher exist?
+            var voucherList = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
+            foreach (var voucher in voucherList)
+            {
+                if (voucher.IsAllProduct == true)
+                {
+                    foreach(var productSize in product.ProductSizes)
+                    {
+                        productSize.Price = productSize.Price - (productSize.Price * (voucher.DiscountPercentage / 100));
+                    }
+                }
             }
             return product.Adapt<GetProductDetailDTO>();
         }
