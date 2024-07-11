@@ -21,6 +21,7 @@ using Application.IRepositories.ProductSizes;
 using Application.IRepositories.Roles;
 using Application.IRepositories.Groups;
 using Application.IRepositories.Vouchers;
+using Application.IRepositories.Promotions;
 
 namespace Application.Interfaces
 {
@@ -43,6 +44,7 @@ namespace Application.Interfaces
         public IGroupRepo GroupRepo { get; }
         public IVoucherRepository VoucherRepository { get; }
         public ICertificateRepo CertificateRepo { get; }
+        public IPromotionRepository PromotionRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }

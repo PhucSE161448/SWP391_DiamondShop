@@ -1,4 +1,5 @@
-﻿using Domain.Model;
+﻿using Application.IRepositories.Promotions;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructures.Repositories.Promotions
 {
-    public class PromotionRepository
+    public class PromotionRepository : IPromotionRepository
     {
         private readonly SWP391_DiamondShopContext _dbContext;
 
