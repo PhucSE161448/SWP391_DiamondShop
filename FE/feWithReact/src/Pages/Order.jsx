@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Fragment } from 'react'
 import { createApi } from '../Auth/AuthFunction'
-import { Button, Modal, Box, TableRow, TableCell, TableBody, TableHead, Table, TableContainer, Paper } from '@mui/material'
+import { Button, Modal, Box, TableRow, TableCell, TableBody, TableHead, Table, TableContainer, Paper, Container } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined'
 export default function Order() {
   const [order, setOrder] = useState([])
-
+  const navigate = useNavigate()
   const [openPayment, setOpenPayment] = useState(false)
   const [openDetail, setOpenDetail] = useState(false)
   const [orderDetail, setOrderDetail] = useState([])
   const [warranty, setWarranty] = useState([])
+  const [warrantyId, setWarrantyId] = useState()
   const [openWarranty, setOpenWarranty] = useState(false)
+  const [status, setStatus] = useState('')
   const handleOpen = (id) => {
     setOpenPayment(true)
     getOrderDetail(id)
@@ -20,14 +22,16 @@ export default function Order() {
     setOpenPayment(false)
   }
 
-  const handleOpenDetail = (id) => {
+  const handleOpenDetail = (id, status) => {
     setOpenDetail(true)
     getOrderDetail(id)
     getWarranty(id)
+    setStatus(status)
   }
 
   const handleCloseDetail = (id) => {
     setOpenDetail(false)
+    setWarrantyId(null)
   }
 
   const handleOpenWarranty = () => {
@@ -90,6 +94,7 @@ export default function Order() {
 
   const getWarranty = (id) => {
     const url = createApi(`WarrantyDocument?orderId=${id}`)
+    setWarrantyId(id)
     fetch(url, {
       method: 'GET',
       headers: {
@@ -101,8 +106,6 @@ export default function Order() {
         setWarranty(data)
       })
   }
-
-  console.log(warranty)
 
   const headerTable = ['#', 'Order date', 'Total price', 'Status', '']
   const headerTableDetail = ['Image', 'Name', 'Quantity', 'Total price']
@@ -174,7 +177,7 @@ export default function Order() {
                         <Button variant='contained' size='large' endIcon={<PaymentOutlinedIcon />} sx={styleButton} onClick={() => handleOpen(item.id)}>
                           Pay now
                         </Button> :
-                        <Button variant='contained' size='large' onClick={() => handleOpenDetail(item.id)} sx={{
+                        <Button variant='contained' size='large' onClick={() => handleOpenDetail(item.id, item.status)} sx={{
                           backgroundColor: '#f1c232',
                           color: '#000',
                           '&:hover': {
@@ -210,45 +213,47 @@ export default function Order() {
           border: '1px solid #000',
           boxShadow: 24,
           width: '80%',
+          maxHeight: '80vh',
           p: 4,
           overflow: 'auto',
         }}>
           <div>
             <h2>Payment</h2>
-            <Table >
-              <TableHead>
-                <TableRow sx={{
-                  backgroundColor: '#001529',
-                }}>
-                  {headerTable.map((item, index) => (
-                    <TableCell key={index} sx={{
-                      color: '#fff',
-                      fontWeight: 'bold',
-                      fontSize: '20px',
-                    }}>
-                      {item}
-                    </TableCell>
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow sx={{
+                    backgroundColor: '#001529',
+                  }}>
+                    {headerTable.map((item, index) => (
+                      <TableCell key={index} sx={{
+                        color: '#fff',
+                        fontWeight: 'bold',
+                        fontSize: '20px',
+                      }}>
+                        {item}
+                      </TableCell>
 
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {orderDetail.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <img src={item.cart.product ? (item.cart.product.images[0].urlPath) : null} style={{
-                        width: '150px',
-                        height: '150px',
-                      }} />
-                    </TableCell>
-                    <TableCell>{item.cart.product ? (item.cart.product.name) : null}</TableCell>
-                    <TableCell>{item.cart.quantity}</TableCell>
-                    <TableCell>${item.cart.totalPrice.toLocaleString()}</TableCell>
+                    ))}
                   </TableRow>
-                ))}
-
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody>
+                  {orderDetail.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <img src={item.cart.product ? (item.cart.product.images[0].urlPath) : null} style={{
+                          width: '150px',
+                          height: '150px',
+                        }} />
+                      </TableCell>
+                      <TableCell>{item.cart.product ? (item.cart.product.name) : null}</TableCell>
+                      <TableCell>{item.cart.quantity}</TableCell>
+                      <TableCell>${item.cart.totalPrice.toLocaleString()}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </div>
           <div style={{
             display: 'flex',
@@ -282,107 +287,117 @@ export default function Order() {
           border: '1px solid #000',
           boxShadow: 24,
           width: '80%',
+          maxHeight: '80vh',
           p: 4,
+          overflow: 'auto',
         }}>
           <div>
             <h2>Detail</h2>
-            <Table >
-              <TableHead>
-                <TableRow sx={{
-                  backgroundColor: '#001529',
-                }}>
-                  {headerTableDetail.map((item, index) => (
-                    <TableCell key={index} sx={{
-                      color: '#fff',
-                      fontWeight: 'bold',
-                      fontSize: '20px',
-                    }}>
-                      {item}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {orderDetail.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <img src={item.cart.product ? (item.cart.product.images[0].urlPath) : item.cart.diamond.images[0]?.urlPath} style={{
-                        width: '150px',
-                        height: '150px',
-                      }} />
-                    </TableCell>
-                    <TableCell>{item.cart.product ? (item.cart.product.name) : (item.cart.diamond.name)}</TableCell>
-                    <TableCell>{item.cart.quantity}</TableCell>
-                    <TableCell>${item.cart.totalPrice.toLocaleString()}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <div>
-              <Button onClick={handleOpenWarranty}>
-                Show Warranty
-              </Button>
-              {openWarranty && (
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-
-                }}>
-                  <div>
-                    <h4>
-                      Customer Name: {warranty.account.name}
-                    </h4>
-                  </div>
-                  <div>
-                    <h4>
-                      Customer Email: {warranty.account.email}
-                    </h4>
-                  </div>
-                  <div>
-                    <TableContainer>
-                      <Table>
-                        <TableHead>
-                          <TableCell>
-                            <h4>
-                              Product Name
-                            </h4>
-                          </TableCell>
-                          <TableCell>
-                            <h4>
-                              Period
-                            </h4>
-                          </TableCell>
-                          <TableCell>
-                            <h4>
-                              Warranty
-                            </h4>
-                          </TableCell>
-                        </TableHead>
-                      </Table>
-                    </TableContainer>
-
-                    {warranty.orderProducts.map((item, index) => (
-                      <TableBody key={index}>
-                        <TableCell>
-                          {item.name}
-                        </TableCell>
-                        <TableCell>
-                          {new Date(warranty.warrantyDocuments[index].period).toLocaleDateString('en-US')}
-                        </TableCell>
-                        <TableCell>
-                          {warranty.warrantyDocuments[index].termsAndConditions}
-                        </TableCell>
-                      </TableBody>
-
+            <TableContainer>
+              <Table >
+                <TableHead>
+                  <TableRow sx={{
+                    backgroundColor: '#001529',
+                  }}>
+                    {headerTableDetail.map((item, index) => (
+                      <TableCell key={index} sx={{
+                        color: '#fff',
+                        fontWeight: 'bold',
+                        fontSize: '20px',
+                      }}>
+                        {item}
+                      </TableCell>
                     ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {orderDetail.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <img src={item.cart.product ? (item.cart.product.images[0].urlPath) : item.cart.diamond.images[0]?.urlPath} style={{
+                          width: '150px',
+                          height: '150px',
+                        }} />
+                      </TableCell>
+                      <TableCell>{item.cart.product ? (item.cart.product.name) : (item.cart.diamond.name)}</TableCell>
+                      <TableCell>{item.cart.quantity}</TableCell>
+                      <TableCell>${item.cart.totalPrice.toLocaleString()}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <div>
+              {status === 'Paid' && (
+                <Button size='large' variant='contained' onClick={handleOpenWarranty}>
+                  Show Warranty
+                </Button>
+              )}
+              {openWarranty && (
+                <Container>
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    widows: '100%',
+                  }}>
+                    <div>
+                      <h4>
+                        Customer Name: {warranty.account.name}
+                      </h4>
+                    </div>
+                    <div>
+                      <h4>
+                        Customer Email: {warranty.account.email}
+                      </h4>
+                    </div>
+                    <div>
+                      <TableContainer>
+                        <Table>
+                          <TableHead>
+                            <TableCell>
+                              <h4>
+                                Product Name
+                              </h4>
+                            </TableCell>
+                            <TableCell>
+                              <h4>
+                                Period
+                              </h4>
+                            </TableCell>
+                            <TableCell>
+                              <h4>
+                                Warranty
+                              </h4>
+                            </TableCell>
+                          </TableHead>
+                        </Table>
+                      </TableContainer>
+                      {warranty.orderProducts.map((item, index) => (
+                        <TableBody key={index}>
+                          <TableCell>
+                            {item.name}
+                          </TableCell>
+                          <TableCell>
+                            {new Date(warranty.warrantyDocuments[index].period).toLocaleDateString('en-US')}
+                          </TableCell>
+                          <TableCell>
+                            {warranty.warrantyDocuments[index].termsAndConditions}
+                          </TableCell>
+                        </TableBody>
 
+                      ))}
+                    </div>
                   </div>
-                </div>
+                  <div>
+                    <Button size='large' variant='contained' onClick={() => navigate(`/pdfWarranty/${warrantyId}`)}>Go to pdf file</Button>
+                  </div>
+                </Container>
               )}
             </div>
           </div>
+
         </Box>
       </Modal>
     </div >

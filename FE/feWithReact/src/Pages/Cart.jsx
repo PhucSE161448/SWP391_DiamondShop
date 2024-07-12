@@ -229,23 +229,6 @@ export default function Cart() {
                             Click here to continue shopping
                           </Button>
                         </div>
-                        <div style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          borderRadius: '50px',
-                        }}>
-                          <Button onClick={() => navigate('/order')} variant="contained" size="large" sx={{
-                            backgroundColor: '#000',
-                            color: '#fff',
-                            '&:hover': {
-                              backgroundColor: '#fff',
-                              color: '#000',
-                            }
-                          }}>
-                            Click here to go to your order
-                          </Button>
-                        </div>
                       </Container>
                     </Grid>
                   </Box>
