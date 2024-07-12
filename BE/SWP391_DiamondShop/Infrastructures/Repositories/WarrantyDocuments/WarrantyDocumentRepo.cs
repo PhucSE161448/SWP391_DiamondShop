@@ -52,7 +52,8 @@ namespace Infrastructures.Repositories.WarrantyDocuments
                 Name = oc.Cart.ProductId.HasValue ? oc.Cart.Product.Name : oc.Cart.Diamond.Name,
                 Price = oc.Price,
                 Address = order.Address,
-                Phone = order.Phone
+                Phone = order.Phone,
+                BuyDate = order.CreatedDate
             }).ToList();
             return new ExportWarrantyDocument
             {

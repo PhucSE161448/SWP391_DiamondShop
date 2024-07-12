@@ -16,14 +16,14 @@ namespace Infrastructures.Repositories.Carts
     public class CartRepository : ICartRepository
     {
         private readonly SWP391_DiamondShopContext _dbContext;
-        private readonly string? _currentUserName;
+        private readonly int? _currentUserId;
         public CartRepository(
             SWP391_DiamondShopContext context,
             IClaimsService claimsService
         )
         {
             _dbContext = context;
-            _currentUserName = claimsService.GetCurrentUserName;
+            _currentUserId = claimsService.GetCurrentUserId;
         } 
         
         public async Task<List<CartDTO>> GetCartWithUserId()
@@ -39,7 +39,7 @@ namespace Infrastructures.Repositories.Carts
                 .Include(x => x.Product)
                 .ThenInclude(xx => xx.ProductSizes)
                 .Include(x => x.Diamond).ThenInclude(x => x.Images)
-                .Where(x => x.CreatedBy == _currentUserName)
+                .Where(x => x.CreatedBy == _currentUserId.ToString())
                 .ToListAsync();
             return cart.Adapt<List<CartDTO>>();
         }
@@ -48,7 +48,7 @@ namespace Infrastructures.Repositories.Carts
         {
             var exist = await _dbContext.Carts.AsNoTracking().FirstOrDefaultAsync(x =>
          ((x.ProductId == dto.Id && check && x.Size == dto.Size)  || (x.DiamondId == dto.Id && !check))
-         && x.IsDeleted == false && x.CreatedBy == _currentUserName);
+         && x.IsDeleted == false && x.CreatedBy == _currentUserId.ToString());
             if (exist != null)
             {
                 exist.Quantity++;
@@ -63,7 +63,7 @@ namespace Infrastructures.Repositories.Carts
                 Quantity = dto.Quantity,
                 TotalPrice = dto.TotalPrice,
                 CreatedDate = DateTime.Now,
-                CreatedBy = _currentUserName,
+                CreatedBy = _currentUserId.ToString(),
                 ProductId = check ? dto.Id : (int?)null,
                 DiamondId = !check ? dto.Id : (int?)null
             };
@@ -86,7 +86,7 @@ namespace Infrastructures.Repositories.Carts
                 .ThenInclude(xx => xx.ProductSizes)
                 .Include(x => x.Diamond)
                 .FirstOrDefaultAsync(x =>
-                x.CartId == cartId && x.IsDeleted == false && x.CreatedBy == _currentUserName);
+                x.CartId == cartId && x.IsDeleted == false && x.CreatedBy == _currentUserId.ToString());
             if (cart != null)
             {
                 cart.Quantity += check ? 1 : -1;

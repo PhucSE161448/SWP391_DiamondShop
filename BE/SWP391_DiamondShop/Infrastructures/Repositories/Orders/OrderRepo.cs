@@ -63,15 +63,40 @@ namespace Infrastructures.Repositories.Orders
             return orderDTOs;
         }
 
+        public async Task<OrderDTO> GetOrderById(int orderId)
+        {
+            var order = await _dbContext.Orders
+                .Include(op => op.OrderStatuses)
+                .Include(x => x.Account)
+                .Include(x => x.Payment)
+                .FirstOrDefaultAsync(x => x.Id == orderId);
+
+            var orderDTOs =  new OrderDTO
+            {
+                Id = order.Id,
+                AccountName = order.Account.Name,
+                CreatedDate = order.CreatedDate,
+                TotalPrice = order.TotalPrice,
+                PaymentName = order.PaymentId != null ? order.Payment.Name : null,
+                Address = order.Address,
+                Phone = order.Phone,
+                Status = order.OrderStatuses.Select(o => o.Status).LastOrDefault()
+            };
+            return orderDTOs;
+        }
         public async Task<List<OrderDetailDTO>> GetOrderDetailAsync(int orderId)
         {
             var orderCarts = await _dbContext.OrderCarts
                 .Where(x => x.OrderId == orderId)
                 .Include(x => x.Cart)
                 .ThenInclude(x => x.Product)
+                .ThenInclude(x => x.ProductSizes)
+                .Include(x => x.Cart)
+                .ThenInclude(x => x.Product)
                 .ThenInclude(x => x.Images)
                 .Include(x => x.Cart)
                 .ThenInclude(x => x.Diamond)
+                .ThenInclude(x => x.Images)
                 .ToListAsync();
             return orderCarts.Adapt<List<OrderDetailDTO>>();
         }
@@ -147,7 +172,7 @@ namespace Infrastructures.Repositories.Orders
             }
         }
 
-        public async Task<bool> CreateOrderStatusAsync(int orderId, string status)
+        public async Task<bool> CreateOrderStatusAsync(int orderId, string status, int accountId = 0,int paymentId = 0)
         {
             var orders = await _dbContext.Orders
                 .Include(o => o.OrderCarts)
@@ -158,15 +183,19 @@ namespace Infrastructures.Repositories.Orders
             {
                 return false;
             }
-
-            await _dbContext.OrderStatuses.AddAsync(new OrderStatus
+            var orderStatus = await _dbContext.OrderStatuses.FirstOrDefaultAsync(x => x.OrderId == orderId && x.Status == status);
+            if (orderStatus == null)
             {
-                CreatedDate = DateTime.Now,
-                Status = status,
-                AccountId = _currentUserId,
-                OrderId = orderId,
-            });
-            if (status.Equals("Paid"))
+                await _dbContext.OrderStatuses.AddAsync(new OrderStatus
+                {
+                    CreatedDate = DateTime.Now,
+                    Status = status,
+                    AccountId = accountId == 0 ? _currentUserId : accountId,
+                    OrderId = orderId,
+                });
+
+            }
+            if (status.Equals("Paid") && orderStatus == null)
             {
                 foreach (var orderCart in orders.OrderCarts)
                 {
@@ -179,6 +208,7 @@ namespace Infrastructures.Repositories.Orders
                     await _dbContext.WarrantyDocuments.AddAsync(warrantyDocument);
                     orderCart.WarrantyDocument = warrantyDocument;
                 }
+                orders.PaymentId = paymentId;
             }
             if (status.Equals("Finished"))
             {

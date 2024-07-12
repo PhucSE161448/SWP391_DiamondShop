@@ -50,6 +50,10 @@ namespace Application.Services.Authenticates
             {
                 throw new BadRequestException("Account is deleted");
             }
+            if (user.IsConfirmed == false)
+            {
+                throw new BadRequestException("Please confirm via link in your email box. If you don't see please check the folder Spam in Mail");
+            }
             var token = user.GenerateJsonWebToken(
                     _configuration,
                     _configuration.JWTSection.SecretKey,
@@ -86,8 +90,8 @@ namespace Application.Services.Authenticates
                     Email = userInfo.Email!,
                     Name = userInfo.Name!,
                     RoleId = (int)Roles.Customer,
-                    IsConfirmed = true,
-                    Point = 0
+                    Point = 0,
+                    IsConfirmed = true
                 };
                 await _unitOfWork.AccountRepo.AddAsync(newAccount);
                 await _unitOfWork.SaveChangeAsync();
@@ -120,6 +124,14 @@ namespace Application.Services.Authenticates
             account.ConfirmationToken = Guid.NewGuid().ToString();
             account.RoleId = (int)Roles.Customer;
             await _unitOfWork.AccountRepo.AddAsync(account);
+            var confirmationLink = $"https://diamond-shopp.azurewebsites.net/swagger/confirm?token={account.ConfirmationToken}";
+            var emailSent = await SendEmail.SendConfirmationEmail(account.Email, confirmationLink);
+
+            if (!emailSent)
+            {
+                throw new BadRequestException("Error sending confirmation email.");
+            }
+
             await _unitOfWork.SaveChangeAsync();
             return account.Adapt<AccountDTO>();
         }
