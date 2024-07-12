@@ -36,7 +36,7 @@ namespace Application.Services.Orders
                     discount = promotion.DiscountPercentage;
                 }
             }
-
+            order.TotalPrice = order.TotalPrice - (order.TotalPrice * discount/100);
             await _unitOfWork.SaveChangeAsync();
             return order;
         }
