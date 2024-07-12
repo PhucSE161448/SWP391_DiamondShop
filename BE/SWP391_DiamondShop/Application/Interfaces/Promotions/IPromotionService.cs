@@ -10,9 +10,9 @@ namespace Application.Interfaces.Promotions
 {
     public interface IPromotionService
     {
-        Task<IEnumerable<Promotion>> GetAllPromotionAsync();
-        Task<Promotion> GetPromotionByIdAsync(int id);
+        Task<IEnumerable<PromotionDTO>> GetAllPromotionAsync();
+        Task<PromotionDTO> GetPromotionByIdAsync(int id);
         Task<bool> DeletePromotionAsync(int id);
-        Task<Promotion> CreatePromotionAsync(CreatePromotionDTO createPromotionDTO);
+        Task<CreatePromotionDTO> CreatePromotionAsync(CreatePromotionDTO createPromotionDTO);
     }
 }
