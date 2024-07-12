@@ -15,5 +15,7 @@ namespace Application.Interfaces.Authenticates
         public Task<GetAuthTokenDTO> LoginAsync(AuthenAccountDTO accountDto);
 
         Task<GetAuthTokenDTO> LoginWithGoogle(string googleToke);
+        Task<bool> CheckPassword(string password);
+        Task UpdatePassword(UpdatePasswordDTO updatePasswordDto);
     }
 }
