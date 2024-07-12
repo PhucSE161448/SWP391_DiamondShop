@@ -14,7 +14,7 @@ namespace WebAPI.Controllers.Vouchers
             _voucherService = voucherService;
         }
         [HttpPost]
-        public async Task<IActionResult> CreateVoucher([FromForm] CreateVoucherDTO createVoucherDTO)
+        public async Task<IActionResult> CreateVoucher([FromBody] CreateVoucherDTO createVoucherDTO)
         {
             return Created(nameof(CreateVoucher), await _voucherService.CreateVoucherAsync(createVoucherDTO));
         }
