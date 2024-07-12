@@ -84,6 +84,7 @@ namespace Application.Services.Authenticates
                     Email = userInfo.Email!,
                     Name = userInfo.Name!,
                     RoleId = (int)Roles.Customer,
+                    IsConfirmed = true,
                     Point = 0
                 };
                 await _unitOfWork.AccountRepo.AddAsync(newAccount);
