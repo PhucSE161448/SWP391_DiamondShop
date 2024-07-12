@@ -8,6 +8,7 @@ namespace Application.ViewModels.Orders
 {
     public class OrderCreateDTO
     {
+        public string Phone { get; set; }
         public string Address { get; set; }
         public decimal TotalPrice { get; set; }
         public List<int> CartId { get; set; }

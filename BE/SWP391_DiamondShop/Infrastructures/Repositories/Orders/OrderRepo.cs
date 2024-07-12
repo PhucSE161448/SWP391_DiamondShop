@@ -55,6 +55,8 @@ namespace Infrastructures.Repositories.Orders
                 CreatedDate = order.CreatedDate,
                 TotalPrice = order.TotalPrice,
                 PaymentName = order.PaymentId != null ? order.Payment.Name : null,
+                Address = order.Address,
+                Phone = order.Phone,
                 Status = order.OrderStatuses.Select(o => o.Status).LastOrDefault()
             }).ToList();
 
@@ -73,16 +75,17 @@ namespace Infrastructures.Repositories.Orders
                 .ToListAsync();
             return orderCarts.Adapt<List<OrderDetailDTO>>();
         }
-        public async Task<Order> CreateOrderAsync(string address,decimal totalPrice)
+        public async Task<Order> CreateOrderAsync(OrderCreateDTO createCartDto)
         {
             try
             {
                 var order = new Order
                 {
                     CreatedDate = DateTime.Now,
-                    TotalPrice = totalPrice,
+                    TotalPrice = createCartDto.TotalPrice,
                     AccountId = _currentUserId,
-                    Address = address
+                    Address = createCartDto.Address,
+                    Phone = createCartDto.Phone
                 };
                 await _dbContext.Orders.AddAsync(order);
                 return order;
