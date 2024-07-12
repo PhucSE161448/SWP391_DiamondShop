@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Container, Box, Button, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, TextField } from '@mui/material'
+import { Grid, Container, Box, Button, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, TextField, Alert } from '@mui/material'
+import { Modal } from '@mui/material'
 import { IconButton } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { createApi } from '../Auth/AuthFunction'
 import RemoveIcon from '@mui/icons-material/Remove'
 import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/Delete'
+import * as Yup from 'yup'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 export default function Cart() {
   const [isEmpty, setIsEmpty] = useState(null)
   const [cart, setCart] = useState([])
@@ -13,7 +16,7 @@ export default function Cart() {
   const [totalPriceCalculate, setTotalPriceCalculate] = useState(0)
   const [triggerRead, setTriggerRead] = useState(false)
   const token = localStorage.getItem('token')
-  const dataTableHead = ['#', 'Product', 'Quantity', 'Price', 'Total amount']
+  const dataTableHead = ['#', 'Product', 'Feature', 'Price', 'Quantity', 'Total amount']
   const navigate = useNavigate()
   const border = {
     padding: '0px',
@@ -34,7 +37,6 @@ export default function Cart() {
       backgroundColor: '#fff',
       color: '#000',
     }
-
   }
 
   useEffect(() => {
@@ -110,10 +112,11 @@ export default function Cart() {
     calculatePrice()
   }, [cart])
 
-  const confirmOrder = () => {
+  const confirmOrder = (values) => {
     const data = {
       totalPrice: totalPriceCalculate,
-      cartId: cartId
+      cartId: cartId,
+      address: values.address
     }
     const url = createApi('Order/CreateOrder')
     fetch(url, {
@@ -125,6 +128,21 @@ export default function Cart() {
       body: JSON.stringify(data)
     })
       .then(navigate('/order'))
+  }
+
+  const initialValues = {
+    totalPrice: '',
+    cartId: '',
+    address: '',
+    phoneNumber: '',
+  }
+
+  const validationSchema = Yup.object({
+    address: Yup.string().required('Required'),
+  })
+
+  const onSubmit = (values) => {
+    confirmOrder(values)
   }
 
   return (
@@ -215,7 +233,7 @@ export default function Cart() {
                     padding: '0 0 0 24px',
                   }} >
                     <Grid container justifyContent="center" spacing={3} columns={{ xs: 4, sm: 8, md: 12 }}>
-                      <Grid item lg={6} md={8} sm={12} xs={12} sx={border}>
+                      <Grid item lg={6} md={9} sm={12} xs={12} sx={border}>
                         <TableContainer sx={{
                           overflow: 'auto',
                           borderRadius: '10px',
@@ -245,6 +263,7 @@ export default function Cart() {
                               </TableRow>
                             </TableHead>
                             <TableBody>
+                              {console.log(cart)}
                               {cart.map((item, index) => (
                                 <TableRow key={index}> {/* Ensure each row has a unique key */}
                                   <TableCell>
@@ -258,7 +277,7 @@ export default function Cart() {
                                       <Grid item xs={12} sm={12} md={3} lg={3} sx={{
                                         marginRight: '25px',
                                       }}>
-                                        <img src={item.product ? item.product.images[0].urlPath : item.diamond.images[0]?.urlPath} alt="" style={{
+                                        <img src={item.product ? item.product.images[0]?.urlPath : item.diamond.images[0]?.urlPath} alt="" style={{
                                           width: '125px',
                                           borderRadius: '10px',
                                           cursor: 'pointer',
@@ -301,6 +320,24 @@ export default function Cart() {
                                       </Grid>
                                     </Grid>
                                   </TableCell>
+                                  <TableCell sx={{
+                                    width: 'auto'
+                                  }}>
+                                    {item.product ? (
+                                      <h4 style={{ fontWeight: 'bold' }}>Size = {item.size}</h4>
+                                    ) : (
+                                      <h4 style={{ fontWeight: 'bold' }}>
+                                        Carat weight = {item.diamond.caratWeight}
+                                      </h4>
+                                    )}
+                                  </TableCell>
+
+                                  <TableCell>
+                                    {item.product ?
+                                      (item.totalPrice / item.quantity).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) :
+                                      item.diamond.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                                    }
+                                  </TableCell>
                                   <TableCell>
                                     <div style={{
                                       display: 'flex',
@@ -324,12 +361,6 @@ export default function Cart() {
 
                                   </TableCell>
                                   <TableCell>
-                                    {item.product ?
-                                      (item.totalPrice / item.quantity).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) :
-                                      item.diamond.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
-                                    }
-                                  </TableCell>
-                                  <TableCell>
                                     {item.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                                   </TableCell>
                                 </TableRow>
@@ -339,31 +370,78 @@ export default function Cart() {
                           </Table>
                         </TableContainer>
                       </Grid>
-                      <Grid item lg={4} md={4} sm={12} xs={12} sx={border}>
+                      <Grid item lg={4} md={3} sm={12} xs={12} sx={border}>
                         <Grid>
                           <h1>
                             Total: {totalPriceCalculate.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                           </h1>
                         </Grid>
+                        <Formik
+                          initialValues={initialValues}
+                          validationSchema={validationSchema}
+                          onSubmit={onSubmit}
+                        >
+                          {({ handleChange, values, setFieldValue }) => {
+                            useEffect(() => {
+                              setFieldValue('cartId', cartId)
+                              setFieldValue('totalPrice', totalPriceCalculate)
+                            }, [])
+                            return (
+                              <Form>
+                                <div className='row'>
+                                  <div className='col'>
+                                    <Field
+                                      as={TextField}
+                                      type="text"
+                                      name="address"
+                                      label="Address"
+                                      onChange={handleChange}
+                                      sx={{
+                                        width: '100%'
+                                      }}
+                                    />
+                                    <ErrorMessage name="address" >
+                                      {msg => <Alert severity="error">{msg}</Alert>}
+                                    </ErrorMessage>
+                                  </div>
+                                </div>
+                                <div className='row'>
+                                  <div className='col'>
+                                    <Field
+                                      as={TextField}
+                                      type="text"
+                                      name="address"
+                                      label="Address"
+                                      onChange={handleChange}
+                                      sx={{
+                                        width: '100%'
+                                      }}
+                                    />
+                                    <ErrorMessage name="address" >
+                                      {msg => <Alert severity="error">{msg}</Alert>}
+                                    </ErrorMessage>
+                                  </div>
+                                </div>
+                                <Button type="submit"
+                                  className='submitButton'
+                                  value="Submit" variant="contained"
+                                  size="large"
+                                  sx={colorPayment}>
+                                  Confirm Order
+                                </Button>
+                              </Form>
+                            )
+                          }}
+                        </Formik>
                         <Container>
                           <Grid container columnSpacing={10}>
-                            <Grid item lg={6} md={6} sm={12} xs={12} >
+                            <Grid item lg={12} md={12} sm={12} xs={12} >
                               <div style={{
                                 margin: '20px auto',
-                                width: '250px',
+                                width: '100%',
                               }}>
                                 <Button fullWidth onClick={() => navigate('/')} variant="contained" size="large" sx={colorContinueShopping}>
                                   Continue shopping
-                                </Button>
-                              </div>
-                            </Grid>
-                            <Grid item lg={6} md={6} sm={12} xs={12} >
-                              <div style={{
-                                margin: '20px auto',
-                                width: 'auto',
-                              }}>
-                                <Button fullWidth onClick={confirmOrder} variant="contained" size="large" sx={colorPayment}>
-                                  Confirm Order
                                 </Button>
                               </div>
                             </Grid>
@@ -389,6 +467,7 @@ export default function Cart() {
                       </Grid>
                     </Grid>
                   </Box>
+
                 </Container>
               )
             }
@@ -433,6 +512,6 @@ export default function Cart() {
           </div>
         )
       }
-    </div>
+    </div >
   )
 }

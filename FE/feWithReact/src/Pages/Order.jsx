@@ -10,6 +10,8 @@ export default function Order() {
   const [openPayment, setOpenPayment] = useState(false)
   const [openDetail, setOpenDetail] = useState(false)
   const [orderDetail, setOrderDetail] = useState([])
+  const [warranty, setWarranty] = useState([])
+  const [openWarranty, setOpenWarranty] = useState(false)
   const handleOpen = (id) => {
     setOpenPayment(true)
     getOrderDetail(id)
@@ -21,10 +23,15 @@ export default function Order() {
   const handleOpenDetail = (id) => {
     setOpenDetail(true)
     getOrderDetail(id)
+    getWarranty(id)
   }
 
   const handleCloseDetail = (id) => {
     setOpenDetail(false)
+  }
+
+  const handleOpenWarranty = () => {
+    setOpenWarranty(true)
   }
 
   const styleOrderContainer = {
@@ -81,7 +88,24 @@ export default function Order() {
       })
   }
 
+  const getWarranty = (id) => {
+    const url = createApi(`WarrantyDocument?orderId=${id}`)
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(response => response.json())
+      .then(data => {
+        setWarranty(data)
+      })
+  }
+
+  console.log(warranty)
+
   const headerTable = ['#', 'Order date', 'Total price', 'Status', '']
+  const headerTableDetail = ['Image', 'Name', 'Quantity', 'Total price']
 
 
   return (
@@ -128,7 +152,7 @@ export default function Order() {
               <TableBody sx={{
                 width: '100%'
               }}>
-                {order.sort((a, b) => a.status.localeCompare(b.status)).map((item, index) => (
+                {order && order.sort((a, b) => a.status.localeCompare(b.status)).map((item, index) => (
                   <TableRow key={item.id}>
                     <TableCell>
                       {index + 1}
@@ -141,7 +165,7 @@ export default function Order() {
                     </TableCell>
                     <TableCell>
                       <Button variant="contained"
-                        color={item.status === 'Approved' ? 'success' : item.status === 'Wait To Approve' ? 'error' : 'primary'}>
+                        color={item.status === 'Approved' ? 'success' : item.status === 'Wait To Approve' ? 'error' : item.status === 'Paid' ? 'primary' : 'warning'}>
                         {item.status}
                       </Button>
                     </TableCell>
@@ -187,6 +211,7 @@ export default function Order() {
           boxShadow: 24,
           width: '80%',
           p: 4,
+          overflow: 'auto',
         }}>
           <div>
             <h2>Payment</h2>
@@ -266,7 +291,7 @@ export default function Order() {
                 <TableRow sx={{
                   backgroundColor: '#001529',
                 }}>
-                  {headerTable.map((item, index) => (
+                  {headerTableDetail.map((item, index) => (
                     <TableCell key={index} sx={{
                       color: '#fff',
                       fontWeight: 'bold',
@@ -281,21 +306,85 @@ export default function Order() {
                 {orderDetail.map((item, index) => (
                   <TableRow key={index}>
                     <TableCell>
-                      <img src={item.cart.product ? (item.cart.product.images[0].urlPath) : null} style={{
+                      <img src={item.cart.product ? (item.cart.product.images[0].urlPath) : item.cart.diamond.images[0]?.urlPath} style={{
                         width: '150px',
                         height: '150px',
                       }} />
                     </TableCell>
-                    <TableCell>{item.cart.product ? (item.cart.product.name) : null}</TableCell>
+                    <TableCell>{item.cart.product ? (item.cart.product.name) : (item.cart.diamond.name)}</TableCell>
                     <TableCell>{item.cart.quantity}</TableCell>
                     <TableCell>${item.cart.totalPrice.toLocaleString()}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
+            <div>
+              <Button onClick={handleOpenWarranty}>
+                Show Warranty
+              </Button>
+              {openWarranty && (
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+
+                }}>
+                  <div>
+                    <h4>
+                      Customer Name: {warranty.account.name}
+                    </h4>
+                  </div>
+                  <div>
+                    <h4>
+                      Customer Email: {warranty.account.email}
+                    </h4>
+                  </div>
+                  <div>
+                    <TableContainer>
+                      <Table>
+                        <TableHead>
+                          <TableCell>
+                            <h4>
+                              Product Name
+                            </h4>
+                          </TableCell>
+                          <TableCell>
+                            <h4>
+                              Period
+                            </h4>
+                          </TableCell>
+                          <TableCell>
+                            <h4>
+                              Warranty
+                            </h4>
+                          </TableCell>
+                        </TableHead>
+                      </Table>
+                    </TableContainer>
+
+                    {warranty.orderProducts.map((item, index) => (
+                      <TableBody key={index}>
+                        <TableCell>
+                          {item.name}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(warranty.warrantyDocuments[index].period).toLocaleDateString('en-US')}
+                        </TableCell>
+                        <TableCell>
+                          {warranty.warrantyDocuments[index].termsAndConditions}
+                        </TableCell>
+                      </TableBody>
+
+                    ))}
+
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </Box>
       </Modal>
-    </div>
+    </div >
   )
 }

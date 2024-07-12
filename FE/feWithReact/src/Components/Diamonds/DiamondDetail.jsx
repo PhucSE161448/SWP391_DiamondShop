@@ -255,11 +255,15 @@ export default function DiamondDetail() {
                   </h4>
                 )}
               </FormControl>
-              {responseStatus.toString().startsWith('2') && (
+              {responseStatus ? (responseStatus.toString().startsWith('2') ? (
                 <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
                   Add to cart successful
                 </Alert>
-              )}
+              ) : (
+                <Alert severity="error">
+                  Add to cart failed
+                </Alert>
+              )) : null}
             </div>
             <br />
           </div>

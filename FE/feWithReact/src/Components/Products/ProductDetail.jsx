@@ -18,7 +18,7 @@ export default function ProductDetail() {
   const [currentTopImageIndex, setCurrentTopImageIndex] = useState(0)
   const [selectedSize, setSelectedSize] = useState(1);
   const [selectedQuantity, setSelectedQuantity] = useState(1)
-  const [responseStatus, setResponseStatus] = useState(1)
+  const [responseStatus, setResponseStatus] = useState('')
   const [totalPrice, setTotalPrice] = useState(0)
   const token = localStorage.getItem('token')
 
@@ -306,7 +306,7 @@ export default function ProductDetail() {
                     Please login to add to cart
                   </h4>
                 )}
-                {responseStatus.toString().startsWith('2') ? (
+                {responseStatus ? (responseStatus.toString().startsWith('2') ? (
                   <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
                     Add to cart successful
                   </Alert>
@@ -314,7 +314,7 @@ export default function ProductDetail() {
                   <Alert severity="error">
                     Add to cart failed
                   </Alert>
-                )}
+                )) : null}
               </FormControl>
             </div>
             <br />

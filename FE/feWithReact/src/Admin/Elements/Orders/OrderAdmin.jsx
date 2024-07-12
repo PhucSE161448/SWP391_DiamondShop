@@ -20,7 +20,7 @@ export default function OrderAdmin() {
     setOrderDetail([])
   }
   const role = localStorage.getItem('role')
-  const status = ['Wait To Approve', 'Approved ', 'Finished ']
+  const status = ['Wait To Approve', 'Approved', 'Finished', 'Paid']
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -82,8 +82,12 @@ export default function OrderAdmin() {
     createStatus(id, status[0])
   }
 
-  const cancelButtonDelivery = (id) => {
+  const cancelPaid = (id) => {
     createStatus(id, status[1])
+  }
+
+  const cancelButtonDelivery = (id) => {
+    createStatus(id, status[3])
   }
 
   const approveButton = (id) => {
@@ -161,74 +165,148 @@ export default function OrderAdmin() {
             </TableContainer>
           </div>
         )}
-        <div>
+        {(role === '1' || role === '3') && (
           <div>
-            <h2>
-              Approved
-            </h2>
-          </div>
-          <TableContainer>
-            <Table>
-              <TableHead style={{
-                backgroundColor: 'lightgray'
-              }}>
-                {headerTable.map((header) => (
-                  <TableCell sx={{
-                    fontWeight: 'bold',
-                    fontSize: '20px',
-                  }}>{header}</TableCell>
-                ))}
-              </TableHead>
-              <TableBody>
-                {dataOrder.filter(order => order.status === 'Approved').map((order) => (
-                  <TableRow key={order.id}>
-                    <TableCell>{order.id}</TableCell>
-                    <TableCell>{order.createdDate}</TableCell>
-                    <TableCell>{order.accountName}</TableCell>
-                    <TableCell>
-                      <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-start',
-                        alignItems: 'center',
-
-                      }}>
+            <div>
+              <h2>
+                Approved
+              </h2>
+            </div>
+            <TableContainer>
+              <Table>
+                <TableHead style={{
+                  backgroundColor: 'lightgray'
+                }}>
+                  {headerTable.map((header) => (
+                    <TableCell sx={{
+                      fontWeight: 'bold',
+                      fontSize: '20px',
+                    }}>{header}</TableCell>
+                  ))}
+                </TableHead>
+                <TableBody>
+                  {dataOrder.filter(order => order.status === 'Approved').map((order) => (
+                    <TableRow key={order.id}>
+                      <TableCell>{order.id}</TableCell>
+                      <TableCell>{order.createdDate}</TableCell>
+                      <TableCell>{order.accountName}</TableCell>
+                      <TableCell>
                         <div style={{
-                          marginRight: '20px'
-
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'flex-start',
+                          alignItems: 'center',
                         }}>
-                          {order.status}
-                        </div> <br />
-                        {((role === '1' || role === '4')) && (
+                          {(role === '1') && (
+                            <div>
+                              <Button variant="contained" color='info' onClick={() => cancelButtonDelivery(order.id)}>
+                                Paid
+                              </Button>
+                            </div>
+                          )}
                           <div style={{
-                            marginRight: '20px'
+                            marginRight: '20px',
+                            marginLeft: '20px'
                           }}>
-                            <Button variant="contained" onClick={() => finishButton(order.id)}>
-                              Finish
-                            </Button>
-                          </div>
-                        )}
-                        {(role === '1' || role === '3') && (
-                          <div>
-                            <Button variant="contained" color='error' onClick={() => cancelButtonSale(order.id)}>
-                              Cancel
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>${order.totalPrice.toLocaleString()}</TableCell>
-                    <TableCell>
-                      <Button onClick={() => handleOpen(order.id)}>
-                        Detail
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+                            {order.status}
+                          </div> <br />
+
+                          {(role === '1' || role === '3') && (
+                            <div>
+                              <Button variant="contained" color='error' onClick={() => cancelButtonSale(order.id)}>
+                                Cancel
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>${order.totalPrice.toLocaleString()}</TableCell>
+                      <TableCell>
+                        <Button onClick={() => handleOpen(order.id)}>
+                          Detail
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        )}
+        {(role === '1' || role === '4') && (
+          <div>
+            <div>
+              <h2>
+                Paid
+              </h2>
+            </div>
+            <TableContainer>
+              <Table>
+                <TableHead style={{
+                  backgroundColor: 'lightgray'
+                }}>
+                  {headerTable.map((header) => (
+                    <TableCell sx={{
+                      fontWeight: 'bold',
+                      fontSize: '20px',
+                    }}>{header}</TableCell>
+                  ))}
+                </TableHead>
+                <TableBody>
+                  {dataOrder.filter(order => order.status === 'Paid').map((order) => (
+                    <TableRow key={order.id}>
+                      <TableCell>{order.id}</TableCell>
+                      <TableCell>{order.createdDate}</TableCell>
+                      <TableCell>{order.accountName}</TableCell>
+                      <TableCell>
+                        <div style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'flex-start',
+                          alignItems: 'center',
+                        }}>
+                          <div style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'flex-start',
+                            alignItems: 'center',
+                          }}>
+                            {(role === '1') && (
+                              <div>
+                                <Button variant="contained" color='error' onClick={() => cancelPaid(order.id)}>
+                                  Unpaid
+                                </Button>
+                              </div>
+                            )}
+                            <div style={{
+                              marginRight: '20px',
+                              marginLeft: '20px'
+                            }}>
+                              {order.status}
+                            </div> <br />
+                            {(role === '1' || role === '4') && (
+                              <div>
+                                <Button variant="contained" color='primary' onClick={() => finishButton(order.id)}>
+                                  Finish
+                                </Button>
+                              </div>
+                            )}
+                          </div> <br />
+                        </div>
+                      </TableCell>
+                      <TableCell>${order.totalPrice.toLocaleString()}</TableCell>
+                      <TableCell>
+                        <Button onClick={() => handleOpen(order.id)}>
+                          Detail
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        )}
         {(role === '1' || role === '4') && (
           <div>
             <div>

@@ -20,7 +20,7 @@ export default function GetPageDiamond() {
   const [triggerRead, setTriggerRead] = useState(false)
   const dataColors = ["D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
   const dataClarity = ["FL", "IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "I1", "I2", "I3"]
-  const dataCut = ["Excellent", "Very Good", "Good", "Fair", "Poor"].reverse()
+  const dataCut = ["Excellent", "VeryGood", "Good", "Fair", "Poor"].reverse()
   const [dataCaratWeightStart, setDataCaratWeightStart] = useState(0.1)
   const [dataCaratWeightEnd, setDataCaratWeightEnd] = useState(10.2)
   const [valueColor, setValueColor] = useState([0, dataColors.length - 1])
