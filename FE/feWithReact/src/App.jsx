@@ -1,4 +1,4 @@
-
+import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Pages/Home'
 import Homepage from '../src/Components/Content/HomePage'
@@ -28,9 +28,21 @@ import OrderAdmin from './Admin/Elements/Orders/OrderAdmin'
 import ShowAllPayment from './Admin/Elements/Payment/ShowAllPayment'
 import PaymentSuccessful from './Pages/PaymentSuccessful'
 import Certificate from './Admin/Elements/Certificate/Certificate'
+import { gapi } from 'gapi-script'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 export default function App() {
+  const clientId = "629470625241-289cmgv2sgrusl96bhmhsnpjjbr0m98b.apps.googleusercontent.com";
+  useEffect(() => {
+    function start() {
+      gapi.auth2.init({
+        client_id: clientId,
+        scope: ''
+      });
+    }
+    gapi.load('client:auth2', start);
+  })
   return (
-    <>
+    <GoogleOAuthProvider clientId={clientId}>
       <BrowserRouter>
         {/* <LogoutAndRedirect /> */}
 
@@ -67,7 +79,6 @@ export default function App() {
 
         </Routes >
       </BrowserRouter >
-
-    </>
+    </GoogleOAuthProvider>
   )
 }

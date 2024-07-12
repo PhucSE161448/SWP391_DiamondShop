@@ -7,6 +7,7 @@ import { TextField, Button, FormControl, Alert } from '@mui/material'
 import { createApi } from './AuthFunction'
 import { jwtDecode } from 'jwt-decode'
 import * as Yup from 'yup'
+import { GoogleLogin } from '@react-oauth/google';
 export default function Login() {
   let navigate = useNavigate()
   const [responseStatus, setResponseStatus] = useState('')
@@ -61,10 +62,49 @@ export default function Login() {
           reject(error)
         })
     })
-
   }
 
+  function loginByGoogle(token) {
+    const url = createApi('Authentication/LoginGoogle')
+    const data = {
+      googleToken: token
+    }
+    console.log(data)
+    return new Promise((resolve, reject) => {
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json-patch+json",
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (!response.ok) {
+            response.json().then(data => {
+              setResponseStatus(data.StatusCode);
+              setError(data.ErrorMessage);
+            });
+            return; // Ensure we don't proceed to parse the response again if it's not OK
+          }
+          return response.json()
+        })
+        .then(responseJson => {
+          localStorage.setItem('token', responseJson.accessToken)
+          const decodedToken = jwtDecode(responseJson.accessToken)
+          localStorage.setItem('role', decodedToken.Role)
+          resolve()
+          navigate('/')
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 
+  const response = (response) => {
+    loginByGoogle(response.credential)
+  }
 
   const styleAlert = {
     borderRadius: '50px',
@@ -198,6 +238,25 @@ export default function Login() {
                   LOGIN
                 </Button>
                 <div style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginBottom: '5px',
+                }}>
+                  <Button sx={{
+                    backgroundColor: 'white',
+                    color: 'black',
+                    borderRadius: '50px',
+                    '&:hover': {
+                      backgroundColor: 'white',
+                    }
+                  }}>
+                    <GoogleLogin
+                      clientId="629470625241-289cmgv2sgrusl96bhmhsnpjjbr0m98b.apps.googleusercontent.com"
+                      onSuccess={response}
+                    />
+                  </Button>
+                </div>
+                <div style={{
                   width: '100%',
                 }}>
                   <Button
@@ -218,6 +277,7 @@ export default function Login() {
                     SIGN UP
                   </Button>
                 </div>
+
                 <div className='backToHomePageLink'>
                   <Link to="/" className='linkBackHome' >
                     Back to homepage
@@ -226,10 +286,9 @@ export default function Login() {
               </Form>
             )}
           </Formik>
-
-
         </div>
       </div>
+
     </section >
   )
 }
