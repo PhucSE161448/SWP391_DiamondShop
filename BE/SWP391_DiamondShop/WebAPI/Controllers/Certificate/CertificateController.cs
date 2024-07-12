@@ -41,4 +41,11 @@ public class CertificateController : BaseController
         var result = await service.GetCertificateById(id);
         return Ok(result);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetExportCertificate(int orderId)
+    {
+        var result = await service.GetCertificatesByOrderIdAsync(orderId);
+        return Ok(result);
+    }
 }

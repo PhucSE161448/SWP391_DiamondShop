@@ -8,8 +8,6 @@ public class GetCertificateDTO
 
     public string? Origin { get; set; } 
 
-    public string? Shape { get; set; }
-
     public string? Color { get; set; } 
 
     public string? Clarity { get; set; } 

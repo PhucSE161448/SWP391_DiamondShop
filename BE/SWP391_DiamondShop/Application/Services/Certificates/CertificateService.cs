@@ -93,4 +93,7 @@ public class CertificateService : ICertificateService
         }
         return certificate.Adapt<GetCertificateDTO>();
     }
+
+    public async Task<ExportCertificate> GetCertificatesByOrderIdAsync(int orderId) =>
+        await _unitOfWork.CertificateRepo.GetCertificatesByOrderIdAsync(orderId);
 }

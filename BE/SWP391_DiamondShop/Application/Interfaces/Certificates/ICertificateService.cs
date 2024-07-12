@@ -9,4 +9,5 @@ public interface ICertificateService
     Task<GetCertificateDTO> GetCertificateByOriginAndReportNumberForCreateDiamond(string origin, string reportNumber);
     Task<List<GetListCertificateDTO>> GetAllCertificates();
     Task<GetCertificateDTO> GetCertificateById(int id);
+    Task<ExportCertificate> GetCertificatesByOrderIdAsync(int orderId);
 }
