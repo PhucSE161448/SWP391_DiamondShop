@@ -4,6 +4,7 @@ import { createApi } from '../Auth/AuthFunction'
 import { Button, Modal, Box, TableRow, TableCell, TableBody, TableHead, Table, TableContainer, Paper, Container } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined'
+import { jwtDecode } from 'jwt-decode'
 export default function Order() {
   const [order, setOrder] = useState([])
   const navigate = useNavigate()
@@ -14,10 +15,18 @@ export default function Order() {
   const [warrantyId, setWarrantyId] = useState()
   const [openWarranty, setOpenWarranty] = useState(false)
   const [status, setStatus] = useState('')
+  const [orderDetailId, setOrderDetailId] = useState()
+  const [paymentId, setPaymentId] = useState()
+  const userData = jwtDecode(localStorage.getItem('token'))
+  const userId = userData.Id
+
   const handleOpen = (id) => {
     setOpenPayment(true)
     getOrderDetail(id)
+    setOrderDetailId(id)
+    setPaymentId(1)
   }
+
   const handleClose = () => {
     setOpenPayment(false)
   }
@@ -38,6 +47,19 @@ export default function Order() {
     setOpenWarranty(true)
   }
 
+  const handlePayment = (userId, paymentId, orderDetailId) => {
+    const url = createApi(`PayOs/Checkout?userId=${userId}&orderId=${orderDetailId}&paymentId=${paymentId}`)
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(response => response.json())
+      .then(data => {
+        window.open(data.url, '_blank').focus()
+      })
+  }
   const styleOrderContainer = {
     display: 'flex',
     flexDirection: 'column',
@@ -107,7 +129,7 @@ export default function Order() {
       })
   }
 
-  const headerTable = ['#', 'Order date', 'Total price', 'Status', '']
+  const headerTable = ['#', 'Order date', 'Total price', 'Status']
   const headerTableDetail = ['Image', 'Name', 'Quantity', 'Total price']
 
 
@@ -246,7 +268,7 @@ export default function Order() {
                           height: '150px',
                         }} />
                       </TableCell>
-                      <TableCell>{item.cart.product ? (item.cart.product.name) : null}</TableCell>
+                      <TableCell>{item.cart.product ? (item.cart.product.name) : (item.cart.diamond.name)}</TableCell>
                       <TableCell>{item.cart.quantity}</TableCell>
                       <TableCell>${item.cart.totalPrice.toLocaleString()}</TableCell>
                     </TableRow>
@@ -263,7 +285,7 @@ export default function Order() {
             width: '100%'
           }}>
             <div>
-              <Button>
+              <Button onClick={() => handlePayment(userId, paymentId, orderDetailId)}>
                 <img src="https://payos.vn/docs/img/logo.svg" alt="" style={{
                   height: '100px',
                 }} />

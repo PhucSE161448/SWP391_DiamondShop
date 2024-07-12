@@ -11,9 +11,11 @@ export default function Profile() {
   const userDetail = jwtDecode(localStorage.getItem('token'))
   const [dataUser, setDataUser] = useState(null)
   const [userDetailPage, setUserDetailPage] = useState(true)
-  const [userAddressPage, setUserAddressPage] = useState(false)
+  const [userPasswordPage, setUserPasswordPage] = useState(false)
   const [userAddressEdit, setUserAddressEdit] = useState(false)
   const [trigger, setTrigger] = useState(false)
+  const [statusPassword, setStatusPassword] = useState()
+  const [statusUpdatePassword, setStatusUpdatePassword] = useState()
   const navigate = useNavigate()
   const validationSchema = Yup.object({
     name: Yup.string().required('Required'),
@@ -41,21 +43,23 @@ export default function Profile() {
 
   const handleOpenUserPage = () => {
     setUserDetailPage(true)
-    setUserAddressPage(false)
+    setUserPasswordPage(false)
   }
 
   const handleCloseUserPage = () => {
     setUserDetailPage(false)
   }
 
-  const handleOpenAddressPage = () => {
-    setUserAddressPage(true)
+  const handleOpenPasswordPage = () => {
+    setUserPasswordPage(true)
     handleCloseUserPage()
   }
 
-  const handleCloseAddressPage = () => {
-    setUserAddressPage(false)
+  const handleClosePasswordPage = () => {
+    setUserPasswordPage(false)
     handleOpenUserPage()
+    setStatusPassword(false)
+    setStatusUpdatePassword(false)
   }
 
   const handleOpenAddressEdit = () => {
@@ -109,6 +113,67 @@ export default function Profile() {
       setTrigger(prev => !prev)
     })
   }
+
+  const valuePassword = {
+    password: '',
+  }
+
+  const validationSchemaPassword = Yup.object({
+    password: Yup.string().required('Required'),
+  })
+
+  const onSubmitPassword = (values) => {
+    checkUpdatePassword(values)
+  }
+
+  const checkUpdatePassword = (values) => {
+    const url = createApi(`Authentication/CheckPasswordWithCurrentAccount/${values.password}`)
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(response => {
+      return response.json()
+    }).then(responseData => {
+      setStatusPassword(responseData)
+    })
+  }
+
+  const valueUpdatePassword = {
+    newPassword: '',
+    retypePassword: '',
+  }
+
+  const validationSchemaUpdatePassword = Yup.object({
+    newPassword: Yup.string().required('Required').min(6, 'Password must be at least 6 characters'),
+    retypePassword: Yup.string().required('Required').oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
+  })
+
+  const onSubmitUpdatePassword = (values) => {
+    updatePassword(values)
+  }
+
+  const updatePassword = (values) => {
+    const url = createApi(`Authentication/ChangePasswordWithCurrentAccount`)
+    const data = {
+      newPassword: values.newPassword,
+      retypePassword: values.retypePassword,
+    }
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(data)
+    }).then(response => {
+      setStatusUpdatePassword(response.status)
+    })
+  }
   return (
     <div>
       <Container>
@@ -139,17 +204,19 @@ export default function Profile() {
                     User Information
                   </h3>
                 </div>
-                <div>
-                  <div style={{
-                    cursor: 'pointer',
-                  }} onClick={handleOpenAddressPage}>
-                    <h3 style={{
-                      textDecoration: !userDetailPage ? 'underline' : 'none',
-                    }}>
-                      Address
-                    </h3>
+                {dataUser?.password && (
+                  <div>
+                    <div style={{
+                      cursor: 'pointer',
+                    }} onClick={handleOpenPasswordPage}>
+                      <h3 style={{
+                        textDecoration: !userDetailPage ? 'underline' : 'none',
+                      }}>
+                        Password
+                      </h3>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </Container>
           </Grid>
@@ -317,10 +384,150 @@ export default function Profile() {
                 </div>
               </Container>
             )}
-            {userAddressPage && (
+            {(userPasswordPage && dataUser?.password) && (
               <Container>
-
-
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderBottom: '1px solid #04376a',
+                }}>
+                  <h2>User Password</h2>
+                </div>
+                <div>
+                  {dataUser.password ? (
+                    <div style={{
+                      marginTop: '20px',
+                    }}>
+                      <div>
+                        <Formik
+                          initialValues={valuePassword}
+                          validationSchema={validationSchemaPassword}
+                          onSubmit={onSubmitPassword}
+                        >
+                          <Form style={{
+                            display: 'flex',
+                          }}>
+                            <Field
+                              name="password"
+                              as={TextField}
+                              type="password"
+                              label="Current password"
+                              style={{ width: '100%' }}
+                            />
+                            <ErrorMessage name="password">
+                              {msg => <Alert severity="error">{msg}</Alert>}
+                            </ErrorMessage>
+                            {!statusPassword && (
+                              <div style={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                alignItems: 'center',
+                              }}>
+                                <Button
+                                  size='large'
+                                  variant="contained"
+                                  type="submit"
+                                  sx={{
+                                    backgroundColor: '#de8b25',
+                                    color: '#fff',
+                                    '&:hover': {
+                                      backgroundColor: '#de8b25',
+                                      color: '#fff',
+                                    }
+                                  }}
+                                >
+                                  Enter
+                                </Button>
+                              </div>
+                            )}
+                          </Form>
+                        </Formik>
+                      </div>
+                      {statusPassword ? (
+                        <Alert severity="success">Password: Correct</Alert>
+                      ) : (
+                        <Alert severity="error">Password: Incorrect</Alert>
+                      )}
+                      {statusPassword ? (
+                        <div style={{
+                          paddingTop: '20px',
+                        }}>
+                          <Formik
+                            initialValues={valueUpdatePassword}
+                            validationSchema={validationSchemaUpdatePassword}
+                            onSubmit={onSubmitUpdatePassword}
+                          >
+                            <Form style={{
+                              display: 'flex',
+                            }}>
+                              <div className='row'>
+                                <div className='col'>
+                                  <Field
+                                    name="newPassword"
+                                    as={TextField}
+                                    type="password"
+                                    label="Update password"
+                                    style={{ width: '100%' }}
+                                  />
+                                  <ErrorMessage name="newPassword">
+                                    {msg => <Alert severity="error">{msg}</Alert>}
+                                  </ErrorMessage>
+                                </div>
+                                <div className='col'>
+                                  <Field
+                                    name="retypePassword"
+                                    as={TextField}
+                                    type="password"
+                                    label="Retype password"
+                                    style={{ width: '100%' }}
+                                  />
+                                  <ErrorMessage name="retypePassword">
+                                    {msg => <Alert severity="error">{msg}</Alert>}
+                                  </ErrorMessage>
+                                </div>
+                              </div>
+                              <div style={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                alignItems: 'center',
+                              }}>
+                                <Button
+                                  size='large'
+                                  variant="contained"
+                                  type="submit"
+                                  sx={{
+                                    backgroundColor: '#de8b25',
+                                    color: '#fff',
+                                    '&:hover': {
+                                      backgroundColor: '#de8b25',
+                                      color: '#fff',
+                                    }
+                                  }}
+                                >
+                                  Enter
+                                </Button>
+                                <Button
+                                  size='large'
+                                  variant="contained"
+                                  onClick={handleClosePasswordPage}
+                                  color='error'
+                                >
+                                  Cancel
+                                </Button>
+                              </div>
+                              {statusUpdatePassword === 204 ? (
+                                <Alert severity="success">Password: Updated</Alert>
+                              ) : (
+                                <Alert severity="error">Password: Not updated</Alert>
+                              )}
+                            </Form>
+                          </Formik>
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : ('Password: No password')}
+                </div>
               </Container>
             )}
           </Grid>
