@@ -226,19 +226,6 @@ export default function DiamondDetail() {
               <FormControl sx={{
                 width: '300px',
               }}>
-                <TextField
-                  label="Quantity"
-                  type="number" // Ensure input is treated as a number
-                  onChange={e => {
-                    const newQuantity = parseInt(e.target.value, 10); // Parse the quantity as an integer
-                    handleSelectQuantity(newQuantity);
-                    // Ensure we use the correct size to find the price
-                    const newPrice = DiamondDetail.price * newQuantity;
-                    setPrice(newPrice)
-                  }}
-                  value={selectedQuantity}
-                  inputProps={{ min: 1 }}
-                />
                 <h3 style={{ color: '#183471' }}>{price.toLocaleString()} $</h3>
                 {token ? (
                   <AddToCartButton
@@ -255,11 +242,15 @@ export default function DiamondDetail() {
                   </h4>
                 )}
               </FormControl>
-              {responseStatus.toString().startsWith('2') && (
+              {responseStatus ? (responseStatus.toString().startsWith('2') ? (
                 <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
                   Add to cart successful
                 </Alert>
-              )}
+              ) : (
+                <Alert severity="error">
+                  Add to cart failed
+                </Alert>
+              )) : null}
             </div>
             <br />
           </div>

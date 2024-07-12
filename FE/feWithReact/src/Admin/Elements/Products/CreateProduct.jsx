@@ -429,12 +429,12 @@ export default function CreateProduct(props) {
                   )}
                 </div > <br />
                 <div className='row'>
-                  <div className='col-12'>
+                  <div className='col-6'>
                     <FieldArray name="diamonds">
                       {({ form }) => (
                         <div>
                           <div className='row'>
-                            <div className='col-4'>
+                            <div className='col'>
                               <FormControl fullWidth>
                                 <InputLabel>Diamond</InputLabel>
                                 <Field
@@ -462,7 +462,7 @@ export default function CreateProduct(props) {
                               </ErrorMessage>
                             </div>
 
-                            <div className='col-2'>
+                            <div className='col-4'>
                               <Field
                                 name={`diamonds[0].isMain`}
                                 as={RadioGroup}
@@ -488,12 +488,12 @@ export default function CreateProduct(props) {
                       )}
                     </FieldArray>
                   </div> <br />
-                  <div className='col-12'>
+                  <div className='col-6'>
                     <FieldArray name="diamonds">
                       {({ form }) => (
                         <div>
                           <div className='row'>
-                            <div className='col-4'>
+                            <div className='col'>
                               <FormControl fullWidth>
                                 <InputLabel>Diamond</InputLabel>
                                 <Field
@@ -501,7 +501,7 @@ export default function CreateProduct(props) {
                                   as={Select}
                                   label="Diamond"
                                   onChange={form.handleChange}
-                                  value={form.values.diamonds[1]?.diamondId}
+                                  value={form.values.diamonds[1].diamondId}
                                   MenuProps={MenuProps}
                                 >
                                   {dataDiamond && dataDiamond.map((item) => (
@@ -521,7 +521,7 @@ export default function CreateProduct(props) {
                               </ErrorMessage>
                             </div>
 
-                            <div className='col-2'>
+                            <div className='col-4'>
                               <Field
                                 name={`diamonds[1].isMain`}
                                 as={RadioGroup}
