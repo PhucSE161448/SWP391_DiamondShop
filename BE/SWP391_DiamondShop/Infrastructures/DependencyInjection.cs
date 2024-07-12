@@ -153,6 +153,8 @@ namespace Infrastructures
             {
                 options.UseSqlServer(databaseConnection);
             });
+            // Đăng ký BackgroundService
+            services.AddHostedService<VoucherCleanupService>();
             services.AddMapsterConfigurations();
             return services;
         }

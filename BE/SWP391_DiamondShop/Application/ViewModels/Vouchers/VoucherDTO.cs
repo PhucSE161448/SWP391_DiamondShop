@@ -12,8 +12,8 @@ namespace Application.ViewModels.Vouchers
         public int ProductId {get; set; }
         public bool IsAllProduct { get; set; }
         public decimal Discount_Percentage {  get; set; }
-        public DateOnly StartDate { get; set; }
-        public DateOnly EndDate { get; set;}
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set;}
         
     }
 }
