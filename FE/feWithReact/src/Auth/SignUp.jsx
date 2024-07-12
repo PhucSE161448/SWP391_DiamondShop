@@ -103,9 +103,12 @@ export default function SignUp() {
     password: Yup.string().required('Required'),
     confirmPassword: Yup.string().required('Required').oneOf([Yup.ref('password'), null], 'Passwords must match'),
     address: Yup.string().required('Required'),
-    phoneNumber: Yup.string()
-      .matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/, 'Invalid phone number')
+    phoneNumber: Yup
+      .string()
       .required('Required')
+      .matches(/^[0-9]+$/, 'Must be only digits')
+      .min(10, 'Must be exactly 10 digits')
+      .max(10, 'Must be exactly 10 digits')
   })
 
   const onSubmit = (values) => {

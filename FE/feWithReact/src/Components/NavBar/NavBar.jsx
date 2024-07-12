@@ -155,7 +155,12 @@ export default function Navbar() {
 					<>
 						<Menu.Item key="navigate" style={paddingStyle}>
 							<Button onClick={() => navigate(role >= '1' && role <= '4' ? '/admin' : '/profile')} sx={buttonStyle}>
-								{role === '1' && 'Admin' || role === '2' && 'Manager' || role === '3' && 'Sales Staff' || role === '4' && 'DeliveryStaff' || role === '5' && 'Profile'}
+								{role === '5' && 'Profile'}
+							</Button>
+						</Menu.Item>
+						<Menu.Item key="order" style={paddingStyle}>
+							<Button onClick={() => navigate('/order')} sx={buttonStyle}>
+								Order
 							</Button>
 						</Menu.Item>
 						<Menu.Item key="logout" style={paddingStyle}>
