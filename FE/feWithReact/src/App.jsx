@@ -4,6 +4,7 @@ import Home from './Pages/Home'
 import Homepage from '../src/Components/Content/HomePage'
 import Product from './Pages/Product'
 import DiamondPage from './Pages/DiamondPage'
+import PolicyPage from './Pages/PolicyPage'
 import Login from './Auth/Login'
 import SignUp from './Auth/SignUp'
 // import LogoutAndRedirect from './Auth/AuthFunction'
@@ -53,6 +54,7 @@ export default function App() {
             <Route path='product' element={<ShowAllProduct />}></Route>
             <Route path='warranty' element={<Warranty></Warranty>}> </Route>
             <Route path='diamond' element={<ShowAllDiamond></ShowAllDiamond>}></Route>
+            <Route path='policyPage' element={<PolicyPage></PolicyPage>}></Route>
             <Route path='diamondCase' element={<DiamondCase></DiamondCase>}> </Route>
             <Route path='collections' element={<Collections></Collections>}></Route>
             <Route path='type' element={<ShowAllType></ShowAllType>}></Route>
