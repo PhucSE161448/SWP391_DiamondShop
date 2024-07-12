@@ -20,18 +20,25 @@ namespace Application.Services.Promotions
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IEnumerable<Promotion>> GetAllPromotionAsync()
+        public async Task<IEnumerable<PromotionDTO>> GetAllPromotionAsync()
         {
-            return await _unitOfWork.PromotionRepository.GetAllPromotionAsync();
+            var promotionList = await _unitOfWork.PromotionRepository.GetAllPromotionAsync();
+            var promotionListDTO = new List<PromotionDTO>();
+            foreach (var promotion in promotionList)
+            {
+                promotionListDTO.Add(promotion.Adapt<PromotionDTO>());
+            }
+            return promotionListDTO;
+
         }
-        public async Task<Promotion> GetPromotionByIdAsync(int id)
+        public async Task<PromotionDTO> GetPromotionByIdAsync(int id)
         {
             var promotion = await _unitOfWork.PromotionRepository.GetPromotionByIdAsync(id);
             if (promotion == null)
             {
                 throw new NotFoundException("Id không tồn tại trong hệ thống");
             }
-            return promotion;
+            return promotion.Adapt<PromotionDTO>();
         }
         public async Task<bool> DeletePromotionAsync(int id)
         {
@@ -45,11 +52,10 @@ namespace Application.Services.Promotions
                 throw new NotFoundException("Promotion không tồn tại");
             }
         }
-        public async Task<Promotion> CreatePromotionAsync(CreatePromotionDTO createPromotionDTO)
+        public async Task<CreatePromotionDTO> CreatePromotionAsync(CreatePromotionDTO createPromotionDTO)
         {
-            var newPromotion = createPromotionDTO.Adapt<Promotion>();
-            await _unitOfWork.PromotionRepository.CreatePromotionAsync(newPromotion);
-            return newPromotion;
+            var newPromotion = await _unitOfWork.PromotionRepository.CreatePromotionAsync(createPromotionDTO.Adapt<Promotion>());
+            return newPromotion.Adapt<CreatePromotionDTO>();
         }
     }
 }
