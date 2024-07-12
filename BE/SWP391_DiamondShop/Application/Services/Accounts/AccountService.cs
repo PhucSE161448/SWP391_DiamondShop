@@ -65,6 +65,9 @@ namespace Application.Services.Accounts
             return account.Adapt<AccountDTO>();
         }
 
+        
+
+
         public async Task DeleteUserAsync(int id)
         {
 

@@ -40,6 +40,19 @@ namespace WebAPI.Controllers
             var result = await _authenticationService.LoginWithGoogle(loginGoogleDto.GoogleToken);
             return Ok(result);
         }
+
+        [HttpGet("{password}")]
+        public async Task<IActionResult> CheckPasswordWithCurrentAccount(string password)
+        {
+            return Ok(await _authenticationService.CheckPassword(password));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ChangePasswordWithCurrentAccount([FromBody]UpdatePasswordDTO updatePasswordDto)
+        {
+            await _authenticationService.UpdatePassword(updatePasswordDto);
+            return NoContent();
+        }
     }
 }
 
