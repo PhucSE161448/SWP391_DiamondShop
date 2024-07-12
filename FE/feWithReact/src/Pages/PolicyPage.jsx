@@ -1,6 +1,5 @@
 import React from 'react';
 import './PolicyPage.css';
-import Navbar from '../Components/NavBar/NavBar';
 
 const PolicyPage = () => {
     return (
