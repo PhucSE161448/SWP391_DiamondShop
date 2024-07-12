@@ -21,6 +21,22 @@ namespace Application.Services.Orders
         public async Task<Order> CreateOrderAsync(string address, decimal totalPrice)
         {
             var order = await _unitOfWork.OrderRepo.CreateOrderAsync(address,totalPrice);
+            //check promotion
+            var promotionList = await _unitOfWork.PromotionRepository.GetAllPromotionAsync();
+            var getAccountPoint = await _unitOfWork.AccountRepo.GetByIdAsync(order.AccountId);
+
+            //create new promotion list
+            List<Promotion> listToSort = new List<Promotion>();
+            listToSort = promotionList.OrderBy(c => c.Point).ToList();
+            decimal discount = 0;
+            foreach (var promotion in listToSort)
+            {
+                if (getAccountPoint.Point >= promotion.Point)
+                {
+                    discount = promotion.DiscountPercentage;
+                }
+            }
+
             await _unitOfWork.SaveChangeAsync();
             return order;
         }
