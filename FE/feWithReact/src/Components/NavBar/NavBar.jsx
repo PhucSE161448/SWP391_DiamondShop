@@ -153,16 +153,29 @@ export default function Navbar() {
 				</Menu.Item>
 				{token ? (
 					<>
-						<Menu.Item key="navigate" style={paddingStyle}>
-							<Button onClick={() => navigate(role >= '1' && role <= '4' ? '/admin' : '/profile')} sx={buttonStyle}>
-								{role === '5' && 'Profile'}
-							</Button>
-						</Menu.Item>
-						<Menu.Item key="order" style={paddingStyle}>
-							<Button onClick={() => navigate('/order')} sx={buttonStyle}>
-								Order
-							</Button>
-						</Menu.Item>
+						<Menu.SubMenu key="navigate" style={{
+							...paddingStyle,
+							backgroundColor: '#001529',
+						}} title={<Button sx={buttonStyle}>{decodedToken.Name}</Button>}>
+							<Menu.Item style={{
+								backgroundColor: '#001529',
+							}}>
+								<Button sx={{
+									...buttonStyle,
+
+								}} onClick={() => navigate(role >= '1' && role <= '4' ? '/admin' : '/profile')} >
+									View Profile
+								</Button>
+							</Menu.Item>
+							<Menu.Item style={{
+								backgroundColor: '#001529',
+							}}>
+								<Button sx={buttonStyle} onClick={() => navigate('/order')} >
+									View Order
+								</Button>
+							</Menu.Item>
+						</Menu.SubMenu>
+
 						<Menu.Item key="logout" style={paddingStyle}>
 							<Button onClick={Logout} sx={{
 								color: '#fff',
