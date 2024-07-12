@@ -38,7 +38,7 @@ namespace Infrastructures.Repositories.Carts
                 .ThenInclude(xx => xx.ProductParts)
                 .Include(x => x.Product)
                 .ThenInclude(xx => xx.ProductSizes)
-                .Include(x => x.Diamond)
+                .Include(x => x.Diamond).ThenInclude(x => x.Images)
                 .Where(x => x.CreatedBy == _currentUserName)
                 .ToListAsync();
             return cart.Adapt<List<CartDTO>>();
@@ -47,9 +47,8 @@ namespace Infrastructures.Repositories.Carts
         public async Task<Cart> CreateCart(bool check, CreateCartDTO dto)
         {
             var exist = await _dbContext.Carts.AsNoTracking().FirstOrDefaultAsync(x =>
-         ((x.ProductId == dto.Id && check) || (x.DiamondId == dto.Id && !check))
+         ((x.ProductId == dto.Id && check && x.Size != dto.Size)  || (x.DiamondId == dto.Id && !check))
          && x.IsDeleted == false && x.CreatedBy == _currentUserName);
-
             if (exist != null)
             {
                 exist.Quantity++;

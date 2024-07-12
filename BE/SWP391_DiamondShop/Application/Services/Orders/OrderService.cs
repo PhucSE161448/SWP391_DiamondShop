@@ -18,9 +18,9 @@ namespace Application.Services.Orders
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<Order> CreateOrderAsync(string address, decimal totalPrice)
+        public async Task<Order> CreateOrderAsync(OrderCreateDTO orderCreateDto)
         {
-            var order = await _unitOfWork.OrderRepo.CreateOrderAsync(address,totalPrice);
+            var order = await _unitOfWork.OrderRepo.CreateOrderAsync(orderCreateDto);
             await _unitOfWork.SaveChangeAsync();
             return order;
         }

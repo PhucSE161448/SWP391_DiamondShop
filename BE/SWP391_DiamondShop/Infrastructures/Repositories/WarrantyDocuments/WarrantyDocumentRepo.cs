@@ -50,7 +50,9 @@ namespace Infrastructures.Repositories.WarrantyDocuments
             var product = order.OrderCarts.Select(oc => new GetOrderProduct
             {
                 Name = oc.Cart.ProductId.HasValue ? oc.Cart.Product.Name : oc.Cart.Diamond.Name,
-                Price = oc.Price
+                Price = oc.Price,
+                Address = order.Address,
+                Phone = order.Phone
             }).ToList();
             return new ExportWarrantyDocument
             {

@@ -17,8 +17,9 @@ namespace Application.ViewModels.Accounts
         public string? Password { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
+        public decimal Point { get; set; }
         public RoleDTO? Role { get; set; }
         public bool? IsDeleted { get; set; }
-
+        public bool? IsConfirmed { get; set; }
     }
 }

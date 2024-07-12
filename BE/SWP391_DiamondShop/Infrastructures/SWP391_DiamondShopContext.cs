@@ -67,6 +67,10 @@ namespace Infrastructures
 
                 entity.Property(e => e.Email).HasMaxLength(255);
 
+                entity.Property(e => e.IsConfirmed)
+                    .IsRequired()
+                    .HasDefaultValueSql("('0')");
+
                 entity.Property(e => e.IsDeleted)
                     .IsRequired()
                     .HasDefaultValueSql("('0')");
@@ -220,7 +224,7 @@ namespace Infrastructures
             {
                 entity.ToTable("Diamond");
 
-                entity.HasIndex(e => e.CertificateId, "UQ__Diamond__3AE4120BF562EF87")
+                entity.HasIndex(e => e.CertificateId, "UQ__Diamond__3AE4120BBF399D82")
                     .IsUnique();
 
                 entity.Property(e => e.CaratWeight).HasColumnType("decimal(8, 2)");
@@ -337,12 +341,12 @@ namespace Infrastructures
                 entity.HasOne(d => d.Diamond)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.DiamondId)
-                    .HasConstraintName("FK__Image__DiamondId__59FA5E80");
+                    .HasConstraintName("FK__Image__DiamondId__5AEE82B9");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Image__ProductId__5AEE82B9");
+                    .HasConstraintName("FK__Image__ProductId__5BE2A6F2");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -352,6 +356,8 @@ namespace Infrastructures
                 entity.Property(e => e.Address).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.Phone).HasMaxLength(255);
 
                 entity.Property(e => e.TotalPrice).HasColumnType("decimal(12, 2)");
 
@@ -370,7 +376,7 @@ namespace Infrastructures
             modelBuilder.Entity<OrderCart>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.CartId })
-                    .HasName("PK__OrderCar__A68B96B4807C6609");
+                    .HasName("PK__OrderCar__A68B96B40B7E88E9");
 
                 entity.ToTable("OrderCart");
 
@@ -514,13 +520,13 @@ namespace Infrastructures
                     .WithMany(p => p.ProductParts)
                     .HasForeignKey(d => d.DiamondId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductPa__Diamo__6B24EA82");
+                    .HasConstraintName("FK__ProductPa__Diamo__6C190EBB");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductParts)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductPa__Produ__6A30C649");
+                    .HasConstraintName("FK__ProductPa__Produ__6B24EA82");
             });
 
             modelBuilder.Entity<ProductSize>(entity =>
@@ -549,7 +555,7 @@ namespace Infrastructures
                     .WithMany(p => p.ProductSizes)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductSi__Produ__60A75C0F");
+                    .HasConstraintName("FK__ProductSi__Produ__619B8048");
             });
 
             modelBuilder.Entity<Promotion>(entity =>
