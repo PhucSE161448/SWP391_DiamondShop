@@ -37,18 +37,6 @@ export default function ReadAccount() {
 		setPage(0);
 	}
 
-	function getRoleName(roleId) {
-		switch (roleId) {
-			case 1:
-				return 'Admin'
-			case 2:
-				return 'Sale staff'
-			case 3:
-				return 'Delivery staff'
-			case 4:
-				return 'Customer'
-		}
-	}
 
 	useEffect(() => {
 		// Define the Read function inside useEffect or make sure it's defined outside and doesn't change
@@ -63,16 +51,7 @@ export default function ReadAccount() {
 			})
 				.then(response => response.json())
 				.then(responseData => {
-					const rows = responseData.map(data => ({
-						id: data.id,
-						name: data.name,
-						email: data.email,
-						gender: data.gender ? 'Male' : 'Female',
-						address: data.address,
-						phoneNumber: data.phoneNumber,
-						roleId: getRoleName(data.roleId)
-					}))
-					setData(rows)
+					setData(responseData)
 				})
 				.catch((error) => console.error('Error:', error))
 		}
@@ -127,6 +106,7 @@ export default function ReadAccount() {
 							</TableRow>
 						</TableHead>
 						<TableBody>
+							{console.log(data)}
 							{Array.isArray(data) && data
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((data, index) => (
@@ -139,7 +119,7 @@ export default function ReadAccount() {
 											{data.email}
 										</TableCell>
 										<TableCell>
-											{data.gender}
+											{data.gender ? 'Male' : 'Female'}
 										</TableCell>
 										<TableCell>
 											{data.phoneNumber}
@@ -148,7 +128,7 @@ export default function ReadAccount() {
 											{data.address}
 										</TableCell>
 										<TableCell>
-											{data.roleId}
+											{data.role?.name}
 										</TableCell>
 										<TableCell>
 											<Button variant="outlined" color="error"

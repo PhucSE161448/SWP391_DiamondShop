@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Services.Vouchers;
 using Infrastructures;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -21,6 +22,7 @@ namespace WebAPI
             services.AddHealthChecks();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IClaimsService, ClaimsService>();
+
             //services.AddSingleton<GlobalExceptionMiddleware>();
             services.AddSingleton<PerformanceMiddleware>();
             services.AddSingleton<Stopwatch>();
