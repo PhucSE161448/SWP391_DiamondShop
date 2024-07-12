@@ -4,10 +4,11 @@ import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState } from 'react'
 import {
   Stack, Pagination, CardMedia, FormControl, InputLabel,
-  Select, MenuItem, Slider
+  Select, MenuItem, Slider, Button
 } from '@mui/material'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { createApi } from '../../Auth/AuthFunction'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 export default function GetPageDiamond() {
   const { PageNumberFromURL } = useParams()
   const [PageNumber, setPageNumber] = useState(PageNumberFromURL && parseInt(PageNumberFromURL))
@@ -20,7 +21,7 @@ export default function GetPageDiamond() {
   const [triggerRead, setTriggerRead] = useState(false)
   const dataColors = ["D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
   const dataClarity = ["FL", "IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "I1", "I2", "I3"]
-  const dataCut = ["Excellent", "Very Good", "Good", "Fair", "Poor"].reverse()
+  const dataCut = ["Excellent", "VeryGood", "Good", "Fair", "Poor"].reverse()
   const [dataCaratWeightStart, setDataCaratWeightStart] = useState(0.1)
   const [dataCaratWeightEnd, setDataCaratWeightEnd] = useState(10.2)
   const [valueColor, setValueColor] = useState([0, dataColors.length - 1])
@@ -36,6 +37,23 @@ export default function GetPageDiamond() {
       setOrder({ OrderByDesc: value, SortBy: type })
       setTriggerRead(prev => !prev)
     }
+  }
+
+  const submitForm = async (data) => {
+    const body = {
+      id: data.id,
+      quantity: 1,
+      totalPrice: data.price
+    }
+    const url = createApi('Cart/Create?check=false')
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(body),
+    })
   }
 
   const handleChangeColor = (newValue) => {
@@ -358,7 +376,12 @@ export default function GetPageDiamond() {
           </Grid>
         </Grid>
       </Grid>
-      <Container sx={styleSliderContainer}>
+      <Container sx={{
+        ...styleSliderContainer,
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '30px',
+      }}>
         <Box sx={{
         }}>
           <Grid container columnSpacing={9} rowSpacing={6} sx={{ width: '80vw' }} columns={{ xs: 12, sm: 8, md: 12 }}>
@@ -367,11 +390,25 @@ export default function GetPageDiamond() {
                 <Grid item xs={12} sm={4} md={3} key={index} sx={{
                   width: '15vw',
                 }} >
-                  <Link
-                    to={`/diamond/detail/${item.id}`}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <Card>
+
+                  <Card sx={{
+                    '&:hover': {
+                      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+                      cursor: 'pointer',
+                      transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out',
+                      '&:hover': {
+                        boxShadow: '0 0 10px 5px rgba(0, 0, 0, 0.8)',
+                        transform: 'scale(1.2)',
+                      }
+                    }
+                  }}>
+                    <Link
+                      to={`/diamond/detail/${item.id}`}
+                      style={{
+                        textDecoration: 'none',
+                        color: 'black'
+                      }}
+                    >
                       <CardContent>
                         {item.images && item.images[0] && item.images[0].urlPath ? (
                           <>
@@ -401,8 +438,33 @@ export default function GetPageDiamond() {
                           Price: {item.price.toLocaleString()}$
                         </p>
                       </CardContent>
-                    </Card>
-                  </Link>
+
+                    </Link>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      width: '100%',
+                    }}>
+                      <Button fullWidth onClick={() => submitForm(item)} sx={{
+                        color: 'black',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        height: '50px',
+                        backgroundColor: '#ad2a36',
+                        '&:hover': {
+                          backgroundColor: '#ad2a36',
+                        }
+                      }} size='large'
+                        variant='contained'
+                      >
+                        <ShoppingCartIcon fontSize='large' sx={{
+                          height: '50px',
+                          color: '#fff',
+                          fontSize: '70px',
+                        }}></ShoppingCartIcon>
+                      </Button>
+                    </div>
+                  </Card>
                 </Grid>
               )
             )}
@@ -417,6 +479,6 @@ export default function GetPageDiamond() {
       }}>
         <Pagination count={TotalPage} page={PageNumber} onChange={handlePageChange} size="large" />
       </Stack>
-    </div>
+    </div >
   )
 }

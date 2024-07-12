@@ -93,7 +93,7 @@ export default function Navbar() {
 					...paddingStyle,
 					borderBottom: '1px solid #fff',
 				}}>
-					<Button onClick={() => goToCategory(category.id)} sx={buttonStyle}>{category.name}</Button>
+					<Button onClick={() => goToCategory(category.id)} sx={buttonStyle}>{category.name} {category.group.name}</Button>
 				</Menu.Item>
 			))}
 		</>
@@ -147,7 +147,9 @@ export default function Navbar() {
 					</Menu.SubMenu>
 				</Menu.SubMenu>
 				<Menu.Item style={paddingStyle}>
-					<Button onClick={() => navigate('/cart')} sx={buttonStyle}><ShoppingCartIcon ></ShoppingCartIcon></Button>
+					<Button onClick={() => navigate('/cart')} sx={buttonStyle}>
+						<ShoppingCartIcon sx={{ fontSize: '30px' }}></ShoppingCartIcon>
+					</Button>
 				</Menu.Item>
 				{token ? (
 					<>

@@ -24,14 +24,16 @@ namespace Application.Services.Authenticates
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICurrentTime _currentTime;
         private readonly AppConfiguration _configuration;
+        private readonly IClaimsService _claimsService;
 
         public AuthenticationService(IUnitOfWork unitOfWork,
             ICurrentTime currentTime,
-            AppConfiguration configuration)
+            AppConfiguration configuration, IClaimsService claimsService)
         {
             this._unitOfWork = unitOfWork;
             this._currentTime = currentTime;
             this._configuration = configuration;
+            _claimsService = claimsService;
         }
         public async Task<GetAuthTokenDTO> LoginAsync(AuthenAccountDTO accountDto)
         {
@@ -134,6 +136,28 @@ namespace Application.Services.Authenticates
             return account.Adapt<AccountDTO>();
         }
         
+        public async Task<bool> CheckPassword(string password)
+        {
+            var account = await _unitOfWork.AccountRepo.GetAsync(x => x.Id == _claimsService.GetCurrentUserId && x.Password == HashPassword.HashWithSHA256(password));
+            return account is not null;
+        }
+
+        public async Task UpdatePassword(UpdatePasswordDTO updatePasswordDto)
+        {
+            var account = await _unitOfWork.AccountRepo.GetAsync(x => x.Id == _claimsService.GetCurrentUserId);
+            if (account is null)
+            {
+                throw new UnauthorizedException("Account is not existed");
+            }
+            if (updatePasswordDto.NewPassword != updatePasswordDto.RetypePassword)
+            {
+                throw new BadRequestException("Retype password is not match new password");
+            }
+
+            account.Password = HashPassword.HashWithSHA256(updatePasswordDto.NewPassword);
+            _unitOfWork.AccountRepo.Update(account);
+            await _unitOfWork.SaveChangeAsync();
+        }
     }
 }
 

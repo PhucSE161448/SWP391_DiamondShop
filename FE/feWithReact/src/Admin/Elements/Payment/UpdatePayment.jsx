@@ -6,39 +6,19 @@ import { createApi } from '../../../Auth/AuthFunction'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 
-export default function UpdateCategory(props) {
+export default function UpdatePayment(props) {
   const [open, setOpen] = useState(false)
   const data = props.data
-  const [dataType, setDataType] = useState(null)
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
-    setData(null)
   }
 
-
-  useEffect(() => {
-    const url = createApi('Group/GetAllGroup')
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Accept': '*/*',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      },
-    })
-      .then(response => response.json())
-      .then(responseData => {
-        setDataType(responseData)
-      })
-      .catch((error) => console.error('Error:', error))
-  }, [])
-
-  function UpdateCategory(values) {
-    const url = createApi(`Category/UpdateCategory/${props.data.id}`)
+  function UpdatePayment(values) {
+    const url = createApi(`Payment/Update/${props.data.id}`)
     const Data = {
-      "name": values.nameCategory,
+      "name": values.namePayment,
       "isDeleted": false,
-      'groupId': values.typeCategory
     }
     fetch(url, {
       method: 'PUT',
@@ -50,26 +30,22 @@ export default function UpdateCategory(props) {
       body: JSON.stringify(Data)
     })
       .then(response => response.json())
-      .then(data => props.onUpdateCategory())
+      .then(data => props.onUpdatePayment())
+
   }
 
 
   const validationSchema = Yup.object({
-    nameCategory: Yup.string().required('Required'),
-    typeCategory: Yup.string().required('Required'),
+    namePayment: Yup.string().required('Required'),
   })
 
   const initialValues = {
-    nameCategory: data.name,
-    typeCategory: data.group.id
+    namePayment: data.name,
   }
 
   const onSubmit = (values) => {
-    const parsedValues = {
-      ...values,
-      typeCategory: parseInt(values.typeCategory)
-    }
-    UpdateCategory(parsedValues)
+    console.log(values)
+    UpdatePayment(values)
     // formik.resetForm()
   }
 
@@ -101,7 +77,7 @@ export default function UpdateCategory(props) {
           alignItems: 'center'
 
         }}>
-          <h3 className='titleOfForm'>UPDATE CATEGORY</h3>
+          <h3 className='titleOfForm'>UPDATE Type</h3>
           <div style={{
             width: '100%'
 
@@ -114,32 +90,18 @@ export default function UpdateCategory(props) {
               {({ handleChange, values }) => (
                 <Form>
                   <div className='row'>
-                    <div className='col-6'>
-                      <TextField
-                        id="nameCategory"
-                        name="nameCategory"
-                        label="Name"
-                        value={values.nameCategory}
+                    <div className='col'>
+                      <Field
+                        name="namePayment"
+                        as={TextField}
+                        label="Name Payment"
                         onChange={handleChange}
-                        sx={{ width: '100%' }}
+                        value={values.namePayment}
+                        style={{ width: '100%' }}
                       />
-                    </div>
-                    <div className='col-6'>
-                      <FormControl sx={{ width: '100%' }}>
-                        <InputLabel id="typeCategory-label">Type</InputLabel>
-                        <Select
-                          labelId="typeCategory-label"
-                          id="typeCategory"
-                          name="typeCategory"
-                          value={values.typeCategory}
-                          onChange={handleChange}
-                          label="Type"
-                        >
-                          {dataType && dataType.map((data) => (
-                            <MenuItem key={data.id} value={data.id}>{data.name}</MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                      <ErrorMessage name="namePayment">
+                        {msg => <Alert severity="error">{msg}</Alert>}
+                      </ErrorMessage>
                     </div>
                     <div>
                       <Button

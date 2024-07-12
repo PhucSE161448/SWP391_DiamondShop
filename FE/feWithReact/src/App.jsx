@@ -1,4 +1,4 @@
-
+import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Pages/Home'
 import Homepage from '../src/Components/Content/HomePage'
@@ -25,9 +25,24 @@ import Profile from './Pages/Profile'
 import Order from './Pages/Order'
 import ShowAllType from './Admin/Elements/Type/ShowAllType'
 import OrderAdmin from './Admin/Elements/Orders/OrderAdmin'
+import ShowAllPayment from './Admin/Elements/Payment/ShowAllPayment'
+import PaymentSuccessful from './Pages/PaymentSuccessful'
+import Certificate from './Admin/Elements/Certificate/Certificate'
+import { gapi } from 'gapi-script'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 export default function App() {
+  const clientId = "629470625241-289cmgv2sgrusl96bhmhsnpjjbr0m98b.apps.googleusercontent.com";
+  useEffect(() => {
+    function start() {
+      gapi.auth2.init({
+        client_id: clientId,
+        scope: ''
+      });
+    }
+    gapi.load('client:auth2', start);
+  })
   return (
-    <>
+    <GoogleOAuthProvider clientId={clientId}>
       <BrowserRouter>
         {/* <LogoutAndRedirect /> */}
 
@@ -43,6 +58,7 @@ export default function App() {
             <Route path='/cart' element={<Cart></Cart>}></Route>
             <Route path='/profile' element={<Profile></Profile>}></Route>
             <Route path='/order' element={<Order></Order>}></Route>
+            <Route path='/payment/success' element={<PaymentSuccessful></PaymentSuccessful>}></Route>
           </Route>
 
           <Route path='/login' element={<Login />}></Route>
@@ -57,11 +73,12 @@ export default function App() {
             <Route path='collections' element={<Collections></Collections>}></Route>
             <Route path='type' element={<ShowAllType></ShowAllType>}></Route>
             <Route path='order' element={<OrderAdmin></OrderAdmin>}></Route>
+            <Route path='payment' element={<ShowAllPayment></ShowAllPayment>}></Route>
+            <Route path='certificate' element={<Certificate></Certificate>}></Route>
           </Route>
 
         </Routes >
       </BrowserRouter >
-
-    </>
+    </GoogleOAuthProvider>
   )
 }
