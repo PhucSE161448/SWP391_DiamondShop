@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState } from 'react'
 import {
   Stack, Pagination, TextField, CardMedia, FormControl, InputLabel,
-  Select, MenuItem, OutlinedInput, Checkbox, ListItemText,
+  Select, MenuItem, OutlinedInput, Checkbox, ListItemText, Button
 } from '@mui/material'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { createApi } from '../../Auth/AuthFunction'
@@ -41,6 +41,7 @@ export default function GetPageProduct() {
       ...(nameProduct !== null && { Name: nameProduct }),
     },
   }
+
   const handleChangeOrder = (value, type) => {
     if (value === null) {
       setOrderBy({ OrderByDesc: null, SortBy: '' })
@@ -49,6 +50,7 @@ export default function GetPageProduct() {
       setTriggerRead(prev => !prev)
     }
   }
+
   const handlePageChange = (event, value) => {
     setPageNumber(value)
     navigate(`/product/${value}`)
@@ -343,7 +345,6 @@ export default function GetPageProduct() {
                   width: '100%',
                 }}
               >
-
               </TextField>
             </FormControl>
           </Grid>
@@ -352,6 +353,7 @@ export default function GetPageProduct() {
       <Container sx={{
         display: 'flex',
         justifyContent: 'center',
+        marginTop: '30px',
       }}>
         <Box>
           <Grid container columnSpacing={9} rowSpacing={6} sx={{ width: '80vw' }} columns={{ xs: 12, sm: 8, md: 12 }}>
@@ -360,12 +362,22 @@ export default function GetPageProduct() {
                 <Grid item xs={12} sm={4} md={3} key={index} sx={{
                   width: '15vw',
                 }} >
-                  <Link
-                    to={`/product/detail/${item.id}`}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <Card sx={{}}>
-                      <CardContent>
+                  <Card sx={{
+                    '&:hover': {
+                      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+                      cursor: 'pointer',
+                      transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out',
+                      '&:hover': {
+                        boxShadow: '0 0 10px 5px rgba(0, 0, 0, 0.8)',
+                        transform: 'scale(1.2)',
+                      }
+                    }
+                  }}>
+                    <Link
+                      to={`/product/detail/${item.id}`}
+                      style={{ textDecoration: 'none', color: 'black' }}
+                    >
+                      <CardContent >
                         {item.images && item.images[0] && item.images[0].urlPath ? (
                           <>
                             <CardMedia
@@ -386,16 +398,15 @@ export default function GetPageProduct() {
                         }}>
                           {item.name}
                         </p>
-                        <p
+                        <h3
                           style={{
                             textAlign: 'center',
-                            fontSize: '20px',
                           }}>
                           Price: {item.productSizes[0]?.price.toLocaleString()}$
-                        </p>
+                        </h3>
                       </CardContent>
-                    </Card>
-                  </Link>
+                    </Link>
+                  </Card>
                 </Grid>
               )
             )}
@@ -410,6 +421,6 @@ export default function GetPageProduct() {
       }}>
         <Pagination count={TotalPage} page={PageNumber} onChange={handlePageChange} size="large" />
       </Stack>
-    </div>
+    </div >
   )
 }

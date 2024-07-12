@@ -53,6 +53,7 @@ export default function Login() {
           return response.json()
         })
         .then(responseJson => {
+          console.log(responseJson)
           localStorage.setItem('token', responseJson.accessToken)
           const decodedToken = jwtDecode(responseJson.accessToken)
           localStorage.setItem('role', decodedToken.Role)

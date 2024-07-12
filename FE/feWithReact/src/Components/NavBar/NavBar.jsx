@@ -148,7 +148,7 @@ export default function Navbar() {
 				</Menu.SubMenu>
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={() => navigate('/cart')} sx={buttonStyle}>
-						<ShoppingCartIcon ></ShoppingCartIcon>
+						<ShoppingCartIcon sx={{ fontSize: '30px' }}></ShoppingCartIcon>
 					</Button>
 				</Menu.Item>
 				{token ? (
