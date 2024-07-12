@@ -391,7 +391,7 @@ export default function Order() {
                     </div>
                   </div>
                   <div>
-                    <Button size='large' variant='contained' onClick={() => navigate(`/pdfWarranty/${warrantyId}`)}>Go to pdf file</Button>
+                    <Button size='large' variant='contained' onClick={() => window.open(`/pdfWarranty/${warrantyId}`, '_blank')}>Go to pdf file</Button>
                   </div>
                 </Container>
               )}
