@@ -22,6 +22,5 @@ namespace WebAPI.Controllers.WarrantyDocument
             var result = await _warrantyDocumentService.GetExportWarrantyDocumentsAsync(orderId);
             return Ok(result);
         }
-       
     }
 }

@@ -11,7 +11,7 @@ namespace WebAPI.Controllers
     {
         private readonly PayOS _payOs;
         private readonly IOrderService _service;
-
+        private const decimal USD = 25000m;
         public PayOsController(PayOS payOs, IOrderService service)
         {
             _payOs = payOs;
@@ -30,14 +30,14 @@ namespace WebAPI.Controllers
                 var orders = await _service.GetOrderById(orderId);
                 foreach (var o in order)
                 {
-                    ItemData item = new ItemData(o.Cart.Product != null ? o.Cart.Product.Name : o.Cart.Diamond.Name, (int)o.Cart.Quantity,(int) o.Cart.TotalPrice);
+                    ItemData item = new ItemData(o.Cart.Product != null ? o.Cart.Product.Name : o.Cart.Diamond.Name, (int)o.Cart.Quantity,(int) (o.Cart.TotalPrice * USD));
                     items.Add(item);
                 }
                 var baseUrl = "https://diamond-shopp.azurewebsites.net//api/" + "PayOs/Success";
 
                 var successUrl = $"{baseUrl}?userId={userId}&orderId={orderId}&paymentId={paymentId}";
                 var cancelUrl = "https://deploy-swp-391.vercel.app/payment/success";
-                PaymentData paymentData = new PaymentData(orderCode, (int)orders.TotalPrice, "Pay Order", items, cancelUrl, successUrl);
+                PaymentData paymentData = new PaymentData(orderCode, (int)(orders.TotalPrice * USD) , "Pay Order", items, cancelUrl, successUrl);
                 CreatePaymentResult createPayment = await _payOs.createPaymentLink(paymentData);
 
                 return Ok(new
