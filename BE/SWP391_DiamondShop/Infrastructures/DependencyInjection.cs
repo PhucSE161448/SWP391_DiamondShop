@@ -15,6 +15,7 @@ using Application.Interfaces.ProductParts;
 using Application.Interfaces.Products;
 using Application.Interfaces.ProductSizes;
 using Application.Interfaces.Promotions;
+using Application.Interfaces.VnPay;
 using Application.Interfaces.Vouchers;
 using Application.Interfaces.WarrantyDocument;
 using Application.IRepositories.Accounts;
@@ -52,6 +53,7 @@ using Application.Services.ProductParts;
 using Application.Services.Products;
 using Application.Services.ProductSizes;
 using Application.Services.Promotions;
+using Application.Services.VnPay;
 using Application.Services.Vouchers;
 using Application.Services.WarrantyDocuments;
 using Google.Cloud.Storage.V1;
@@ -77,6 +79,9 @@ using Infrastructures.Repositories.WarrantyDocuments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurant.Application.Services;
+using System.ComponentModel.Design;
+using Application.Interfaces.SendEmails;
+using Application.Services.SendEmails;
 
 namespace Infrastructures
 {
@@ -125,6 +130,8 @@ namespace Infrastructures
             services.AddScoped<IGroupRepo, GroupRepo>();
             services.AddScoped<IGroupService, GroupService>();
 
+            services.AddScoped<IVnPayService, VnPayService>();
+
             services.AddScoped<IRoleRepo, RoleRepo>();
 
             services.AddSingleton<ICurrentTime, CurrentTime>();
@@ -147,7 +154,9 @@ namespace Infrastructures
             
             services.AddScoped<ICertificateRepo, CertificateRepo>();
             services.AddScoped<ICertificateService, CertificateService>();
-            
+
+            services.AddScoped<ISendService, SendService>();
+
             //services.AddDbContext<AppDbContext>(option => option.UseInMemoryDatabase("test"));
             services.AddDbContext<SWP391_DiamondShopContext>(options =>
             {

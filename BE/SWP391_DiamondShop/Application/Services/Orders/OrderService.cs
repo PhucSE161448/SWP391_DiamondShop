@@ -50,12 +50,14 @@ namespace Application.Services.Orders
             return result;
         }
 
+        public async Task<OrderDTO> GetOrderById(int orderId) => await _unitOfWork.OrderRepo.GetOrderById(orderId);
+
         public async Task<List<OrderDTO>> GetOrderAsync() => await _unitOfWork.OrderRepo.GetOrderAsync();
         public async Task<List<OrderDetailDTO>> GetOrderDetailAsync(int orderId) => await _unitOfWork.OrderRepo.GetOrderDetailAsync(orderId);
 
-        public async Task<bool> CreateOrderStatusAsync(int orderId, string status)
+        public async Task<bool> CreateOrderStatusAsync(int orderId, string status, int accountId = 0, int paymentId = 0)
         {
-            var result = await _unitOfWork.OrderRepo.CreateOrderStatusAsync(orderId, status);
+            var result = await _unitOfWork.OrderRepo.CreateOrderStatusAsync(orderId, status, accountId, paymentId);
             if (result)
             {
                 await _unitOfWork.SaveChangeAsync();

@@ -10,10 +10,11 @@ namespace Application.IRepositories.Orders
 {
     public interface IOrderRepo
     {
+        Task<OrderDTO> GetOrderById(int orderId);
         Task<List<OrderDTO>> GetOrderAsync();
         Task<List<OrderDetailDTO>> GetOrderDetailAsync(int orderId);
         Task<Order> CreateOrderAsync(OrderCreateDTO orderCreateDto);
         Task<bool> CreateOrderCartAsync(List<int> cartId, int orderId);
-        Task<bool> CreateOrderStatusAsync(int orderId, string status);
+        Task<bool> CreateOrderStatusAsync(int orderId, string status, int accountId = 0,int paymentId = 0);
     }
 }

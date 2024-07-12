@@ -8,6 +8,7 @@ using Serilog;
 using WebAPI;
 using WebAPI.Middlewares;
 using Google.Apis.Auth.OAuth2;
+using Net.payOS;
 using Newtonsoft.Json.Linq;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,11 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration.Get<AppConfiguration>() ?? new AppConfiguration();
 builder.Services.AddInfrastructuresService(configuration.DatabaseConnection);
 builder.Services.AddWebAPIService();
-
+PayOS payOs = new PayOS(configuration.PayOSConfig.PAYOS_CLIENT_ID,
+                        configuration.PayOSConfig.PAYOS_API_KEY,
+                        configuration.PayOSConfig.PAYOS_CHECKSUM_KEY);
+builder.Services.AddSingleton(payOs);
+builder.Services.AddSingleton(configuration);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -31,12 +36,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false }
         };
     });
-    // builder.Services.AddAuthentication()
-    //     .AddGoogle(options =>
-    //     {
-    //         options.ClientId = configuration.GoogleSetting.ClientId;
-    //         options.ClientSecret = configuration.GoogleSetting.ClientSecret;
-    //     });
 builder.Services.AddSwaggerGen(setup =>
 {
     // Include 'SecurityScheme' to use JWT Authentication
@@ -90,7 +89,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<ConfirmationTokenMiddleware>();
 //app.UseMiddleware<PerformanceMiddleware>();
 app.MapHealthChecks("/healthchecks");
 

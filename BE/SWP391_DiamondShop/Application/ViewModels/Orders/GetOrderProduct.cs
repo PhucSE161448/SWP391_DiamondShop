@@ -12,5 +12,6 @@ namespace Application.ViewModels.Orders
         public decimal? Price { get; set; }
         public string? Address { get; set; }
         public string? Phone { get; set; }
+        public DateTime? BuyDate { get; set; }
     }
 }
