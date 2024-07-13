@@ -139,8 +139,9 @@ export default function Cart() {
       let total = 0
       cart.map((item) => {
         total += item.totalPrice
+        setTotalPriceCalculate(total)
       })
-      setTotalPriceCalculate(total)
+
     }
     calculatePrice()
   }, [cart])

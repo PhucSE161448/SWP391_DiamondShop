@@ -8,6 +8,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { createApi } from '../../../Auth/AuthFunction'
 
 export default function UpdateCollection(props) {
+  console.log(props.id)
   const [open, setOpen] = useState(false)
   const [displayStatus, setDisplayStatus] = useState(false)
   const [responseCode, setResponseCode] = useState('')
@@ -35,7 +36,7 @@ export default function UpdateCollection(props) {
   }
 
   const Update = (values) => {
-    const url = createApi(`Collection/UpdateCollection/'${props.id}`)
+    const url = createApi(`Collection/UpdateCollection/${props.id}`)
     const data = {
       "name": values.name,
     }
@@ -147,11 +148,11 @@ export default function UpdateCollection(props) {
             <>
               {
                 String(responseCode).startsWith('2') && String(responseCode).startsWith('2') &&
-                <Alert severity="success" variant="filled">Update Diamond Case successfully</Alert>
+                <Alert severity="success" variant="filled">Update Collection successfully</Alert>
               }
               {
                 !String(responseCode).startsWith('2') &&
-                <Alert severity="error" variant="filled">Update Diamond Case failed</Alert>
+                <Alert severity="error" variant="filled"> Update Collection failed</Alert>
               }
             </>
           )}

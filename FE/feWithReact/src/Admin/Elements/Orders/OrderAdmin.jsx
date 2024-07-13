@@ -94,7 +94,7 @@ export default function OrderAdmin() {
     createStatus(id, status[1])
   }
 
-  const headerTable = ['Order ID', 'Order Date', 'Customer Name', 'Order Status', 'Order Total', 'Detail']
+  const headerTable = ['Order ID', 'Order Date', 'Customer Name', 'Order Status', 'Order Total', 'Phone', 'Address', 'Detail']
   const headerTableDetail = ['Image', 'Product Name', 'Quantity', 'Price']
   return (
     <div className='contentAdminContainer'>
@@ -153,6 +153,12 @@ export default function OrderAdmin() {
                         </div>
                       </TableCell>
                       <TableCell>${order.totalPrice.toLocaleString()}</TableCell>
+                      <TableCell>
+                        {order.phone}
+                      </TableCell>
+                      <TableCell>
+                        {order.address}
+                      </TableCell>
                       <TableCell>
                         <Button onClick={() => handleOpen(order.id)}>
                           Detail
@@ -221,6 +227,12 @@ export default function OrderAdmin() {
                         </div>
                       </TableCell>
                       <TableCell>${order.totalPrice.toLocaleString()}</TableCell>
+                      <TableCell>
+                        {order.phone}
+                      </TableCell>
+                      <TableCell>
+                        {order.address}
+                      </TableCell>
                       <TableCell>
                         <Button onClick={() => handleOpen(order.id)}>
                           Detail
@@ -296,6 +308,12 @@ export default function OrderAdmin() {
                       </TableCell>
                       <TableCell>${order.totalPrice.toLocaleString()}</TableCell>
                       <TableCell>
+                        {order.phone}
+                      </TableCell>
+                      <TableCell>
+                        {order.address}
+                      </TableCell>
+                      <TableCell>
                         <Button onClick={() => handleOpen(order.id)}>
                           Detail
                         </Button>
@@ -356,6 +374,12 @@ export default function OrderAdmin() {
                         </div>
                       </TableCell>
                       <TableCell>${order.totalPrice.toLocaleString()}</TableCell>
+                      <TableCell>
+                        {order.phone}
+                      </TableCell>
+                      <TableCell>
+                        {order.address}
+                      </TableCell>
                       <TableCell>
                         <Button onClick={() => handleOpen(order.id)}>
                           Detail

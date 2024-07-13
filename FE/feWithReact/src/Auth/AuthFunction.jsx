@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 
 export function createApi(endpointPath) {
-	const BaseUrl = "https://localhost:7122/api/"
+	const BaseUrl = "https://diamond-shopp.azurewebsites.net/api/"
 	return BaseUrl + endpointPath
 }
 

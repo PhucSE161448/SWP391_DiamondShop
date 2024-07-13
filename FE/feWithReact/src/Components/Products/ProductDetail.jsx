@@ -319,25 +319,6 @@ export default function ProductDetail() {
             </div>
             <br />
           </div>
-          <div style={{
-            padding: '5vh',
-            textAlign: 'center',
-          }}>
-            <h2>Details</h2>
-            <p>
-              Hello
-            </p>
-
-            <h2>Descriptions</h2>
-            <p style={{
-              textAlign: 'justify',
-              fontSize: '20px',
-            }}>
-              Authentic with a special design combining two types of white gold and yellow gold, creating a strong, masculine and luxurious style.
-              Exquisitely crafted to every detail and flexible according to needs: freely change the color/gold age and freely change the size of the main stone,
-              Authentic is a meaningful gift that brings success, luxury and shows class for gentlemen.
-            </p>
-          </div>
         </div >
 
       </Container>

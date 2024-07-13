@@ -44,7 +44,7 @@ export default function Collection() {
       </div>
       <div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm'>
         <ul className='slider-container'>
-          {data.map((data) => (
+          {data.filter(item => !item.isDeleted).map((data) => (
             <li key={data.id}>
               <div onClick={() => handleNavigateCollection(data.id)} style={{
                 cursor: 'pointer',

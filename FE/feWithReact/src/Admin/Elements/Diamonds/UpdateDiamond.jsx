@@ -15,6 +15,7 @@ export default function UpdateDiamond(props) {
   const dataColors = ["D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
   const dataClarity = ["FL", "IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "I1", "I2", "I3"]
   const dataCut = ["Excellent", "Very Good", "Good", "Fair", "Poor"].reverse()
+  const [statusCodeCreate, setStatusCodeCreate] = useState(0)
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
@@ -85,7 +86,10 @@ export default function UpdateDiamond(props) {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: formData
-    });
+    }).then(response => {
+      setStatusCodeCreate(response.status)
+      return response.json();
+    })
   }
 
   const validationSchema = Yup.object({
@@ -104,10 +108,17 @@ export default function UpdateDiamond(props) {
   })
 
   const initialValues = {
-
+    origin: item.origin,
+    color: item.color,
+    caratWeight: item.caratWeight,
+    clarity: item.clarity,
+    cut: item.cut,
+    name: item.name,
+    price: item.price,
+    quantity: item.quantity,
   }
   const onSubmit = (values) => {
-
+    Update(values)
   }
 
   return (
@@ -175,6 +186,7 @@ export default function UpdateDiamond(props) {
                   ))}
                 </Grid>
               )}
+              <></>
               <h3>
                 New images
               </h3>
@@ -225,7 +237,13 @@ export default function UpdateDiamond(props) {
                 </Grid>
               )}
             </div> <br />
-
+            {statusCodeCreate?.toString().startsWith('4') ? (
+              <Alert severity="error">Create Diamond failed</Alert>
+            ) : (
+              statusCodeCreate?.toString().startsWith('2') && (
+                <Alert severity="success">Create Diamond successfully</Alert>
+              )
+            )}
           </div>
         </Box >
       </Modal>

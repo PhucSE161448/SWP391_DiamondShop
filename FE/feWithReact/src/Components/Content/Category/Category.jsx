@@ -51,7 +51,7 @@ export default function Category() {
 			</div>
 			<div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm'>
 				<ul className='slider-container'>
-					{CategoryData.map((CategoryData) => (
+					{CategoryData.filter(item => !item.isDeleted).map((CategoryData) => (
 						<li key={CategoryData.id}>
 							<div onClick={() => handleNavigateCategory(CategoryData.id)} style={{
 								cursor: 'pointer',

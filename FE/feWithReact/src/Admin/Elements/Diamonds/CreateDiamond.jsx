@@ -18,6 +18,7 @@ export default function CreateDiamond(props) {
   const dataOrigin = ["GIA", "IGI", "AGS", "HRD", "EGL", "CGL"]
   const [statusCode, setStatusCode] = useState(0)
   const [errorMessage, setErrorMessage] = useState('')
+  const [statusCodeCreate, setStatusCodeCreate] = useState(0)
   const handleOpen = () => {
     setOpen(true)
   }
@@ -89,7 +90,10 @@ export default function CreateDiamond(props) {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: formData
-    }).then(response => response.json())
+    }).then(response => {
+      setStatusCodeCreate(response.status)
+      return response.json()
+    })
       .then(responseData => props.onDiamondCreated())
   }
 
@@ -475,6 +479,13 @@ export default function CreateDiamond(props) {
               )
             )}
           </div>
+          {statusCodeCreate?.toString().startsWith('4') ? (
+            <Alert severity="error">Create Diamond failed</Alert>
+          ) : (
+            statusCodeCreate?.toString().startsWith('2') && (
+              <Alert severity="success">Create Diamond successfully</Alert>
+            )
+          )}
         </Box >
       </Modal>
     </div >

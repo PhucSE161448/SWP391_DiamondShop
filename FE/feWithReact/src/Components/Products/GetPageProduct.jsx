@@ -253,7 +253,7 @@ export default function GetPageProduct() {
                 {Category && Category.map((item, index) => (
                   <MenuItem key={index} value={item.id}>
                     <Checkbox checked={CategoryIds.indexOf(item.id) > -1} />
-                    <ListItemText primary={item.name + ' ' + item.group.name} />
+                    <ListItemText primary={item.name} />
                   </MenuItem>
                 ))}
               </Select>

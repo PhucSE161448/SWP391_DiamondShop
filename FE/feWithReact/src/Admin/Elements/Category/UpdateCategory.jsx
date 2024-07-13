@@ -56,18 +56,15 @@ export default function UpdateCategory(props) {
 
   const validationSchema = Yup.object({
     nameCategory: Yup.string().required('Required'),
-    typeCategory: Yup.string().required('Required'),
   })
 
   const initialValues = {
     nameCategory: data.name,
-    typeCategory: data.group.id
   }
 
   const onSubmit = (values) => {
     const parsedValues = {
       ...values,
-      typeCategory: parseInt(values.typeCategory)
     }
     UpdateCategory(parsedValues)
     // formik.resetForm()
@@ -114,7 +111,7 @@ export default function UpdateCategory(props) {
               {({ handleChange, values }) => (
                 <Form>
                   <div className='row'>
-                    <div className='col-6'>
+                    <div className='col'>
                       <TextField
                         id="nameCategory"
                         name="nameCategory"
@@ -123,23 +120,6 @@ export default function UpdateCategory(props) {
                         onChange={handleChange}
                         sx={{ width: '100%' }}
                       />
-                    </div>
-                    <div className='col-6'>
-                      <FormControl sx={{ width: '100%' }}>
-                        <InputLabel id="typeCategory-label">Type</InputLabel>
-                        <Select
-                          labelId="typeCategory-label"
-                          id="typeCategory"
-                          name="typeCategory"
-                          value={values.typeCategory}
-                          onChange={handleChange}
-                          label="Type"
-                        >
-                          {dataType && dataType.map((data) => (
-                            <MenuItem key={data.id} value={data.id}>{data.name}</MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
                     </div>
                     <div>
                       <Button
