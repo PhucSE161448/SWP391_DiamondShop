@@ -23,7 +23,6 @@ import GetPageCategory from './Components/CategoryPage/GetPageCategory'
 import GetPageCollection from './Components/CollectionPage/GetPageCollection'
 import Profile from './Pages/Profile'
 import Order from './Pages/Order'
-import ShowAllType from './Admin/Elements/Type/ShowAllType'
 import OrderAdmin from './Admin/Elements/Orders/OrderAdmin'
 import ShowAllPayment from './Admin/Elements/Payment/ShowAllPayment'
 import PaymentSuccessful from './Pages/PaymentSuccessful'
@@ -31,6 +30,7 @@ import Certificate from './Admin/Elements/Certificate/Certificate'
 import PdfFileWarranty from './Pages/PdfFileWarranty'
 import PaymentFail from './Pages/DiamondPage'
 import { gapi } from 'gapi-script'
+import PolicyPage from './Pages/PolicyPage'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 export default function App() {
   const clientId = "629470625241-289cmgv2sgrusl96bhmhsnpjjbr0m98b.apps.googleusercontent.com";
@@ -62,6 +62,7 @@ export default function App() {
             <Route path='/order' element={<Order></Order>}></Route>
             <Route path='/payment/success' element={<PaymentSuccessful></PaymentSuccessful>}></Route>
             <Route path='/payment/cancel' element={<PaymentFail></PaymentFail>}></Route>
+            <Route path='/policyPage' element={<PolicyPage></PolicyPage>}></Route>
           </Route>
 
           <Route path='/pdfWarranty/:id' element={<PdfFileWarranty />}></Route>
@@ -76,7 +77,6 @@ export default function App() {
             <Route path='diamond' element={<ShowAllDiamond></ShowAllDiamond>}></Route>
             <Route path='diamondCase' element={<DiamondCase></DiamondCase>}> </Route>
             <Route path='collections' element={<Collections></Collections>}></Route>
-            <Route path='type' element={<ShowAllType></ShowAllType>}></Route>
             <Route path='order' element={<OrderAdmin></OrderAdmin>}></Route>
             <Route path='payment' element={<ShowAllPayment></ShowAllPayment>}></Route>
             <Route path='certificate' element={<Certificate></Certificate>}></Route>

@@ -54,7 +54,6 @@ export default function CRUDCategory() {
 							<TableRow>
 								<TableCell>#</TableCell>
 								<TableCell>Name</TableCell>
-								<TableCell>Type</TableCell>
 								<TableCell></TableCell>
 								<TableCell><CreateCategory onCategoryCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
 							</TableRow>
@@ -71,12 +70,6 @@ export default function CRUDCategory() {
 												minWidth: '11vw'
 											}}>
 												{data.name}
-											</TableCell>
-											<TableCell style={{
-												maxWidth: '11vw',
-												minWidth: '11vw'
-											}}>
-												{data.group.name}
 											</TableCell>
 											<TableCell style={{
 												maxWidth: '11vw',

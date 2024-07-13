@@ -50,9 +50,6 @@ export default function NavbarAdmin() {
 		navigate('/admin/collections')
 	}
 
-	function goToType() {
-		navigate('/admin/type')
-	}
 
 	function goToOrder() {
 		navigate('/admin/order')
@@ -118,9 +115,6 @@ export default function NavbarAdmin() {
 						</Menu.Item>
 						<Menu.Item key="Warranty" style={paddingStyle}>
 							<Button onClick={goToWarranty} sx={buttonStyle}>Warranty</Button>
-						</Menu.Item>
-						<Menu.Item key="Type" style={paddingStyle}>
-							<Button onClick={goToType} sx={buttonStyle}>Type</Button>
 						</Menu.Item>
 						<Menu.Item key="Payment" style={paddingStyle}>
 							<Button onClick={goToPayment} sx={buttonStyle}>Payment</Button>

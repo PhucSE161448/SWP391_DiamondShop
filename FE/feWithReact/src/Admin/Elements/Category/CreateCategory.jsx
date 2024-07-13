@@ -33,7 +33,6 @@ export default function CreateCategory(props) {
 
 	const validationSchema = Yup.object({
 		nameCategory: Yup.string().required('Required'),
-		typeCategory: Yup.string().required('Required'),
 	})
 
 	const initialValues = {
@@ -114,7 +113,7 @@ export default function CreateCategory(props) {
 							{({ handleChange, values }) => (
 								<Form>
 									<div className='row'>
-										<div className='col-6'>
+										<div className='col'>
 											<Field
 												name="nameCategory"
 												as={TextField}
@@ -126,27 +125,6 @@ export default function CreateCategory(props) {
 											<ErrorMessage name="nameCategory">
 												{msg => <Alert severity="error">{msg}</Alert>}
 											</ErrorMessage>
-										</div>
-										<div className='col-6'>
-											<FormControl sx={{ width: '100%' }}>
-												<InputLabel id="typeCategory-label">Type</InputLabel>
-												<Field
-													name="typeCategory"
-													as={Select}
-													labelId="typeCategory-label"
-													onChange={handleChange}
-													value={values.typeCategory}
-													style={{ width: '100%' }}
-													label="Type"
-												>
-													{dataType && dataType.map((data) => (
-														<MenuItem key={data.id} value={data.id}>{data.name}</MenuItem>
-													))}
-												</Field>
-												<ErrorMessage name="typeCategory">
-													{msg => <Alert severity="error">{msg}</Alert>}
-												</ErrorMessage>
-											</FormControl>
 										</div>
 										<div>
 											<Button

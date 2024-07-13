@@ -9,6 +9,7 @@ import { Menu, } from 'antd'
 import { LogoutByButton } from '../../Auth/AuthFunction'
 import { jwtDecode } from 'jwt-decode'
 import { createApi } from '../../Auth/AuthFunction';
+import Footer from '../Footer/Footer';
 export default function Navbar() {
 	const [categories, setCategories] = useState([])
 	const [token, setToken] = useState(null)
@@ -93,7 +94,7 @@ export default function Navbar() {
 					...paddingStyle,
 					borderBottom: '1px solid #fff',
 				}}>
-					<Button onClick={() => goToCategory(category.id)} sx={buttonStyle}>{category.name} {category.group.name}</Button>
+					<Button onClick={() => goToCategory(category.id)} sx={buttonStyle}>{category.name}</Button>
 				</Menu.Item>
 			))}
 		</>
@@ -190,9 +191,7 @@ export default function Navbar() {
 				)}
 			</Menu>
 			<Outlet />
-			<h1>
-				Footer will go here in navbar.jsx
-			</h1>
+			<Footer></Footer>
 		</div>
 	)
 }
