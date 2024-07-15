@@ -54,6 +54,7 @@ export default function UpdateCertificate(props) {
         .then(response => response.json())
         .then(responseData => {
           setDataCertificate(responseData)
+
         })
         .catch((error) => console.error('Error:', error))
     }
@@ -111,9 +112,11 @@ export default function UpdateCertificate(props) {
     })
       .then(response => {
         setResponseStatus(response.status)
+
       })
       .then(responseData => {
         setResponseMessage('Update Certificate Failed')
+        handleClose()
         props.onCertificateUpdated()
       })
   }
@@ -343,7 +346,7 @@ export default function UpdateCertificate(props) {
               {responseStatus && (responseStatus.toString().startsWith('2')
                 ? <Alert severity="success">
                   <AlertTitle>
-                    Create Certificate Successful
+                    Update Certificate Successful
                   </AlertTitle>
 
                 </Alert>

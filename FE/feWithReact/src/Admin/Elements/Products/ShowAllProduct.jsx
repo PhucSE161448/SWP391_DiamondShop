@@ -58,113 +58,79 @@ export default function ShowAllProduct() {
     ReadData()
   }, [triggerRead])
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: '#252f38',
-      color: '#dbd1d0',
-      fontWeight: 'bold',
-      fontSize: 16,
-      border: '1px solid rgba(0,0,0,0.1)',
-      width: 200,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-      border: '1px solid rgba(0,0,0,0.1)',
-    },
-  }))
 
   return (
-    <div style={{
-      justifyContent: 'flex-end'
-    }}>
+    <>
+      <div className='contentAdminContainer'>
+        <div className='CRUDContainer '>
+          <div className='titleOfFormContainer'>
+            <h2>Diamond</h2>
+          </div>
+          <div className='buttonContainer'>
+            <div className='formCRUDContainer'>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}>
+                <CreateProduct onProductCreated={() => setTriggerRead(prev => !prev)}></CreateProduct>
+              </div>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>#</TableCell>
+                      <TableCell>Image</TableCell>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Deleted</TableCell>
+                      <TableCell>Update</TableCell>
+                      <TableCell>Details</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {data && data.map((item, index) => (
+                      <>
+                        <TableRow key={index}>
+                          <TableCell>{index + 1}</TableCell>
+                          <TableCell>
+                            <ImageList sx={{ width: 200, height: 150 }} cols={1} rowHeight={150}>
+                              {item.images && item.images.map((image, index) => (
+                                <ImageListItem >
+                                  <img key={index} src={image.urlPath} alt="img" style={{
+                                    width: '150px',
+                                    padding: '10px',
+                                    borderRadius: '10px',
+                                  }} />
+                                </ImageListItem>
 
-      <div style={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        marginRight: '10vw',
-        marginTop: '2vh'
-      }}>
-        <CreateProduct onProductCreated={() => setTriggerRead(prev => !prev)}></CreateProduct>
+                              ))}
+                            </ImageList>
+                          </TableCell>
+                          <TableCell>{item.name}</TableCell>
+                          <TableCell ><ButtonDeleteProduct id={item.id} isDeleted={item.isDeleted} /></TableCell>
+                          <TableCell>
+                            <UpdateProduct item={item} image={item.images} onProductUpdated={() => setTriggerRead(prev => !prev)}></UpdateProduct>
+                          </TableCell>
+                          <TableCell><ShowDetails id={item.id}></ShowDetails></TableCell>
+                        </TableRow>
+                      </>
+                    ))
+                    }
+                  </TableBody>
 
-        <Button
-          variant="contained"
-          type="button"
-          size="large"
-          onClick={() => setTriggerRead(prev => !prev)}
-          sx={{
-            backgroundColor: '#4d5b6b',
-            color: '#f2f2f2',
-            marginLeft: '1vw',
-            '&:hover': {
-              backgroundColor: '#4d5b6b',
-              color: '#f2f2f2',
-            }
-          }}>
-          REFRESH
-        </Button>
+                </Table>
+              </TableContainer>
+              <Stack sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <Pagination count={TotalPage} page={PageNumber} onChange={handlePageChange} />
+              </Stack>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <Container sx={{
-        display: 'flex',
-        alignItems: 'center',
-      }}>
-
-        <Box>
-          <TableContainer>
-            <Table sx={{
-              border: '1px solid rgba(0,0,0,0.1)',
-              backgroundColor: 'rgba(0,0,0,0.1)',
-            }}>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>#</StyledTableCell>
-                  <StyledTableCell>Image</StyledTableCell>
-                  <StyledTableCell>Name</StyledTableCell>
-                  <StyledTableCell>Deleted</StyledTableCell>
-                  <StyledTableCell>Update</StyledTableCell>
-                  <StyledTableCell>Details</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data && data.map((item, index) => (
-                  <>
-                    <TableRow key={index}>
-                      <StyledTableCell>{index + 1}</StyledTableCell>
-                      <StyledTableCell>
-                        <ImageList sx={{ width: 200, height: 150 }} cols={1} rowHeight={150}>
-                          {item.images && item.images.map((image, index) => (
-                            <ImageListItem >
-                              <img key={index} src={image.urlPath} alt="img" style={{
-                                width: '150px',
-                                padding: '10px',
-                                borderRadius: '10px',
-                              }} />
-                            </ImageListItem>
-
-                          ))}
-                        </ImageList>
-                      </StyledTableCell>
-                      <StyledTableCell>{item.name}</StyledTableCell>
-                      <StyledTableCell><ButtonDeleteProduct id={item.id} isDeleted={item.isDeleted} /></StyledTableCell>
-                      <StyledTableCell><UpdateProduct item={item} image={item.images} onProductUpdated={() => setTriggerRead(prev => !prev)}></UpdateProduct></StyledTableCell>
-                      <StyledTableCell><ShowDetails id={item.id}></ShowDetails></StyledTableCell>
-                    </TableRow>
-                  </>
-                ))
-                }
-              </TableBody>
-
-            </Table>
-          </TableContainer>
-        </Box>
-      </Container>
-      <Stack sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        <Pagination count={TotalPage} page={PageNumber} onChange={handlePageChange} />
-      </Stack>
-    </div >
+    </ >
   )
 }

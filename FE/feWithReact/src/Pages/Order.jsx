@@ -357,7 +357,7 @@ export default function Order() {
               </Table>
             </TableContainer>
             <div>
-              {status === 'Paid' && (
+              {(status === 'Paid' || status === 'Finished') && (
                 <Button size='large' variant='contained' onClick={handleOpenWarranty}>
                   Show Warranty
                 </Button>
@@ -401,22 +401,24 @@ export default function Order() {
                               </h4>
                             </TableCell>
                           </TableHead>
+                          {console.log(warranty)}
+                          {warranty.orderProducts.map((item, index) => (
+                            <TableBody key={index}>
+                              <TableCell>
+                                {item.name}
+                              </TableCell>
+                              <TableCell>
+                                {new Date(warranty.warrantyDocuments[index].period).toLocaleDateString('en-US')}
+                              </TableCell>
+                              <TableCell>
+                                {warranty.warrantyDocuments[index].termsAndConditions}
+                              </TableCell>
+                            </TableBody>
+
+                          ))}
                         </Table>
                       </TableContainer>
-                      {warranty.orderProducts.map((item, index) => (
-                        <TableBody key={index}>
-                          <TableCell>
-                            {item.name}
-                          </TableCell>
-                          <TableCell>
-                            {new Date(warranty.warrantyDocuments[index].period).toLocaleDateString('en-US')}
-                          </TableCell>
-                          <TableCell>
-                            {warranty.warrantyDocuments[index].termsAndConditions}
-                          </TableCell>
-                        </TableBody>
 
-                      ))}
                     </div>
                   </div>
                   <div>

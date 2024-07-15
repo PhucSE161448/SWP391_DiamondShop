@@ -85,16 +85,16 @@ export default function GetPageProduct() {
   }
 
   const debounce = (func, delay) => {
-    let debounceTimer;
+    let debounceTimer
     return function () {
-      const context = this;
-      const args = arguments;
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => func.apply(context, args), delay);
-    };
-  };
+      const context = this
+      const args = arguments
+      clearTimeout(debounceTimer)
+      debounceTimer = setTimeout(() => func.apply(context, args), delay)
+    }
+  }
 
-  const debouncedHandleChangeNameProduct = debounce(handleChangeNameProduct, 300);
+  const debouncedHandleChangeNameProduct = debounce(handleChangeNameProduct, 500)
   const handleSelectPrice = (value) => {
     if (value === null) {
       setStartPrice(null)
@@ -164,6 +164,7 @@ export default function GetPageProduct() {
     }
     getCollectionData()
   }, [])
+
   useEffect(() => {
     function ReadData() {
       let queryString = new URLSearchParams();
@@ -387,6 +388,8 @@ export default function GetPageProduct() {
                               sx={{
                                 width: '100%',
                                 borderRadius: '20px',
+                                height: '400px',
+                                width: '400px',
                               }}
                             />
                           </>

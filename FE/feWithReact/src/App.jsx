@@ -46,8 +46,6 @@ export default function App() {
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <BrowserRouter>
-        {/* <LogoutAndRedirect /> */}
-
         <Routes>
           <Route path='/' element={<Home />}>
             <Route index element={<Homepage />} />

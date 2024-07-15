@@ -4,6 +4,7 @@ import SendIcon from '@mui/icons-material/Send'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 import Modal from '@mui/material/Modal'
+import CancelIcon from '@mui/icons-material/Cancel';
 import { createApi } from '../../../Auth/AuthFunction'
 export default function CreateCategory(props) {
 	const [dataType, setDataType] = useState(null)
@@ -54,7 +55,6 @@ export default function CreateCategory(props) {
 		const url = createApi('Category/CreateCategory')
 		const data = {
 			name: Values.nameCategory,
-			groupId: Values.typeCategory
 		}
 		fetch(url, {
 			method: 'POST',
@@ -68,9 +68,10 @@ export default function CreateCategory(props) {
 			.then(response => response.json())
 			.then(responseData => {
 				setData(responseData)
+				setOpen(false)
+				setData(null)
 				props.onCategoryCreated()
-			}
-			)
+			})
 	}
 
 	return (
@@ -92,16 +93,13 @@ export default function CreateCategory(props) {
 					top: '50%',
 					left: '50%',
 					transform: 'translate(-50%, -50%)',
-					width: 800,
-					height: 400,
 					bgcolor: 'background.paper',
 					border: '1px solid #000',
 					boxShadow: 24,
 					p: 4,
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'center',
-					alignContent: 'center'
+					height: '100vh',
+					width: '100vw',
+					overflow: 'auto'
 				}}>
 					<h3 className='titleOfForm'>CREATE CATEGORY</h3>
 					<div>
@@ -126,18 +124,30 @@ export default function CreateCategory(props) {
 												{msg => <Alert severity="error">{msg}</Alert>}
 											</ErrorMessage>
 										</div>
-										<div>
+										<div className='formSubmit'>
 											<Button
+												fullWidth
 												variant="contained"
 												color="primary"
 												startIcon={<SendIcon />}
 												type="submit"
 												sx={{
-													width: '100%',
-													marginTop: '25px',
+													margin: '5px',
 												}}
 											>
-												Send
+												CREATE
+											</Button>
+											<Button
+												fullWidth
+												variant="contained"
+												color="error"
+												startIcon={<CancelIcon />}
+												onClick={handleClose}
+												sx={{
+													margin: '5px',
+												}}
+											>
+												CANCEL
 											</Button>
 										</div>
 									</div>

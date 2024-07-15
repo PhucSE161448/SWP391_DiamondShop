@@ -3,7 +3,7 @@ import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import { RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import * as Yup from 'yup'
-import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, Card, CardContent, Alert, Modal } from '@mui/material'
+import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, Card, CardContent, Alert, Modal, AlertTitle } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import { styled } from '@mui/material/styles'
@@ -18,11 +18,9 @@ export default function UpdateProduct(props) {
   const [dataDiamond, setDataDiamond] = useState(null)
   const [dataCollection, setDataCollection] = useState(null)
   const [open, setOpen] = useState(false)
-  const [displayStatus, setDisplayStatus] = useState(false)
-  const [responseCodeProduct, setResponseCodeProduct] = useState(null)
-  const [responseCodeProductDetail, setResponseCodeProductDetail] = useState(null)
   const [priceMainPart, setPriceMainPart] = useState(props.item.productParts[0]?.diamond?.price)
   const [priceExtraPart, setPriceExtraPart] = useState(props.item.productParts[1]?.diamond?.price)
+  const [waiting, setWaiting] = useState(false)
   const calculatePrice = (priceMain, priceExtra, priceSize) => {
     return priceMain + priceExtra + priceSize
   }
@@ -30,12 +28,12 @@ export default function UpdateProduct(props) {
   const handleClose = () => {
     setOpen(false)
     setDisplayStatus(false)
-    props.onProductUpdated()
+    setWaiting(false)
   }
   const item = props.item
 
   const handleDisplay = () => {
-    setDisplayStatus(true)
+    setWaiting(true)
   }
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
@@ -128,11 +126,6 @@ export default function UpdateProduct(props) {
     setImage((prevImages) => [...prevImages, ...e.target.files])
   }
 
-  const handleClear = () => {
-    formik.resetForm()
-    setImage([])
-  }
-
   const handleDeleteImage = (index) => {
     setImage((currentImages) => currentImages.filter((_, i) => i !== index))
   }
@@ -146,7 +139,7 @@ export default function UpdateProduct(props) {
     formData.append('CategoryId', values.categoryId)
     formData.append('DiamondCaseId', values.DiamondCaseId)
     formData.append('CollectionId', values.CollectionId)
-
+    formData.append('Wage', values.wage)
     // Lặp qua mỗi file và thêm vào FormData
     for (let i = 0; i < image.length; i++) {
       const file = image[i]
@@ -162,8 +155,6 @@ export default function UpdateProduct(props) {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: formData
-    }).then(response => {
-      setResponseCodeProduct(response.status)
     })
 
     const urlCreateProductProperties = createApi(`Product/UpdateProductProperties/${item.id}`)
@@ -179,10 +170,11 @@ export default function UpdateProduct(props) {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify(productProperties)
-    }).then(response => {
-      setResponseCodeProductDetail(response.status)
-    }
-    )
+    }).then(responseData => {
+      props.onProductUpdated()
+      handleClose()
+
+    })
   }
 
   const validationSchema = Yup.object({
@@ -206,6 +198,7 @@ export default function UpdateProduct(props) {
           .required('Type is required'),
       })
     ),
+    wage: Yup.number().required('Wage is required').positive('Wage must be positive'),
     DiamondCaseId: Yup.number()
       .required('Diamond is required'),
     sizes: Yup.array().of(
@@ -228,6 +221,7 @@ export default function UpdateProduct(props) {
     CollectionId: item.collection.id,
     categoryId: item.category.id,
     DiamondCaseId: item.diamondCase.id,
+    wage: item.wage,
     diamonds: item.productParts?.map(partItem => ({
       diamondId: partItem?.diamond?.id,
       isMain: partItem?.isMain,
@@ -243,6 +237,7 @@ export default function UpdateProduct(props) {
 
     const parsedValues = {
       ...values,
+      wage: parseInt(values.wage, 10),
       CollectionId: parseInt(values.CollectionId, 10),
       DiamondCaseId: parseInt(values.DiamondCaseId, 10),
       diamonds: values.diamonds ? values.diamonds.map(diamond => ({
@@ -309,12 +304,17 @@ export default function UpdateProduct(props) {
                   </div>
                 </div> <br />
                 <div className='row'>
-                  <div className='col-3'>
+                  <div className='col-2'>
                     <Field
                       name="gender"
                       as={RadioGroup}
                       onChange={handleChange}
                       value={values.gender}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        'flex-wrap': 'nowrap'
+                      }}
                     >
                       <FormControlLabel value="true" control={<Radio />} label="Male" />
                       <FormControlLabel value="false" control={<Radio />} label="Female" />
@@ -333,9 +333,11 @@ export default function UpdateProduct(props) {
                         onChange={handleChange}
                         value={values.CollectionId}
                       >
-                        {dataCollection && dataCollection.map((item) => (
-                          <MenuItem value={item.id} key={item.id}>{item.name} </MenuItem>
-                        ))}
+                        {dataCollection && dataCollection.map((item) =>
+                          !item.isDeleted && (
+                            <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          )
+                        )}
                       </Field>
                     </FormControl>
                     <ErrorMessage name="CollectionId">
@@ -355,7 +357,9 @@ export default function UpdateProduct(props) {
                         MenuProps={MenuProps}
                       >
                         {dataCategory && dataCategory.map((item) => (
-                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          !item.isDeleted && (
+                            <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          )
                         ))}
                       </Field>
                       <ErrorMessage name="categoryId">
@@ -363,7 +367,7 @@ export default function UpdateProduct(props) {
                       </ErrorMessage>
                     </FormControl>
                   </div>
-                  <div className='col-3'>
+                  <div className='col-2'>
                     <FormControl fullWidth>
                       <InputLabel>Diamond Case</InputLabel>
                       <Field
@@ -374,12 +378,30 @@ export default function UpdateProduct(props) {
                         value={values.DiamondCaseId}
                       >
                         {dataDiamondCase && dataDiamondCase.map((item) => (
-                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          !item.isDeleted && (
+                            <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          )
                         ))}
                       </Field>
                     </FormControl>
                     <ErrorMessage name="DiamondCaseId">
                       {msg => <Alert severity="error" sx={{ width: '100%' }}>{msg}</Alert>}
+                    </ErrorMessage>
+                  </div>
+                  <div className='col-2'>
+                    <Field
+                      name="wage"
+                      as={TextField}
+                      label="Wage"
+                      onChange={(e) => {
+                        handleChange(e)
+                        setPriceWage(e.target.value)
+                      }}
+                      value={values.wage}
+                      style={{ width: '100%' }}
+                    />
+                    <ErrorMessage name="wage">
+                      {msg => <Alert severity="error">{msg}</Alert>}
                     </ErrorMessage>
                   </div>
                 </div> <br />
@@ -443,7 +465,7 @@ export default function UpdateProduct(props) {
                 </div > <br />
 
                 <div className='row'>
-                  <div className='col-12'>
+                  <div className='col-6'>
                     <FieldArray name="diamonds">
                       {({ form }) => (
                         <div>
@@ -460,13 +482,15 @@ export default function UpdateProduct(props) {
                                   MenuProps={MenuProps}
                                 >
                                   {dataDiamond && dataDiamond.map((item) => (
-                                    <MenuItem
-                                      value={item.id}
-                                      key={item.id}
-                                      onClick={() => { setPriceMainPart(item.price) }}
-                                    >
-                                      {item.name}
-                                    </MenuItem>
+                                    !item.isDeleted && (
+                                      <MenuItem
+                                        value={item.id}
+                                        key={item.id}
+                                        onClick={() => { setPriceMainPart(item.price) }}
+                                      >
+                                        {item.name}
+                                      </MenuItem>
+                                    )
                                   ))}
 
                                 </Field>
@@ -502,7 +526,7 @@ export default function UpdateProduct(props) {
                       )}
                     </FieldArray>
                   </div> <br />
-                  <div className='col-12'>
+                  <div className='col-6'>
                     <FieldArray name="diamonds">
                       {({ form }) => (
                         <div>
@@ -519,15 +543,16 @@ export default function UpdateProduct(props) {
                                   MenuProps={MenuProps}
                                 >
                                   {dataDiamond && dataDiamond.map((item) => (
-                                    <MenuItem
-                                      value={item.id}
-                                      key={item.id}
-                                      onClick={() => { setPriceExtraPart(item.price) }}
-                                    >
-                                      {item.name}
-                                    </MenuItem>
+                                    !item.isDeleted && (
+                                      <MenuItem
+                                        value={item.id}
+                                        key={item.id}
+                                        onClick={() => { setPriceExtraPart(item.price) }}
+                                      >
+                                        {item.name}
+                                      </MenuItem>
+                                    )
                                   ))}
-
                                 </Field>
                               </FormControl>
                               <ErrorMessage name={`diamonds[1].diamondId`}>
@@ -636,7 +661,11 @@ export default function UpdateProduct(props) {
                     </FieldArray>
                   </div> <br />
                 </div>
-
+                <div>
+                  {waiting && (
+                    <Alert severity="info"><AlertTitle>Please Wait</AlertTitle></Alert>
+                  )}
+                </div>
                 <div className='formSubmit' >
                   <Button
                     type="submit"
@@ -650,36 +679,11 @@ export default function UpdateProduct(props) {
                   >
                     Send
                   </Button>
-                  <Button type="button"
-                    value="Clear" onClick={handleClear}
-                    className='submitButton'
-                    variant="contained" size="large" color="error"
-                    endIcon={<CancelScheduleSendIcon />}
-                    sx={{
-                      margin: '5px',
-                    }}>
-                    Clear
-                  </Button>
                 </div>
               </Form>
             )}
           </Formik>
-          {displayStatus && (
-            <>
-              {
-                String(responseCodeProduct).startsWith('2') && String(responseCodeProductDetail).startsWith('2') &&
-                <Alert severity="success" variant="filled">Update product successfully</Alert>
-              }
-              {
-                !String(responseCodeProduct).startsWith('2') &&
-                <Alert severity="error" variant="filled">Update product failed Update Product</Alert>
-              }
-              {
-                !String(responseCodeProductDetail).startsWith('2') &&
-                <Alert severity="error" variant="filled">Update product failed Update Product Properties</Alert>
-              }
-            </>
-          )}
+
           <Button type="button"
             value="Clear" onClick={handleClose}
             className='submitButton'
@@ -688,7 +692,8 @@ export default function UpdateProduct(props) {
             sx={{
               margin: '5px',
             }}>
-            Close</Button>
+            Close
+          </Button>
         </Box >
       </Modal>
     </div >

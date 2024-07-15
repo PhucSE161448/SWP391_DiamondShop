@@ -90,12 +90,14 @@ export default function Navbar() {
 	const categorySubmenu = (
 		<>
 			{categories.map((category, index) => (
-				<Menu.Item key={`category-${index}`} style={{
-					...paddingStyle,
-					borderBottom: '1px solid #fff',
-				}}>
-					<Button onClick={() => goToCategory(category.id)} sx={buttonStyle}>{category.name}</Button>
-				</Menu.Item>
+				!category.isDeleted && (
+					<Menu.Item key={`category-${index}`} style={{
+						...paddingStyle,
+						borderBottom: '1px solid #fff',
+					}}>
+						<Button onClick={() => goToCategory(category.id)} sx={buttonStyle}>{category.name}</Button>
+					</Menu.Item>
+				)
 			))}
 		</>
 	)
@@ -103,12 +105,14 @@ export default function Navbar() {
 	const collectionsSubmenu = (
 		<>
 			{collections.map((collection, index) => (
-				<Menu.Item key={`collection-${index}`} style={{
-					...paddingStyle,
-					borderBottom: '1px solid #fff',
-				}}>
-					<Button onClick={() => goToCollection(collection.id)} sx={buttonStyle}>{collection.name}</Button>
-				</Menu.Item>
+				!collection.isDeleted && (
+					<Menu.Item key={`collection-${index}`} style={{
+						...paddingStyle,
+						borderBottom: '1px solid #fff',
+					}}>
+						<Button onClick={() => goToCollection(collection.id)} sx={buttonStyle}>{collection.name}</Button>
+					</Menu.Item>
+				)
 			))}
 		</>
 	)

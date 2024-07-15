@@ -1,11 +1,12 @@
 import { Box, Grid, Container } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
   Stack, Pagination, CardMedia, FormControl, InputLabel,
   Select, MenuItem, Slider, Button
 } from '@mui/material'
+import { debounce } from 'lodash';
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { createApi } from '../../Auth/AuthFunction'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -24,6 +25,7 @@ export default function GetPageDiamond() {
   const dataCut = ["Excellent", "VeryGood", "Good", "Fair", "Poor"].reverse()
   const [dataCaratWeightStart, setDataCaratWeightStart] = useState(0.1)
   const [dataCaratWeightEnd, setDataCaratWeightEnd] = useState(10.2)
+  const [valueCaratWeight, setValueCaratWeight] = useState([0.1, 10.2])
   const [valueColor, setValueColor] = useState([0, dataColors.length - 1])
   const [valueClarity, setValueClarity] = useState([0, dataClarity.length - 1])
   const [valueCut, setValueCut] = useState([0, dataCut.length - 1])
@@ -39,7 +41,7 @@ export default function GetPageDiamond() {
     }
   }
 
-  const submitForm = async (data) => {
+  const addToCart = async (data) => {
     const body = {
       id: data.id,
       quantity: 1,
@@ -56,31 +58,30 @@ export default function GetPageDiamond() {
     })
   }
 
-  const handleChangeColor = (newValue) => {
-    setValueColor(newValue)
-    setTriggerRead(prev => !prev)
-  }
+  const handleChangeColor = debounce((newValue) => {
+    setValueColor(newValue);
+    setTriggerRead(prev => !prev);
+  }, 500)
 
-  const handleChangeClarity = (newValue) => {
-    setValueClarity(newValue)
-    setTriggerRead(prev => !prev)
-  }
+  const handleChangeClarity = debounce((newValue) => {
+    setValueClarity(newValue);
+    setTriggerRead(prev => !prev);
+  }, 500)
 
-  const handleChangeCut = (newValue) => {
-    setValueCut(newValue)
-    setTriggerRead(prev => !prev)
-  }
+  const handleChangeCut = debounce((newValue) => {
+    setValueCut(newValue);
+    setTriggerRead(prev => !prev);
+  }, 500)
 
-  const handleChangeCaratWeight = (newValue) => {
+  const handleChangeCaratWeight = debounce((newValue) => {
     setDataCaratWeightStart(Number(newValue[0]).toFixed(1));
     setDataCaratWeightEnd(Number(newValue[1]).toFixed(1));
-    setTriggerRead(prev => !prev)
-  }
+    setTriggerRead(prev => !prev);
+  }, 500)
 
   const handlePageChange = (event, value) => {
     navigate(`/diamondPage/${value}`);
     setPageNumber(value)
-
     setTriggerRead(prev => !prev)
   }
 
@@ -288,7 +289,9 @@ export default function GetPageDiamond() {
                 min={0.1}
                 max={10.2}
                 value={[dataCaratWeightStart, dataCaratWeightEnd]}
-                onChange={(_, newValue) => handleChangeCaratWeight(newValue)}
+                onChange={(_, newValue) => {
+                  handleChangeCaratWeight(newValue)
+                }}
                 aria-labelledby="range-slider"
                 getAriaValueText={(value) => `${Number(value).toFixed(1)}`}
                 valueLabelFormat={(value) => `${Number(value).toFixed(1)}`}
@@ -398,7 +401,6 @@ export default function GetPageDiamond() {
                       transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out',
                       '&:hover': {
                         boxShadow: '0 0 10px 5px rgba(0, 0, 0, 0.8)',
-                        transform: 'scale(1.2)',
                       }
                     }
                   }}>
@@ -419,6 +421,7 @@ export default function GetPageDiamond() {
                               sx={{
                                 width: '100%',
                                 borderRadius: '20px',
+                                height: '500px',
                               }}
                             />
                           </>
@@ -445,7 +448,7 @@ export default function GetPageDiamond() {
                       alignItems: 'center',
                       width: '100%',
                     }}>
-                      <Button fullWidth onClick={() => submitForm(item)} sx={{
+                      <Button fullWidth onClick={() => addToCart(item)} sx={{
                         color: 'black',
                         display: 'flex',
                         justifyContent: 'center',

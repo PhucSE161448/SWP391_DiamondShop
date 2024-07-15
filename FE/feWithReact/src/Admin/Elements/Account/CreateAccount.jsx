@@ -100,6 +100,9 @@ export default function CreateAccount(props) {
 						border: '1px solid #000',
 						boxShadow: 24,
 						p: 4,
+						height: '100vh',
+						width: '100vw',
+						overflow: 'auto'
 					}}>
 						<h3 className='titleOfForm'>CREATE Account</h3>
 						<div>
@@ -158,9 +161,10 @@ export default function CreateAccount(props) {
 													padding: '0'
 												}}>
 												<MenuItem value={1}>Admin</MenuItem>
-												<MenuItem value={2}>Sale staff</MenuItem>
-												<MenuItem value={3}>Delivery staff</MenuItem>
-												<MenuItem value={4}>Customer</MenuItem>
+												<MenuItem value={2}>Manager</MenuItem>
+												<MenuItem value={3}>Sale staff</MenuItem>
+												<MenuItem value={4}>Delivery staff</MenuItem>
+												<MenuItem value={5}>Customer</MenuItem>
 											</Select>
 										</FormControl>
 
@@ -185,14 +189,14 @@ export default function CreateAccount(props) {
 										Send
 									</Button>
 									<Button type="button"
-										value="Clear" onClick={handleClear}
+										onClick={handleClose}
 										className='submitButton'
 										variant="contained" size="large" color="error"
 										endIcon={<CancelScheduleSendIcon />}
 										sx={{
 											margin: '5px',
 										}}>
-										Clear
+										Cancel
 									</Button>
 								</div>
 							</form>

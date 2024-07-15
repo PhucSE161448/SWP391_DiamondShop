@@ -231,7 +231,6 @@ export default function ReadAccountByName(props) {
 				onClose={handleClose}
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
-
 			>
 				<Box sx={{
 					position: 'absolute',
@@ -243,6 +242,9 @@ export default function ReadAccountByName(props) {
 					boxShadow: 24,
 					p: 4,
 					width: 'auto',
+					height: '100vh',
+					width: '100vw',
+					overflow: 'auto',
 				}}>
 					<div className='formCRUDContainer'>
 						<h3>SEARCH BY NAME</h3>

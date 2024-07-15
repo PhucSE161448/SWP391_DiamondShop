@@ -126,7 +126,7 @@ export default function UpdateDiamond(props) {
       display: 'flex',
       justifyContent: 'center',
     }}>
-      <Button variant="contained" type="button" size="large" onClick={handleOpen}>
+      <Button variant="contained" type="button" size="large" color='warning' onClick={handleOpen}>
         Update
       </Button>
       <Modal

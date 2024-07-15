@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { TextField, Button, Box, Alert } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
-import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
+import CloseIcon from '@mui/icons-material/Close'
 import Modal from '@mui/material/Modal'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
@@ -39,6 +39,7 @@ export default function CreateDiamondCase(props) {
 			.then(response => response.json())
 			.then(responseData => {
 				setData(responseData)
+				handleClose()
 				props.onDiamondCaseCreated()
 			})
 	}
@@ -78,13 +79,15 @@ export default function CreateDiamondCase(props) {
 					top: '50%',
 					left: '50%',
 					transform: 'translate(-50%, -50%)',
-					width: 400,
 					bgcolor: 'background.paper',
 					border: '1px solid #000',
 					boxShadow: 24,
 					p: 4,
+					overflow: 'auto',
+					height: '100vh',
+					width: '100vw'
 				}}>
-					<h3 className='titleOfForm'>CREATE CATEGORY</h3>
+					<h3 className='titleOfForm'>CREATE DIAMOND CASE</h3>
 
 					<Formik
 						initialValues={initialValues}
@@ -151,14 +154,14 @@ export default function CreateDiamondCase(props) {
 										Send
 									</Button>
 									<Button type="button"
-										value="Clear" onClick={handleClear}
+										value="Clear" onClick={handleClose}
 										className='submitButton'
 										variant="contained" size="large" color="error"
-										endIcon={<CancelScheduleSendIcon />}
+										endIcon={<CloseIcon />}
 										sx={{
 											margin: '5px',
 										}}>
-										Clear
+										Close
 									</Button>
 								</div>
 							</Form>

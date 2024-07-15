@@ -99,6 +99,7 @@ export default function CreateCertificate(props) {
       })
       .then(responseData => {
         setResponseMessage(responseData.ErrorMessage)
+        handleClose()
         props.onCertificateCreated()
       })
   }

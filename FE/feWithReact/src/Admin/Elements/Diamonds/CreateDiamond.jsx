@@ -92,6 +92,8 @@ export default function CreateDiamond(props) {
       body: formData
     }).then(response => {
       setStatusCodeCreate(response.status)
+      setOpen(false)
+      setDataCertificate(null)
       return response.json()
     })
       .then(responseData => props.onDiamondCreated())
@@ -111,10 +113,7 @@ export default function CreateDiamond(props) {
         return response.json()
       })
       .then(responseData => {
-        if (statusCode.toString().startsWith('4') || statusCode.toString().startsWith('5')) {
-          setErrorMessage(responseData.ErrorMessage)
-          return
-        }
+        setErrorMessage(responseData.ErrorMessage)
         setDataCertificate(responseData)
       })
       .catch((error) => console.error('Error:', error))
@@ -248,14 +247,14 @@ export default function CreateDiamond(props) {
                         Search
                       </Button>
                       <Button type="button"
-                        value="Clear" onClick={handleClear}
+                        value="Clear" onClick={handleClose}
                         className='submitButton'
                         variant="contained" size="large" color="error"
                         endIcon={<CancelScheduleSendIcon />}
                         sx={{
                           margin: '5px',
                         }}>
-                        Clear
+                        CLOSE
                       </Button>
                     </div>
                   </Form>
@@ -404,6 +403,50 @@ export default function CreateDiamond(props) {
                               </div>
                             </div>
                           </div>
+                          <Button
+                            component="label"
+                            role={undefined}
+                            variant="contained"
+                            tabIndex={-1}
+                            startIcon={<FileUploadIcon />}
+                          >
+                            Upload image
+                            <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />
+                          </Button>
+                          {image.length > 0 && (
+                            <Grid container columnSpacing={3}>
+                              {image.map((image, index) => (
+                                <>
+                                  <Grid item xs={3}>
+                                    <Card sx={{
+                                      width: 'auto',
+                                      '&:hover': {
+                                        backgroundColor: 'rgba(0,0,0,0.1)',
+                                        borderRadius: '10px',
+                                      }
+                                    }}>
+                                      <CardContent>
+                                        <img src={URL.createObjectURL(image)} alt="" style={{
+                                          width: '100%',
+                                          borderRadius: '10px',
+                                        }} />
+                                        <p key={index}>{image.name}</p>
+                                      </CardContent>
+
+                                      <div style={{ textAlign: 'right' }}>
+                                        <Button
+                                          color="error"
+                                          endIcon={<DeleteIcon sx={{ color: 'red', margin: 0, padding: 0 }} />}
+                                          onClick={() => handleDeleteImage(index)}>
+                                          Delete
+                                        </Button>
+                                      </div>
+                                    </Card>
+                                  </Grid >
+                                </>
+                              ))}
+                            </Grid>
+                          )}
                           <div className='formSubmit' >
                             <Button
                               type="submit"
@@ -416,14 +459,14 @@ export default function CreateDiamond(props) {
                               Create
                             </Button>
                             <Button type="button"
-                              value="Clear" onClick={handleClear}
+                              value="Clear" onClick={handleClose}
                               className='submitButton'
                               variant="contained" size="large" color="error"
                               endIcon={<CancelScheduleSendIcon />}
                               sx={{
                                 margin: '5px',
                               }}>
-                              Clear
+                              CANCEL
                             </Button>
                           </div>
                         </Form>
@@ -431,61 +474,11 @@ export default function CreateDiamond(props) {
                     }}
 
                   </Formik>
-                  <Button
-                    component="label"
-                    role={undefined}
-                    variant="contained"
-                    tabIndex={-1}
-                    startIcon={<FileUploadIcon />}
-                  >
-                    Upload image
-                    <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />
-                  </Button>
-                  {image.length > 0 && (
-                    <Grid container columnSpacing={3}>
-                      {image.map((image, index) => (
-                        <>
-                          <Grid item xs={3}>
-                            <Card sx={{
-                              width: 'auto',
-                              '&:hover': {
-                                backgroundColor: 'rgba(0,0,0,0.1)',
-                                borderRadius: '10px',
-                              }
-                            }}>
-                              <CardContent>
-                                <img src={URL.createObjectURL(image)} alt="" style={{
-                                  width: '100%',
-                                  borderRadius: '10px',
-                                }} />
-                                <p key={index}>{image.name}</p>
-                              </CardContent>
 
-                              <div style={{ textAlign: 'right' }}>
-                                <Button
-                                  color="error"
-                                  endIcon={<DeleteIcon sx={{ color: 'red', margin: 0, padding: 0 }} />}
-                                  onClick={() => handleDeleteImage(index)}>
-                                  Delete
-                                </Button>
-                              </div>
-                            </Card>
-                          </Grid >
-                        </>
-                      ))}
-                    </Grid>
-                  )}
                 </div>
               )
             )}
           </div>
-          {statusCodeCreate?.toString().startsWith('4') ? (
-            <Alert severity="error">Create Diamond failed</Alert>
-          ) : (
-            statusCodeCreate?.toString().startsWith('2') && (
-              <Alert severity="success">Create Diamond successfully</Alert>
-            )
-          )}
         </Box >
       </Modal>
     </div >

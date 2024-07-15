@@ -22,8 +22,6 @@ export default function Login() {
       } else {
         navigate('/')
       }
-    } else {
-      navigate('/')
     }
   }
 
@@ -70,7 +68,6 @@ export default function Login() {
     const data = {
       googleToken: token
     }
-    console.log(data)
     return new Promise((resolve, reject) => {
       fetch(url, {
         method: "POST",

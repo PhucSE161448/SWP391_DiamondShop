@@ -61,90 +61,83 @@ export default function ShowAllDiamond() {
     ReadData()
   }, [triggerRead])
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: '#252f38',
-      color: '#dbd1d0',
-      fontWeight: 'bold',
-      fontSize: 16,
-      border: '1px solid rgba(0,0,0,0.1)',
-      width: 200,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-      border: '1px solid rgba(0,0,0,0.1)',
-    },
-  }))
-
   return (
-    <div style={{
-      justifyContent: 'flex-end'
-    }}>
-      <CreateDiamond onDiamondCreated={() => setTriggerRead(prev => !prev)}></CreateDiamond>
-      <Container sx={{
-        display: 'flex',
-        alignItems: 'center',
-      }}>
+    <>
+      <div className='contentAdminContainer'>
+        <div className='CRUDContainer '>
+          <div className='titleOfFormContainer'>
+            <h2>Diamond</h2>
+          </div>
+          <div className='buttonContainer'>
+            <div className='formCRUDContainer'>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end'
+              }}>
+                <CreateDiamond onDiamondCreated={() => setTriggerRead(prev => !prev)}></CreateDiamond>
+              </div>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      {rowsHeader.map((item, index) => (
+                        <TableCell sx={{
+                          fontWeight: 'bold',
+                          fontSize: '20px'
+                        }} key={index}>{item}</TableCell>
+                      ))}
 
-        <Box>
-          <TableContainer>
-            <Table sx={{
-              border: '1px solid rgba(0,0,0,0.1)',
-              backgroundColor: 'rgba(0,0,0,0.1)',
-            }}>
-              <TableHead>
-                <TableRow>
-                  {rowsHeader.map((item, index) => (
-                    <StyledTableCell key={index}>{item}</StyledTableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data && data.map((item, index) => (
-                  <>
-                    <TableRow key={index}>
-                      <StyledTableCell>{index + 1}</StyledTableCell>
-                      <StyledTableCell>
-                        <ImageList sx={{ width: 200, height: 150 }} cols={1} rowHeight={150}>
-                          {item.images && item.images.map((image, index) => (
-                            <ImageListItem >
-                              <img key={index} src={image.urlPath} alt="img" style={{
-                                width: '150px',
-                                padding: '10px',
-                                borderRadius: '10px',
-                              }} />
-                            </ImageListItem>
-
-                          ))}
-                        </ImageList>
-                      </StyledTableCell>
-                      <StyledTableCell>{item.origin}</StyledTableCell>
-                      <StyledTableCell>{item.color}</StyledTableCell>
-                      <StyledTableCell>{item.caratWeight}</StyledTableCell>
-                      <StyledTableCell>{item.clarity}</StyledTableCell>
-                      <StyledTableCell>{item.cut}</StyledTableCell>
-                      <StyledTableCell>{item.price}</StyledTableCell>
-                      <StyledTableCell>{item.quantity}</StyledTableCell>
-                      <StyledTableCell><ButtonDeleteDiamond id={item.id} isDeleted={item.isDeleted} /></StyledTableCell>
-                      <StyledTableCell><UpdateDiamond item={item} image={item.images}></UpdateDiamond></StyledTableCell>
-                      <StyledTableCell><ShowDetailsDiamond id={item.id}></ShowDetailsDiamond></StyledTableCell>
                     </TableRow>
-                  </>
-                ))
-                }
-              </TableBody>
+                  </TableHead>
+                  <TableBody>
+                    {data && data.map((item, index) => (
+                      <>
+                        <TableRow key={index}>
+                          <TableCell>{index + 1}</TableCell>
+                          <TableCell>
+                            <ImageList sx={{ width: 200, height: 150 }} cols={1} rowHeight={150}>
+                              {item.images && item.images.map((image, index) => (
+                                <ImageListItem >
+                                  <img key={index} src={image.urlPath} alt="img" style={{
+                                    width: '150px',
+                                    padding: '10px',
+                                    borderRadius: '10px',
+                                  }} />
+                                </ImageListItem>
 
-            </Table>
-          </TableContainer>
-        </Box>
-      </Container>
-      <Stack sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        <Pagination count={TotalPage} page={PageNumber} onChange={handlePageChange} />
-      </Stack>
-    </div >
+                              ))}
+                            </ImageList>
+                          </TableCell>
+                          <TableCell>{item.origin}</TableCell>
+                          <TableCell>{item.color}</TableCell>
+                          <TableCell>{item.caratWeight}</TableCell>
+                          <TableCell>{item.clarity}</TableCell>
+                          <TableCell>{item.cut}</TableCell>
+                          <TableCell>{item.price}</TableCell>
+                          <TableCell>{item.quantity}</TableCell>
+                          <TableCell><ButtonDeleteDiamond id={item.id} isDeleted={item.isDeleted} /></TableCell>
+                          <TableCell><UpdateDiamond item={item} image={item.images}></UpdateDiamond></TableCell>
+                          <TableCell><ShowDetailsDiamond id={item.id}></ShowDetailsDiamond></TableCell>
+                        </TableRow>
+                      </>
+                    ))
+                    }
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Stack sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <Pagination count={TotalPage} page={PageNumber} onChange={handlePageChange} />
+              </Stack>
+            </div >
+          </div>
+        </div>
+      </div>
+
+    </>
+
   )
 }

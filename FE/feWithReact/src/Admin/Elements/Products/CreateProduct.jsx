@@ -4,7 +4,7 @@ import { RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
 import * as Yup from 'yup';
-import { TextField, Button, Box, Grid, FormControl, InputLabel, Select, MenuItem, Card, CardContent, Alert, Modal } from '@mui/material'
+import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, AlertTitle, Alert, Modal } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import { styled } from '@mui/material/styles'
@@ -22,6 +22,7 @@ export default function CreateProduct(props) {
   const [priceMainPart, setPriceMainPart] = useState(0)
   const [priceExtraPart, setPriceExtraPart] = useState(0)
   const [priceWage, setPriceWage] = useState(0)
+  const [waiting, setWaiting] = useState(false)
 
   const calculatePrice = (priceMain, priceExtra, priceSize, priceWage) => {
     return priceMain + priceExtra + priceSize + priceWage
@@ -32,7 +33,13 @@ export default function CreateProduct(props) {
   }
   const handleClose = () => {
     setOpen(false)
+    setWaiting(false)
   }
+
+  const handleDisplay = () => {
+    setWaiting(true)
+  }
+
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
     function getDataCategory() {
@@ -141,7 +148,7 @@ export default function CreateProduct(props) {
     formData.append('CategoryId', values.categoryId);
     formData.append('DiamondCaseId', values.DiamondCaseId);
     formData.append('CollectionId', values.collectionId);
-
+    formData.append('Wage', values.wage);
     // Lặp qua mỗi file và thêm vào FormData
     for (let i = 0; i < image.length; i++) {
       const file = image[i];
@@ -177,6 +184,9 @@ export default function CreateProduct(props) {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify(productProperties)
+    }).then(responseData => {
+      props.onProductCreated()
+      handleClose()
     })
 
   }
@@ -241,7 +251,7 @@ export default function CreateProduct(props) {
       })) : []
     }
     Create(parsedValues)
-    props.onProductCreated()
+
   }
 
   return (
@@ -328,7 +338,9 @@ export default function CreateProduct(props) {
                         MenuProps={MenuProps}
                       >
                         {dataCollection && dataCollection.map((item) => (
-                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          !item.isDeleted && (
+                            <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          )
                         ))}
                       </Field>
                     </FormControl>
@@ -349,7 +361,9 @@ export default function CreateProduct(props) {
                         MenuProps={MenuProps}
                       >
                         {dataCategory && dataCategory.map((item) => (
-                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          !item.isDeleted && (
+                            <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          )
                         ))}
                       </Field>
                       <ErrorMessage name="categoryId">
@@ -368,7 +382,9 @@ export default function CreateProduct(props) {
                         value={values.DiamondCaseId}
                       >
                         {dataDiamondCase && dataDiamondCase.map((item) => (
-                          <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          !item.isDeleted && (
+                            <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>
+                          )
                         ))}
                       </Field>
                     </FormControl>
@@ -446,15 +462,16 @@ export default function CreateProduct(props) {
                                   MenuProps={MenuProps}
                                 >
                                   {dataDiamond && dataDiamond.map((item) => (
-                                    <MenuItem
-                                      value={item.id}
-                                      key={item.id}
-                                      onClick={() => { setPriceMainPart(item.price) }}
-                                    >
-                                      {item.name}
-                                    </MenuItem>
+                                    !item.isDeleted && (
+                                      <MenuItem
+                                        value={item.id}
+                                        key={item.id}
+                                        onClick={() => { setPriceMainPart(item.price) }}
+                                      >
+                                        {item.name}
+                                      </MenuItem>
+                                    )
                                   ))}
-
                                 </Field>
                               </FormControl>
                               <ErrorMessage name={`diamonds[0].diamondId`}>
@@ -505,13 +522,15 @@ export default function CreateProduct(props) {
                                   MenuProps={MenuProps}
                                 >
                                   {dataDiamond && dataDiamond.map((item) => (
-                                    <MenuItem
-                                      value={item.id}
-                                      key={item.id}
-                                      onClick={() => { setPriceExtraPart(item.price) }}
-                                    >
-                                      {item.name}
-                                    </MenuItem>
+                                    !item.isDeleted && (
+                                      <MenuItem
+                                        value={item.id}
+                                        key={item.id}
+                                        onClick={() => { setPriceExtraPart(item.price) }}
+                                      >
+                                        {item.name}
+                                      </MenuItem>
+                                    )
                                   ))}
 
                                 </Field>
@@ -620,6 +639,11 @@ export default function CreateProduct(props) {
                     </FieldArray>
                   </div>
                 </div>
+                <div>
+                  {waiting && (
+                    <Alert severity="info"><AlertTitle>Please Wait</AlertTitle></Alert>
+                  )}
+                </div>
 
                 <div className='formSubmit' >
                   <Button
@@ -630,34 +654,26 @@ export default function CreateProduct(props) {
                     sx={{
                       margin: '5px',
                     }}
+                    onClick={handleDisplay}
                   >
-                    Send
+                    Add
                   </Button>
                   <Button type="button"
-                    value="Clear" onClick={handleClear}
+                    value="Clear" onClick={handleClose}
                     className='submitButton'
                     variant="contained" size="large" color="error"
-                    endIcon={<CancelScheduleSendIcon />}
+                    endIcon={<CloseIcon />}
                     sx={{
                       margin: '5px',
                     }}>
-                    Clear
+                    Close
                   </Button>
                 </div>
               </Form>
             )}
           </Formik>
 
-          <Button type="button"
-            value="Clear" onClick={handleClose}
-            className='submitButton'
-            variant="contained" size="large" color="error"
-            endIcon={<CloseIcon />}
-            sx={{
-              margin: '5px',
-            }}>
-            Close
-          </Button>
+
         </Box >
       </Modal>
 

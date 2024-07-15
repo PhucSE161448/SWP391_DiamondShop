@@ -49,7 +49,7 @@ export default function Category() {
 			<div>
 				<h1 className>CATEGORY</h1>
 			</div>
-			<div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm'>
+			<div className='swiffy-slider slider-item-show6 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm'>
 				<ul className='slider-container'>
 					{CategoryData.filter(item => !item.isDeleted).map((CategoryData) => (
 						<li key={CategoryData.id}>
@@ -62,9 +62,8 @@ export default function Category() {
 								<Card sx={{
 									border: '1px solid #000000',
 									borderRadius: '50px',
-									margin: '10px',
-									width: '350px',
-									height: '100px',
+									width: '250px',
+									height: '75px',
 									display: 'flex',
 									justifyContent: 'center',
 									alignItems: 'center',

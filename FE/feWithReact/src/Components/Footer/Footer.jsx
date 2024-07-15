@@ -6,7 +6,7 @@ export default function Footer() {
   const [isHovered, setIsHovered] = useState(false)
   return (
     <div style={{
-      backgroundColor: '#001429',
+      backgroundColor: '#001529',
       color: '#fff',
       padding: '20px 0',
     }}>

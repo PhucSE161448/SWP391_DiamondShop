@@ -9,22 +9,16 @@ import { createApi } from '../../../Auth/AuthFunction'
 
 export default function UpdateDiamondCase(props) {
   const [open, setOpen] = useState(false)
-  const [displayStatus, setDisplayStatus] = useState(false)
-  const [responseCode, setResponseCode] = useState('')
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
-    setDisplayStatus(false)
-    setResponseCode('')
   }
-  const handleDisplay = () => setDisplayStatus(true)
-  const handleClear = () => setDisplayStatus(false)
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Required'),
-    color: Yup.number().required('Required'),
-    material: Yup.number().required('Required')
+    color: Yup.string().required('Required'),
+    material: Yup.string().required('Required')
   })
 
   const initialValues = {
@@ -39,7 +33,7 @@ export default function UpdateDiamondCase(props) {
   }
 
   const Update = (values) => {
-    const url = createApi(`DiamondCase/UpdateDiamondCase/'${props.id}`)
+    const url = createApi(`DiamondCase/UpdateDiamondCase/${props.id}`)
     const data = {
       "name": values.name,
       "color": values.color,
@@ -55,21 +49,16 @@ export default function UpdateDiamondCase(props) {
       body: JSON.stringify(data)
     })
       .then(response => {
-        if (response.status === 204 || response.headers.get("content-length") === "0") {
-          return null;
-        } else {
-          return response.json();
-        }
+        setResponseCode(response.status)
       })
       .then(responseData => {
-        if (responseData) {
-          setResponseCode(responseData.status)
-        }
+        handleClose()
+        props.onDiamondCaseUpdated()
       })
       .catch(error => {
         console.error("Error parsing JSON:", error);
       })
-    props.onDiamondCaseUpdated()
+
   }
   return (
     <div style={{
@@ -127,7 +116,7 @@ export default function UpdateDiamondCase(props) {
                     <Field
                       name="color"
                       as={TextField}
-                      label="Quantity"
+                      label="Color"
                       onChange={handleChange}
                       value={values.color}
                       sx={{ width: '100%' }}
@@ -161,46 +150,25 @@ export default function UpdateDiamondCase(props) {
                     sx={{
                       margin: '5px',
                     }}
-                    onClick={handleDisplay}
                   >
                     Send
                   </Button>
                   <Button type="button"
-                    value="Clear" onClick={handleClear}
+                    value="Clear" onClick={handleClose}
                     className='submitButton'
                     variant="contained" size="large" color="error"
-                    endIcon={<CancelScheduleSendIcon />}
+                    endIcon={<CloseIcon />}
                     sx={{
                       margin: '5px',
                     }}>
-                    Clear
+                    Close
                   </Button>
                 </div>
               </Form>
             )}
           </Formik>
-          {displayStatus && (
-            <>
-              {
-                String(responseCode).startsWith('2') && String(responseCode).startsWith('2') &&
-                <Alert severity="success" variant="filled">Update Diamond Case successfully</Alert>
-              }
-              {
-                !String(responseCode).startsWith('2') &&
-                <Alert severity="error" variant="filled">Update Diamond Case failed</Alert>
-              }
-            </>
-          )}
-          <Button type="button"
-            value="Clear" onClick={handleClose}
-            className='submitButton'
-            variant="contained" size="large" color="error"
-            endIcon={<CloseIcon />}
-            sx={{
-              margin: '5px',
-            }}>
-            Close
-          </Button>
+
+
         </Box >
       </Modal>
     </div >

@@ -48,6 +48,7 @@ export default function CreatePayment(props) {
       })
       .then(responseData => {
         props.onPaymentCreated()
+        handleClose()
       })
   }
 
@@ -70,18 +71,15 @@ export default function CreatePayment(props) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 800,
-          height: 400,
           bgcolor: 'background.paper',
           border: '1px solid #000',
           boxShadow: 24,
           p: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignContent: 'center'
+          height: '100vh',
+          width: '100vw',
+          overflow: 'auto'
         }}>
-          <h3 className='titleOfForm'>CREATE TYPE</h3>
+          <h3 className='titleOfForm'>CREATE PAYMENT</h3>
           <div>
             <Formik
               initialValues={initialValues}
@@ -104,19 +102,29 @@ export default function CreatePayment(props) {
                         {msg => <Alert severity="error">{msg}</Alert>}
                       </ErrorMessage>
                     </div>
-
-                    <div>
+                    <div className='formSubmit'>
                       <Button
+                        fullWidth
                         variant="contained"
                         color="primary"
                         startIcon={<SendIcon />}
                         type="submit"
                         sx={{
-                          width: '100%',
-                          marginTop: '25px',
+                          margin: '5px'
                         }}
                       >
                         Send
+                      </Button>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        color="error"
+                        sx={{
+                          margin: '5px'
+                        }}
+                        onClick={handleClose}
+                      >
+                        Cancel
                       </Button>
                     </div>
                   </div>

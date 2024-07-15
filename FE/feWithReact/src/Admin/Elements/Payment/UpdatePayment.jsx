@@ -30,7 +30,10 @@ export default function UpdatePayment(props) {
       body: JSON.stringify(Data)
     })
       .then(response => response.json())
-      .then(data => props.onUpdatePayment())
+      .then(data => {
+        props.onUpdatePayment()
+        handleClose()
+      })
 
   }
 
@@ -44,7 +47,6 @@ export default function UpdatePayment(props) {
   }
 
   const onSubmit = (values) => {
-    console.log(values)
     UpdatePayment(values)
     // formik.resetForm()
   }
@@ -65,19 +67,16 @@ export default function UpdatePayment(props) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 800,
-          height: 400,
           bgcolor: 'background.paper',
           border: '1px solid #000',
           boxShadow: 24,
           p: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
+          height: '100vh',
+          width: '100vw',
+          overflow: 'auto'
 
         }}>
-          <h3 className='titleOfForm'>UPDATE Type</h3>
+          <h3 className='titleOfForm'>UPDATE PAYMENT</h3>
           <div style={{
             width: '100%'
 
@@ -103,18 +102,29 @@ export default function UpdatePayment(props) {
                         {msg => <Alert severity="error">{msg}</Alert>}
                       </ErrorMessage>
                     </div>
-                    <div>
+                    <div className='formSubmit'>
                       <Button
+                        fullWidth
                         variant="contained"
                         color="primary"
                         startIcon={<SendIcon />}
                         type="submit"
                         sx={{
-                          width: '100%',
-                          marginTop: '25px',
+                          margin: '5px'
                         }}
                       >
                         Send
+                      </Button>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        color="error"
+                        sx={{
+                          margin: '5px'
+                        }}
+                        onClick={handleClose}
+                      >
+                        Cancel
                       </Button>
                     </div>
                   </div>

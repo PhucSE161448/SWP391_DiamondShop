@@ -50,7 +50,10 @@ export default function UpdateCategory(props) {
       body: JSON.stringify(Data)
     })
       .then(response => response.json())
-      .then(data => props.onUpdateCategory())
+      .then(data => {
+        handleClose()
+        props.onUpdateCategory()
+      })
   }
 
 
@@ -86,17 +89,13 @@ export default function UpdateCategory(props) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 800,
-          height: 400,
           bgcolor: 'background.paper',
           border: '1px solid #000',
           boxShadow: 24,
           p: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-
+          height: '100vh',
+          width: '100vw',
+          overflow: 'auto'
         }}>
           <h3 className='titleOfForm'>UPDATE CATEGORY</h3>
           <div style={{
