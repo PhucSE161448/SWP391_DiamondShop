@@ -12,6 +12,7 @@ public class UpdateProductDTO
     public int CategoryId { get; set; }
     public int DiamondCaseId { get; set; }
     public int CollectionId { get; set; }
+    public List<string> OldImageUrls { get; set; } = new List<string>();
     public List<IFormFile> ProductImages { get; set; } = new List<IFormFile>();
     
 }

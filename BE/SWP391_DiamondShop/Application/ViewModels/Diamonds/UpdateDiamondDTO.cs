@@ -22,6 +22,8 @@ public class UpdateDiamondDTO
     public decimal? Price { get; set; }
 
     public int? Quantity { get; set; }
-
+    
+    public List<string> OldImageUrls { get; set; } = new List<string>();
     public List<IFormFile> DiamondImages { get; set; } = new List<IFormFile>();
+    
 }
