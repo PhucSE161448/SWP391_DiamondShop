@@ -253,5 +253,30 @@ namespace Infrastructures.Repositories.Orders
             }
             return true;
         }
+        
+        public async Task<List<OrderDTO>> GetAllOrderAsync()
+        {
+            IQueryable<Order> query= _dbContext.Orders;
+
+            var orders = await query
+                .Include(op => op.OrderStatuses)
+                .Include(x => x.Account)
+                .Include(x => x.Payment)
+                .ToListAsync();
+
+            var orderDTOs = orders.Select(order => new OrderDTO
+            {
+                Id = order.Id,
+                AccountName = order.Account.Name,
+                CreatedDate = order.CreatedDate,
+                TotalPrice = order.TotalPrice,
+                PaymentName = order.PaymentId != null ? order.Payment.Name : null,
+                Address = order.Address,
+                Phone = order.Phone,
+                Status = order.OrderStatuses.Select(o => o.Status).LastOrDefault()
+            }).ToList();
+
+            return orderDTOs;
+        }
     }
 }

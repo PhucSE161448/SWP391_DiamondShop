@@ -80,7 +80,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurant.Application.Services;
 using System.ComponentModel.Design;
+using Application.Interfaces.Dashboards;
 using Application.Interfaces.SendEmails;
+using Application.Services.DashBoards;
 using Application.Services.SendEmails;
 
 namespace Infrastructures
@@ -154,6 +156,8 @@ namespace Infrastructures
             
             services.AddScoped<ICertificateRepo, CertificateRepo>();
             services.AddScoped<ICertificateService, CertificateService>();
+
+            services.AddScoped<IDashboardService, DashboardService>();
 
             services.AddScoped<ISendService, SendService>();
 
