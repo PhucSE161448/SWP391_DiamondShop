@@ -16,7 +16,7 @@ public class DashboardService : IDashboardService
     {
         var diamond = await _unitOfWork.DiamondRepo.GetAllAsync();
         var product = await _unitOfWork.ProductRepo.GetAllAsync();
-        var getListOrder = await _unitOfWork.OrderRepo.GetOrderAsync();
+        var getListOrder = await _unitOfWork.OrderRepo.GetAllOrderAsync();
         var profit = getListOrder.Where(order => order.Status == "Finished").Sum(order => order.TotalPrice);
         return new DashboardStatsDTO
         {
@@ -29,7 +29,7 @@ public class DashboardService : IDashboardService
 
     public async Task<OrderStatisticDTO> GetOrderStatistic(int month, int year)
     {
-        var orders = await _unitOfWork.OrderRepo.GetOrderAsync();
+        var orders = await _unitOfWork.OrderRepo.GetAllOrderAsync();
         orders = orders.Where(o => o.Status == "Finished" && o.CreatedDate!.Value.Year == year).ToList();
         if (month != 0 && month is >= 1 and <= 12)
         {
