@@ -1,6 +1,7 @@
 ﻿using Application.Exceptions;
 using Application.Interfaces;
 using Application.Interfaces.Images;
+using Application.Ultils;
 using Domain.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
@@ -44,6 +45,14 @@ public class ImageService : IImageService
         await _unitOfWork.SaveChangeAsync();
     }
 
+    public async Task<IFormFile> DownloadImageFromUrl(string imageUrl, string fileName, string contentType)
+    {
+        using var httpClient = new HttpClient();
+        var response = await httpClient.GetAsync(imageUrl);
+        if (!response.IsSuccessStatusCode) throw new Exception($"Failed to download image from URL: {imageUrl}");
+        var fileBytes = await response.Content.ReadAsByteArrayAsync();
+        return FormFileHelper.ToFormFile(fileBytes, fileName, contentType);
+    }
     public async Task DeleteImages(IEnumerable<Image> images)
     {
         var imageUrls = images.Select(p => p.UrlPath);
