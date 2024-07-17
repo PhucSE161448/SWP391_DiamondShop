@@ -55,5 +55,10 @@ namespace WebAPI.Controllers.Product
            return Ok(response);
            
         }
+        [HttpGet]
+        public async Task<IActionResult> GetCountProducts()
+        {
+            return Ok(await service.GetCountProducts());
+        }
     }
 }

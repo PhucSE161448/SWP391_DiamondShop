@@ -256,5 +256,10 @@ namespace Application.Services.Products
             
             return product.Adapt<GetProductDetailDTO>();
         }
+        public async Task<int> GetCountProducts()
+        {
+            var getProductList = await _unitOfWork.ProductRepo.GetAllAsync();
+            return getProductList.Count;
+        }
     }
 }
