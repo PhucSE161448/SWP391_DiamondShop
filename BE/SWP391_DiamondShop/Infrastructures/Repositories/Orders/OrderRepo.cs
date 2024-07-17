@@ -45,6 +45,8 @@ namespace Infrastructures.Repositories.Orders
             {
                 query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
                                               .Select(s => s.Status).FirstOrDefault() == StatusOrder.Paid ||
+                                         x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                             .Select(s => s.Status).FirstOrDefault() == StatusOrder.InTransit ||
                                           x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
                                               .Select(s => s.Status).FirstOrDefault() == StatusOrder.Finished);
             }
@@ -78,7 +80,7 @@ namespace Infrastructures.Repositories.Orders
                 Address = order.Address,
                 Phone = order.Phone,
                 Status = order.OrderStatuses.Select(o => o.Status).LastOrDefault()
-            }).ToList();
+            }).OrderByDescending(x => x.CreatedDate).ToList();
 
             var pagination = new Pagination<OrderDTO>
             {
