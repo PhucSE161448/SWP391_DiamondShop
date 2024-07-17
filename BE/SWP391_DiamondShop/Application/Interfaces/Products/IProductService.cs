@@ -19,5 +19,6 @@ namespace Application.Interfaces.Products
         Task<GetProductIdDTO> CreateProductProperties(int productId, CreateProductPropertiesDTO createProductPropertiesDto);
         Task UpdateProductProperties(int productId, CreateProductPropertiesDTO createProductPropertiesDto);
         Task DeleteOrEnable(int productId, bool isDeleted);
+        Task<int> GetCountProducts();
     }
 }

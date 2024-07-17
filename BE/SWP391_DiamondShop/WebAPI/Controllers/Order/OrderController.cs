@@ -37,5 +37,10 @@ namespace WebAPI.Controllers.Order
             var result = await _orderService.CreateOrderCartAsync(createCartDto.CartId, order.Id);
             return Created(nameof(CreateOrder), result);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetRevenue()
+        {
+            return Ok(await _orderService.GetRevenuer());
+        }
     }
 }

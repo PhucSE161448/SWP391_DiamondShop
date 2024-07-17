@@ -17,5 +17,6 @@ namespace Application.Interfaces.Diamond
         Task<Pagination<GetDiamondPaginationDTO>> GetPageDiamonds(QueryDiamondDTO queryDiamondDTO);
         Task<GetDiamondDetailDTO> GetDiamondDetailById(int id);
         Task DeleteOrEnable(int diamondId, bool isDeleted);
+        Task<int> GetCountDiamonds();
     }
 }

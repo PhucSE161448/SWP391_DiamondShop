@@ -134,5 +134,12 @@ namespace Application.Services.Diamonds
             return pagedDiamondList.Adapt<Pagination<GetDiamondPaginationDTO>>();
             
         }
+        public async Task<int> GetCountDiamonds()
+        {
+            var getListDiamond = await _unitOfWork.DiamondRepo.GetAllAsync();
+
+            return getListDiamond.Count();
+        }
+
     }
 }
