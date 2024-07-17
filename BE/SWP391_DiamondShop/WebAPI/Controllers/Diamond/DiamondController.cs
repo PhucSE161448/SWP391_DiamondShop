@@ -45,5 +45,10 @@ namespace WebAPI.Controllers.Diamond
             return Ok(response);
 
         }
+        [HttpGet]
+        public async Task<IActionResult> GetCountDiamonds()
+        {
+            return Ok(await service.GetCountDiamonds());
+        }
     }
 }

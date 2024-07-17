@@ -12,8 +12,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Interfaces.Images;
 using Application.IRepositories.Images;
+using Application.Services.Images;
 using Domain.Model;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.Diamonds
@@ -36,18 +38,6 @@ namespace Application.Services.Diamonds
             {
                 throw new NotFoundException("Diamond is not existed");
             }
-            decimal discount = 0;
-            //Check if voucher exist?
-            var voucherList = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
-            foreach(var voucher in voucherList)
-            {
-                if(voucher.IsAllProduct == true)
-                {
-                    discount += voucher.DiscountPercentage;
-                }
-            }
-            //Price with disscount
-            diamond.Price -= (diamond.Price * discount/100);
 
             return diamond.Adapt<GetDiamondDetailDTO>();
         }
@@ -106,18 +96,33 @@ namespace Application.Services.Diamonds
                            + diamond.Clarity + " "
                            + diamond.Cut;
             _unitOfWork.CertificateRepo.Update(updateDiamondDto.Adapt(diamond.Certificate));
+            var oldFormFiles = new List<IFormFile>();
+            if (!updateDiamondDto.OldImageUrls.IsNullOrEmpty())
+            {
+                foreach (var oldImageUrl in updateDiamondDto.OldImageUrls)
+                {
+                    var formFile = await _imageService.DownloadImageFromUrl(oldImageUrl, $"diamond_{id}_{Guid.NewGuid()}.jpg", "image/jpeg");
+                    oldFormFiles.Add(formFile);
+                }
+            }
             if (diamond.Images.Any())
             {
+                
                 await _imageService.DeleteImages(diamond.Images);
                 diamond.Images.Clear();
             }
 
             await _unitOfWork.SaveChangeAsync();
+            if (oldFormFiles.Any())
+            {
+                await _imageService.UploadDiamondImages(oldFormFiles, diamond.Id);
+            }
             if (!updateDiamondDto.DiamondImages.IsNullOrEmpty())
             {
                 await _imageService.UploadDiamondImages(updateDiamondDto.DiamondImages, diamond.Id);
             }
         }
+
 
         public async Task<Pagination<GetDiamondPaginationDTO>> GetPageDiamonds(QueryDiamondDTO queryDiamondDTO)
         {
@@ -126,26 +131,15 @@ namespace Application.Services.Diamonds
                 throw new BadRequestException("Start price must be less than end price");
             }
             var pagedDiamondList = await _unitOfWork.DiamondRepo.GetPagedDiamonds(queryDiamondDTO);
-
-            // Check voucher
-            var voucherList = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
-            foreach(var diamond in pagedDiamondList.Items)
-            {
-                decimal discount = 0;
-                foreach (var voucher in voucherList)
-                {
-                    if (voucher.IsAllProduct == true)
-                    {
-                        discount += voucher.DiscountPercentage;
-                    }
-                }
-                //Price with disscount
-                diamond.Price -= (diamond.Price * discount / 100);
-
-            }
-
             return pagedDiamondList.Adapt<Pagination<GetDiamondPaginationDTO>>();
             
         }
+        public async Task<int> GetCountDiamonds()
+        {
+            var getListDiamond = await _unitOfWork.DiamondRepo.GetAllAsync();
+
+            return getListDiamond.Count();
+        }
+
     }
 }

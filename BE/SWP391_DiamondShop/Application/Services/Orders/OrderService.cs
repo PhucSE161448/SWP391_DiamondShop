@@ -64,5 +64,18 @@ namespace Application.Services.Orders
             }
             return result;
         }
+        public async Task<decimal> GetRevenuer()
+        {
+            decimal result = 0;
+            var getListOrder = await _unitOfWork.OrderRepo.GetOrderAsync();
+            foreach(var order in getListOrder)
+            {
+                if(order.Status == "Finished")
+                {
+                    result = order.TotalPrice + result;
+                }
+            }
+            return result;
+        }
     }
 }

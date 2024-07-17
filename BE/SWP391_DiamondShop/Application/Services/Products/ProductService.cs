@@ -3,18 +3,12 @@ using Application.Exceptions;
 using Application.Interfaces;
 using Application.Interfaces.Products;
 using Application.ViewModels.Products;
-using Application.ViewModels.WarrantyDocuments;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Application.Interfaces.Images;
 using Application.Interfaces.ProductParts;
 using Application.Interfaces.ProductSizes;
 using Domain.Model;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.Products
@@ -145,12 +139,25 @@ namespace Application.Services.Products
             }
             updateProductDto.Adapt(product);
             _unitOfWork.ProductRepo.Update(product);
+            var oldFormFiles = new List<IFormFile>();
+            if (!updateProductDto.OldImageUrls.IsNullOrEmpty())
+            {
+                foreach (var oldImageUrl in updateProductDto.OldImageUrls)
+                {
+                    var formFile = await _imageService.DownloadImageFromUrl(oldImageUrl, $"product{id}_{Guid.NewGuid()}.jpg", "image/jpeg");
+                    oldFormFiles.Add(formFile);
+                }
+            }
             if (product.Images.Any())
             {
                 await _imageService.DeleteImages(product.Images);
                 product.Images.Clear();
             }
             await _unitOfWork.SaveChangeAsync();
+            if (oldFormFiles.Any())
+            {
+                await _imageService.UploadProductImages(oldFormFiles, product.Id);
+            }
             if (!updateProductDto.ProductImages.IsNullOrEmpty())
             {
                 await _imageService.UploadProductImages(updateProductDto.ProductImages, product.Id);
@@ -248,6 +255,11 @@ namespace Application.Services.Products
 
             
             return product.Adapt<GetProductDetailDTO>();
+        }
+        public async Task<int> GetCountProducts()
+        {
+            var getProductList = await _unitOfWork.ProductRepo.GetAllAsync();
+            return getProductList.Count;
         }
     }
 }

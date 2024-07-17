@@ -94,23 +94,21 @@ namespace Application.Ultils
                 "
             };
 
-            using (var client = new SmtpClient())
+            using var client = new SmtpClient();
+            await client.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+
+            await client.AuthenticateAsync(emailFrom, password);
+
+            try
             {
-                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-
-                client.Authenticate(emailFrom, password);
-
-                try
-                {
-                    await client.SendAsync(message);
-                    await client.DisconnectAsync(true);
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    System.Console.WriteLine(ex.Message);
-                    return false;
-                }
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+                return false;
             }
         }
 
