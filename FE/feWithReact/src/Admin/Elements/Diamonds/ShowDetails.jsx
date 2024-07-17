@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Box, Modal, Container } from '@mui/material';
 import { createApi } from '../../../Auth/AuthFunction';
-
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 export default function ShowDetailsDiamond(props) {
   const [open, setOpen] = useState(false);
   const [diamondDetails, setDiamondDetails] = useState(null);
@@ -45,8 +45,8 @@ export default function ShowDetailsDiamond(props) {
       display: 'flex',
       justifyContent: 'center',
     }}>
-      <Button variant="contained" type="button" size="large" onClick={handleOpen}>
-        DETAILS
+      <Button type="button" size="large" onClick={handleOpen}>
+        <MoreHorizIcon />
       </Button>
       <Modal
         open={open}
@@ -68,6 +68,8 @@ export default function ShowDetailsDiamond(props) {
             border: '1px solid #000',
             boxShadow: 24,
             p: 4,
+            width: '50%',
+            overflow: 'auto'
           }} className="row">
             <h2>Diamond Details</h2>
             <div className='col-6'>

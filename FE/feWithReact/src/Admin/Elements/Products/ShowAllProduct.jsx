@@ -49,7 +49,6 @@ export default function ShowAllProduct() {
       const url = createApi(`Product/GetPagedProducts?${queryString.toString()}`)
       fetch(url)
         .then(response => response.json())
-        // .then(response => response.json())
         .then(data => {
           setData(data.items)
           setTotalPage(Math.ceil(data.totalItemsCount / PageSize))
@@ -58,13 +57,13 @@ export default function ShowAllProduct() {
     ReadData()
   }, [triggerRead])
 
-
+  const tableHead = ['#', 'Image', 'Name', 'Status']
   return (
     <>
       <div className='contentAdminContainer'>
         <div className='CRUDContainer '>
           <div className='titleOfFormContainer'>
-            <h2>Diamond</h2>
+            <h2>Product</h2>
           </div>
           <div className='buttonContainer'>
             <div className='formCRUDContainer'>
@@ -78,43 +77,50 @@ export default function ShowAllProduct() {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>#</TableCell>
-                      <TableCell>Image</TableCell>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Deleted</TableCell>
-                      <TableCell>Update</TableCell>
-                      <TableCell>Details</TableCell>
+                      {tableHead.map((item, index) => (
+                        <TableCell key={index} sx={{
+                          fontWeight: 'bold',
+                          fontSize: '20px',
+                        }}>{item}</TableCell>
+                      ))}
+                      <TableCell sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        fontWeight: 'bold',
+                        fontSize: '20px',
+                      }}>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {data && data.map((item, index) => (
-                      <>
-                        <TableRow key={index}>
-                          <TableCell>{index + 1}</TableCell>
-                          <TableCell>
-                            <ImageList sx={{ width: 200, height: 150 }} cols={1} rowHeight={150}>
-                              {item.images && item.images.map((image, index) => (
-                                <ImageListItem >
-                                  <img key={index} src={image.urlPath} alt="img" style={{
-                                    width: '150px',
-                                    padding: '10px',
-                                    borderRadius: '10px',
-                                  }} />
-                                </ImageListItem>
 
-                              ))}
-                            </ImageList>
-                          </TableCell>
-                          <TableCell>{item.name}</TableCell>
-                          <TableCell ><ButtonDeleteProduct id={item.id} isDeleted={item.isDeleted} /></TableCell>
-                          <TableCell>
-                            <UpdateProduct item={item} image={item.images} onProductUpdated={() => setTriggerRead(prev => !prev)}></UpdateProduct>
-                          </TableCell>
-                          <TableCell><ShowDetails id={item.id}></ShowDetails></TableCell>
-                        </TableRow>
-                      </>
-                    ))
-                    }
+                      <TableRow key={index}>
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>
+                          <ImageList sx={{ width: 200, height: 150 }} cols={1} rowHeight={150}>
+                            {item.images && item.images.map((image, index) => (
+                              <ImageListItem >
+                                <img key={index} src={image.urlPath} alt="img" style={{
+                                  width: '150px',
+                                  padding: '10px',
+                                  borderRadius: '10px',
+                                }} />
+                              </ImageListItem>
+
+                            ))}
+                          </ImageList>
+                        </TableCell>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell key={`delete-${item.id}`}>
+                          <ButtonDeleteProduct key={item.id} id={item.id} isDeleted={item.isDeleted} />
+                        </TableCell>
+                        <TableCell>
+                          <UpdateProduct item={item} image={item.images} onProductUpdated={() => setTriggerRead(prev => !prev)}></UpdateProduct>
+                          <ShowDetails id={item.id}></ShowDetails>
+                        </TableCell>
+                      </TableRow>
+
+                    ))}
                   </TableBody>
 
                 </Table>

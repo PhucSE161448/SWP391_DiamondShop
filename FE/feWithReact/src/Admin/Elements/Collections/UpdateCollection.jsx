@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import CloseIcon from '@mui/icons-material/Close'
 import { createApi } from '../../../Auth/AuthFunction'
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function UpdateCollection(props) {
   console.log(props.id)
@@ -62,19 +63,21 @@ export default function UpdateCollection(props) {
         if (responseData) {
           setResponseCode(responseData.status);
         }
+        props.onCollectionUpdated()
+        handleClose()
       })
       .catch(error => {
         console.error("Error parsing JSON:", error);
       })
-    props.onCollectionUpdated()
+
   }
   return (
     <div style={{
       display: 'flex',
       justifyContent: 'center',
     }}>
-      <Button variant="contained" type="button" size="large" onClick={handleOpen}>
-        Update
+      <Button onClick={handleOpen}>
+        <EditIcon></EditIcon>
       </Button>
       <Modal
         open={open}
@@ -90,8 +93,7 @@ export default function UpdateCollection(props) {
           bgcolor: 'background.paper',
           p: 4,
           overflow: 'auto',
-          height: '100vh',
-          width: '100vw',
+          width: '50%',
         }}>
           <h3 className='titleOfForm'>UPDATE COLLECTION</h3>
           <Formik
@@ -122,50 +124,28 @@ export default function UpdateCollection(props) {
                     type="submit"
                     className='submitButton'
                     value="Submit" variant="contained"
-                    size="large" endIcon={<SendIcon />}
+                    size="large"
                     sx={{
                       margin: '5px',
                     }}
                     onClick={handleDisplay}
                   >
-                    Send
+                    save
                   </Button>
                   <Button type="button"
-                    value="Clear" onClick={handleClear}
+                    value="Clear" onClick={handleClose}
                     className='submitButton'
                     variant="contained" size="large" color="error"
-                    endIcon={<CancelScheduleSendIcon />}
                     sx={{
                       margin: '5px',
                     }}>
-                    Clear
+                    Close
                   </Button>
                 </div>
               </Form>
             )}
           </Formik>
-          {displayStatus && (
-            <>
-              {
-                String(responseCode).startsWith('2') && String(responseCode).startsWith('2') &&
-                <Alert severity="success" variant="filled">Update Collection successfully</Alert>
-              }
-              {
-                !String(responseCode).startsWith('2') &&
-                <Alert severity="error" variant="filled"> Update Collection failed</Alert>
-              }
-            </>
-          )}
-          <Button type="button"
-            value="Clear" onClick={handleClose}
-            className='submitButton'
-            variant="contained" size="large" color="error"
-            endIcon={<CloseIcon />}
-            sx={{
-              margin: '5px',
-            }}>
-            Close
-          </Button>
+
         </Box >
       </Modal>
     </div >

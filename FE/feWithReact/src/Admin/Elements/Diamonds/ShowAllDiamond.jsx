@@ -23,7 +23,7 @@ export default function ShowAllDiamond() {
   const role = localStorage.getItem('role')
   const navigate = useNavigate()
   const rowsHeader = ["#", "Image", "Origin", "Color", "Carat Weight",
-    "Clarity", "Cut", "Price", "Quantity", "Deleted", "Update", "Details",
+    "Clarity", "Cut", "Price", "Quantity", "Status",
   ]
   useEffect(() => {
     if (role !== '1') {
@@ -86,7 +86,14 @@ export default function ShowAllDiamond() {
                           fontSize: '20px'
                         }} key={index}>{item}</TableCell>
                       ))}
-
+                      <TableCell sx={{
+                        fontWeight: 'bold',
+                        fontSize: '20px',
+                        display: 'flex',
+                        justifyContent: 'center'
+                      }}>
+                        Action
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -115,9 +122,14 @@ export default function ShowAllDiamond() {
                           <TableCell>{item.cut}</TableCell>
                           <TableCell>{item.price}</TableCell>
                           <TableCell>{item.quantity}</TableCell>
-                          <TableCell><ButtonDeleteDiamond id={item.id} isDeleted={item.isDeleted} /></TableCell>
-                          <TableCell><UpdateDiamond item={item} image={item.images}></UpdateDiamond></TableCell>
-                          <TableCell><ShowDetailsDiamond id={item.id}></ShowDetailsDiamond></TableCell>
+                          <TableCell key={`delete-${item.id}`}>
+                            <ButtonDeleteDiamond key={item.id} id={item.id} isDeleted={item.isDeleted} onDiamondDeleted={() => setTriggerRead(prev => !prev)} />
+                          </TableCell>
+                          <TableCell>
+                            <UpdateDiamond item={item} image={item.images} onDiamondUpdated={() => setTriggerRead(prev => !prev)}></UpdateDiamond>
+                            <ShowDetailsDiamond id={item.id}></ShowDetailsDiamond>
+                          </TableCell>
+
                         </TableRow>
                       </>
                     ))

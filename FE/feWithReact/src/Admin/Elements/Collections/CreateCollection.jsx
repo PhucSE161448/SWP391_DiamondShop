@@ -77,6 +77,7 @@ export default function CreateDiamondCase(props) {
 					border: '1px solid #000',
 					boxShadow: 24,
 					p: 4,
+					width: '50%',
 				}}>
 					<h3 className='titleOfForm'>CREATE COLLECTION</h3>
 

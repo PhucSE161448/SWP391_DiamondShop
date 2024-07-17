@@ -98,41 +98,51 @@ export default function Cart() {
   }, [triggerRead])
 
 
-  const handleDecrease = async (id) => {
-    const url = createApi(`Cart/Update/${id}?check=false`)
+  function debounce(func, delay) {
+    let debounceTimer;
+    return function () {
+      const context = this;
+      const args = arguments;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    };
+  }
+
+  const handleDecrease = debounce(async (id) => {
+    const url = createApi(`Cart/Update/${id}?check=false`);
     fetch(url, {
       method: 'PUT',
       headers: {
         'Accept': '*/*',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
-    })
-    setTriggerRead(prev => !prev)
-  }
+    });
+    setTriggerRead(prev => !prev);
+  }, 1000);
 
-  const handleDeleteCart = async (id) => {
-    const url = createApi(`Cart/Delete/${id}`)
+  const handleDeleteCart = debounce(async (id) => {
+    const url = createApi(`Cart/Delete/${id}`);
     fetch(url, {
       method: 'DELETE',
       headers: {
         'Accept': '*/*',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
-    })
-    setTriggerRead(prev => !prev)
-  }
+    });
+    setTriggerRead(prev => !prev);
+  }, 1000);
 
-  const handleIncrease = async (id) => {
-    const url = createApi(`Cart/Update/${id}?check=true`)
+  const handleIncrease = debounce(async (id) => {
+    const url = createApi(`Cart/Update/${id}?check=true`);
     fetch(url, {
       method: 'PUT',
       headers: {
         'Accept': '*/*',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
-    })
-    setTriggerRead(prev => !prev)
-  }
+    });
+    setTriggerRead(prev => !prev);
+  }, 1000);
 
   useEffect(() => {
     const calculatePrice = () => {
@@ -141,7 +151,6 @@ export default function Cart() {
         total += item.totalPrice
         setTotalPriceCalculate(total)
       })
-
     }
     calculatePrice()
   }, [cart])

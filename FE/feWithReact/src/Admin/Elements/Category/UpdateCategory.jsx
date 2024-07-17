@@ -3,6 +3,7 @@ import UpdateIcon from '@mui/icons-material/Update'
 import SendIcon from '@mui/icons-material/Send'
 import React, { useEffect, useState } from 'react'
 import { createApi } from '../../../Auth/AuthFunction'
+import EditIcon from '@mui/icons-material/Edit'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 
@@ -75,8 +76,8 @@ export default function UpdateCategory(props) {
 
   return (
     <div>
-      <Button variant="contained" color="primary" startIcon={<UpdateIcon />} onClick={handleOpen}>
-        Update
+      <Button color="primary" onClick={handleOpen}>
+        <EditIcon></EditIcon>
       </Button>
       <Modal
         open={open}
@@ -93,9 +94,8 @@ export default function UpdateCategory(props) {
           border: '1px solid #000',
           boxShadow: 24,
           p: 4,
-          height: '100vh',
-          width: '100vw',
-          overflow: 'auto'
+          overflow: 'auto',
+          width: '50%',
         }}>
           <h3 className='titleOfForm'>UPDATE CATEGORY</h3>
           <div style={{

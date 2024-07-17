@@ -181,8 +181,7 @@ export default function CreateDiamond(props) {
           boxShadow: 24,
           p: 4,
           overflow: 'auto',
-          height: '100vh',
-          width: '100vw',
+          width: '50%',
         }}>
           <h3 className='titleOfForm'>CREATE DIAMOND</h3>
           <div>
@@ -452,21 +451,19 @@ export default function CreateDiamond(props) {
                               type="submit"
                               className='submitButton'
                               value="Submit" variant="contained"
-                              size="large" endIcon={<SendIcon />}
                               sx={{
                                 margin: '5px',
                               }}>
-                              Create
+                              Send
                             </Button>
                             <Button type="button"
                               value="Clear" onClick={handleClose}
                               className='submitButton'
                               variant="contained" size="large" color="error"
-                              endIcon={<CancelScheduleSendIcon />}
                               sx={{
                                 margin: '5px',
                               }}>
-                              CANCEL
+                              Close
                             </Button>
                           </div>
                         </Form>

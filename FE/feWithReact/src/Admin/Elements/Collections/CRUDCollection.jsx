@@ -39,18 +39,31 @@ export default function CRUDCollections() {
     Read()
   }, [triggerRead])
 
-
+  const tableHead = ['#', 'Name', 'Status',]
   return (
     <>
       <div className='formCRUDContainer'>
+        <div>
+          <><CreateCollection onCollectionCreated={() => setTriggerRead(prev => !prev)} /></>
+        </div>
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell></TableCell>
-                <TableCell><CreateCollection onCollectionCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
+                {tableHead.map((head, index) => (
+                  <TableCell key={index} sx={{
+                    fontWeight: 'bold',
+                    fontSize: '20px',
+                  }}>{head}</TableCell>
+                ))}
+                <TableCell
+                  sx={{
+                    fontWeight: 'bold',
+                    fontSize: '20px',
+                    display: 'flex',
+                    justifyContent: 'center'
+                  }}
+                >Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

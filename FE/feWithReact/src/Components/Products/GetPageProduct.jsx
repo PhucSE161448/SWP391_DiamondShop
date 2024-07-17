@@ -25,6 +25,11 @@ export default function GetPageProduct() {
   const [DiamondIds, setDiamondId] = useState([])
   const [dataDiamond, setDataDiamond] = useState(null)
   const [nameProduct, setNameProduct] = useState(null)
+  const [voucherData, setVoucherData] = useState([])
+  const [triggerVoucher, setTriggerVoucher] = useState(false)
+  const [saleAllProduct, setSaleAllProduct] = useState(false)
+  const [saleAllProductPercentage, setSaleAllProductPercentage] = useState()
+  const [salePriceProduct, setSalePriceProduct] = useState([])
   const [data, setData] = useState(null)
   const [triggerRead, setTriggerRead] = useState(false)
   const params = {
@@ -135,6 +140,7 @@ export default function GetPageProduct() {
     }
     Read()
   }, [])
+
   useEffect(() => {
     const url = createApi('Diamond/GetPagedDiamonds?QueryDTO.PageSize=10000')
     function getDiamondData() {
@@ -204,7 +210,40 @@ export default function GetPageProduct() {
     ReadData()
   }, [triggerRead])
 
+  useEffect(() => {
+    const url = createApi('Voucher/GetAllVoucher')
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
+      .then(response => response.json())
+      .then(responseData => {
+        setVoucherData(responseData)
+        setTriggerVoucher(prev => !prev)
+      })
+      .catch((error) => console.error('Error:', error))
+  }, [])
 
+  useEffect(() => {
+    if (voucherData.length > 0) {
+      const hasSaleAllProduct = voucherData.some(item => item.isAllProduct)
+      setSaleAllProduct(hasSaleAllProduct)
+      setSaleAllProductPercentage(voucherData.find(item => item.isAllProduct)?.discountPercentage || 0)
+      const newItems = voucherData.filter(item => !item.isAllProduct).map(item => ({
+        productId: item.productId,
+        discountPercentage: item.discountPercentage
+      }))
+
+      setSalePriceProduct(prev => {
+        const existingProductIds = new Set(prev.map(item => item.productId))
+        const itemsToAdd = newItems.filter(item => !existingProductIds.has(item.productId))
+        return [...prev, ...itemsToAdd]
+      })
+    }
+  }, [triggerVoucher, voucherData])
 
   return (
     <div style={{
@@ -364,13 +403,14 @@ export default function GetPageProduct() {
                   width: '15vw',
                 }} >
                   <Card sx={{
+                    width: '100%',
+                    height: '100%',
                     '&:hover': {
                       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
                       cursor: 'pointer',
                       transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out',
                       '&:hover': {
                         boxShadow: '0 0 10px 5px rgba(0, 0, 0, 0.8)',
-                        transform: 'scale(1.2)',
                       }
                     }
                   }}>
@@ -379,34 +419,85 @@ export default function GetPageProduct() {
                       style={{ textDecoration: 'none', color: 'black' }}
                     >
                       <CardContent >
-                        {item.images && item.images[0] && item.images[0].urlPath ? (
-                          <>
-                            <CardMedia
-                              component="img"
-                              image={item.images[0].urlPath}
-                              alt="Paella dish"
-                              sx={{
-                                width: '100%',
-                                borderRadius: '20px',
-                                height: '400px',
-                                width: '400px',
-                              }}
-                            />
-                          </>
+                        <div>
+                          {item.images && item.images[0] && item.images[0].urlPath ? (
+                            <>
+                              <CardMedia
+                                component="img"
+                                image={item.images[0].urlPath}
+                                alt="Paella dish"
+                                sx={{
+                                  width: '100%',
+                                  height: '100%',
+                                  borderRadius: '20px',
+                                  objectFit: 'cover'
+                                }}
+                              />
+                            </>
 
-                        ) : null}
-                        <p style={{
-                          textAlign: 'center',
-                          fontSize: '20px',
+                          ) : null}
+                        </div>
+                        <div style={{
+                          display: 'flex',
+                          flexDirection: 'column',
                         }}>
-                          {item.name}
-                        </p>
-                        <h3
-                          style={{
-                            textAlign: 'center',
+                          <p style={{
+                            fontSize: '20px',
                           }}>
-                          Price: {item.productSizes[0]?.price.toLocaleString()}$
-                        </h3>
+                            {item.name}
+                          </p>
+                          {
+                            saleAllProduct ? (() => {
+                              const itemSale = salePriceProduct.find(is => is.productId === item.id)
+                              return (
+                                <div style={{
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                }}>
+                                  <div>
+                                    <h3 style={{
+                                      textDecoration: 'line-through',
+                                    }}>
+                                      Price: {(
+                                        item.productSizes[0]?.price / (1 - ((itemSale?.discountPercentage || 0) + saleAllProductPercentage) / 100)
+                                      ).toLocaleString()}$
+                                    </h3>
+                                  </div>
+                                  <div>
+                                    {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
+                                  </div>
+
+                                </div>
+                              )
+                            })() : (() => {
+                              const itemSale = salePriceProduct.find(is => is.productId === item.id)
+                              if (!itemSale) return null
+                              return (
+                                <div style={{
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                }}>
+                                  <div>
+                                    <h3 style={{
+                                      textDecoration: 'line-through',
+                                    }}>
+                                      Price: {(
+                                        item.productSizes[0]?.price / (1 - ((itemSale?.discountPercentage || 0)) / 100)
+                                      ).toLocaleString()}$
+                                    </h3>
+                                  </div>
+                                  <div>
+                                    {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
+                                  </div>
+
+                                </div>
+                              )
+                            })()
+                          }
+                          <h3>
+                            Price: {item.productSizes[0]?.price.toLocaleString()}$
+                          </h3>
+                        </div>
                       </CardContent>
                     </Link>
                   </Card>

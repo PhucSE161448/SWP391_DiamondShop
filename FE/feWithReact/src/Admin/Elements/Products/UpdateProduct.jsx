@@ -4,8 +4,7 @@ import { RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import * as Yup from 'yup'
 import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, Card, CardContent, Alert, Modal, AlertTitle } from '@mui/material'
-import SendIcon from '@mui/icons-material/Send'
-import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
+import EditIcon from '@mui/icons-material/Edit';
 import { styled } from '@mui/material/styles'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -13,6 +12,7 @@ import { createApi } from '../../../Auth/AuthFunction'
 
 export default function UpdateProduct(props) {
   const [image, setImage] = useState([])
+  const [oldImage, setOldImage] = useState([])
   const [dataCategory, setDataCategory] = useState(null)
   const [dataDiamondCase, setDataDiamondCase] = useState(null)
   const [dataDiamond, setDataDiamond] = useState(null)
@@ -20,21 +20,35 @@ export default function UpdateProduct(props) {
   const [open, setOpen] = useState(false)
   const [priceMainPart, setPriceMainPart] = useState(props.item.productParts[0]?.diamond?.price)
   const [priceExtraPart, setPriceExtraPart] = useState(props.item.productParts[1]?.diamond?.price)
+  const [statusUpdate, setStatusUpdate] = useState(null)
+  const [priceWage, setPriceWage] = useState(props.item.wage)
   const [waiting, setWaiting] = useState(false)
-  const calculatePrice = (priceMain, priceExtra, priceSize) => {
-    return priceMain + priceExtra + priceSize
+  const calculatePrice = (priceMain, priceExtra, priceSize, priceWage) => {
+    return priceMain + priceExtra + priceSize + Number(priceWage)
   }
-  const handleOpen = () => setOpen(true)
+  const handleOpen = () => {
+    setOpen(true)
+    addOldImage()
+  }
   const handleClose = () => {
     setOpen(false)
-    setDisplayStatus(false)
     setWaiting(false)
+    setImage([])
+    setOldImage([])
+    setStatusUpdate(0)
   }
   const item = props.item
 
   const handleDisplay = () => {
     setWaiting(true)
   }
+
+  const addOldImage = () => (
+    props.image.map((image) => {
+      setOldImage((prevImages) => [...prevImages, image])
+    })
+  )
+
   useEffect(() => {
     // Define the Read function inside useEffect or make sure it's defined outside and doesn't change
     function Read() {
@@ -135,17 +149,25 @@ export default function UpdateProduct(props) {
     const formData = new FormData()
     formData.append('Name', values.nameProduct)
     formData.append('Gender', values.gender)
-    formData.append('Quantity', values.quantity)
     formData.append('CategoryId', values.categoryId)
     formData.append('DiamondCaseId', values.DiamondCaseId)
     formData.append('CollectionId', values.CollectionId)
     formData.append('Wage', values.wage)
-    // Lặp qua mỗi file và thêm vào FormData
+
+    for (let i = 0; i < oldImage.length; i++) {
+      const fieldName = 'OldImageUrls'
+      formData.append(fieldName, oldImage[i].urlPath)
+    }
+
     for (let i = 0; i < image.length; i++) {
       const file = image[i]
       const fieldName = 'ProductImages'
       const fieldValue = new File([file], `${file.name}`, { type: 'image/jpeg' })
       formData.append(fieldName, fieldValue)
+    }
+
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
     }
 
     fetch(url, {
@@ -172,9 +194,12 @@ export default function UpdateProduct(props) {
       body: JSON.stringify(productProperties)
     }).then(responseData => {
       props.onProductUpdated()
-      handleClose()
-
+      setStatusUpdate(responseData.status)
     })
+  }
+
+  if (statusUpdate?.toString().startsWith('2')) {
+    handleClose();
   }
 
   const validationSchema = Yup.object({
@@ -259,8 +284,8 @@ export default function UpdateProduct(props) {
       display: 'flex',
       justifyContent: 'center',
     }}>
-      <Button variant="contained" type="button" size="large" onClick={handleOpen}>
-        Update
+      <Button type="button" size="large" onClick={handleOpen}>
+        <EditIcon></EditIcon>
       </Button>
       <Modal
         open={open}
@@ -275,9 +300,9 @@ export default function UpdateProduct(props) {
           transform: 'translate(-50%, -50%)',
           bgcolor: 'background.paper',
           p: 4,
-          overflow: 'auto',
-          height: '100vh',
-          width: '100vw',
+          overflowY: 'auto',
+          height: '70vh',
+          width: 'auto',
         }}>
           <h3 className='titleOfForm'>UPDATE PRODUCT</h3>
           <Formik
@@ -312,8 +337,7 @@ export default function UpdateProduct(props) {
                       value={values.gender}
                       sx={{
                         display: 'flex',
-                        flexDirection: 'row',
-                        'flex-wrap': 'nowrap'
+                        flexDirection: 'column',
                       }}
                     >
                       <FormControlLabel value="true" control={<Radio />} label="Male" />
@@ -393,6 +417,7 @@ export default function UpdateProduct(props) {
                       name="wage"
                       as={TextField}
                       label="Wage"
+                      type="number"
                       onChange={(e) => {
                         handleChange(e)
                         setPriceWage(e.target.value)
@@ -406,23 +431,50 @@ export default function UpdateProduct(props) {
                   </div>
                 </div> <br />
                 <div>
-                  <h3>Old images</h3>
-                  {item.images.length > 0 && (
+                  {(oldImage.length > 0 || image.length > 0) && (
                     <div>
-                      {item.images.map((image, index) => (
-                        <div style={{
-                          display: 'inline-block',
-                        }}>
-                          <img src={image.urlPath} alt="" style={{
-                            width: '150px',
-                            borderRadius: '10px',
+                      {[...oldImage, ...image].map((image, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            display: 'inline-block',
                             margin: '10px',
-                          }} />
-                          <p key={index}>{image.name}</p>
+                          }}
+                        >
+                          <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                          }}>
+                            <img
+                              src={image.urlPath ? image.urlPath : URL.createObjectURL(image)}
+                              alt=""
+                              style={{
+                                width: '150px',
+                                borderRadius: '10px',
+                              }}
+                            />
+                            <Button
+                              color="error"
+                              onClick={() => {
+                                if (image.urlPath) {
+                                  // Xử lý xóa hình ảnh cũ
+                                  setOldImage((currentImages) => currentImages.filter((_, i) => i !== index));
+                                } else {
+                                  // Xử lý xóa hình ảnh mới
+                                  handleDeleteImage(index);
+                                }
+                              }}
+                              sx={{
+                                textAlign: 'right',
+                              }}
+                            >
+                              <DeleteIcon sx={{ color: 'red', margin: 0, padding: 0 }} />
+                            </Button>
+                          </div>
                         </div>
                       ))}
                     </div>
-                  )} <br />
+                  )}
                   <Button
                     component="label"
                     role={undefined}
@@ -433,39 +485,10 @@ export default function UpdateProduct(props) {
                     Upload new image
                     <VisuallyHiddenInput type="file" multiple onChange={handleImageChange} />
                   </Button>
-
-                  {image.length > 0 && (
-                    <div >
-                      <h3>New images</h3>
-                      <div>
-                        {image.map((image, index) => (
-                          <div style={{
-                            display: 'inline-block',
-                            margin: '10px',
-                          }}>
-                            <img src={URL.createObjectURL(image)} alt="" style={{
-                              width: '150px',
-                              borderRadius: '10px',
-                            }} />
-                            <p key={index}>{image.name}</p>
-                            <Button
-                              color="error"
-                              endIcon={<DeleteIcon sx={{ color: 'red', margin: 0, padding: 0 }} />}
-                              onClick={() => handleDeleteImage(index)}
-                              sx={{
-                                textAlign: 'right'
-                              }}>
-                              Delete
-                            </Button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div > <br />
 
                 <div className='row'>
-                  <div className='col-6'>
+                  <div>
                     <FieldArray name="diamonds">
                       {({ form }) => (
                         <div>
@@ -492,14 +515,12 @@ export default function UpdateProduct(props) {
                                       </MenuItem>
                                     )
                                   ))}
-
                                 </Field>
                               </FormControl>
                               <ErrorMessage name={`diamonds[0].diamondId`}>
                                 {msg => <Alert severity="error">{msg}</Alert>}
                               </ErrorMessage>
                             </div>
-
                             <div className='col-2'>
                               <Field
                                 name={`diamonds[0].isMain`}
@@ -526,7 +547,9 @@ export default function UpdateProduct(props) {
                       )}
                     </FieldArray>
                   </div> <br />
-                  <div className='col-6'>
+                  <div style={{
+                    marginTop: '10px',
+                  }}>
                     <FieldArray name="diamonds">
                       {({ form }) => (
                         <div>
@@ -615,7 +638,7 @@ export default function UpdateProduct(props) {
                                     name={`sizes[${index}].price`}
                                     as={TextField}
                                     label="Price"
-                                    value={form.values.sizes[index].price = calculatePrice(priceMainPart, priceExtraPart, form.values.sizes[index].size * 100)}
+                                    value={form.values.sizes[index].price = calculatePrice(priceMainPart, priceExtraPart, form.values.sizes[index].size * 100, priceWage)}
                                     style={{ width: '100%' }}
                                     onChange={form.handleChange}
                                     readOnly={true}
@@ -666,34 +689,40 @@ export default function UpdateProduct(props) {
                     <Alert severity="info"><AlertTitle>Please Wait</AlertTitle></Alert>
                   )}
                 </div>
-                <div className='formSubmit' >
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}>
+
                   <Button
                     type="submit"
                     className='submitButton'
                     value="Submit" variant="contained"
-                    size="large" endIcon={<SendIcon />}
+                    size="large"
                     sx={{
                       margin: '5px',
+                      width: '100px',
                     }}
                     onClick={handleDisplay}
                   >
-                    Send
+                    SAVE
+                  </Button>
+                  <Button type="button"
+                    value="Clear" onClick={handleClose}
+                    className='submitButton'
+                    variant="contained" size="large" color="error"
+                    sx={{
+                      margin: '5px',
+                      width: '100px',
+                    }}>
+                    Close
                   </Button>
                 </div>
               </Form>
             )}
           </Formik>
 
-          <Button type="button"
-            value="Clear" onClick={handleClose}
-            className='submitButton'
-            variant="contained" size="large" color="error"
-            endIcon={<CloseIcon />}
-            sx={{
-              margin: '5px',
-            }}>
-            Close
-          </Button>
+
         </Box >
       </Modal>
     </div >

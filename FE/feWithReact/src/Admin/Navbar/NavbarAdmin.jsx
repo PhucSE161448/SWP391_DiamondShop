@@ -30,10 +30,6 @@ export default function NavbarAdmin() {
 		navigate('/')
 	}
 
-	function goToWarranty() {
-		navigate('/admin/warranty')
-	}
-
 	function goToProduct() {
 		navigate('/admin/product')
 	}
@@ -50,7 +46,6 @@ export default function NavbarAdmin() {
 		navigate('/admin/collections')
 	}
 
-
 	function goToOrder() {
 		navigate('/admin/order')
 	}
@@ -62,6 +57,11 @@ export default function NavbarAdmin() {
 	function goToCertificate() {
 		navigate('/admin/certificate')
 	}
+
+	function goToVoucher() {
+		navigate('/admin/voucher')
+	}
+
 	const buttonStyle = {
 		color: '#fff',
 		width: '-webkit-fill-available',
@@ -113,13 +113,12 @@ export default function NavbarAdmin() {
 						<Menu.Item key="Product" style={paddingStyle}>
 							<Button onClick={goToProduct} sx={buttonStyle}>Product</Button>
 						</Menu.Item>
-						<Menu.Item key="Warranty" style={paddingStyle}>
-							<Button onClick={goToWarranty} sx={buttonStyle}>Warranty</Button>
-						</Menu.Item>
 						<Menu.Item key="Payment" style={paddingStyle}>
 							<Button onClick={goToPayment} sx={buttonStyle}>Payment</Button>
 						</Menu.Item>
-
+						<Menu.Item key="Voucher" style={paddingStyle}>
+							<Button onClick={goToVoucher} sx={buttonStyle}>Voucher</Button>
+						</Menu.Item>
 					</>
 				)}
 				{role === '1' || role === '3' || role === '4' ? (

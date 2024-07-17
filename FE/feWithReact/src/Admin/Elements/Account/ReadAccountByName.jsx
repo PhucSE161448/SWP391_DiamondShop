@@ -241,9 +241,8 @@ export default function ReadAccountByName(props) {
 					border: '1px solid #000',
 					boxShadow: 24,
 					p: 4,
-					width: 'auto',
-					height: '100vh',
-					width: '100vw',
+					height: '70%',
+					width: '50%',
 					overflow: 'auto',
 				}}>
 					<div className='formCRUDContainer'>

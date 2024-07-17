@@ -5,8 +5,8 @@ import { createApi } from '../../../Auth/AuthFunction'
 export default function ButtonDeleteProduct(props) {
   const [isDeleted, setIsDeleted] = useState(props.isDeleted)
   const handleChange = (event) => {
-    setIsDeleted(event.target.checked)
-    DeleteProduct(props.id, event.target.checked ? 1 : 0)
+    setIsDeleted(!event.target.checked)
+    DeleteProduct(props.id, !event.target.checked ? 1 : 0)
   }
 
   function DeleteProduct(id, status) {
@@ -23,8 +23,7 @@ export default function ButtonDeleteProduct(props) {
   return (
     <>
       <FormControlLabel
-        control={<Switch checked={isDeleted} onChange={handleChange} />}
-        label="Deleted"
+        control={<Switch checked={!isDeleted} onChange={handleChange} />}
       />
     </>
   )

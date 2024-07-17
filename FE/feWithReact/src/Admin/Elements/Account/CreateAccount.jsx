@@ -95,13 +95,11 @@ export default function CreateAccount(props) {
 						top: '50%',
 						left: '50%',
 						transform: 'translate(-50%, -50%)',
-						width: 800,
 						bgcolor: 'background.paper',
 						border: '1px solid #000',
 						boxShadow: 24,
 						p: 4,
-						height: '100vh',
-						width: '100vw',
+						width: '50%	',
 						overflow: 'auto'
 					}}>
 						<h3 className='titleOfForm'>CREATE Account</h3>

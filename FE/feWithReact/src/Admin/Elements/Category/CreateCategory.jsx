@@ -97,9 +97,8 @@ export default function CreateCategory(props) {
 					border: '1px solid #000',
 					boxShadow: 24,
 					p: 4,
-					height: '100vh',
-					width: '100vw',
-					overflow: 'auto'
+					overflow: 'auto',
+					width: '50%',
 				}}>
 					<h3 className='titleOfForm'>CREATE CATEGORY</h3>
 					<div>
@@ -129,25 +128,23 @@ export default function CreateCategory(props) {
 												fullWidth
 												variant="contained"
 												color="primary"
-												startIcon={<SendIcon />}
 												type="submit"
 												sx={{
 													margin: '5px',
 												}}
 											>
-												CREATE
+												Save
 											</Button>
 											<Button
 												fullWidth
 												variant="contained"
 												color="error"
-												startIcon={<CancelIcon />}
 												onClick={handleClose}
 												sx={{
 													margin: '5px',
 												}}
 											>
-												CANCEL
+												close
 											</Button>
 										</div>
 									</div>

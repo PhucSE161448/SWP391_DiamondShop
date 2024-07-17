@@ -177,8 +177,10 @@ export default function Order() {
               <TableBody sx={{
                 width: '100%'
               }}>
+
                 {order && order.sort((a, b) => a.status.localeCompare(b.status)).map((item, index) => (
                   <TableRow key={item.id}>
+                    {console.log(item.id)}
                     <TableCell>
                       {index + 1}
                     </TableCell>
@@ -401,7 +403,7 @@ export default function Order() {
                               </h4>
                             </TableCell>
                           </TableHead>
-                          {console.log(warranty)}
+
                           {warranty.orderProducts.map((item, index) => (
                             <TableBody key={index}>
                               <TableCell>

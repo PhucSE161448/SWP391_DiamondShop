@@ -5,8 +5,6 @@
 
 @media (max-width: 768px) {
   .displayDetail {
-
     flex-direction: column !important;
-
   }
 }

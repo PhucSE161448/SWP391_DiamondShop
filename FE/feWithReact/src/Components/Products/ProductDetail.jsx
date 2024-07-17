@@ -19,6 +19,11 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState(1);
   const [selectedQuantity, setSelectedQuantity] = useState(1)
   const [responseStatus, setResponseStatus] = useState('')
+  const [voucherData, setVoucherData] = useState([])
+  const [triggerVoucher, setTriggerVoucher] = useState(false)
+  const [saleAllProduct, setSaleAllProduct] = useState(false)
+  const [saleAllProductPercentage, setSaleAllProductPercentage] = useState()
+  const [salePriceProduct, setSalePriceProduct] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
   const token = localStorage.getItem('token')
 
@@ -108,6 +113,41 @@ export default function ProductDetail() {
   const handleImageSelect = (image) => {
     setImageMain(image.urlPath)
   }
+
+  useEffect(() => {
+    const url = createApi('Voucher/GetAllVoucher')
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': '*/*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
+      .then(response => response.json())
+      .then(responseData => {
+        setVoucherData(responseData)
+        setTriggerVoucher(prev => !prev)
+      })
+      .catch((error) => console.error('Error:', error))
+  }, [])
+
+  useEffect(() => {
+    if (voucherData.length > 0) {
+      const hasSaleAllProduct = voucherData.some(item => item.isAllProduct)
+      setSaleAllProduct(hasSaleAllProduct)
+      setSaleAllProductPercentage(voucherData.find(item => item.isAllProduct)?.discountPercentage || 0)
+      const newItems = voucherData.filter(item => !item.isAllProduct).map(item => ({
+        productId: item.productId,
+        discountPercentage: item.discountPercentage
+      }))
+
+      setSalePriceProduct(prev => {
+        const existingProductIds = new Set(prev.map(item => item.productId))
+        const itemsToAdd = newItems.filter(item => !existingProductIds.has(item.productId))
+        return [...prev, ...itemsToAdd]
+      })
+    }
+  }, [triggerVoucher, voucherData])
 
   return (
     <div style={{
@@ -289,6 +329,53 @@ export default function ProductDetail() {
                     </Box>
                   </Modal>
                 </div>
+                {
+                  saleAllProduct ? (() => {
+                    const itemSale = salePriceProduct.find(is => is.productId === id)
+                    return (
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}>
+                        <div>
+                          <h3 style={{
+                            textDecoration: 'line-through',
+                          }}>
+                            Price: {(
+                              totalPrice / (1 - ((itemSale?.discountPercentage || 0) + saleAllProductPercentage) / 100)
+                            ).toLocaleString()}$
+                          </h3>
+                        </div>
+                        <div>
+                          {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
+                        </div>
+                      </div>
+                    )
+                  })() : (() => {
+                    const itemSale = salePriceProduct.find(is => is.productId === id)
+                    if (!itemSale) return null
+                    return (
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}>
+                        <div>
+                          <h3 style={{
+                            textDecoration: 'line-through',
+                          }}>
+                            Price: {(
+                              totalPrice / (1 - ((itemSale?.discountPercentage || 0) + saleAllProductPercentage) / 100)
+                            ).toLocaleString()}$
+                          </h3>
+                        </div>
+                        <div>
+                          {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
+                        </div>
+
+                      </div>
+                    )
+                  })()
+                }
                 <div>
                   <h3 style={{ color: '#183471' }}>{totalPrice.toLocaleString()} $</h3>
                 </div>

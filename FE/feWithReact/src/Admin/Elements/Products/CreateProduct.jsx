@@ -25,7 +25,7 @@ export default function CreateProduct(props) {
   const [waiting, setWaiting] = useState(false)
 
   const calculatePrice = (priceMain, priceExtra, priceSize, priceWage) => {
-    return priceMain + priceExtra + priceSize + priceWage
+    return (priceMain + priceExtra + priceSize + priceWage) * 1.2
   }
 
   const handleOpen = () => {
@@ -157,7 +157,6 @@ export default function CreateProduct(props) {
       formData.append(fieldName, fieldValue);
     }
 
-
     const responseCreateProduct = await fetch(url, {
       method: 'POST',
       headers: {
@@ -187,6 +186,7 @@ export default function CreateProduct(props) {
     }).then(responseData => {
       props.onProductCreated()
       handleClose()
+      handleClear()
     })
 
   }
@@ -278,8 +278,8 @@ export default function CreateProduct(props) {
           boxShadow: 24,
           p: 4,
           overflow: 'auto',
-          height: '100vh',
-          width: '100vw',
+          height: 'auto',
+          width: 'auto',
         }}>
           <h3 className='titleOfForm'>CREATE PRODUCT</h3>
           <Formik
@@ -314,8 +314,7 @@ export default function CreateProduct(props) {
                       value={values.gender}
                       sx={{
                         display: 'flex',
-                        flexDirection: 'row',
-                        'flex-wrap': 'nowrap'
+                        flexDirection: 'column',
                       }}
                     >
                       <FormControlLabel value="true" control={<Radio />} label="Male" />
@@ -488,8 +487,7 @@ export default function CreateProduct(props) {
                                 value={form.values.diamonds[0].isMain}
                                 sx={{
                                   display: 'flex',
-                                  flexDirection: 'row',
-                                  'flex-wrap': 'nowrap'
+                                  flexDirection: 'column',
                                 }}
                                 readOnly={true}
                               >
@@ -549,8 +547,7 @@ export default function CreateProduct(props) {
                                 value={form.values.diamonds[1].isMain}
                                 sx={{
                                   display: 'flex',
-                                  flexDirection: 'row',
-                                  'flex-wrap': 'nowrap'
+                                  flexDirection: 'column',
                                 }}
                                 readOnly={true}
                               >

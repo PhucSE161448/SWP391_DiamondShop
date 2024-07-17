@@ -42,20 +42,33 @@ export default function CRUDCategory() {
 		Read()
 	}, [triggerRead])
 
+	const tableHead = ['#', 'Name', 'Color', 'Material', 'Status']
 
 	return (
 		<>
 			<div className='formCRUDContainer'>
+				<div>
+					<><CreateDiamondCase onDiamondCaseCreated={() => setTriggerRead(prev => !prev)} /></>
+				</div>
 				<TableContainer>
 					<Table>
 						<TableHead>
 							<TableRow>
-								<TableCell>#</TableCell>
-								<TableCell>Name</TableCell>
-								<TableCell>Color</TableCell>
-								<TableCell>Material</TableCell>
-								<TableCell></TableCell>
-								<TableCell><CreateDiamondCase onDiamondCaseCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
+								{tableHead.map((head, index) => (
+									<TableCell key={index} sx={{
+										fontWeight: 'bold',
+										fontSize: '20px',
+									}}>{head}</TableCell>
+								))}
+								<TableCell
+									sx={{
+										fontWeight: 'bold',
+										fontSize: '20px',
+										display: 'flex',
+										justifyContent: 'center'
+									}}>
+									Action
+								</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>

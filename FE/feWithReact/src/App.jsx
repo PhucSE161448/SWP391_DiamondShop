@@ -7,12 +7,10 @@ import DiamondPage from './Pages/DiamondPage'
 import Login from './Auth/Login'
 import SignUp from './Auth/SignUp'
 // import LogoutAndRedirect from './Auth/AuthFunction'
-
 import Category from './Admin/Elements/Category/Category'
 import Account from './Admin/Elements/Account/Account'
 import Admin from './Admin/Admin'
 import ShowAllProduct from './Admin/Elements/Products/ShowAllProduct'
-import Warranty from './Admin/Elements/Warranty/Warranty'
 import Cart from './Pages/Cart'
 import ProductDetail from './Components/Products/ProductDetail'
 import ShowAllDiamond from './Admin/Elements/Diamonds/ShowAllDiamond'
@@ -29,6 +27,7 @@ import PaymentSuccessful from './Pages/PaymentSuccessful'
 import Certificate from './Admin/Elements/Certificate/Certificate'
 import PdfFileWarranty from './Pages/PdfFileWarranty'
 import PaymentFail from './Pages/DiamondPage'
+import Voucher from './Admin/Elements/Voucher/Voucher'
 import { gapi } from 'gapi-script'
 import PolicyPage from './Pages/PolicyPage'
 import { GoogleOAuthProvider } from '@react-oauth/google'
@@ -71,13 +70,13 @@ export default function App() {
             <Route path='account' element={<Account />} />
             <Route path='category' element={<Category />} />
             <Route path='product' element={<ShowAllProduct />}></Route>
-            <Route path='warranty' element={<Warranty></Warranty>}> </Route>
             <Route path='diamond' element={<ShowAllDiamond></ShowAllDiamond>}></Route>
             <Route path='diamondCase' element={<DiamondCase></DiamondCase>}> </Route>
             <Route path='collections' element={<Collections></Collections>}></Route>
             <Route path='order' element={<OrderAdmin></OrderAdmin>}></Route>
             <Route path='payment' element={<ShowAllPayment></ShowAllPayment>}></Route>
             <Route path='certificate' element={<Certificate></Certificate>}></Route>
+            <Route path='voucher' element={<Voucher></Voucher>}></Route>
           </Route>
 
         </Routes >

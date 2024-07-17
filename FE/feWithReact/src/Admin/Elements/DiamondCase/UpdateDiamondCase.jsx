@@ -3,7 +3,7 @@ import { Button, TextField, Modal, Box, Alert, Radio, FormControlLabel, Select, 
 import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 import SendIcon from '@mui/icons-material/Send'
-import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
+import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close'
 import { createApi } from '../../../Auth/AuthFunction'
 
@@ -65,8 +65,8 @@ export default function UpdateDiamondCase(props) {
       display: 'flex',
       justifyContent: 'center',
     }}>
-      <Button variant="contained" type="button" size="large" onClick={handleOpen}>
-        Update
+      <Button type="button" size="large" onClick={handleOpen}>
+        <EditIcon></EditIcon>
       </Button>
       <Modal
         open={open}
@@ -82,8 +82,7 @@ export default function UpdateDiamondCase(props) {
           bgcolor: 'background.paper',
           p: 4,
           overflow: 'auto',
-          height: '100vh',
-          width: '100vw',
+          width: '50%',
         }}>
           <h3 className='titleOfForm'>UPDATE DIAMOND CASE</h3>
           <Formik

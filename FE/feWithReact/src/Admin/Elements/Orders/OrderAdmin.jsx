@@ -20,7 +20,7 @@ export default function OrderAdmin() {
     setOrderDetail([])
   }
   const role = localStorage.getItem('role')
-  const status = ['Wait To Approve', 'Approved', 'Finished', 'Paid']
+  const status = ['Wait To Approved', 'Approved', 'Finished', 'Paid', 'Cancel']
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -75,26 +75,18 @@ export default function OrderAdmin() {
   }
 
   const finishButton = (id) => {
-    createStatus(id, status[2])
+    createStatus(id, 'Finished')
   }
 
-  const cancelButtonSale = (id) => {
-    createStatus(id, status[0])
-  }
+  const cancelButton = (id) => {
 
-  const cancelPaid = (id) => {
-    createStatus(id, status[1])
-  }
-
-  const cancelButtonDelivery = (id) => {
-    createStatus(id, status[3])
   }
 
   const approveButton = (id) => {
-    createStatus(id, status[1])
+    createStatus(id, 'Approved')
   }
 
-  const headerTable = ['Order ID', 'Order Date', 'Customer Name', 'Order Status', 'Order Total', 'Phone', 'Address', 'Detail']
+  const headerTable = ['Order ID', 'Order Date', 'Customer Name', 'Order Status', 'Order Total', 'Phone', 'Address', 'Detail', '']
   const headerTableDetail = ['Image', 'Product Name', 'Quantity', 'Price']
   return (
     <div className='contentAdminContainer'>
@@ -107,71 +99,76 @@ export default function OrderAdmin() {
         }}>
           <h2>Order</h2>
         </div>
-        {(role === '1' || role === '3') && (
-          <div>
-            <div>
-              <h2>
-                Wait To Approve
-              </h2>
-            </div>
-            <TableContainer>
-              <Table>
-                <TableHead style={{
-                  backgroundColor: 'lightgray'
-                }}>
-                  {headerTable.map((header) => (
-                    <TableCell sx={{
-                      fontWeight: 'bold',
-                      fontSize: '20px',
-                    }}>{header}</TableCell>
-                  ))}
-                </TableHead>
+        <div>
+          <TableContainer>
+            <Table>
+              <TableHead style={{
+                backgroundColor: 'lightgray'
+              }}>
+                {headerTable.map((header) => (
+                  <TableCell sx={{
+                    fontWeight: 'bold',
+                    fontSize: '20px',
+                  }}>{header}</TableCell>
+                ))}
+              </TableHead>
 
-                <TableBody>
-                  {dataOrder.filter(order => order.status === 'Wait To Approve').map((order) => (
-                    <TableRow key={order.id}>
-                      <TableCell>{order.id}</TableCell>
-                      <TableCell>{order.createdDate}</TableCell>
-                      <TableCell>{order.accountName}</TableCell>
-                      <TableCell>
+              <TableBody>
+                {dataOrder.map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell>{order.id}</TableCell>
+                    <TableCell>{order.createdDate}</TableCell>
+                    <TableCell>{order.accountName}</TableCell>
+                    <TableCell>
+                      <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'flex-start',
+                        alignItems: 'center',
+                      }}>
                         <div style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'flex-start',
-                          alignItems: 'center',
+                          marginRight: '20px'
                         }}>
-                          <div style={{
-                            marginRight: '20px'
-                          }}>
+                          <Button variant="contained"
+                            color={order.status === 'Approved' ? 'success' : order.status === 'Wait To Approve' ? 'error' : order.status === 'Paid' ? 'primary' : 'warning'}>
                             {order.status}
-                          </div>
-                          {(role === '1' || role === '3') && (
-                            <div>
-                              <Button variant="contained" onClick={() => approveButton(order.id)}>Approve</Button>
-                            </div>
-                          )}
+                          </Button>
                         </div>
-                      </TableCell>
-                      <TableCell>${order.totalPrice.toLocaleString()}</TableCell>
-                      <TableCell>
-                        {order.phone}
-                      </TableCell>
-                      <TableCell>
-                        {order.address}
-                      </TableCell>
-                      <TableCell>
-                        <Button onClick={() => handleOpen(order.id)}>
-                          Detail
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        )}
-        {(role === '1' || role === '3') && (
+                      </div>
+                    </TableCell>
+                    <TableCell>${order.totalPrice.toLocaleString()}</TableCell>
+                    <TableCell>
+                      {order.phone}
+                    </TableCell>
+                    <TableCell>
+                      {order.address}
+                    </TableCell>
+                    <TableCell>
+                      <Button onClick={() => handleOpen(order.id)}>
+                        Detail
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      {(order.status === 'Wait To Approved') && (
+                        <div>
+                          <Button variant="contained" onClick={() => approveButton(order.id)}>Approve</Button>
+                        </div>
+                      )}
+                      {(order.status === 'Approve') && (
+                        <div>
+                          <Button variant="contained" color='error' onClick={() => cancelButton(order.id)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+        {/* {(role === '1' || role === '3') && (
           <div>
             <div>
               <h2>
@@ -391,7 +388,7 @@ export default function OrderAdmin() {
               </Table>
             </TableContainer>
           </div>
-        )}
+        )} */}
         <Modal
           open={open}
           onClose={handleClose}
@@ -436,7 +433,7 @@ export default function OrderAdmin() {
                 <TableBody key={index}>
                   <TableCell>
                     <div>
-                      <img src={item.cart.product ? (item.cart.product.images[0].urlPath) : null} style={{
+                      <img src={item.cart.product ? (item.cart.product.images[0]?.urlPath) : null} style={{
                         width: '150px',
                         height: '150px',
                       }} />

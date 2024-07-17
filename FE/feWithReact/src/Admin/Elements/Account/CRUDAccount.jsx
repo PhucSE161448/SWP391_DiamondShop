@@ -25,6 +25,8 @@ export default function ReadAccount() {
 		{ id: 'PhoneNumber', label: 'Phone number', align: 'left', },
 		{ id: 'Address', label: 'Address', align: 'left', },
 		{ id: 'Role', label: 'Role', align: 'left', },
+		{ id: 'Delete', label: 'Delete', align: 'left', },
+		{ id: 'Action', label: 'Action', align: 'left', },
 	]
 
 
@@ -85,6 +87,15 @@ export default function ReadAccount() {
 	return (
 		<>
 			<div className='formCRUDContainer'>
+				<div style={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					margin: '10px',
+				}}>
+					
+					<div><ReadAccountByName onAccountRead={() => setTriggerRead(prev => !prev)}></ReadAccountByName></div>
+					<div><CreateAccount onAccountCreated={() => setTriggerRead(prev => !prev)}></CreateAccount></div>
+				</div>
 				<TableContainer >
 					<Table stickyHeader >
 						<TableHead>
@@ -101,8 +112,7 @@ export default function ReadAccount() {
 										{column.label}
 									</TableCell>
 								))}
-								<TableCell><ReadAccountByName onAccountRead={() => setTriggerRead(prev => !prev)}></ReadAccountByName></TableCell>
-								<TableCell><CreateAccount onAccountCreated={() => setTriggerRead(prev => !prev)}></CreateAccount></TableCell>
+
 							</TableRow>
 						</TableHead>
 						<TableBody>

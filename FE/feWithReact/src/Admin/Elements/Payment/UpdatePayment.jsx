@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { createApi } from '../../../Auth/AuthFunction'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
-
+import EditIcon from '@mui/icons-material/Edit';
 export default function UpdatePayment(props) {
   const [open, setOpen] = useState(false)
   const data = props.data
@@ -53,8 +53,8 @@ export default function UpdatePayment(props) {
 
   return (
     <div>
-      <Button variant="contained" color="primary" startIcon={<UpdateIcon />} onClick={handleOpen}>
-        Update
+      <Button type="button" size="large" onClick={handleOpen}>
+        <EditIcon></EditIcon>
       </Button>
       <Modal
         open={open}
@@ -71,8 +71,7 @@ export default function UpdatePayment(props) {
           border: '1px solid #000',
           boxShadow: 24,
           p: 4,
-          height: '100vh',
-          width: '100vw',
+          width: '50%',
           overflow: 'auto'
 
         }}>

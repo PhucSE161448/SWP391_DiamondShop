@@ -45,6 +45,7 @@ export default function CRUDCategory() {
 		Read()
 	}, [triggerRead])
 
+	const tableHead = ['#', 'Name', 'Status', 'Action']
 	return (
 		<>
 			<div className='formCRUDContainer'>
@@ -52,9 +53,12 @@ export default function CRUDCategory() {
 					<Table>
 						<TableHead>
 							<TableRow>
-								<TableCell>#</TableCell>
-								<TableCell>Name</TableCell>
-								<TableCell></TableCell>
+								{tableHead.map((head, index) => (
+									<TableCell key={index} sx={{
+										fontWeight: 'bold',
+										fontSize: '20px',
+									}}>{head}</TableCell>
+								))}
 								<TableCell><CreateCategory onCategoryCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
 							</TableRow>
 						</TableHead>

@@ -99,14 +99,16 @@ export default function CreateCertificate(props) {
       })
       .then(responseData => {
         setResponseMessage(responseData.ErrorMessage)
-        handleClose()
+
         props.onCertificateCreated()
       })
   }
-
+  if (responseStatus === 201) {
+    handleClose()
+  }
   return (
     <>
-      <Button onClick={handleOpen}>Create Certificate</Button>
+      <Button variant='contained' onClick={handleOpen}>Create Certificate</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -123,8 +125,7 @@ export default function CreateCertificate(props) {
           boxShadow: 24,
           p: 4,
           overflow: 'auto',
-          height: '100vh',
-          width: '100vw',
+          width: '50%',
         }}>
           <h3 className='titleOfForm'>CREATE CERTIFICATE</h3>
           <Container>

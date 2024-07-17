@@ -3,6 +3,7 @@ import { Button } from '@mui/material'
 import { Box, Modal, TextField, Container, Select, MenuItem, InputLabel, FormControl, Alert } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { AlertTitle } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit';
 import { createApi } from '../../../Auth/AuthFunction'
 import * as Yup from 'yup'
 import dayjs from 'dayjs'
@@ -112,10 +113,8 @@ export default function UpdateCertificate(props) {
     })
       .then(response => {
         setResponseStatus(response.status)
-
       })
       .then(responseData => {
-        setResponseMessage('Update Certificate Failed')
         handleClose()
         props.onCertificateUpdated()
       })
@@ -123,7 +122,9 @@ export default function UpdateCertificate(props) {
 
   return (
     <>
-      <Button onClick={handleOpen}>Update Certificate</Button>
+      <Button onClick={handleOpen}>
+        <EditIcon></EditIcon>
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -140,8 +141,7 @@ export default function UpdateCertificate(props) {
           boxShadow: 24,
           p: 4,
           overflow: 'auto',
-          height: '100vh',
-          width: '100vw',
+          width: '50%',
         }}>
           <h3 className='titleOfForm'>UPDATE CERTIFICATE</h3>
           <Container>
@@ -343,7 +343,7 @@ export default function UpdateCertificate(props) {
               }}
             </Formik> <br />
             <div>
-              {responseStatus && (responseStatus.toString().startsWith('2')
+              {/* {responseStatus && (responseStatus.toString().startsWith('2')
                 ? <Alert severity="success">
                   <AlertTitle>
                     Update Certificate Successful
@@ -355,7 +355,7 @@ export default function UpdateCertificate(props) {
                     {responseMessage}
                   </AlertTitle>
 
-                </Alert>)}
+                </Alert>)} */}
             </div>
           </Container>
 

@@ -395,6 +395,7 @@ export default function GetPageDiamond() {
                 }} >
 
                   <Card sx={{
+                    height: '100%',
                     '&:hover': {
                       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
                       cursor: 'pointer',
@@ -408,10 +409,13 @@ export default function GetPageDiamond() {
                       to={`/diamond/detail/${item.id}`}
                       style={{
                         textDecoration: 'none',
-                        color: 'black'
+                        color: 'black',
+                        height: '100%',
                       }}
                     >
-                      <CardContent>
+                      <CardContent sx={{
+                        height: '85%',
+                      }}>
                         {item.images && item.images[0] && item.images[0].urlPath ? (
                           <>
                             <CardMedia
@@ -421,7 +425,8 @@ export default function GetPageDiamond() {
                               sx={{
                                 width: '100%',
                                 borderRadius: '20px',
-                                height: '500px',
+                                height: 'auto',
+                                objectFit: 'cover'
                               }}
                             />
                           </>
@@ -441,12 +446,12 @@ export default function GetPageDiamond() {
                           Price: {item.price.toLocaleString()}$
                         </p>
                       </CardContent>
-
                     </Link>
                     <div style={{
                       display: 'flex',
-                      alignItems: 'center',
+                      alignItems: 'flex-end',
                       width: '100%',
+                      height: '15%',
                     }}>
                       <Button fullWidth onClick={() => addToCart(item)} sx={{
                         color: 'black',

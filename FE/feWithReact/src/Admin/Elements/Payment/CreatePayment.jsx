@@ -76,7 +76,7 @@ export default function CreatePayment(props) {
           boxShadow: 24,
           p: 4,
           height: '100vh',
-          width: '100vw',
+          width: '50%',
           overflow: 'auto'
         }}>
           <h3 className='titleOfForm'>CREATE PAYMENT</h3>
