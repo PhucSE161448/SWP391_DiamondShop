@@ -29,7 +29,7 @@ namespace Application.Services.Vouchers
             var voucher = await _unitOfWork.VoucherRepository.GetVoucherByIdAsync(id);
             if(voucher == null)
             {
-                throw new NotFoundException("Id không tồn tại trong hệ thống");
+                throw new NotFoundException("Id not exist");
             }
             return voucher;
         }
@@ -42,11 +42,24 @@ namespace Application.Services.Vouchers
             }
             else
             {
-                throw new NotFoundException("Voucher không tồn tại");
+                throw new NotFoundException("Voucher not exist");
             }
         }
         public async Task<GetVoucherIdDTO> CreateVoucherAsync(CreateVoucherDTO createVoucherDTO)
         {
+            
+            var getAllVoucher = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
+            foreach(var voucher in getAllVoucher)
+            {
+                if (voucher.IsAllProduct == true && createVoucherDTO.IsAllProduct == true)
+                {
+                    throw new BadRequestException("Only one voucher for all product can exist one time");
+                }
+                else if(voucher.ProductId == createVoucherDTO.ProductId)
+                {
+                    throw new BadRequestException("Only one voucher for this product can exist one time");
+                }
+            }
             var newVoucher = createVoucherDTO.Adapt<Voucher>();
             await _unitOfWork.VoucherRepository.CreateVoucherAsync(newVoucher);
             return new GetVoucherIdDTO { Id = newVoucher.Id};
