@@ -156,7 +156,7 @@ namespace Application.Services.Products
             await _unitOfWork.SaveChangeAsync();
             if (oldFormFiles.Any())
             {
-                await _imageService.UploadDiamondImages(oldFormFiles, product.Id);
+                await _imageService.UploadProductImages(oldFormFiles, product.Id);
             }
             if (!updateProductDto.ProductImages.IsNullOrEmpty())
             {
