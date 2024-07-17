@@ -15,9 +15,9 @@ namespace WebAPI.Services
             GetCurrentUserId = string.IsNullOrEmpty(id) ? 0 : Convert.ToInt32(id);
 
             var role = httpContextAccessor.HttpContext?.User?.FindFirstValue("Role");
-            GetCurrentUserRole = string.IsNullOrEmpty(role) ? "" : role;
+            GetCurrentUserRole = string.IsNullOrEmpty(role) ? 0 : Convert.ToInt32(role);
         }
-        public string? GetCurrentUserRole { get; }
+        public int? GetCurrentUserRole { get; }
         public string? GetCurrentUserName { get; }
         public int GetCurrentUserId { get; }
     }

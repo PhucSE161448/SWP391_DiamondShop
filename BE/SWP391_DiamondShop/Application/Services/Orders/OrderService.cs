@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.Orders;
 using Application.ViewModels.Orders;
@@ -52,7 +53,7 @@ namespace Application.Services.Orders
 
         public async Task<OrderDTO> GetOrderById(int orderId) => await _unitOfWork.OrderRepo.GetOrderById(orderId);
 
-        public async Task<List<OrderDTO>> GetOrderAsync() => await _unitOfWork.OrderRepo.GetOrderAsync();
+        public async Task<Pagination<OrderDTO>> GetOrderAsync(int pageIndex = 1, int pageSize = 10, string? status = null) => await _unitOfWork.OrderRepo.GetOrderAsync(pageIndex , pageSize, status);
         public async Task<List<OrderDetailDTO>> GetOrderDetailAsync(int orderId) => await _unitOfWork.OrderRepo.GetOrderDetailAsync(orderId);
 
         public async Task<bool> CreateOrderStatusAsync(int orderId, string status, int accountId = 0, int paymentId = 0)
@@ -68,7 +69,7 @@ namespace Application.Services.Orders
         {
             decimal result = 0;
             var getListOrder = await _unitOfWork.OrderRepo.GetOrderAsync();
-            foreach(var order in getListOrder)
+            foreach(var order in getListOrder.Items)
             {
                 if(order.Status == "Finished")
                 {

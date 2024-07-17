@@ -1,4 +1,5 @@
-﻿using Application.ViewModels.Orders;
+﻿using Application.Commons;
+using Application.ViewModels.Orders;
 using Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Application.Interfaces.Orders
     public interface IOrderService
     {
         Task<OrderDTO> GetOrderById(int orderId);
-        Task<List<OrderDTO>> GetOrderAsync();
+        Task<Pagination<OrderDTO>> GetOrderAsync(int pageIndex = 1, int pageSize = 10, string? status = null);
         Task<List<OrderDetailDTO>> GetOrderDetailAsync(int orderId);
         Task<Order> CreateOrderAsync(OrderCreateDTO orderCreateDto);
         Task<bool> CreateOrderCartAsync(List<int> cartId, int orderId);
