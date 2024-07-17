@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Commons;
 using Application.Interfaces;
 using Application.IRepositories.Orders;
 using Application.ViewModels.Orders;
+using Domain.Enums;
 using Domain.Model;
 using Google.Apis.Storage.v1.Data;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
-
 namespace Infrastructures.Repositories.Orders
 {
     public class OrderRepo : IOrderRepo
     {
         private readonly SWP391_DiamondShopContext _dbContext;
         private readonly int _currentUserId;
-        private readonly string? _currentRole;
+        private readonly int? _currentRole;
         private const decimal Percentage = 0.01m;
         public OrderRepo(
             SWP391_DiamondShopContext context,
@@ -29,23 +30,44 @@ namespace Infrastructures.Repositories.Orders
             _currentRole = claimsService.GetCurrentUserRole;
         }
 
-        public async Task<List<OrderDTO>> GetOrderAsync()
+        public async Task<Pagination<OrderDTO>> GetOrderAsync(int pageIndex = 1, int pageSize = 10, string? status = null)
         {
-            IQueryable<Order> query;
+            IQueryable<Order> query = _dbContext.Orders;
 
-            if (_currentRole == "1" || _currentRole == "3" || _currentRole == "4")
+            if (_currentRole == (int)Domain.Enums.Roles.SalesStaff)
             {
-                query = _dbContext.Orders;
+                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                              .Select(s => s.Status).FirstOrDefault() == StatusOrder.WaitToApprove ||
+                                          x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                              .Select(s => s.Status).FirstOrDefault() == StatusOrder.Approved);
             }
-            else
+            else if (_currentRole == (int)Domain.Enums.Roles.DeliveryStaff)
             {
-                query = _dbContext.Orders.Where(x => x.AccountId == _currentUserId);
+                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                              .Select(s => s.Status).FirstOrDefault() == StatusOrder.Paid ||
+                                         x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                             .Select(s => s.Status).FirstOrDefault() == StatusOrder.InTransit ||
+                                          x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                              .Select(s => s.Status).FirstOrDefault() == StatusOrder.Finished);
             }
+            else if (_currentRole != (int)Domain.Enums.Roles.Admin)
+            {
+                query = query.Where(x => x.AccountId == _currentUserId);
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                    .Select(s => s.Status).FirstOrDefault() == status);
+            }
+            int totalItemsCount = await query.CountAsync();
 
             var orders = await query
                 .Include(op => op.OrderStatuses)
                 .Include(x => x.Account)
                 .Include(x => x.Payment)
+                .OrderBy(o => o.Id) 
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             var orderDTOs = orders.Select(order => new OrderDTO
@@ -58,10 +80,20 @@ namespace Infrastructures.Repositories.Orders
                 Address = order.Address,
                 Phone = order.Phone,
                 Status = order.OrderStatuses.Select(o => o.Status).LastOrDefault()
-            }).ToList();
+            }).OrderByDescending(x => x.CreatedDate).ToList();
 
-            return orderDTOs;
+            var pagination = new Pagination<OrderDTO>
+            {
+                TotalItemsCount = totalItemsCount,
+                PageSize = pageSize,
+                PageIndex = pageIndex,
+                Items = orderDTOs
+            };
+
+            return pagination;
         }
+
+
 
         public async Task<OrderDTO> GetOrderById(int orderId)
         {
@@ -162,7 +194,7 @@ namespace Infrastructures.Repositories.Orders
                     AccountId = _currentUserId,
                     OrderId = orderId,
                     CreatedDate = DateTime.Now,
-                    Status = "Wait To Approve"
+                    Status = StatusOrder.WaitToApprove
                 });
                 return true;
             }
@@ -177,6 +209,10 @@ namespace Infrastructures.Repositories.Orders
             var orders = await _dbContext.Orders
                 .Include(o => o.OrderCarts)
                 .ThenInclude(x => x.Cart)
+                .ThenInclude(x => x.Product).ThenInclude(x => x.ProductSizes)
+                .Include(x => x.OrderCarts)
+                .ThenInclude(x => x.Cart)
+                .ThenInclude(x => x.Diamond)
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (orders == null)
@@ -195,7 +231,7 @@ namespace Infrastructures.Repositories.Orders
                 });
 
             }
-            if (status.Equals("Paid") && orderStatus == null)
+            if (status.Equals(StatusOrder.Paid) && orderStatus == null)
             {
                 foreach (var orderCart in orders.OrderCarts)
                 {
@@ -210,7 +246,7 @@ namespace Infrastructures.Repositories.Orders
                 }
                 orders.PaymentId = paymentId;
             }
-            if (status.Equals("Finished"))
+            if (status.Equals(StatusOrder.Finished))
             {
                 var user = await _dbContext.Accounts.FindAsync(orders.AccountId);
                 user.Point += (orders.TotalPrice * Percentage);
