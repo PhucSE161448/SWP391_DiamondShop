@@ -15,9 +15,9 @@ namespace WebAPI.Controllers.Order
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]int pageIndex = 1, int pageSize = 10, string? status = null)
         {
-            return Ok(await _orderService.GetOrderAsync());
+            return Ok(await _orderService.GetOrderAsync(pageIndex, pageSize,status));
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductDetailById(int id)
@@ -37,10 +37,6 @@ namespace WebAPI.Controllers.Order
             var result = await _orderService.CreateOrderCartAsync(createCartDto.CartId, order.Id);
             return Created(nameof(CreateOrder), result);
         }
-        [HttpGet]
-        public async Task<IActionResult> GetRevenue()
-        {
-            return Ok(await _orderService.GetRevenuer());
-        }
+        
     }
 }
