@@ -247,6 +247,9 @@ export default function Profile() {
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       Phone number: <h5 style={{ margin: '0 0 0 8px' }}>{dataUser?.phoneNumber}</h5>
                     </div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      Point: <h5 style={{ margin: '0 0 0 8px' }}>{dataUser?.point}</h5>
+                    </div>
                   </div>
                 ) : (
                   <div style={{
@@ -365,23 +368,7 @@ export default function Profile() {
                     </Formik>
                   </div>
                 )}
-                <div>
-                  <div style={{
-                    margin: '20px auto',
-                    width: 'auto',
-                  }}>
-                    <Button fullWidth onClick={() => navigate('/order')} variant="contained" size="large" sx={{
-                      backgroundColor: '#04376a',
-                      color: '#fff',
-                      '&:hover': {
-                        backgroundColor: '#04376a',
-                        color: '#fff',
-                      }
-                    }}>
-                      Click here to go to your order
-                    </Button>
-                  </div>
-                </div>
+
               </Container>
             )}
             {(userPasswordPage && dataUser?.password) && (

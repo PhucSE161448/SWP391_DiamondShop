@@ -7,15 +7,20 @@ import {
 import { createApi } from '../../../Auth/AuthFunction'
 import CreateCertificate from './CreateCertificate'
 import UpdateCertificate from './UpdateCertificate'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 export default function Certificate() {
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const pageNumber = searchParams.get('pageNumber') - 1 || 0
   const [dataCertificate, setDataCertificate] = useState(null)
   const [triggerRead, setTriggerRead] = useState(false)
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(pageNumber)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+    navigate(`/admin/certificate?pageNumber=${newPage + 1}`)
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -38,7 +43,7 @@ export default function Certificate() {
       .catch((error) => console.error('Error:', error))
   }, [triggerRead])
 
-  const rowHeader = ['ID', 'reportNumber', 'origin', 'Date Of Issue (mm/dd/yyyy)', '']
+  const rowHeader = ['ID', 'reportNumber', 'origin', 'Date Of Issue (mm/dd/yyyy)', 'Action']
   return (
     <div className='contentAdminContainer'>
       <div className='CRUDContainer '>
@@ -59,7 +64,10 @@ export default function Certificate() {
                 <TableHead>
                   <TableRow>
                     {rowHeader.map((item, index) => (
-                      <TableCell key={index}>{item}</TableCell>
+                      <TableCell key={index} sx={{
+                        fontWeight: 'bold',
+                        fontSize: '20px',
+                      }}>{item}</TableCell>
                     ))}
                   </TableRow>
                 </TableHead>

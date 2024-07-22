@@ -3,6 +3,7 @@ import { Button, Modal, Box, TextField, Select, InputLabel, MenuItem, OutlinedIn
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import { createApi } from '../../../Auth/AuthFunction'
+import { checkApiStatus } from '../../../Auth/AuthFunction'
 export default function CreateAccount(props) {
 	const [nameAccount, setnameAccount] = useState('')
 	const [emailAccount, setEmailAccount] = useState('')
@@ -11,7 +12,6 @@ export default function CreateAccount(props) {
 	const [addressAccount, setAddressAccount] = useState('')
 	const [phoneAccount, setPhoneAccount] = useState('')
 	const [roleAccount, setRoleAccount] = useState(null)
-	const [dataAccount, setDataAccount] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => {
@@ -23,7 +23,6 @@ export default function CreateAccount(props) {
 		setPasswordAccount('')
 		setPhoneAccount('')
 		setRoleAccount(null)
-		setDataAccount(null)
 	}
 	const handleSubmit = (event) => {
 		event.preventDefault()
@@ -35,7 +34,6 @@ export default function CreateAccount(props) {
 		setPasswordAccount('')
 		setPhoneAccount('')
 		setRoleAccount(null)
-		setDataAccount(null)
 	}
 
 	const handleClear = () => {
@@ -46,7 +44,6 @@ export default function CreateAccount(props) {
 		setPasswordAccount('')
 		setPhoneAccount('')
 		setRoleAccount(null)
-		setDataAccount(null)
 	}
 
 	function CreateAccount(Email, Password, Name, Address, Gender, Phone, Role) {
@@ -68,9 +65,9 @@ export default function CreateAccount(props) {
 				'Authorization': `Bearer ${localStorage.getItem('token')}`
 			},
 			body: JSON.stringify(data)
-		}).then(response => response.json())
-			.then(responseData => {
-				setDataAccount(responseData)
+		}).then(response => checkApiStatus(response))
+			.then(() => {
+				handleClose()
 				props.onAccountCreated()
 			})
 	}
@@ -95,11 +92,12 @@ export default function CreateAccount(props) {
 						top: '50%',
 						left: '50%',
 						transform: 'translate(-50%, -50%)',
-						width: 800,
 						bgcolor: 'background.paper',
 						border: '1px solid #000',
 						boxShadow: 24,
 						p: 4,
+						width: '50%	',
+						overflow: 'auto'
 					}}>
 						<h3 className='titleOfForm'>CREATE Account</h3>
 						<div>
@@ -158,21 +156,15 @@ export default function CreateAccount(props) {
 													padding: '0'
 												}}>
 												<MenuItem value={1}>Admin</MenuItem>
-												<MenuItem value={2}>Sale staff</MenuItem>
-												<MenuItem value={3}>Delivery staff</MenuItem>
-												<MenuItem value={4}>Customer</MenuItem>
+												<MenuItem value={2}>Manager</MenuItem>
+												<MenuItem value={3}>Sale staff</MenuItem>
+												<MenuItem value={4}>Delivery staff</MenuItem>
+												<MenuItem value={5}>Customer</MenuItem>
 											</Select>
 										</FormControl>
 
 									</div>
 								</div>
-								{
-									dataAccount ? (dataAccount.StatusCode === 400 ? (
-										<h3>{dataAccount.ErrorMessage}</h3>
-									) : (
-										<h3>Create successful</h3>
-									)) : null
-								}
 								<div className='formSubmit' >
 									<Button
 										type="submit"
@@ -185,14 +177,14 @@ export default function CreateAccount(props) {
 										Send
 									</Button>
 									<Button type="button"
-										value="Clear" onClick={handleClear}
+										onClick={handleClose}
 										className='submitButton'
 										variant="contained" size="large" color="error"
 										endIcon={<CancelScheduleSendIcon />}
 										sx={{
 											margin: '5px',
 										}}>
-										Clear
+										Cancel
 									</Button>
 								</div>
 							</form>

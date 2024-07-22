@@ -2,24 +2,16 @@ import React, { useState } from 'react'
 import { Button, TextField, Modal, Box, Alert, Radio, FormControlLabel, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
-import SendIcon from '@mui/icons-material/Send'
-import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
-import CloseIcon from '@mui/icons-material/Close'
-import { createApi } from '../../../Auth/AuthFunction'
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function UpdateCollection(props) {
   const [open, setOpen] = useState(false)
-  const [displayStatus, setDisplayStatus] = useState(false)
-  const [responseCode, setResponseCode] = useState('')
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
-    setDisplayStatus(false)
-    setResponseCode('')
   }
-  const handleDisplay = () => setDisplayStatus(true)
-  const handleClear = () => setDisplayStatus(false)
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Required'),
@@ -35,7 +27,7 @@ export default function UpdateCollection(props) {
   }
 
   const Update = (values) => {
-    const url = createApi(`Collection/UpdateCollection/'${props.id}`)
+    const url = createApi(`Collection/UpdateCollection/${props.id}`)
     const data = {
       "name": values.name,
     }
@@ -49,31 +41,22 @@ export default function UpdateCollection(props) {
       body: JSON.stringify(data)
     })
       .then(response => {
-        setResponseCode(response.status);
-        if (response.status === 204 || response.headers.get("content-length") === "0") {
-          // No content to parse
-          return null;
-        } else {
-          return response.json();
-        }
-      })
-      .then(responseData => {
-        if (responseData) {
-          setResponseCode(responseData.status);
-        }
+        checkApiStatus(response)
+        handleClose()
+        props.onCollectionUpdated()
       })
       .catch(error => {
         console.error("Error parsing JSON:", error);
       })
-    props.onCollectionUpdated()
+
   }
   return (
     <div style={{
       display: 'flex',
       justifyContent: 'center',
     }}>
-      <Button variant="contained" type="button" size="large" onClick={handleOpen}>
-        Update
+      <Button onClick={handleOpen}>
+        <EditIcon></EditIcon>
       </Button>
       <Modal
         open={open}
@@ -89,8 +72,7 @@ export default function UpdateCollection(props) {
           bgcolor: 'background.paper',
           p: 4,
           overflow: 'auto',
-          height: '100vh',
-          width: '100vw',
+          width: '50%',
         }}>
           <h3 className='titleOfForm'>UPDATE COLLECTION</h3>
           <Formik
@@ -121,50 +103,27 @@ export default function UpdateCollection(props) {
                     type="submit"
                     className='submitButton'
                     value="Submit" variant="contained"
-                    size="large" endIcon={<SendIcon />}
+                    size="large"
                     sx={{
                       margin: '5px',
                     }}
-                    onClick={handleDisplay}
                   >
-                    Send
+                    save
                   </Button>
                   <Button type="button"
-                    value="Clear" onClick={handleClear}
+                    value="Clear" onClick={handleClose}
                     className='submitButton'
                     variant="contained" size="large" color="error"
-                    endIcon={<CancelScheduleSendIcon />}
                     sx={{
                       margin: '5px',
                     }}>
-                    Clear
+                    Close
                   </Button>
                 </div>
               </Form>
             )}
           </Formik>
-          {displayStatus && (
-            <>
-              {
-                String(responseCode).startsWith('2') && String(responseCode).startsWith('2') &&
-                <Alert severity="success" variant="filled">Update Diamond Case successfully</Alert>
-              }
-              {
-                !String(responseCode).startsWith('2') &&
-                <Alert severity="error" variant="filled">Update Diamond Case failed</Alert>
-              }
-            </>
-          )}
-          <Button type="button"
-            value="Clear" onClick={handleClose}
-            className='submitButton'
-            variant="contained" size="large" color="error"
-            endIcon={<CloseIcon />}
-            sx={{
-              margin: '5px',
-            }}>
-            Close
-          </Button>
+
         </Box >
       </Modal>
     </div >

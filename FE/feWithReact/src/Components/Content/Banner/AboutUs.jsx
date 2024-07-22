@@ -10,7 +10,7 @@ export default function AboutUs() {
 					</h1>
 
 					<div id='storeName'>
-						DIAMOND OFFICIAL STORE
+						DIAMOND STORE
 					</div>
 					<div>
 						Diamond & Jewelry
@@ -22,11 +22,11 @@ export default function AboutUs() {
 						Our customers can be completely assured of the quality, value, and price of each diamond when purchasing from Diamond Official Store. Integrity and responsibility in business are our foremost principles!
 					</div>
 					<div>
-						Let DIAMOND OFFICIAL STORE elevate your life!
+						Let DIAMOND STORE elevate your life!
 					</div>
 				</div>
 				<div className='col-6 contentBannerContainerAboutUs'>
-					<img src="src/assets/img/ImgAboutUs.png" alt="" className='imgBanner2' />
+					<img src="https://www.thearmchairtrader.com/wp-content/uploads/2022/09/diamond-mining-gems.jpg" alt="" className='imgBanner2' />
 				</div>
 			</div>
 

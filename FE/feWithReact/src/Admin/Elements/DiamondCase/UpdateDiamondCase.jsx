@@ -1,30 +1,22 @@
 import React, { useState } from 'react'
-import { Button, TextField, Modal, Box, Alert, Radio, FormControlLabel, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
-import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
+import { Button, TextField, Modal, Box, Alert, } from '@mui/material'
+import { Formik, Form, Field, ErrorMessage, } from 'formik'
 import * as Yup from 'yup'
-import SendIcon from '@mui/icons-material/Send'
-import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
-import CloseIcon from '@mui/icons-material/Close'
-import { createApi } from '../../../Auth/AuthFunction'
+import EditIcon from '@mui/icons-material/Edit';
+import { createApi, checkApiStatus } from '../../../Auth/AuthFunction'
 
 export default function UpdateDiamondCase(props) {
   const [open, setOpen] = useState(false)
-  const [displayStatus, setDisplayStatus] = useState(false)
-  const [responseCode, setResponseCode] = useState('')
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
-    setDisplayStatus(false)
-    setResponseCode('')
   }
-  const handleDisplay = () => setDisplayStatus(true)
-  const handleClear = () => setDisplayStatus(false)
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Required'),
-    color: Yup.number().required('Required'),
-    material: Yup.number().required('Required')
+    color: Yup.string().required('Required'),
+    material: Yup.string().required('Required')
   })
 
   const initialValues = {
@@ -35,11 +27,10 @@ export default function UpdateDiamondCase(props) {
 
   const onSubmit = (values) => {
     Update(values)
-
   }
 
   const Update = (values) => {
-    const url = createApi(`DiamondCase/UpdateDiamondCase/'${props.id}`)
+    const url = createApi(`DiamondCase/UpdateDiamondCase/${props.id}`)
     const data = {
       "name": values.name,
       "color": values.color,
@@ -55,29 +46,22 @@ export default function UpdateDiamondCase(props) {
       body: JSON.stringify(data)
     })
       .then(response => {
-        if (response.status === 204 || response.headers.get("content-length") === "0") {
-          return null;
-        } else {
-          return response.json();
-        }
-      })
-      .then(responseData => {
-        if (responseData) {
-          setResponseCode(responseData.status)
-        }
+        checkApiStatus(response)
+        handleClose()
+        props.onDiamondCaseUpdated()
       })
       .catch(error => {
         console.error("Error parsing JSON:", error);
       })
-    props.onDiamondCaseUpdated()
+
   }
   return (
     <div style={{
       display: 'flex',
       justifyContent: 'center',
     }}>
-      <Button variant="contained" type="button" size="large" onClick={handleOpen}>
-        Update
+      <Button type="button" size="large" onClick={handleOpen}>
+        <EditIcon></EditIcon>
       </Button>
       <Modal
         open={open}
@@ -93,8 +77,7 @@ export default function UpdateDiamondCase(props) {
           bgcolor: 'background.paper',
           p: 4,
           overflow: 'auto',
-          height: '100vh',
-          width: '100vw',
+          width: '50%',
         }}>
           <h3 className='titleOfForm'>UPDATE DIAMOND CASE</h3>
           <Formik
@@ -127,7 +110,7 @@ export default function UpdateDiamondCase(props) {
                     <Field
                       name="color"
                       as={TextField}
-                      label="Quantity"
+                      label="Color"
                       onChange={handleChange}
                       value={values.color}
                       sx={{ width: '100%' }}
@@ -157,50 +140,27 @@ export default function UpdateDiamondCase(props) {
                     type="submit"
                     className='submitButton'
                     value="Submit" variant="contained"
-                    size="large" endIcon={<SendIcon />}
                     sx={{
                       margin: '5px',
                     }}
-                    onClick={handleDisplay}
                   >
-                    Send
+                    save
                   </Button>
                   <Button type="button"
-                    value="Clear" onClick={handleClear}
+                    value="Clear" onClick={handleClose}
                     className='submitButton'
                     variant="contained" size="large" color="error"
-                    endIcon={<CancelScheduleSendIcon />}
                     sx={{
                       margin: '5px',
                     }}>
-                    Clear
+                    Cancel
                   </Button>
                 </div>
               </Form>
             )}
           </Formik>
-          {displayStatus && (
-            <>
-              {
-                String(responseCode).startsWith('2') && String(responseCode).startsWith('2') &&
-                <Alert severity="success" variant="filled">Update Diamond Case successfully</Alert>
-              }
-              {
-                !String(responseCode).startsWith('2') &&
-                <Alert severity="error" variant="filled">Update Diamond Case failed</Alert>
-              }
-            </>
-          )}
-          <Button type="button"
-            value="Clear" onClick={handleClose}
-            className='submitButton'
-            variant="contained" size="large" color="error"
-            endIcon={<CloseIcon />}
-            sx={{
-              margin: '5px',
-            }}>
-            Close
-          </Button>
+
+
         </Box >
       </Modal>
     </div >

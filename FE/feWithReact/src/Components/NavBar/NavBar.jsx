@@ -9,6 +9,7 @@ import { Menu, } from 'antd'
 import { LogoutByButton } from '../../Auth/AuthFunction'
 import { jwtDecode } from 'jwt-decode'
 import { createApi } from '../../Auth/AuthFunction';
+import Footer from '../Footer/Footer';
 export default function Navbar() {
 	const [categories, setCategories] = useState([])
 	const [token, setToken] = useState(null)
@@ -89,12 +90,14 @@ export default function Navbar() {
 	const categorySubmenu = (
 		<>
 			{categories.map((category, index) => (
-				<Menu.Item key={`category-${index}`} style={{
-					...paddingStyle,
-					borderBottom: '1px solid #fff',
-				}}>
-					<Button onClick={() => goToCategory(category.id)} sx={buttonStyle}>{category.name} {category.group.name}</Button>
-				</Menu.Item>
+				!category.isDeleted && (
+					<Menu.Item key={`category-${index}`} style={{
+						...paddingStyle,
+						borderBottom: '1px solid #fff',
+					}}>
+						<Button onClick={() => goToCategory(category.id)} sx={buttonStyle}>{category.name}</Button>
+					</Menu.Item>
+				)
 			))}
 		</>
 	)
@@ -102,12 +105,14 @@ export default function Navbar() {
 	const collectionsSubmenu = (
 		<>
 			{collections.map((collection, index) => (
-				<Menu.Item key={`collection-${index}`} style={{
-					...paddingStyle,
-					borderBottom: '1px solid #fff',
-				}}>
-					<Button onClick={() => goToCollection(collection.id)} sx={buttonStyle}>{collection.name}</Button>
-				</Menu.Item>
+				!collection.isDeleted && (
+					<Menu.Item key={`collection-${index}`} style={{
+						...paddingStyle,
+						borderBottom: '1px solid #fff',
+					}}>
+						<Button onClick={() => goToCollection(collection.id)} sx={buttonStyle}>{collection.name}</Button>
+					</Menu.Item>
+				)
 			))}
 		</>
 	)
@@ -124,11 +129,11 @@ export default function Navbar() {
 					<Button onClick={goToHome} sx={buttonStyle}>Home</Button>
 				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
-					<Button onClick={() => navigate('/diamondPage/1')} sx={buttonStyle}>Diamond</Button>
+					<Button onClick={() => navigate('/diamondPage?pageNumber=1&OrderBy=false&name=')} sx={buttonStyle}>Diamond</Button>
 				</Menu.Item>
 				<Menu.SubMenu key='productMenu'
 					title={
-						<Button onClick={() => navigate('/product/1')} sx={buttonStyle}>
+						<Button onClick={() => navigate('/product?pageNumber=1&OrderBy=false&name=')} sx={buttonStyle}>
 							Product
 						</Button>
 					}
@@ -190,9 +195,7 @@ export default function Navbar() {
 				)}
 			</Menu>
 			<Outlet />
-			<h1>
-				Footer will go here in navbar.jsx
-			</h1>
+			<Footer></Footer>
 		</div>
 	)
 }

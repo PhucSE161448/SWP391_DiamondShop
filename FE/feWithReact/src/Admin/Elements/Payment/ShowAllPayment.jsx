@@ -10,7 +10,7 @@ export default function ShowAllPayment() {
   const [dataType, setDataType] = useState(null)
   const [triggerRead, setTriggerRead] = useState(false)
 
-  const dataRow = ['#', 'NAME']
+  const dataRow = ['#', 'Name', 'Status', 'Action']
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function ShowAllPayment() {
     <div className='contentAdminContainer'>
       <div className='CRUDContainer '>
         <div className='titleOfFormContainer'>
-          <h2>Type</h2>
+          <h2>Payment</h2>
         </div>
         <div>
           <CreatePayment onPaymentCreated={() => setTriggerRead(prev => !prev)}></CreatePayment>
@@ -51,10 +51,13 @@ export default function ShowAllPayment() {
               <TableHead>
                 <TableRow>
                   {dataRow.map((item, index) => (
-                    <TableCell key={index}>{item}</TableCell>
+                    <TableCell key={index} sx={{
+                      fontWeight: 'bold',
+                      fontSize: '20px',
+                    }}>
+                      {item}
+                    </TableCell>
                   ))}
-                  <TableCell>Deleted</TableCell>
-                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

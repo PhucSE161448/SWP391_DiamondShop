@@ -1,12 +1,20 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { jwtDecode } from 'jwt-decode'
 
 export function createApi(endpointPath) {
-	const BaseUrl = "https://localhost:7122/api/"
+	const BaseUrl = "https://diamond-shopp.azurewebsites.net/api/"
 	return BaseUrl + endpointPath
 }
 
+export function checkApiStatus(response) {
+	console.log(response)
+	if (!response.ok) {
+		window.alert('Fail')
+	} else {
+		window.alert('Success')
+		return response.json()
+	}
+}
 export function LogoutAndRedirect() {
 	let navigate = useNavigate();
 	useEffect(() => {

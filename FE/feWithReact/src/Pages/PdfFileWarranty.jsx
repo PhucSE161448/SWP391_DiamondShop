@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Document, Page, PDFViewer, View, Text, Image } from '@react-pdf/renderer'
+import { Document, Page, PDFViewer, View, Text } from '@react-pdf/renderer'
 import { useParams } from 'react-router-dom'
 import { createApi } from '../Auth/AuthFunction'
 
@@ -49,13 +49,16 @@ export default function PdfFileWarranty() {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 padding: 10,
-                borderBottom: '1px solid black'
               }}>
                 <Text style={headerTableUser}>{warranty?.account?.name}</Text>
                 <Text style={headerTableUser}>{warranty?.account?.email}</Text>
                 <Text style={headerTableUser}>{warranty?.account?.phoneNumber}</Text>
                 <Text style={headerTableUser}>{warranty?.account?.address}</Text>
               </View>
+            </View>
+          </Page>
+          {warranty?.orderProducts?.map((item, index) => (
+            <Page size="A4" orientation='landscape'>
               <View style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -75,23 +78,21 @@ export default function PdfFileWarranty() {
                 <Text style={headerTableProduct}>Warranty Period</Text>
                 <Text style={headerTableProduct}>Terms and Conditions</Text>
               </View>
-              {warranty?.orderProducts?.map((item, index) => (
-                <View key={index} style={{ flexDirection: 'row', borderBottom: '1px solid black', padding: 10 }}>
-                  <Text style={headerTableProduct}>
-                    {item?.name}
-                  </Text>
-                  <Text style={headerTableProduct}>
-                    {warranty.warrantyDocuments && warranty.warrantyDocuments[index] ? new Date(warranty.warrantyDocuments[index].period).toLocaleDateString('en-US') : 'N/A'}
-                  </Text>
-                  <Text style={headerTableProduct}>
-                    {warranty.warrantyDocuments && warranty.warrantyDocuments[index] ? warranty.warrantyDocuments[index].termsAndConditions.split('\n').map((line, idx) => (
-                      <Text key={idx} style={{ display: 'block' }}>{line}</Text>
-                    )) : 'N/A'}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          </Page>
+              <View key={index} style={{ flexDirection: 'row', padding: 10 }}>
+                <Text style={headerTableProduct}>
+                  {item?.name}
+                </Text>
+                <Text style={headerTableProduct}>
+                  {warranty.warrantyDocuments && warranty.warrantyDocuments[index] ? new Date(warranty.warrantyDocuments[index].period).toLocaleDateString('en-US') : 'N/A'}
+                </Text>
+                <Text style={headerTableProduct}>
+                  {warranty.warrantyDocuments && warranty.warrantyDocuments[index] ? warranty.warrantyDocuments[index].termsAndConditions.split('\n').map((line, idx) => (
+                    <Text key={idx} style={{ display: 'block' }}>{line}</Text>
+                  )) : 'N/A'}
+                </Text>
+              </View>
+            </Page>
+          ))}
         </Document>
       )}
     </PDFViewer>

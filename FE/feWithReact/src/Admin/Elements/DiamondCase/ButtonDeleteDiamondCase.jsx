@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
-import { createApi } from '../../../Auth/AuthFunction'
+import { createApi, checkApiStatus } from '../../../Auth/AuthFunction'
 export default function ButtonDeleteDiamondCase(props) {
   const [isDeleted, setIsDeleted] = useState(props.isDeleted)
   const handleChange = (event) => {
-    setIsDeleted(event.target.checked)
-    DeleteDiamondCase(props.id, event.target.checked ? 1 : 0)
+    setIsDeleted(!event.target.checked)
+    DeleteDiamondCase(props.id, !event.target.checked ? 1 : 0)
   }
 
   function DeleteDiamondCase(id, status) {
@@ -18,13 +18,12 @@ export default function ButtonDeleteDiamondCase(props) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
-    })
+    }).then(response => checkApiStatus(response))
   }
   return (
     <>
       <FormControlLabel
-        control={<Switch checked={isDeleted} onChange={handleChange} />}
-        label="Deleted"
+        control={<Switch checked={!isDeleted} onChange={handleChange} />}
       />
     </>
   )

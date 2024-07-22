@@ -2,7 +2,8 @@ import { Button, Box, Modal, TextField, Select, MenuItem, FormControl, InputLabe
 import UpdateIcon from '@mui/icons-material/Update'
 import SendIcon from '@mui/icons-material/Send'
 import React, { useEffect, useState } from 'react'
-import { createApi } from '../../../Auth/AuthFunction'
+import { createApi, checkApiStatus } from '../../../Auth/AuthFunction'
+import EditIcon from '@mui/icons-material/Edit'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 
@@ -38,7 +39,7 @@ export default function UpdateCategory(props) {
     const Data = {
       "name": values.nameCategory,
       "isDeleted": false,
-      'groupId': values.typeCategory
+      'groupId': 1
     }
     fetch(url, {
       method: 'PUT',
@@ -49,25 +50,25 @@ export default function UpdateCategory(props) {
       },
       body: JSON.stringify(Data)
     })
-      .then(response => response.json())
-      .then(data => props.onUpdateCategory())
+      .then(response => checkApiStatus(response))
+      .then(() => {
+        props.onUpdateCategory()
+        handleClose()
+      })
   }
 
 
   const validationSchema = Yup.object({
     nameCategory: Yup.string().required('Required'),
-    typeCategory: Yup.string().required('Required'),
   })
 
   const initialValues = {
     nameCategory: data.name,
-    typeCategory: data.group.id
   }
 
   const onSubmit = (values) => {
     const parsedValues = {
       ...values,
-      typeCategory: parseInt(values.typeCategory)
     }
     UpdateCategory(parsedValues)
     // formik.resetForm()
@@ -75,8 +76,8 @@ export default function UpdateCategory(props) {
 
   return (
     <div>
-      <Button variant="contained" color="primary" startIcon={<UpdateIcon />} onClick={handleOpen}>
-        Update
+      <Button color="primary" onClick={handleOpen}>
+        <EditIcon></EditIcon>
       </Button>
       <Modal
         open={open}
@@ -89,17 +90,12 @@ export default function UpdateCategory(props) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 800,
-          height: 400,
           bgcolor: 'background.paper',
           border: '1px solid #000',
           boxShadow: 24,
           p: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-
+          overflow: 'auto',
+          width: '50%',
         }}>
           <h3 className='titleOfForm'>UPDATE CATEGORY</h3>
           <div style={{
@@ -114,7 +110,7 @@ export default function UpdateCategory(props) {
               {({ handleChange, values }) => (
                 <Form>
                   <div className='row'>
-                    <div className='col-6'>
+                    <div className='col'>
                       <TextField
                         id="nameCategory"
                         name="nameCategory"
@@ -123,23 +119,6 @@ export default function UpdateCategory(props) {
                         onChange={handleChange}
                         sx={{ width: '100%' }}
                       />
-                    </div>
-                    <div className='col-6'>
-                      <FormControl sx={{ width: '100%' }}>
-                        <InputLabel id="typeCategory-label">Type</InputLabel>
-                        <Select
-                          labelId="typeCategory-label"
-                          id="typeCategory"
-                          name="typeCategory"
-                          value={values.typeCategory}
-                          onChange={handleChange}
-                          label="Type"
-                        >
-                          {dataType && dataType.map((data) => (
-                            <MenuItem key={data.id} value={data.id}>{data.name}</MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
                     </div>
                     <div>
                       <Button

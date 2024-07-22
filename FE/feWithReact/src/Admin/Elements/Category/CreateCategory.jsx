@@ -4,7 +4,8 @@ import SendIcon from '@mui/icons-material/Send'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 import Modal from '@mui/material/Modal'
-import { createApi } from '../../../Auth/AuthFunction'
+import CancelIcon from '@mui/icons-material/Cancel';
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
 export default function CreateCategory(props) {
 	const [dataType, setDataType] = useState(null)
 	const [data, setData] = useState(null)
@@ -33,7 +34,6 @@ export default function CreateCategory(props) {
 
 	const validationSchema = Yup.object({
 		nameCategory: Yup.string().required('Required'),
-		typeCategory: Yup.string().required('Required'),
 	})
 
 	const initialValues = {
@@ -55,7 +55,6 @@ export default function CreateCategory(props) {
 		const url = createApi('Category/CreateCategory')
 		const data = {
 			name: Values.nameCategory,
-			groupId: Values.typeCategory
 		}
 		fetch(url, {
 			method: 'POST',
@@ -66,12 +65,13 @@ export default function CreateCategory(props) {
 			},
 			body: JSON.stringify(data)
 		})
-			.then(response => response.json())
+			.then(response => checkApiStatus(response))
 			.then(responseData => {
 				setData(responseData)
+				setOpen(false)
+				setData(null)
 				props.onCategoryCreated()
-			}
-			)
+			})
 	}
 
 	return (
@@ -93,16 +93,12 @@ export default function CreateCategory(props) {
 					top: '50%',
 					left: '50%',
 					transform: 'translate(-50%, -50%)',
-					width: 800,
-					height: 400,
 					bgcolor: 'background.paper',
 					border: '1px solid #000',
 					boxShadow: 24,
 					p: 4,
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'center',
-					alignContent: 'center'
+					overflow: 'auto',
+					width: '50%',
 				}}>
 					<h3 className='titleOfForm'>CREATE CATEGORY</h3>
 					<div>
@@ -114,7 +110,7 @@ export default function CreateCategory(props) {
 							{({ handleChange, values }) => (
 								<Form>
 									<div className='row'>
-										<div className='col-6'>
+										<div className='col'>
 											<Field
 												name="nameCategory"
 												as={TextField}
@@ -127,39 +123,28 @@ export default function CreateCategory(props) {
 												{msg => <Alert severity="error">{msg}</Alert>}
 											</ErrorMessage>
 										</div>
-										<div className='col-6'>
-											<FormControl sx={{ width: '100%' }}>
-												<InputLabel id="typeCategory-label">Type</InputLabel>
-												<Field
-													name="typeCategory"
-													as={Select}
-													labelId="typeCategory-label"
-													onChange={handleChange}
-													value={values.typeCategory}
-													style={{ width: '100%' }}
-													label="Type"
-												>
-													{dataType && dataType.map((data) => (
-														<MenuItem key={data.id} value={data.id}>{data.name}</MenuItem>
-													))}
-												</Field>
-												<ErrorMessage name="typeCategory">
-													{msg => <Alert severity="error">{msg}</Alert>}
-												</ErrorMessage>
-											</FormControl>
-										</div>
-										<div>
+										<div className='formSubmit'>
 											<Button
+												fullWidth
 												variant="contained"
 												color="primary"
-												startIcon={<SendIcon />}
 												type="submit"
 												sx={{
-													width: '100%',
-													marginTop: '25px',
+													margin: '5px',
 												}}
 											>
-												Send
+												Save
+											</Button>
+											<Button
+												fullWidth
+												variant="contained"
+												color="error"
+												onClick={handleClose}
+												sx={{
+													margin: '5px',
+												}}
+											>
+												close
 											</Button>
 										</div>
 									</div>

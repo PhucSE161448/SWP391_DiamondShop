@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, Alert } from '@mui/material'
-import SendIcon from '@mui/icons-material/Send'
-import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
+import React, { useState, } from 'react'
+import { TextField, Button, Box, Alert } from '@mui/material'
+import { Form, Formik, Field, ErrorMessage, } from 'formik'
 import * as Yup from 'yup'
 import Modal from '@mui/material/Modal'
-import { createApi } from '../../../Auth/AuthFunction'
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
 export default function CreatePayment(props) {
-  const [responseStatus, setResponseStatus] = useState(null)
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
-    setResponseStatus(null)
   }
 
   const validationSchema = Yup.object({
@@ -43,11 +40,9 @@ export default function CreatePayment(props) {
       body: JSON.stringify(data)
     })
       .then(response => {
-        setResponseStatus(response.status)
-        return response.json()
-      })
-      .then(responseData => {
+        checkApiStatus(response)
         props.onPaymentCreated()
+        handleClose()
       })
   }
 
@@ -70,18 +65,14 @@ export default function CreatePayment(props) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 800,
-          height: 400,
           bgcolor: 'background.paper',
           border: '1px solid #000',
           boxShadow: 24,
           p: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignContent: 'center'
+          width: '50%',
+          overflow: 'auto'
         }}>
-          <h3 className='titleOfForm'>CREATE TYPE</h3>
+          <h3 className='titleOfForm'>CREATE PAYMENT</h3>
           <div>
             <Formik
               initialValues={initialValues}
@@ -104,30 +95,34 @@ export default function CreatePayment(props) {
                         {msg => <Alert severity="error">{msg}</Alert>}
                       </ErrorMessage>
                     </div>
-
-                    <div>
+                    <div className='formSubmit'>
                       <Button
+                        fullWidth
                         variant="contained"
                         color="primary"
-                        startIcon={<SendIcon />}
                         type="submit"
                         sx={{
-                          width: '100%',
-                          marginTop: '25px',
+                          margin: '5px'
                         }}
                       >
-                        Send
+                        save
+                      </Button>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        color="error"
+                        sx={{
+                          margin: '5px'
+                        }}
+                        onClick={handleClose}
+                      >
+                        Cancel
                       </Button>
                     </div>
                   </div>
                 </Form>
               )}
             </Formik>
-          </div>
-          <div>
-            {responseStatus && (responseStatus.toString().startsWith('2')
-              ? <div>Create success</div>
-              : <div>Create failed</div>)}
           </div>
         </Box>
       </Modal>

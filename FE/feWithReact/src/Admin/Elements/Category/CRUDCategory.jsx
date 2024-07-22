@@ -6,18 +6,22 @@ import UpdateIcon from '@mui/icons-material/Update'
 import CreateCategory from './CreateCategory'
 import { amber } from '@mui/material/colors'
 import ButtonDeleteCategory from './ButtonDeleteCategory'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, CircularProgress } from '@mui/material'
 import { createApi } from '../../../Auth/AuthFunction'
 import UpdateCategory from './UpdateCategory'
-
+import { useSearchParams, useNavigate } from 'react-router-dom'
 export default function CRUDCategory() {
+	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
+	const pageNumber = searchParams.get('pageNumber') - 1 || 0
 	const [data, setData] = useState(null)
-	const [page, setPage] = useState(0)
+	const [page, setPage] = useState(pageNumber)
 	const [rowsPerPage, setRowsPerPage] = useState(9)
 	const [triggerRead, setTriggerRead] = useState(false);
 
 	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
+		navigate(`/admin/category?pageNumber=${newPage + 1}`)
+		setPage(newPage)
 	}
 
 	const handleChangeRowsPerPage = (event) => {
@@ -45,68 +49,79 @@ export default function CRUDCategory() {
 		Read()
 	}, [triggerRead])
 
+	const tableHead = ['#', 'Name', 'Status', 'Action']
 	return (
 		<>
-			<div className='formCRUDContainer'>
-				<TableContainer>
-					<Table>
-						<TableHead>
-							<TableRow>
-								<TableCell>#</TableCell>
-								<TableCell>Name</TableCell>
-								<TableCell>Type</TableCell>
-								<TableCell></TableCell>
-								<TableCell><CreateCategory onCategoryCreated={() => setTriggerRead(prev => !prev)} /></TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{
-								Array.isArray(data) && data
-									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((data, index) => (
-										<TableRow key={data.id}>
-											<TableCell>{index + 1 + page * rowsPerPage}</TableCell>
-											<TableCell style={{
-												maxWidth: '11vw',
-												minWidth: '11vw'
-											}}>
-												{data.name}
-											</TableCell>
-											<TableCell style={{
-												maxWidth: '11vw',
-												minWidth: '11vw'
-											}}>
-												{data.group.name}
-											</TableCell>
-											<TableCell style={{
-												maxWidth: '11vw',
-												minWidth: '11vw'
-											}}>
-												<ButtonDeleteCategory id={data.id} isDeleted={data.isDeleted}></ButtonDeleteCategory>
-											</TableCell>
-											<TableCell>
-												<UpdateCategory data={data} onUpdateCategory={() => setTriggerRead(prev => !prev)}></UpdateCategory>
-											</TableCell>
-										</TableRow>
-									))
-							}
-						</TableBody>
-					</Table>
-				</TableContainer>
-				<TablePagination
-					rowsPerPageOptions={[9]}
-					component="div"
-					count={Array.isArray(data) && (data.length)}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-end',
-					}}
-				/>
-			</div >
+			{data ? (
+				<div className='formCRUDContainer'>
+					<div>
+						<CreateCategory onCategoryCreated={() => setTriggerRead(prev => !prev)} />
+					</div>
+					<TableContainer>
+						<Table>
+							<TableHead>
+								<TableRow>
+									{tableHead.map((head, index) => (
+										<TableCell key={index} sx={{
+											fontWeight: 'bold',
+											fontSize: '20px',
+										}}>{head}</TableCell>
+									))}
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{
+									Array.isArray(data) && data
+										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((data, index) => (
+											<TableRow key={data.id}>
+												<TableCell>{index + 1 + page * rowsPerPage}</TableCell>
+												<TableCell style={{
+													maxWidth: '11vw',
+													minWidth: '11vw'
+												}}>
+													{data.name}
+												</TableCell>
+												<TableCell style={{
+													maxWidth: '11vw',
+													minWidth: '11vw'
+												}}>
+													<ButtonDeleteCategory id={data.id} isDeleted={data.isDeleted}></ButtonDeleteCategory>
+												</TableCell>
+												<TableCell>
+													<UpdateCategory data={data} onUpdateCategory={() => setTriggerRead(prev => !prev)}></UpdateCategory>
+												</TableCell>
+											</TableRow>
+										))
+								}
+							</TableBody>
+						</Table>
+					</TableContainer>
+					<TablePagination
+						rowsPerPageOptions={[9]}
+						component="div"
+						count={Array.isArray(data) && (data.length)}
+						rowsPerPage={rowsPerPage}
+						page={page}
+						onPageChange={handleChangePage}
+						onRowsPerPageChange={handleChangeRowsPerPage}
+						sx={{
+							display: 'flex',
+							justifyContent: 'flex-end',
+						}}
+					/>
+				</div >
+			) : (
+				<div style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: '50vh',
+					width: '100%',
+				}}>
+					<CircularProgress />
+				</div>
+			)}
 		</>
 	)
 }

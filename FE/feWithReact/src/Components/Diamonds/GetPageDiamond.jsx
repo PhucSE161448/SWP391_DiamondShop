@@ -1,17 +1,22 @@
 import { Box, Grid, Container } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
   Stack, Pagination, CardMedia, FormControl, InputLabel,
-  Select, MenuItem, Slider, Button
+  Select, MenuItem, Slider, Button, TextField
 } from '@mui/material'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { debounce, set } from 'lodash';
+import { Link } from 'react-router-dom'
 import { createApi } from '../../Auth/AuthFunction'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import CircularProgress from '@mui/material/CircularProgress'
 export default function GetPageDiamond() {
-  const { PageNumberFromURL } = useParams()
-  const [PageNumber, setPageNumber] = useState(PageNumberFromURL && parseInt(PageNumberFromURL))
+  const token = localStorage.getItem('token')
+  const [searchParams] = useSearchParams()
+  const [PageNumber, setPageNumber] = useState(searchParams.get('pageNumber'))
+  const [nameDiamond, setNameDiamond] = useState(searchParams.get('name'))
   const [PageSize, setPageSize] = useState(12)
   const [StartPrice, setStartPrice] = useState(null)
   const [EndPrice, setEndPrice] = useState(null)
@@ -28,9 +33,30 @@ export default function GetPageDiamond() {
   const [valueClarity, setValueClarity] = useState([0, dataClarity.length - 1])
   const [valueCut, setValueCut] = useState([0, dataCut.length - 1])
   const navigate = useNavigate()
-  const [order, setOrder] = useState({ OrderByDesc: null, SortBy: '' });
+  const [order, setOrder] = useState({ OrderByDesc: searchParams.get('OrderBy'), SortBy: '' })
+
+  const handleChangeNameDiamond = (value) => {
+    setData(null)
+    setNameDiamond(value)
+    navigate(`/diamondPage?pageNumber=1&OrderBy=${order.OrderByDesc}&name=${value}`)
+    setTriggerRead(prev => !prev)
+  }
+
+  const debounce = (func, delay) => {
+    let debounceTimer
+    return function () {
+      const context = this
+      const args = arguments
+      clearTimeout(debounceTimer)
+      debounceTimer = setTimeout(() => func.apply(context, args), delay)
+    }
+  }
+
+  const debouncedHandleChangeNameDiamond = debounce(handleChangeNameDiamond, 500)
 
   const handleChangeOrder = (value, type) => {
+    setData(null)
+    navigate(`/diamondPage?pageNumber=1&OrderBy=${value}&name=${nameDiamond}`)
     if (value === null) {
       setOrder({ OrderByDesc: null, SortBy: '' })
     } else {
@@ -39,7 +65,7 @@ export default function GetPageDiamond() {
     }
   }
 
-  const submitForm = async (data) => {
+  const addToCart = async (data) => {
     const body = {
       id: data.id,
       quantity: 1,
@@ -56,31 +82,30 @@ export default function GetPageDiamond() {
     })
   }
 
-  const handleChangeColor = (newValue) => {
-    setValueColor(newValue)
-    setTriggerRead(prev => !prev)
-  }
+  const handleChangeColor = debounce((newValue) => {
+    setValueColor(newValue);
+    setTriggerRead(prev => !prev);
+  }, 500)
 
-  const handleChangeClarity = (newValue) => {
+  const handleChangeClarity = debounce((newValue) => {
     setValueClarity(newValue)
     setTriggerRead(prev => !prev)
-  }
+  }, 500)
 
-  const handleChangeCut = (newValue) => {
+  const handleChangeCut = debounce((newValue) => {
     setValueCut(newValue)
     setTriggerRead(prev => !prev)
-  }
+  }, 500)
 
-  const handleChangeCaratWeight = (newValue) => {
-    setDataCaratWeightStart(Number(newValue[0]).toFixed(1));
-    setDataCaratWeightEnd(Number(newValue[1]).toFixed(1));
+  const handleChangeCaratWeight = debounce((newValue) => {
+    setDataCaratWeightStart(Number(newValue[0]).toFixed(1))
+    setDataCaratWeightEnd(Number(newValue[1]).toFixed(1))
     setTriggerRead(prev => !prev)
-  }
+  }, 500)
 
   const handlePageChange = (event, value) => {
-    navigate(`/diamondPage/${value}`);
+    navigate(`/diamondPage?pageNumber=${value}&OrderBy=${order.OrderByDesc}`)
     setPageNumber(value)
-
     setTriggerRead(prev => !prev)
   }
 
@@ -101,6 +126,7 @@ export default function GetPageDiamond() {
       ...(valueCut !== null && { Cuts: selectedCut }),
       ...(dataCaratWeightStart !== null && { StartCaratWeight: dataCaratWeightStart }),
       ...(dataCaratWeightEnd !== null && { EndCaratWeight: dataCaratWeightEnd }),
+      ...(nameDiamond !== null && { Name: nameDiamond }),
     },
   }
 
@@ -116,7 +142,10 @@ export default function GetPageDiamond() {
 
   const styleSlider = {
     color: '#04376a',
-    width: '400px',
+    width: '20vw',
+    '@media (max-width: 1200px)': {
+      width: '80vw',
+    },
     '& .MuiSlider-thumb': {
       height: 18,
       width: 18,
@@ -157,22 +186,24 @@ export default function GetPageDiamond() {
       Object.entries(params.queryDTO).forEach(([key, value]) => {
         if (key === 'Colors' && Array.isArray(value)) { // Check if value is an array
           value.forEach((id) => { // Iterate over the array
-            queryString.append(`${key}`, id);
+            queryString.append(`${key}`, id)
           })
         } else if (key === 'Clarities' && Array.isArray(value)) {
           value.forEach((id) => {
-            queryString.append(`${key}`, id);
+            queryString.append(`${key}`, id)
           })
         } else if (key === 'Cuts' && Array.isArray(value)) {
           value.forEach((id) => {
-            queryString.append(`${key}`, id);
+            queryString.append(`${key}`, id)
           })
         } else if ((key === 'StartPrice' || key === 'EndPrice') && !Array.isArray(value)) {
-          queryString.append(`${key}`, value);
+          queryString.append(`${key}`, value)
         } else if ((key === 'StartCaratWeight' || key === 'EndCaratWeight') && !Array.isArray(value)) {
-          queryString.append(`${key}`, value);
+          queryString.append(`${key}`, value)
+        } else if (key === 'Name') {
+          queryString.append(`${key}`, value)
         } else {
-          queryString.append(`queryDTO.${key}`, value);
+          queryString.append(`queryDTO.${key}`, value)
         }
       })
       const url = createApi(`Diamond/GetPagedDiamonds?${queryString.toString()}`)
@@ -207,6 +238,7 @@ export default function GetPageDiamond() {
     <div style={{
       background: 'url(https://img.freepik.com/free-vector/blue-white-crystal-textured-background_53876-85226.jpg?w=1380&t=st=1719599020~exp=1719599620~hmac=e182c45295cca98949de853e8f72341b687ed809b89663e38e1d78cbaec7314c)',
       backgroundSize: 'cover',
+      minHeight: '100vh',
     }}>
       <Grid container spacing={2} sx={{
         paddingTop: '20px',
@@ -216,7 +248,7 @@ export default function GetPageDiamond() {
         justifyContent: 'center',
         width: '100%',
       }}>
-        <Grid xs={12} sm={12} md={4} sx={{
+        <Grid xs={12} sm={12} md={3} sx={{
           margin: '20px',
         }}>
           <FormControl fullWidth>
@@ -233,11 +265,10 @@ export default function GetPageDiamond() {
             >
               <MenuItem value={false}>Ascending</MenuItem>
               <MenuItem value={true}>Descending</MenuItem>
-              <MenuItem value={null}>Default</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={12} sm={12} md={4} sx={{
+        <Grid xs={12} sm={12} md={3} sx={{
           margin: '20px',
         }}>
           <FormControl fullWidth>
@@ -265,6 +296,21 @@ export default function GetPageDiamond() {
             </Select>
           </FormControl>
         </Grid>
+        <Grid xs={12} sm={12} md={3} sx={{
+          margin: '20px',
+        }}>
+          <FormControl fullWidth>
+            <TextField
+              label="Search"
+              variant="outlined"
+              onChange={(e) => debouncedHandleChangeNameDiamond(e.target.value)}
+              sx={{
+                width: '100%',
+              }}
+            >
+            </TextField>
+          </FormControl>
+        </Grid>
 
       </Grid>
       <Grid container spacing={2} sx={{
@@ -283,12 +329,14 @@ export default function GetPageDiamond() {
             </h3>
           </Grid>
           <Grid>
-            <Box width={420} sx={{ padding: 0 }}>
+            <Box sx={{ padding: 0 }}>
               <Slider
                 min={0.1}
                 max={10.2}
                 value={[dataCaratWeightStart, dataCaratWeightEnd]}
-                onChange={(_, newValue) => handleChangeCaratWeight(newValue)}
+                onChange={(_, newValue) => {
+                  handleChangeCaratWeight(newValue)
+                }}
                 aria-labelledby="range-slider"
                 getAriaValueText={(value) => `${Number(value).toFixed(1)}`}
                 valueLabelFormat={(value) => `${Number(value).toFixed(1)}`}
@@ -311,7 +359,7 @@ export default function GetPageDiamond() {
             </h3>
           </Grid>
           <Grid>
-            <Box width={420} sx={{ padding: 0 }}>
+            <Box sx={{ padding: 0 }}>
               <Slider
                 min={0}
                 max={dataColors.length - 1}
@@ -334,7 +382,7 @@ export default function GetPageDiamond() {
             }}>Clarity</h3>
           </Grid>
           <Grid>
-            <Box width={420} sx={{ padding: 0 }}>
+            <Box sx={{ padding: 0 }}>
               <Slider
                 min={0}
                 max={dataClarity.length - 1}
@@ -357,7 +405,7 @@ export default function GetPageDiamond() {
             }}>Cut</h3>
           </Grid>
           <Grid>
-            <Box width={420} sx={{
+            <Box sx={{
               padding: 0
             }}>
               <Slider
@@ -385,20 +433,20 @@ export default function GetPageDiamond() {
         <Box sx={{
         }}>
           <Grid container columnSpacing={9} rowSpacing={6} sx={{ width: '80vw' }} columns={{ xs: 12, sm: 8, md: 12 }}>
-            {data && data.map((item, index) =>
+            {data ? data.map((item, index) =>
               item.isDeleted ? null : (
                 <Grid item xs={12} sm={4} md={3} key={index} sx={{
                   width: '15vw',
                 }} >
 
                   <Card sx={{
+                    height: '100%',
                     '&:hover': {
                       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
                       cursor: 'pointer',
                       transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out',
                       '&:hover': {
                         boxShadow: '0 0 10px 5px rgba(0, 0, 0, 0.8)',
-                        transform: 'scale(1.2)',
                       }
                     }
                   }}>
@@ -406,10 +454,13 @@ export default function GetPageDiamond() {
                       to={`/diamond/detail/${item.id}`}
                       style={{
                         textDecoration: 'none',
-                        color: 'black'
+                        color: 'black',
+                        height: '100%',
                       }}
                     >
-                      <CardContent>
+                      <CardContent sx={{
+                        height: '85%',
+                      }}>
                         {item.images && item.images[0] && item.images[0].urlPath ? (
                           <>
                             <CardMedia
@@ -419,6 +470,8 @@ export default function GetPageDiamond() {
                               sx={{
                                 width: '100%',
                                 borderRadius: '20px',
+                                height: 'auto',
+                                objectFit: 'cover'
                               }}
                             />
                           </>
@@ -438,35 +491,73 @@ export default function GetPageDiamond() {
                           Price: {item.price.toLocaleString()}$
                         </p>
                       </CardContent>
-
                     </Link>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      width: '100%',
-                    }}>
-                      <Button fullWidth onClick={() => submitForm(item)} sx={{
-                        color: 'black',
+                    {token ? (
+                      <div style={{
                         display: 'flex',
-                        justifyContent: 'center',
-                        height: '50px',
-                        backgroundColor: '#ad2a36',
-                        '&:hover': {
-                          backgroundColor: '#ad2a36',
-                        }
-                      }} size='large'
-                        variant='contained'
-                      >
-                        <ShoppingCartIcon fontSize='large' sx={{
+                        alignItems: 'flex-end',
+                        width: '100%',
+                        height: '15%',
+                      }}>
+                        <Button fullWidth onClick={() => addToCart(item)} sx={{
+                          color: 'black',
+                          display: 'flex',
+                          justifyContent: 'center',
                           height: '50px',
-                          color: '#fff',
-                          fontSize: '70px',
-                        }}></ShoppingCartIcon>
-                      </Button>
-                    </div>
+                          backgroundColor: '#ad2a36',
+                          '&:hover': {
+                            backgroundColor: '#ad2a36',
+                          }
+                        }} size='large'
+                          variant='contained'
+                        >
+                          <ShoppingCartIcon fontSize='large' sx={{
+                            height: '50px',
+                            color: '#fff',
+                            fontSize: '70px',
+                          }}></ShoppingCartIcon>
+                        </Button>
+                      </div>
+                    ) : (
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'flex-end',
+                        width: '100%',
+                        height: '15%',
+                      }}>
+                        <Button fullWidth onClick={() => navigate('/login')} sx={{
+                          color: 'black',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          height: '50px',
+                          backgroundColor: '#ad2a36',
+                          '&:hover': {
+                            backgroundColor: '#ad2a36',
+                          }
+                        }} size='large'
+                          variant='contained'
+                        >
+                          <ShoppingCartIcon fontSize='large' sx={{
+                            height: '50px',
+                            color: '#fff',
+                            fontSize: '70px',
+                          }}></ShoppingCartIcon>
+                        </Button>
+                      </div>
+                    )}
                   </Card>
                 </Grid>
               )
+            ) : (
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '50vh',
+                width: '100%',
+              }}>
+                <CircularProgress />
+              </div>
             )}
           </Grid>
         </Box>

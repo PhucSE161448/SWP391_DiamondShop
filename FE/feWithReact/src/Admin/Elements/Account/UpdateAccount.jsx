@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Modal, Box, TextField, Select, InputLabel, MenuItem, styled, FormControl } from '@mui/material'
+import { Button, Modal, Box, TextField, Select, InputLabel, MenuItem,  FormControl } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
-import { amber } from '@mui/material/colors'
-import UpdateIcon from '@mui/icons-material/Update'
-import { createApi } from '../../../Auth/AuthFunction'
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
+import EditIcon from '@mui/icons-material/Edit'
 export default function UpdateAccount({ onClick, ...props }) {
 	const [idAccount, setIdAccount] = useState('')
 	const [nameAccount, setnameAccount] = useState('')
@@ -12,7 +11,6 @@ export default function UpdateAccount({ onClick, ...props }) {
 	const [genderAccount, setGenderAccount] = useState(null)
 	const [phoneAccount, setPhoneAccount] = useState('')
 	const [addressAccount, setAddressAccount] = useState('')
-	const [data, setData] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => {
@@ -23,15 +21,8 @@ export default function UpdateAccount({ onClick, ...props }) {
 		setGenderAccount(null)
 		setPhoneAccount('')
 		setAddressAccount('')
-		setData(null)
 	}
-	const UpdateButton = styled(Button)(({ theme }) => ({
-		color: theme.palette.getContrastText(amber[500]),
-		backgroundColor: amber[500],
-		'&:hover': {
-			backgroundColor: amber[700],
-		},
-	}))
+
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		updateAccount(idAccount, emailAccount, nameAccount, genderAccount, phoneAccount, addressAccount)
@@ -44,7 +35,6 @@ export default function UpdateAccount({ onClick, ...props }) {
 		setGenderAccount(null)
 		setPhoneAccount('')
 		setAddressAccount('')
-		setData(null)
 	}
 	function updateAccount(Id, Email, Name, Gender, Phone, Address) {
 		const url = createApi(`Account/UpdateUser/${Id}`)
@@ -64,9 +54,8 @@ export default function UpdateAccount({ onClick, ...props }) {
 				'Authorization': `Bearer ${localStorage.getItem('token')}`
 			},
 			body: JSON.stringify(data)
-		})
-			.then(responseData => {
-				setData(responseData)
+		}).then(response => checkApiStatus(response))
+			.then(() => {
 				props.onAccountUpdated()
 			})
 
@@ -117,9 +106,11 @@ export default function UpdateAccount({ onClick, ...props }) {
 	}
 	return (
 		<div>
-			<UpdateButton variant="contained" type="button" size="large"
+			<Button type="button" size="large"
 				onClick={() => { handleOpen(); onClick() }}
-				endIcon={<UpdateIcon></UpdateIcon>}>UPDATE</UpdateButton>
+			>
+				<EditIcon></EditIcon>
+			</Button>
 			<Modal open={open}
 				onClose={handleClose}
 				aria-labelledby="modal-modal-title"

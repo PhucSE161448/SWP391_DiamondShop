@@ -3,7 +3,8 @@ import { Button } from '@mui/material'
 import { Box, Modal, TextField, Container, Select, MenuItem, InputLabel, FormControl, Alert } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { AlertTitle } from '@mui/material'
-import { createApi } from '../../../Auth/AuthFunction'
+import EditIcon from '@mui/icons-material/Edit';
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
 import * as Yup from 'yup'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -20,8 +21,6 @@ export default function UpdateCertificate(props) {
   const dataCut = ["Excellent", "VeryGood", "Good", "Fair", "Poor"].reverse()
   const dataOrigin = ["GIA", "IGI", "AGS", "HRD", "EGL", "CGL"]
   const [dataCertificate, setDataCertificate] = useState(null)
-  const [responseStatus, setResponseStatus] = useState(null)
-  const [responseMessage, setResponseMessage] = useState(null)
   const ITEM_HEIGHT = 120;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -37,8 +36,6 @@ export default function UpdateCertificate(props) {
   }
   const handleClose = () => {
     setOpen(false)
-    setResponseMessage(null)
-    setResponseStatus(null)
   }
 
   useEffect(() => {
@@ -54,6 +51,7 @@ export default function UpdateCertificate(props) {
         .then(response => response.json())
         .then(responseData => {
           setDataCertificate(responseData)
+
         })
         .catch((error) => console.error('Error:', error))
     }
@@ -80,16 +78,11 @@ export default function UpdateCertificate(props) {
     dateOfIssue: dayjs(dataCertificate?.dateOfIssue).utc().add(7, 'hours') || '',
   }
 
-
-
   const onSubmit = (values) => {
     Create(values)
-    // formik.resetForm()
   }
 
-
   function Create(Values) {
-    console.log(Values)
     const url = createApi(`Certificate/UpdateCertificate/${props.data.id}`)
     const data = {
       reportNumber: Values.reportNumber,
@@ -109,18 +102,18 @@ export default function UpdateCertificate(props) {
       },
       body: JSON.stringify(data)
     })
-      .then(response => {
-        setResponseStatus(response.status)
-      })
-      .then(responseData => {
-        setResponseMessage('Update Certificate Failed')
+      .then(response => checkApiStatus(response))
+      .then(() => {
+        handleClose()
         props.onCertificateUpdated()
       })
   }
 
   return (
     <>
-      <Button onClick={handleOpen}>Update Certificate</Button>
+      <Button onClick={handleOpen}>
+        <EditIcon></EditIcon>
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -137,8 +130,7 @@ export default function UpdateCertificate(props) {
           boxShadow: 24,
           p: 4,
           overflow: 'auto',
-          height: '100vh',
-          width: '100vw',
+          width: '50%',
         }}>
           <h3 className='titleOfForm'>UPDATE CERTIFICATE</h3>
           <Container>
@@ -340,10 +332,10 @@ export default function UpdateCertificate(props) {
               }}
             </Formik> <br />
             <div>
-              {responseStatus && (responseStatus.toString().startsWith('2')
+              {/* {responseStatus && (responseStatus.toString().startsWith('2')
                 ? <Alert severity="success">
                   <AlertTitle>
-                    Create Certificate Successful
+                    Update Certificate Successful
                   </AlertTitle>
 
                 </Alert>
@@ -352,7 +344,7 @@ export default function UpdateCertificate(props) {
                     {responseMessage}
                   </AlertTitle>
 
-                </Alert>)}
+                </Alert>)} */}
             </div>
           </Container>
 
