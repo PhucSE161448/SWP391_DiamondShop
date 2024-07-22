@@ -10,8 +10,10 @@ import CheckIcon from '@mui/icons-material/Check'
 import './ProductDetail.css';
 import { FormControl } from '@mui/material'
 import { createApi } from '../../Auth/AuthFunction'
+import CircularProgress from '@mui/material/CircularProgress'
+import { useNavigate } from 'react-router-dom'
 export default function ProductDetail() {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const { id } = useParams()
   const [openSize, setOpenSize] = useState(false)
   const [productDetail, setProductDetail] = useState(null)
@@ -155,260 +157,276 @@ export default function ProductDetail() {
       backgroundSize: 'cover',
       minHeight: '100vh',
     }}>
-      <Container>
-        <div className='container-fluid' >
-          <div className='row displayDetail' style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}>
-            <div className='col' style={{
+      {productDetail ? (
+        <Container>
+          <div className='container-fluid' >
+            <div className='row displayDetail' style={{
               display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingTop: '5vh',
+              flexDirection: 'row',
             }}>
-              <div className='col'>
-                <div className='col' style={{
-                  paddingTop: '5vh',
-                }}>
-                  <img src={imageMain} style={{
-                    width: '100%', // Suitable for mobile
-                    maxWidth: '600px',
-                    borderRadius: '20px',
-                  }} />
-                </div>
-              </div>
-
-              <div style={{
+              <div className='col' style={{
                 display: 'flex',
-                overflowX: 'auto',
-                maxWidth: '650px',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingTop: '5vh',
               }}>
-                {productDetail?.images.length > 4 && (
-                  <Button onClick={handleUp}
-                    sx={{
-                      color: 'black',
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}>
-                    <ChevronLeftIcon />
-                  </Button>
-                )}
-                {productDetail?.images.slice(currentTopImageIndex, currentTopImageIndex + 4).map((image, index) => (
-                  <li style={{
-                    listStyle: 'none',
-                    '&:hover': {
-                      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)'
-                    }
-                  }} key={index}>
-                    <img src={image.urlPath} style={{
-                      width: '100px',
-                      maxWidth: '10vw',
-                      margin: '10px',
-                      cursor: 'pointer',
+                <div className='col'>
+                  <div className='col' style={{
+                    paddingTop: '5vh',
+                  }}>
+                    <img src={imageMain} style={{
+                      width: '100%', // Suitable for mobile
+                      maxWidth: '450px',
                       borderRadius: '20px',
-                      transition: 'opacity 0.5s ease', // Add this line
-                      opacity: image.urlPath === imageMain ? 1 : 0.5, // Adjust opacity based on selection
-                      ...(image.urlPath === imageMain ? {
-                        border: '3px solid #ffdc73',
-                        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-                      } : {}),
-                    }} onClick={() => handleImageSelect(image)} />
-                  </li>
-                ))}
-                {productDetail?.images.length > 4 && (
-                  <Button onClick={handleDown}
-                    sx={{
-                      color: 'black',
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}
-                    size="small">
-                    <ChevronRightIcon />
-                  </Button>
-                )}
+                    }} />
+                  </div>
+                </div>
+
+                <div style={{
+                  display: 'flex',
+                  overflowX: 'auto',
+                  maxWidth: '650px',
+                }}>
+                  {productDetail?.images.length > 4 && (
+                    <Button onClick={handleUp}
+                      sx={{
+                        color: 'black',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}>
+                      <ChevronLeftIcon />
+                    </Button>
+                  )}
+                  {productDetail?.images.slice(currentTopImageIndex, currentTopImageIndex + 4).map((image, index) => (
+                    <li style={{
+                      listStyle: 'none',
+                      '&:hover': {
+                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)'
+                      }
+                    }} key={index}>
+                      <img src={image.urlPath} style={{
+                        width: '100px',
+                        maxWidth: '10vw',
+                        margin: '10px',
+                        cursor: 'pointer',
+                        borderRadius: '20px',
+                        transition: 'opacity 0.5s ease', // Add this line
+                        opacity: image.urlPath === imageMain ? 1 : 0.5, // Adjust opacity based on selection
+                        ...(image.urlPath === imageMain ? {
+                          border: '3px solid #ffdc73',
+                          boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+                        } : {}),
+                      }} onClick={() => handleImageSelect(image)} />
+                    </li>
+                  ))}
+                  {productDetail?.images.length > 4 && (
+                    <Button onClick={handleDown}
+                      sx={{
+                        color: 'black',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                      size="small">
+                      <ChevronRightIcon />
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
 
-            <div className='col' style={{
-              margin: '1vh 1vw',
-              backgroundColor: 'rgba(0,0,0,0.1)',
-              borderRadius: '20px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-            }}>
-              <h1>{productDetail?.name}</h1>
-              <TableContainer sx={{
-                borderTop: '1px dashed black',
-                borderBottom: '1px dashed black',
-                width: 'auto',
+              <div className='col' style={{
+                margin: '1vh 1vw',
+                backgroundColor: 'rgba(0,0,0,0.1)',
+                borderRadius: '20px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
               }}>
-                <Table>
-                  <TableBody>
-                    {productDetail?.productParts.map((diamond, index) => (
-                      <TableRow key={index} >
-                        {diamond.isMain ? (
-                          <TableCell>
-                            <h4>Main Diamond: {diamond.diamond.name}</h4>
-                          </TableCell>
-                        ) : (
-                          <TableCell>
-                            <h4>Extra Diamond {diamond.diamond.name}</h4>
-                          </TableCell>
-                        )}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer><br />
-
-              <FormControl sx={{
-                width: '300px',
-              }}>
-                <div className='row'>
-                  <div>Size</div>
-                  <div className='col'>
-                    <div>
-                      {productDetail?.productSizes?.map((size, index) => (
-                        <Button
-                          key={index}
-                          variant="outlined"
-                          onClick={() => {
-                            handleSelectSize(size.size);
-                            const newPrice = size.price * selectedQuantity;
-                            setTotalPrice(newPrice);
-                          }}
-                          sx={{
-                            margin: '5px',
-                            color: selectedSize === size.size ? 'white' : 'black',
-                            backgroundColor: selectedSize === size.size ? '#ad2a36' : 'transparent',
-                            border: selectedSize === size.size ? '1px solid #ad2a36' : '1px solid black',
-                            height: '64px',
-                            borderRadius: '20px',
-                            '&:hover': {
-                              backgroundColor: '#ad2a36',
-                              color: 'white',
-                              border: '1px solid #ad2a36',
-                            }
-                          }}
-                        >
-                          {size.size}
-                        </Button>
+                <h1>{productDetail?.name}</h1>
+                <TableContainer sx={{
+                  borderTop: '1px dashed black',
+                  borderBottom: '1px dashed black',
+                  width: 'auto',
+                }}>
+                  <Table>
+                    <TableBody>
+                      {productDetail?.productParts.map((diamond, index) => (
+                        <TableRow key={index} >
+                          {diamond.isMain ? (
+                            <TableCell>
+                              <h4>Main Diamond: {diamond.diamond.name}</h4>
+                            </TableCell>
+                          ) : (
+                            <TableCell>
+                              <h4>Extra Diamond {diamond.diamond.name}</h4>
+                            </TableCell>
+                          )}
+                        </TableRow>
                       ))}
-                    </div> <br />
+                    </TableBody>
+                  </Table>
+                </TableContainer><br />
+
+                <FormControl sx={{
+                  width: '300px',
+                }}>
+                  <div className='row'>
+                    <div>Size</div>
+                    <div className='col'>
+                      <div>
+                        {productDetail?.productSizes?.map((size, index) => (
+                          <Button
+                            key={index}
+                            variant="outlined"
+                            onClick={() => {
+                              handleSelectSize(size.size);
+                              const newPrice = size.price * selectedQuantity;
+                              setTotalPrice(newPrice);
+                            }}
+                            sx={{
+                              margin: '5px',
+                              color: selectedSize === size.size ? 'white' : 'black',
+                              backgroundColor: selectedSize === size.size ? '#ad2a36' : 'transparent',
+                              border: selectedSize === size.size ? '1px solid #ad2a36' : '1px solid black',
+                              height: '64px',
+                              borderRadius: '20px',
+                              '&:hover': {
+                                backgroundColor: '#ad2a36',
+                                color: 'white',
+                                border: '1px solid #ad2a36',
+                              }
+                            }}
+                          >
+                            {size.size}
+                          </Button>
+                        ))}
+                      </div> <br />
+                    </div>
                   </div>
-                </div>
-                <div>
                   <div>
-                    <a onClick={handleOpen} style={{
-                      cursor: 'pointer',
-                      textDecoration: 'underline',
-                      fontSize: '20px',
-                    }}>How to Measure Ring Size</a>
+                    <div>
+                      <a onClick={handleOpen} style={{
+                        cursor: 'pointer',
+                        textDecoration: 'underline',
+                        fontSize: '20px',
+                      }}>How to Measure Ring Size</a>
+                    </div>
+                    <Modal
+                      open={openSize}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        bgcolor: 'background.paper',
+                        p: 4,
+                        overflow: 'auto',
+                      }}>
+                        <img src="https://www.alexmakina.com/Data/EditorFiles/alex/Blog%20G%C3%B6rsel/Ring%20Size%20Measurement%20Using%20Thread%20or%20Floss.jpg" alt="" />
+                      </Box>
+                    </Modal>
                   </div>
-                  <Modal
-                    open={openSize}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <Box sx={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      bgcolor: 'background.paper',
-                      p: 4,
-                      overflow: 'auto',
-                    }}>
-                      <img src="https://www.alexmakina.com/Data/EditorFiles/alex/Blog%20G%C3%B6rsel/Ring%20Size%20Measurement%20Using%20Thread%20or%20Floss.jpg" alt="" />
-                    </Box>
-                  </Modal>
-                </div>
-                {
-                  saleAllProduct ? (() => {
-                    const itemSale = salePriceProduct.find(is => is.productId === id)
-                    return (
-                      <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                      }}>
-                        <div>
-                          <h3 style={{
-                            textDecoration: 'line-through',
-                          }}>
-                            Price: {(
-                              totalPrice / (1 - ((itemSale?.discountPercentage || 0) + saleAllProductPercentage) / 100)
-                            ).toLocaleString()}$
-                          </h3>
+                  {
+                    saleAllProduct ? (() => {
+                      const itemSale = salePriceProduct.find(is => is.productId === id)
+                      return (
+                        <div style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}>
+                          <div>
+                            <h3 style={{
+                              textDecoration: 'line-through',
+                            }}>
+                              Price: {(
+                                totalPrice / (1 - ((itemSale?.discountPercentage || 0) + saleAllProductPercentage) / 100)
+                              ).toLocaleString()}$
+                            </h3>
+                          </div>
+                          <div>
+                            {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
+                          </div>
                         </div>
-                        <div>
-                          {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
-                        </div>
-                      </div>
-                    )
-                  })() : (() => {
-                    const itemSale = salePriceProduct.find(is => is.productId === id)
-                    if (!itemSale) return null
-                    return (
-                      <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                      }}>
-                        <div>
-                          <h3 style={{
-                            textDecoration: 'line-through',
-                          }}>
-                            Price: {(
-                              totalPrice / (1 - ((itemSale?.discountPercentage || 0) + saleAllProductPercentage) / 100)
-                            ).toLocaleString()}$
-                          </h3>
-                        </div>
-                        <div>
-                          {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
-                        </div>
+                      )
+                    })() : (() => {
+                      const itemSale = salePriceProduct.find(is => is.productId === id)
+                      if (!itemSale) return null
+                      return (
+                        <div style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}>
+                          <div>
+                            <h3 style={{
+                              textDecoration: 'line-through',
+                            }}>
+                              Price: {(
+                                totalPrice / (1 - ((itemSale?.discountPercentage || 0) + saleAllProductPercentage) / 100)
+                              ).toLocaleString()}$
+                            </h3>
+                          </div>
+                          <div>
+                            {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
+                          </div>
 
-                      </div>
-                    )
-                  })()
-                }
-                <div>
-                  <h3 style={{ color: '#183471' }}>{totalPrice.toLocaleString()} $</h3>
-                </div>
-                {token ? (
-                  <AddToCartButton
-                    type='submit'
-                    variant='contained'
-                    size='large'
-                    onClick={() => submitForm(data)}
-                  >
-                    Add to cart
-                  </AddToCartButton>
-                ) : (
-                  <h4 style={{ color: '#ad2a36' }}>
-                    Please login to add to cart
-                  </h4>
-                )}
-                {responseStatus ? (responseStatus.toString().startsWith('2') ? (
-                  <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-                    Add to cart successful
-                  </Alert>
-                ) : (
-                  <Alert severity="error">
-                    Add to cart failed
-                  </Alert>
-                )) : null}
-              </FormControl>
+                        </div>
+                      )
+                    })()
+                  }
+                  <div>
+                    <h3 style={{ color: '#183471' }}>{totalPrice.toLocaleString()} $</h3>
+                  </div>
+                  {token ? (
+                    <AddToCartButton
+                      type='submit'
+                      variant='contained'
+                      size='large'
+                      onClick={() => submitForm(data)}
+                    >
+                      Add to cart
+                    </AddToCartButton>
+                  ) : (
+                    <AddToCartButton
+                      type='submit'
+                      variant='contained'
+                      size='large'
+                      onClick={() => navigate('/login')}
+                    >
+                      Add to cart
+                    </AddToCartButton>
+                  )}
+                  {responseStatus ? (responseStatus.toString().startsWith('2') ? (
+                    <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+                      Add to cart successful
+                    </Alert>
+                  ) : (
+                    <Alert severity="error">
+                      Add to cart failed
+                    </Alert>
+                  )) : null}
+                </FormControl>
+              </div>
+              <br />
             </div>
-            <br />
-          </div>
-        </div >
-
-      </Container>
+          </div >
+        </Container>
+      ) : (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          width: '100%',
+        }}>
+          <CircularProgress />
+        </div>
+      )}
     </div>
 
   )

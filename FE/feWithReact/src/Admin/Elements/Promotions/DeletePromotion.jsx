@@ -2,10 +2,10 @@ import React from 'react'
 import { Button } from '@mui/material'
 import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
 
-export default function DeleteVoucher(props) {
+export default function DeletePromotion(props) {
 
-  const DeleteVoucher = (id) => {
-    const url = createApi(`Voucher/DeleteVoucher/${id}`)
+  const DeletePromotion = (id) => {
+    const url = createApi(`Promotion/DeletePromotion/${id}`)
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -15,11 +15,11 @@ export default function DeleteVoucher(props) {
       },
     }).then((response) => {
       checkApiStatus(response)
-      props.onVoucherDeleted()
+      props.onPromotionDeleted()
     })
   }
 
   return (
-    <Button onClick={() => DeleteVoucher(props.id)} variant='contained'>Delete</Button>
+    <Button onClick={() => DeletePromotion(props.id)} variant='contained'>Delete</Button>
   )
 }

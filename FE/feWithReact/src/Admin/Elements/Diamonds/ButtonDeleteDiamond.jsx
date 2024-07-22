@@ -18,9 +18,9 @@ export default function ButtonDeleteDiamond(props) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
-    }).then(response =>
+    }).then((response) => {
       props.onDiamondDeleted()
-    )
+    })
   }
   return (
     <>

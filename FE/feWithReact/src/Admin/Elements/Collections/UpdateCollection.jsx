@@ -2,26 +2,16 @@ import React, { useState } from 'react'
 import { Button, TextField, Modal, Box, Alert, Radio, FormControlLabel, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
-import SendIcon from '@mui/icons-material/Send'
-import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
-import CloseIcon from '@mui/icons-material/Close'
-import { createApi } from '../../../Auth/AuthFunction'
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
 import EditIcon from '@mui/icons-material/Edit';
 
 export default function UpdateCollection(props) {
-  console.log(props.id)
   const [open, setOpen] = useState(false)
-  const [displayStatus, setDisplayStatus] = useState(false)
-  const [responseCode, setResponseCode] = useState('')
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
-    setDisplayStatus(false)
-    setResponseCode('')
   }
-  const handleDisplay = () => setDisplayStatus(true)
-  const handleClear = () => setDisplayStatus(false)
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Required'),
@@ -51,20 +41,9 @@ export default function UpdateCollection(props) {
       body: JSON.stringify(data)
     })
       .then(response => {
-        setResponseCode(response.status);
-        if (response.status === 204 || response.headers.get("content-length") === "0") {
-          // No content to parse
-          return null;
-        } else {
-          return response.json();
-        }
-      })
-      .then(responseData => {
-        if (responseData) {
-          setResponseCode(responseData.status);
-        }
-        props.onCollectionUpdated()
+        checkApiStatus(response)
         handleClose()
+        props.onCollectionUpdated()
       })
       .catch(error => {
         console.error("Error parsing JSON:", error);
@@ -128,7 +107,6 @@ export default function UpdateCollection(props) {
                     sx={{
                       margin: '5px',
                     }}
-                    onClick={handleDisplay}
                   >
                     save
                   </Button>

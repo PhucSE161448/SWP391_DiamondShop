@@ -63,16 +63,20 @@ export default function ShowDetailsDiamond(props) {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 'auto',
             bgcolor: 'background.paper',
             border: '1px solid #000',
             boxShadow: 24,
             p: 4,
             width: '50%',
             overflow: 'auto'
-          }} className="row">
-            <h2>Diamond Details</h2>
-            <div className='col-6'>
+          }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
+              <h2>Diamond Details</h2>
+            </div>
+            <div>
               <p>Origin: {diamondDetails?.origin}</p>
               <p>Color: {diamondDetails?.color}</p>
               <p>Carat Weight: {diamondDetails?.caratWeight}</p>
@@ -82,15 +86,37 @@ export default function ShowDetailsDiamond(props) {
               <p>Price: ${diamondDetails?.price}</p>
               <p>Quantity: {diamondDetails?.quantity}</p>
             </div>
-            <div className='col-6'>
-              <h3>Images</h3>
+            <div>
               {diamondDetails?.images?.length > 0 ? (
                 diamondDetails.images.map(image => (
-                  <img key={image.id} src={image.urlPath} alt="Diamond" style={{ width: '100px', height: '100px' }} />
+                  <div
+                    style={{
+                      display: 'inline-block',
+                      margin: '10px',
+                    }}
+                  >
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}>
+                      <img key={image.id} src={image.urlPath} alt="Product" style={{ width: '150px' }} />
+                    </div>
+                  </div>
                 ))
               ) : (
                 <p>No images available.</p>
               )}
+            </div>
+            <div className='formSubmit' >
+              <Button type="button"
+                value="Clear" onClick={handleClose}
+                className='submitButton'
+                variant="contained" size="large" color="error"
+                sx={{
+                  margin: '5px',
+                }}>
+                Close
+              </Button>
             </div>
           </Box>
         </Container>

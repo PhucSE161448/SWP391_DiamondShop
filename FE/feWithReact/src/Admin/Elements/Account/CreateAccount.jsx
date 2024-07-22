@@ -3,6 +3,7 @@ import { Button, Modal, Box, TextField, Select, InputLabel, MenuItem, OutlinedIn
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import { createApi } from '../../../Auth/AuthFunction'
+import { checkApiStatus } from '../../../Auth/AuthFunction'
 export default function CreateAccount(props) {
 	const [nameAccount, setnameAccount] = useState('')
 	const [emailAccount, setEmailAccount] = useState('')
@@ -11,7 +12,6 @@ export default function CreateAccount(props) {
 	const [addressAccount, setAddressAccount] = useState('')
 	const [phoneAccount, setPhoneAccount] = useState('')
 	const [roleAccount, setRoleAccount] = useState(null)
-	const [dataAccount, setDataAccount] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => {
@@ -23,7 +23,6 @@ export default function CreateAccount(props) {
 		setPasswordAccount('')
 		setPhoneAccount('')
 		setRoleAccount(null)
-		setDataAccount(null)
 	}
 	const handleSubmit = (event) => {
 		event.preventDefault()
@@ -35,7 +34,6 @@ export default function CreateAccount(props) {
 		setPasswordAccount('')
 		setPhoneAccount('')
 		setRoleAccount(null)
-		setDataAccount(null)
 	}
 
 	const handleClear = () => {
@@ -46,7 +44,6 @@ export default function CreateAccount(props) {
 		setPasswordAccount('')
 		setPhoneAccount('')
 		setRoleAccount(null)
-		setDataAccount(null)
 	}
 
 	function CreateAccount(Email, Password, Name, Address, Gender, Phone, Role) {
@@ -68,9 +65,9 @@ export default function CreateAccount(props) {
 				'Authorization': `Bearer ${localStorage.getItem('token')}`
 			},
 			body: JSON.stringify(data)
-		}).then(response => response.json())
-			.then(responseData => {
-				setDataAccount(responseData)
+		}).then(response => checkApiStatus(response))
+			.then(() => {
+				handleClose()
 				props.onAccountCreated()
 			})
 	}
@@ -168,13 +165,6 @@ export default function CreateAccount(props) {
 
 									</div>
 								</div>
-								{
-									dataAccount ? (dataAccount.StatusCode === 400 ? (
-										<h3>{dataAccount.ErrorMessage}</h3>
-									) : (
-										<h3>Create successful</h3>
-									)) : null
-								}
 								<div className='formSubmit' >
 									<Button
 										type="submit"

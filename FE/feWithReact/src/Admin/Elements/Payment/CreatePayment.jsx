@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, Alert } from '@mui/material'
-import SendIcon from '@mui/icons-material/Send'
-import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
+import React, { useState, } from 'react'
+import { TextField, Button, Box, Alert } from '@mui/material'
+import { Form, Formik, Field, ErrorMessage, } from 'formik'
 import * as Yup from 'yup'
 import Modal from '@mui/material/Modal'
-import { createApi } from '../../../Auth/AuthFunction'
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
 export default function CreatePayment(props) {
-  const [responseStatus, setResponseStatus] = useState(null)
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
-    setResponseStatus(null)
   }
 
   const validationSchema = Yup.object({
@@ -43,10 +40,7 @@ export default function CreatePayment(props) {
       body: JSON.stringify(data)
     })
       .then(response => {
-        setResponseStatus(response.status)
-        return response.json()
-      })
-      .then(responseData => {
+        checkApiStatus(response)
         props.onPaymentCreated()
         handleClose()
       })
@@ -75,7 +69,6 @@ export default function CreatePayment(props) {
           border: '1px solid #000',
           boxShadow: 24,
           p: 4,
-          height: '100vh',
           width: '50%',
           overflow: 'auto'
         }}>
@@ -107,13 +100,12 @@ export default function CreatePayment(props) {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        startIcon={<SendIcon />}
                         type="submit"
                         sx={{
                           margin: '5px'
                         }}
                       >
-                        Send
+                        save
                       </Button>
                       <Button
                         fullWidth
@@ -131,11 +123,6 @@ export default function CreatePayment(props) {
                 </Form>
               )}
             </Formik>
-          </div>
-          <div>
-            {responseStatus && (responseStatus.toString().startsWith('2')
-              ? <div>Create success</div>
-              : <div>Create failed</div>)}
           </div>
         </Box>
       </Modal>

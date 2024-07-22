@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
-import { createApi } from '../../../Auth/AuthFunction'
+import { createApi, checkApiStatus } from '../../../Auth/AuthFunction'
 export default function ButtonDeleteDiamondCase(props) {
   const [isDeleted, setIsDeleted] = useState(props.isDeleted)
   const handleChange = (event) => {
@@ -18,7 +18,7 @@ export default function ButtonDeleteDiamondCase(props) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
-    })
+    }).then(response => checkApiStatus(response))
   }
   return (
     <>

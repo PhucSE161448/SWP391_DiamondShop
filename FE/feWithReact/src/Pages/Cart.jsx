@@ -15,10 +15,14 @@ export default function Cart() {
   const [cart, setCart] = useState([])
   const [cartId, setCartId] = useState([])
   const [totalPriceCalculate, setTotalPriceCalculate] = useState(0)
+  const [totalPriceCalculateDiscount, setTotalPriceCalculateDiscount] = useState(0)
   const [triggerRead, setTriggerRead] = useState(false)
   const token = localStorage.getItem('token')
   const dataTableHead = ['#', 'Product', 'Price', 'Quantity', 'Total amount', '']
+  const [dataPromotion, setDataPromotion] = useState(null)
+  const [discountPercentagePromotion, setDiscountPercentagePromotion] = useState(0)
   const [userDetail, setUserDetail] = useState(null)
+  const [userDetailPoint, setUserDetailPoint] = useState(null)
   const [id, setId] = useState(null)
   useEffect(() => {
     if (token === null) {
@@ -31,10 +35,9 @@ export default function Cart() {
   const [dataUser, setDataUser] = useState(null)
 
   useEffect(() => {
-    const getUserData = (id) => {
+    const getUserData = async (id) => {
       const url = createApi(`Account/GetAccountById/${id}`)
-      console.log(url)
-      fetch(url, {
+      await fetch(url, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -44,12 +47,41 @@ export default function Cart() {
       }
       ).then(response =>
         response.json()
-      ).then(responseJson =>
+      ).then(responseJson => {
         setDataUser(responseJson)
-      )
+        setUserDetailPoint(responseJson.point)
+      })
     }
     getUserData(id)
   }, [id])
+
+  useEffect(() => {
+    const url = createApi('Promotion/GetAllPromotion')
+    const fetchCart = async () => {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      }).then(response => response.json())
+        .then(data => {
+          setDataPromotion(data.sort((a, b) => b.point - a.point))
+        })
+    }
+    fetchCart()
+  }, [triggerRead])
+
+  useEffect(() => {
+    if (dataPromotion) {
+      for (let i = 0; i < dataPromotion.length; i++) {
+        if (userDetailPoint >= dataPromotion[i].point) {
+          setDiscountPercentagePromotion(dataPromotion[i].discountPercentage)
+          break
+        }
+      }
+    }
+  }, [dataPromotion, userDetailPoint])
   const navigate = useNavigate()
   const border = {
     padding: '0px',
@@ -109,69 +141,74 @@ export default function Cart() {
   }
 
   const handleDecrease = debounce(async (id) => {
-    const url = createApi(`Cart/Update/${id}?check=false`);
-    fetch(url, {
+    const url = createApi(`Cart/Update/${id}?check=false`)
+    await fetch(url, {
       method: 'PUT',
       headers: {
         'Accept': '*/*',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
     });
-    setTriggerRead(prev => !prev);
-  }, 1000);
+    setTriggerRead(prev => !prev)
+  }, 300)
 
   const handleDeleteCart = debounce(async (id) => {
-    const url = createApi(`Cart/Delete/${id}`);
-    fetch(url, {
+    const url = createApi(`Cart/Delete/${id}`)
+    await fetch(url, {
       method: 'DELETE',
       headers: {
         'Accept': '*/*',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
-    });
-    setTriggerRead(prev => !prev);
-  }, 1000);
+    })
+    setTriggerRead(prev => !prev)
+  }, 300)
 
   const handleIncrease = debounce(async (id) => {
-    const url = createApi(`Cart/Update/${id}?check=true`);
-    fetch(url, {
+    const url = createApi(`Cart/Update/${id}?check=true`)
+    await fetch(url, {
       method: 'PUT',
       headers: {
         'Accept': '*/*',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
     });
-    setTriggerRead(prev => !prev);
-  }, 1000);
+    setTriggerRead(prev => !prev)
+  }, 300)
 
   useEffect(() => {
     const calculatePrice = () => {
       let total = 0
-      cart.map((item) => {
+      cart.forEach((item) => {
         total += item.totalPrice
-        setTotalPriceCalculate(total)
       })
+      setTotalPriceCalculate(total)
+      setTotalPriceCalculateDiscount(total - total * discountPercentagePromotion / 100)
     }
     calculatePrice()
-  }, [cart])
+  }, [cart, triggerRead])
 
-  const confirmOrder = (values) => {
+  const confirmOrder = async (values) => {
     const data = {
-      totalPrice: totalPriceCalculate,
+      totalPrice: totalPriceCalculateDiscount,
       cartId: cartId,
       address: values.address,
       phone: values.phoneNumber,
     }
     const url = createApi('Order/CreateOrder')
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      },
-      body: JSON.stringify(data)
-    })
-      .then(navigate('/order'))
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(data)
+      })
+      navigate('/order')
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error)
+    }
   }
 
   const initialValues = {
@@ -183,7 +220,12 @@ export default function Cart() {
 
   const validationSchema = Yup.object({
     address: Yup.string().required('Required'),
-    phoneNumber: Yup.string().required('Required'),
+    phoneNumber: Yup
+      .string()
+      .required('Required')
+      .matches(/^[0-9]+$/, 'Must be only digits')
+      .min(10, 'Must be exactly 10 digits')
+      .max(10, 'Must be exactly 10 digits')
   })
 
   const onSubmit = (values) => {
@@ -460,9 +502,28 @@ export default function Cart() {
                                       </div>
                                     </div>
                                     <div>
-                                      <h3>
-                                        Total: {totalPriceCalculate.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
-                                      </h3>
+                                      {discountPercentagePromotion === 0 ? (
+                                        <h3>
+                                          Total: {(totalPriceCalculate).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                                        </h3>
+                                      ) : (
+                                        <>
+                                          <h3 style={{
+                                            textDecoration: 'line-through',
+                                          }}>
+                                            Total: {(totalPriceCalculate).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                                          </h3>
+                                          <h5>
+                                            Because you have {userDetailPoint?.toLocaleString()} points, so you have a {discountPercentagePromotion}% off
+                                          </h5>
+
+                                          <h3>
+                                            Total: {(totalPriceCalculateDiscount).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                                          </h3>
+                                        </>
+                                      )
+                                      }
+
                                     </div>
                                     <Button type="submit"
                                       className='submitButton'

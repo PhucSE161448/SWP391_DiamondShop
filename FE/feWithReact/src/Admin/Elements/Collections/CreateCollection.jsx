@@ -5,19 +5,12 @@ import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import Modal from '@mui/material/Modal'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
-import { createApi } from '../../../Auth/AuthFunction'
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
 export default function CreateDiamondCase(props) {
-	const [data, setData] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => {
 		setOpen(false)
-		setData(null)
-	}
-
-	const handleClear = () => {
-		// setName('')
-		// setData(null)
 	}
 
 	function Create(values) {
@@ -34,11 +27,12 @@ export default function CreateDiamondCase(props) {
 			},
 			body: JSON.stringify(data)
 		})
-			.then(response => response.json())
-			.then(responseData => {
-				setData(responseData)
+			.then(response => checkApiStatus(response))
+			.then(() => {
+				props.onCollectionCreated()
+				handleClose()
 			})
-		props.onCollectionCreated()
+
 	}
 	const validationSchema = Yup.object({
 		name: Yup.string().required('Required'),
@@ -72,7 +66,6 @@ export default function CreateDiamondCase(props) {
 					top: '50%',
 					left: '50%',
 					transform: 'translate(-50%, -50%)',
-					width: 400,
 					bgcolor: 'background.paper',
 					border: '1px solid #000',
 					boxShadow: 24,
@@ -110,21 +103,20 @@ export default function CreateDiamondCase(props) {
 										type="submit"
 										className='submitButton'
 										value="Submit" variant="contained"
-										size="large" endIcon={<SendIcon />}
+										size="large"
 										sx={{
 											margin: '5px',
 										}}>
-										Send
+										Save
 									</Button>
 									<Button type="button"
-										value="Clear" onClick={handleClear}
+										value="Clear" onClick={handleClose}
 										className='submitButton'
 										variant="contained" size="large" color="error"
-										endIcon={<CancelScheduleSendIcon />}
 										sx={{
 											margin: '5px',
 										}}>
-										Clear
+										Close
 									</Button>
 								</div>
 							</Form>

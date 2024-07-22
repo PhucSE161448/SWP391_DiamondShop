@@ -4,15 +4,14 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { Container, TableCell, Alert } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
-import { TextField } from '@mui/material'
-
 import { styled, } from '@mui/material'
 import Button from '@mui/material/Button'
-
 import { FormControl, } from '@mui/material'
 import { createApi } from '../../Auth/AuthFunction'
+import CircularProgress from '@mui/material/CircularProgress'
+import { useNavigate } from 'react-router-dom'
 export default function DiamondDetail() {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const { id } = useParams()
   const [DiamondDetail, setDiamondDetail] = useState(null)
   const [currentTopImageIndex, setCurrentTopImageIndex] = useState(0)
@@ -36,10 +35,6 @@ export default function DiamondDetail() {
     }
     getDetailData()
   }, [id])
-
-  const handleSelectQuantity = (quantity) => {
-    setSelectedQuantity(quantity)
-  }
 
   const data = {
     id: id,
@@ -119,163 +114,161 @@ export default function DiamondDetail() {
       backgroundSize: 'cover',
       minHeight: '100vh',
     }}>
-      <Container>
-        <div className='container-fluid' >
-          <div className='row displayDetail' style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}>
-            <div className='col' style={{
+      {DiamondDetail ? (
+        <Container>
+          <div className='container-fluid' >
+            <div className='row displayDetail' style={{
               display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingTop: '5vh',
+              flexDirection: 'row',
             }}>
-              <div className='col'>
-                <div className='col' style={{
-                  paddingTop: '5vh',
+              <div className='col' style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingTop: '5vh',
+              }}>
+                <div className='col'>
+                  <div className='col' style={{
+                    paddingTop: '5vh',
+                  }}>
+                    <img src={imageMain} style={{
+                      width: '100%', // Suitable for mobile
+                      maxWidth: '600px',
+                      borderRadius: '20px',
+                    }} />
+                  </div>
+                </div>
+
+                <div style={{
+                  display: 'flex',
+                  overflowX: 'auto',
+                  maxWidth: '650px',
                 }}>
-                  <img src={imageMain} style={{
-                    width: '100%', // Suitable for mobile
-                    maxWidth: '600px',
-                    borderRadius: '20px',
-                  }} />
+                  {DiamondDetail?.images.length > 4 && (
+                    <Button onClick={handleUp}
+                      sx={{
+                        color: 'black',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}>
+                      <ChevronLeftIcon />
+                    </Button>
+                  )}
+                  {DiamondDetail?.images.slice(currentTopImageIndex, currentTopImageIndex + 4).map((image, index) => (
+                    <li style={{
+                      listStyle: 'none',
+                      '&:hover': {
+                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)'
+                      }
+                    }} key={index}>
+                      <img src={image.urlPath} style={{
+                        width: '100px',
+                        maxWidth: '10vw',
+                        margin: '10px',
+                        cursor: 'pointer',
+                        borderRadius: '20px',
+                        transition: 'opacity 0.5s ease', // Add this line
+                        opacity: image.urlPath === imageMain ? 1 : 0.5, // Adjust opacity based on selection
+                        ...(image.urlPath === imageMain ? {
+                          border: '3px solid #ffdc73',
+                          boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+                        } : {}),
+                      }} onClick={() => handleImageSelect(image)} />
+                    </li>
+                  ))}
+                  {DiamondDetail?.images.length > 4 && (
+                    <Button onClick={handleDown}
+                      sx={{
+                        color: 'black',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                      size="small">
+                      <ChevronRightIcon />
+                    </Button>
+                  )}
                 </div>
               </div>
 
-              <div style={{
+              <div className='col' style={{
+                margin: '1vh 1vw',
+                backgroundColor: 'rgba(0,0,0,0.1)',
+                borderRadius: '20px',
                 display: 'flex',
-                overflowX: 'auto',
-                maxWidth: '650px',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
               }}>
-                {DiamondDetail?.images.length > 4 && (
-                  <Button onClick={handleUp}
-                    sx={{
-                      color: 'black',
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}>
-                    <ChevronLeftIcon />
-                  </Button>
-                )}
-                {DiamondDetail?.images.slice(currentTopImageIndex, currentTopImageIndex + 4).map((image, index) => (
-                  <li style={{
-                    listStyle: 'none',
-                    '&:hover': {
-                      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)'
-                    }
-                  }} key={index}>
-                    <img src={image.urlPath} style={{
-                      width: '100px',
-                      maxWidth: '10vw',
-                      margin: '10px',
-                      cursor: 'pointer',
-                      borderRadius: '20px',
-                      transition: 'opacity 0.5s ease', // Add this line
-                      opacity: image.urlPath === imageMain ? 1 : 0.5, // Adjust opacity based on selection
-                      ...(image.urlPath === imageMain ? {
-                        border: '3px solid #ffdc73',
-                        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-                      } : {}),
-                    }} onClick={() => handleImageSelect(image)} />
-                  </li>
-                ))}
-                {DiamondDetail?.images.length > 4 && (
-                  <Button onClick={handleDown}
-                    sx={{
-                      color: 'black',
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}
-                    size="small">
-                    <ChevronRightIcon />
-                  </Button>
-                )}
-              </div>
-            </div>
+                <h1>{DiamondDetail?.name}</h1>
+                <TableCell>
+                  <h5>Origin: {DiamondDetail?.origin}</h5>
+                </TableCell>
+                <TableCell>
+                  <h5>Carat weight: {DiamondDetail?.caratWeight}</h5>
+                </TableCell>
+                <TableCell>
+                  <h5>Clarity: {DiamondDetail?.clarity}</h5>
+                </TableCell>
+                <TableCell>
+                  <h5>Color: {DiamondDetail?.color}</h5>
+                </TableCell>
+                <TableCell>
+                  <h5>Cut: {DiamondDetail?.cut}</h5>
+                </TableCell>
+                <br />
 
-            <div className='col' style={{
-              margin: '1vh 1vw',
-              backgroundColor: 'rgba(0,0,0,0.1)',
-              borderRadius: '20px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-            }}>
-              <h1>{DiamondDetail?.name}</h1>
-              <TableCell>
-                <h5>Origin: {DiamondDetail?.origin}</h5>
-              </TableCell>
-              <TableCell>
-                <h5>Carat weight: {DiamondDetail?.caratWeight}</h5>
-              </TableCell>
-              <TableCell>
-                <h5>Clarity: {DiamondDetail?.clarity}</h5>
-              </TableCell>
-              <TableCell>
-                <h5>Color: {DiamondDetail?.color}</h5>
-              </TableCell>
-              <TableCell>
-                <h5>Cut: {DiamondDetail?.cut}</h5>
-              </TableCell>
-              <br />
-
-              <FormControl sx={{
-                width: '300px',
-              }}>
-                <h3 style={{ color: '#183471' }}>{price.toLocaleString()} $</h3>
-                {token ? (
-                  <AddToCartButton
-                    type='submit'
-                    variant='contained'
-                    size='large'
-                    onClick={() => submitForm(data)}
-                  >
-                    Add to cart
-                  </AddToCartButton>
+                <FormControl sx={{
+                  width: '300px',
+                }}>
+                  <h3 style={{ color: '#183471' }}>{price.toLocaleString()} $</h3>
+                  {token ? (
+                    <AddToCartButton
+                      type='submit'
+                      variant='contained'
+                      size='large'
+                      onClick={() => submitForm(data)}
+                    >
+                      Add to cart
+                    </AddToCartButton>
+                  ) : (
+                    <AddToCartButton
+                      type='submit'
+                      variant='contained'
+                      size='large'
+                      onClick={() => navigate('/login')}
+                    >
+                      Add to cart
+                    </AddToCartButton>
+                  )}
+                </FormControl>
+                {responseStatus ? (responseStatus.toString().startsWith('2') ? (
+                  <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+                    Add to cart successful
+                  </Alert>
                 ) : (
-                  <h4 style={{ color: '#ad2a36' }}>
-                    Please login to add to cart
-                  </h4>
-                )}
-              </FormControl>
-              {responseStatus ? (responseStatus.toString().startsWith('2') ? (
-                <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-                  Add to cart successful
-                </Alert>
-              ) : (
-                <Alert severity="error">
-                  Add to cart failed
-                </Alert>
-              )) : null}
+                  <Alert severity="error">
+                    Add to cart failed
+                  </Alert>
+                )) : null}
+              </div>
+              <br />
             </div>
-            <br />
           </div>
-          <div style={{
-            padding: '5vh',
-            textAlign: 'center',
-          }}>
-            <h2>Details</h2>
-            <p>
-              Hello
-            </p>
 
-            <h2>Descriptions</h2>
-            <p style={{
-              textAlign: 'justify',
-              fontSize: '1vw',
-            }}>
-              Authentic with a special design combining two types of white gold and yellow gold, creating a strong, masculine and luxurious style.
-              Exquisitely crafted to every detail and flexible according to needs: freely change the color/gold age and freely change the size of the main stone,
-              Authentic is a meaningful gift that brings success, luxury and shows class for gentlemen.
-            </p>
-          </div>
-        </div >
-
-      </Container>
+        </Container>
+      ) : (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          width: '100%',
+        }}>
+          <CircularProgress />
+        </div>
+      )}
     </div>
 
   )

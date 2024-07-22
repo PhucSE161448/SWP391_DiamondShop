@@ -5,19 +5,13 @@ import CloseIcon from '@mui/icons-material/Close'
 import Modal from '@mui/material/Modal'
 import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
-import { createApi } from '../../../Auth/AuthFunction'
+import { createApi, checkApiStatus } from '../../../Auth/AuthFunction'
 export default function CreateDiamondCase(props) {
 	const [data, setData] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => {
 		setOpen(false)
-		setData(null)
-	}
-
-	const handleClear = () => {
-		// setName('')
-		// setData(null)
 	}
 
 	function Create(values) {
@@ -36,17 +30,16 @@ export default function CreateDiamondCase(props) {
 			},
 			body: JSON.stringify(data)
 		})
-			.then(response => response.json())
-			.then(responseData => {
-				setData(responseData)
+			.then(response => {
+				checkApiStatus(response)
 				handleClose()
 				props.onDiamondCaseCreated()
 			})
 	}
 	const validationSchema = Yup.object({
-		name: Yup.string().required('Required'),
-		color: Yup.string().required('Required'),
-		material: Yup.string().required('Required')
+		name: Yup.string().required('Name required'),
+		color: Yup.string().required('Color required'),
+		material: Yup.string().required('Material required')
 	})
 
 	const initialValues = {
@@ -146,21 +139,20 @@ export default function CreateDiamondCase(props) {
 										type="submit"
 										className='submitButton'
 										value="Submit" variant="contained"
-										size="large" endIcon={<SendIcon />}
+										size="large"
 										sx={{
 											margin: '5px',
 										}}>
-										Send
+										Save
 									</Button>
 									<Button type="button"
 										value="Clear" onClick={handleClose}
 										className='submitButton'
 										variant="contained" size="large" color="error"
-										endIcon={<CloseIcon />}
 										sx={{
 											margin: '5px',
 										}}>
-										Close
+										cancel
 									</Button>
 								</div>
 							</Form>

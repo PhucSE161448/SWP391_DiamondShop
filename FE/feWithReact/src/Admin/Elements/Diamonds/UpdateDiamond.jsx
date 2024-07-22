@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
+import React, { useState,  } from 'react'
+import { Form, Formik, Field,  } from 'formik'
 import * as Yup from 'yup';
-import { TextField, Button, Box, Grid, FormControl, InputLabel, Select, MenuItem, Card, CardContent, Alert, Modal } from '@mui/material'
+import { TextField, Button, Box,  FormControl, InputLabel, Select, MenuItem, Modal } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit';
 import { styled } from '@mui/material/styles'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { createApi } from '../../../Auth/AuthFunction';
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction';
 
 export default function UpdateDiamond(props) {
   const [image, setImage] = useState([])
@@ -16,7 +16,6 @@ export default function UpdateDiamond(props) {
   const dataCut = ["Excellent", "VeryGood", "Good", "Fair", "Poor"].reverse()
   const dataOrigin = ["GIA", "IGI", "AGS", "HRD", "EGL", "CGL"]
   const [open, setOpen] = useState(false)
-  const [statusCodeCreate, setStatusCodeCreate] = useState(0)
   const handleOpen = () => {
     setOpen(true)
     addOldImage()
@@ -98,10 +97,9 @@ export default function UpdateDiamond(props) {
       },
       body: formData
     }).then(response => {
-      setStatusCodeCreate(response.status)
+      checkApiStatus(response)
       props.onDiamondUpdated()
       handleClose()
-      return response.json();
     })
   }
 
@@ -153,7 +151,6 @@ export default function UpdateDiamond(props) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 'auto',
           bgcolor: 'background.paper',
           border: '1px solid #000',
           boxShadow: 24,
@@ -341,7 +338,7 @@ export default function UpdateDiamond(props) {
                           margin: '5px',
                           width: '100px',
                         }}>
-                        Send
+                        Save
                       </Button>
                       <Button type="button"
                         value="Clear" onClick={handleClose}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Table, TableBody, TableContainer, TableHead, TableCell, TableRow, Button } from '@mui/material'
+import { Table, TableBody, TableContainer, TableHead, TableCell, TableRow, CircularProgress } from '@mui/material'
 import { createApi } from '../../../Auth/AuthFunction'
 import CreateVoucher from './CreateVoucher'
 import DeleteVoucher from './DeleteVoucher'
@@ -41,37 +41,59 @@ export default function ShowAllVoucher() {
         <div>
           <CreateVoucher onVoucherCreated={() => setTriggerRead(prev => !prev)}></CreateVoucher>
         </div>
-        <div className='buttonContainer'>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  {dataRow.map((item, index) => (
-                    <TableCell key={index}>{item}</TableCell>
-                  ))}
-                  <TableCell>Deleted</TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {
-                  Array.isArray(dataVoucher) && dataVoucher.map((data, index) => (
-                    <TableRow key={data.id}>
-                      <TableCell>{data.id}</TableCell>
-                      <TableCell>{data.productId === 0 ? 'Null' : data.productId}</TableCell>
-                      <TableCell>{data.isAllProduct ? 'True' : 'False'}</TableCell>
-                      <TableCell>{data.discountPercentage}</TableCell>
-                      <TableCell>{new Date(data.startDate).toLocaleDateString()}</TableCell>
-                      <TableCell>{new Date(data.endDate).toLocaleDateString()}</TableCell>
-                      <TableCell><DeleteVoucher id={data.id} onVoucherDeleted={() => setTriggerRead(prev => !prev)}></DeleteVoucher></TableCell>
-                    </TableRow>
-                  ))
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-        </div>
+        {dataVoucher ? (
+          <div className='buttonContainer'>
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {dataRow.map((item, index) => (
+                      <TableCell key={index} sx={{
+                        fontWeight: 'bold',
+                        fontSize: '20px'
+                      }}>
+                        {item}
+                      </TableCell>
+                    ))}
+                    <TableCell sx={{
+                      fontWeight: 'bold',
+                      fontSize: '20px'
+                    }}>
+                      Deleted
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {
+                    Array.isArray(dataVoucher) && dataVoucher.map((data, index) => (
+                      <TableRow key={data.id}>
+                        <TableCell>{data.id}</TableCell>
+                        <TableCell>{data.productId === 0 ? 'Null' : data.productId}</TableCell>
+                        <TableCell>{data.isAllProduct ? 'True' : 'False'}</TableCell>
+                        <TableCell>{data.discountPercentage}</TableCell>
+                        <TableCell>{new Date(data.startDate).toLocaleDateString()}</TableCell>
+                        <TableCell>{new Date(data.endDate).toLocaleDateString()}</TableCell>
+                        <TableCell><DeleteVoucher id={data.id} onVoucherDeleted={() => setTriggerRead(prev => !prev)}></DeleteVoucher></TableCell>
+                      </TableRow>
+                    ))
+                  }
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        ) :
+          (<>
+            {dataVoucher?.length === 0 ? <h1>No data</h1> : <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '50vh',
+              width: '100%',
+            }}>
+              <CircularProgress />
+            </div>}
+          </>)
+        }
       </div>
     </div>
   )

@@ -6,14 +6,15 @@ import {
   Stack, Pagination, TextField, CardMedia, FormControl, InputLabel,
   Select, MenuItem, OutlinedInput, Checkbox, ListItemText, Button
 } from '@mui/material'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { createApi } from '../../Auth/AuthFunction'
+import CircularProgress from '@mui/material/CircularProgress';
 export default function GetPageProduct() {
-  const { PageNumberFromURL } = useParams()
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const [PageNumber, setPageNumber] = useState(PageNumberFromURL && parseInt(PageNumberFromURL))
+  const [PageNumber, setPageNumber] = useState(searchParams.get('pageNumber'))
   const [PageSize, setPageSize] = useState(12)
-  const [OrderBy, setOrderBy] = useState({ OrderByDesc: null, SortBy: '' })
+  const [OrderBy, setOrderBy] = useState({ OrderByDesc: searchParams.get('OrderBy'), SortBy: '' })
   const [StartPrice, setStartPrice] = useState(null)
   const [EndPrice, setEndPrice] = useState(null)
   const [Price, setPrice] = useState(null)
@@ -24,7 +25,7 @@ export default function GetPageProduct() {
   const [dataCollection, setDataCollection] = useState(null)
   const [DiamondIds, setDiamondId] = useState([])
   const [dataDiamond, setDataDiamond] = useState(null)
-  const [nameProduct, setNameProduct] = useState(null)
+  const [nameProduct, setNameProduct] = useState(searchParams.get('name'))
   const [voucherData, setVoucherData] = useState([])
   const [triggerVoucher, setTriggerVoucher] = useState(false)
   const [saleAllProduct, setSaleAllProduct] = useState(false)
@@ -48,6 +49,8 @@ export default function GetPageProduct() {
   }
 
   const handleChangeOrder = (value, type) => {
+    setData(null)
+    navigate(`/product?pageNumber=1&OrderBy=${value}&name=${nameProduct}`)
     if (value === null) {
       setOrderBy({ OrderByDesc: null, SortBy: '' })
     } else {
@@ -58,7 +61,7 @@ export default function GetPageProduct() {
 
   const handlePageChange = (event, value) => {
     setPageNumber(value)
-    navigate(`/product/${value}`)
+    navigate(`/product?pageNumber=${value}&OrderBy=${OrderBy.OrderByDesc}&name=${nameProduct}`)
     setTriggerRead(prev => !prev)
   }
 
@@ -85,6 +88,8 @@ export default function GetPageProduct() {
   }
 
   const handleChangeNameProduct = (value) => {
+    setData(null)
+    navigate(`/product?pageNumber=1&OrderBy=${OrderBy.OrderByDesc}&name=${value}`)
     setNameProduct(value)
     setTriggerRead(prev => !prev)
   }
@@ -100,6 +105,7 @@ export default function GetPageProduct() {
   }
 
   const debouncedHandleChangeNameProduct = debounce(handleChangeNameProduct, 500)
+
   const handleSelectPrice = (value) => {
     if (value === null) {
       setStartPrice(null)
@@ -249,6 +255,7 @@ export default function GetPageProduct() {
     <div style={{
       background: 'url(https://img.freepik.com/free-vector/blue-white-crystal-textured-background_53876-85226.jpg?w=1380&t=st=1719599020~exp=1719599620~hmac=e182c45295cca98949de853e8f72341b687ed809b89663e38e1d78cbaec7314c)',
       backgroundSize: 'cover',
+      minHeight: '100vh',
     }}>
       <Container>
         <Grid container spacing={2} sx={{
@@ -270,7 +277,6 @@ export default function GetPageProduct() {
               >
                 <MenuItem value={false}>Ascending</MenuItem>
                 <MenuItem value={true}>Descending</MenuItem>
-                <MenuItem value={null}>Default</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -291,10 +297,12 @@ export default function GetPageProduct() {
                 }
               >
                 {Category && Category.map((item, index) => (
-                  <MenuItem key={index} value={item.id}>
-                    <Checkbox checked={CategoryIds.indexOf(item.id) > -1} />
-                    <ListItemText primary={item.name} />
-                  </MenuItem>
+                  item.isDeleted ? null : (
+                    <MenuItem key={index} value={item.id}>
+                      <Checkbox checked={CategoryIds.indexOf(item.id) > -1} />
+                      <ListItemText primary={item.name} />
+                    </MenuItem>
+                  )
                 ))}
               </Select>
             </FormControl>
@@ -316,10 +324,12 @@ export default function GetPageProduct() {
                 }
               >
                 {dataCollection && dataCollection.map((item, index) => (
-                  <MenuItem key={index} value={item.id}>
-                    <Checkbox checked={CollectionIds.indexOf(item.id) > -1} />
-                    <ListItemText primary={item.name} />
-                  </MenuItem>
+                  item.isDeleted ? null : (
+                    <MenuItem key={index} value={item.id}>
+                      <Checkbox checked={CollectionIds.indexOf(item.id) > -1} />
+                      <ListItemText primary={item.name} />
+                    </MenuItem>
+                  )
                 ))}
               </Select>
             </FormControl>
@@ -341,10 +351,12 @@ export default function GetPageProduct() {
                 }
               >
                 {dataDiamond && dataDiamond.map((item, index) => (
-                  <MenuItem key={index} value={item.id}>
-                    <Checkbox checked={DiamondIds.indexOf(item.id) > -1} />
-                    <ListItemText primary={item.name} />
-                  </MenuItem>
+                  item.isDeleted ? null : (
+                    <MenuItem key={index} value={item.id}>
+                      <Checkbox checked={DiamondIds.indexOf(item.id) > -1} />
+                      <ListItemText primary={item.name} />
+                    </MenuItem>
+                  )
                 ))}
               </Select>
             </FormControl>
@@ -397,7 +409,7 @@ export default function GetPageProduct() {
       }}>
         <Box>
           <Grid container columnSpacing={9} rowSpacing={6} sx={{ width: '80vw' }} columns={{ xs: 12, sm: 8, md: 12 }}>
-            {data && data.map((item, index) =>
+            {data ? data.map((item, index) =>
               item.isDeleted ? null : (
                 <Grid item xs={12} sm={4} md={3} key={index} sx={{
                   width: '15vw',
@@ -440,6 +452,8 @@ export default function GetPageProduct() {
                         <div style={{
                           display: 'flex',
                           flexDirection: 'column',
+                          justifyContent: 'center',
+                          alignItems: 'center',
                         }}>
                           <p style={{
                             fontSize: '20px',
@@ -503,6 +517,16 @@ export default function GetPageProduct() {
                   </Card>
                 </Grid>
               )
+            ) : (
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '50vh',
+                width: '100%',
+              }}>
+                <CircularProgress />
+              </div>
             )}
           </Grid>
         </Box>

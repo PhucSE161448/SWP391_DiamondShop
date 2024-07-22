@@ -1,9 +1,7 @@
-import { Button, Box, Modal, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
-import UpdateIcon from '@mui/icons-material/Update'
-import SendIcon from '@mui/icons-material/Send'
-import React, { useEffect, useState } from 'react'
-import { createApi } from '../../../Auth/AuthFunction'
-import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
+import { Button, Box, Modal, TextField } from '@mui/material'
+import React, { useState } from 'react'
+import { createApi, checkApiStatus } from '../../../Auth/AuthFunction'
+import { Form, Formik, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import EditIcon from '@mui/icons-material/Edit';
 export default function UpdatePayment(props) {
@@ -29,14 +27,12 @@ export default function UpdatePayment(props) {
       },
       body: JSON.stringify(Data)
     })
-      .then(response => response.json())
-      .then(data => {
+      .then(response => {
+        checkApiStatus(response)
         props.onUpdatePayment()
         handleClose()
       })
-
   }
-
 
   const validationSchema = Yup.object({
     namePayment: Yup.string().required('Required'),
@@ -48,7 +44,6 @@ export default function UpdatePayment(props) {
 
   const onSubmit = (values) => {
     UpdatePayment(values)
-    // formik.resetForm()
   }
 
   return (
@@ -106,13 +101,12 @@ export default function UpdatePayment(props) {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        startIcon={<SendIcon />}
                         type="submit"
                         sx={{
                           margin: '5px'
                         }}
                       >
-                        Send
+                        save
                       </Button>
                       <Button
                         fullWidth

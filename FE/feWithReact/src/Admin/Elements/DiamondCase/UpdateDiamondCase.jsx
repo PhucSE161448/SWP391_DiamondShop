@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { Button, TextField, Modal, Box, Alert, Radio, FormControlLabel, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
-import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
+import { Button, TextField, Modal, Box, Alert, } from '@mui/material'
+import { Formik, Form, Field, ErrorMessage, } from 'formik'
 import * as Yup from 'yup'
-import SendIcon from '@mui/icons-material/Send'
 import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from '@mui/icons-material/Close'
-import { createApi } from '../../../Auth/AuthFunction'
+import { createApi, checkApiStatus } from '../../../Auth/AuthFunction'
 
 export default function UpdateDiamondCase(props) {
   const [open, setOpen] = useState(false)
@@ -29,7 +27,6 @@ export default function UpdateDiamondCase(props) {
 
   const onSubmit = (values) => {
     Update(values)
-
   }
 
   const Update = (values) => {
@@ -49,9 +46,7 @@ export default function UpdateDiamondCase(props) {
       body: JSON.stringify(data)
     })
       .then(response => {
-        setResponseCode(response.status)
-      })
-      .then(responseData => {
+        checkApiStatus(response)
         handleClose()
         props.onDiamondCaseUpdated()
       })
@@ -145,22 +140,20 @@ export default function UpdateDiamondCase(props) {
                     type="submit"
                     className='submitButton'
                     value="Submit" variant="contained"
-                    size="large" endIcon={<SendIcon />}
                     sx={{
                       margin: '5px',
                     }}
                   >
-                    Send
+                    save
                   </Button>
                   <Button type="button"
                     value="Clear" onClick={handleClose}
                     className='submitButton'
                     variant="contained" size="large" color="error"
-                    endIcon={<CloseIcon />}
                     sx={{
                       margin: '5px',
                     }}>
-                    Close
+                    Cancel
                   </Button>
                 </div>
               </Form>

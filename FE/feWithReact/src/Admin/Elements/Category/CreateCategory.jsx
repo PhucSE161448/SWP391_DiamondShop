@@ -5,7 +5,7 @@ import { Form, Formik, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 import Modal from '@mui/material/Modal'
 import CancelIcon from '@mui/icons-material/Cancel';
-import { createApi } from '../../../Auth/AuthFunction'
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
 export default function CreateCategory(props) {
 	const [dataType, setDataType] = useState(null)
 	const [data, setData] = useState(null)
@@ -65,7 +65,7 @@ export default function CreateCategory(props) {
 			},
 			body: JSON.stringify(data)
 		})
-			.then(response => response.json())
+			.then(response => checkApiStatus(response))
 			.then(responseData => {
 				setData(responseData)
 				setOpen(false)

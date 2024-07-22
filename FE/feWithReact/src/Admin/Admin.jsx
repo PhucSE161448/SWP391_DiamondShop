@@ -1,5 +1,5 @@
 import React from 'react'
-import { jwtDecode } from 'jwt-decode'
+import { Outlet } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import './Admin.css'
@@ -20,6 +20,9 @@ export default function AdminNav() {
 				<>
 					<div className='pageAdminContainer'>
 						<NavbarAdmin />
+					</div>
+					<div>
+						<Outlet />
 					</div>
 				</>
 			)

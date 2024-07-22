@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { createApi } from '../../../Auth/AuthFunction'
+import { createApi, checkApiStatus } from '../../../Auth/AuthFunction'
 import { Modal, Button, Box, TextField, FormControl, Select, InputLabel, MenuItem, Switch, FormControlLabel, Alert } from '@mui/material'
-import SendIcon from '@mui/icons-material/Send'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -33,9 +32,8 @@ export default function CreateVoucher(props) {
       },
       body: JSON.stringify(data)
     })
-      .then(response => response.json())
-      .then(responseData => {
-        console.log(responseData)
+      .then(response => {
+        checkApiStatus(response)
         props.onVoucherCreated()
         handleClose()
       })

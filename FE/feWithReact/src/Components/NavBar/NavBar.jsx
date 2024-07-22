@@ -129,11 +129,11 @@ export default function Navbar() {
 					<Button onClick={goToHome} sx={buttonStyle}>Home</Button>
 				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
-					<Button onClick={() => navigate('/diamondPage/1')} sx={buttonStyle}>Diamond</Button>
+					<Button onClick={() => navigate('/diamondPage?pageNumber=1&OrderBy=false&name=')} sx={buttonStyle}>Diamond</Button>
 				</Menu.Item>
 				<Menu.SubMenu key='productMenu'
 					title={
-						<Button onClick={() => navigate('/product/1')} sx={buttonStyle}>
+						<Button onClick={() => navigate('/product?pageNumber=1&OrderBy=false&name=')} sx={buttonStyle}>
 							Product
 						</Button>
 					}

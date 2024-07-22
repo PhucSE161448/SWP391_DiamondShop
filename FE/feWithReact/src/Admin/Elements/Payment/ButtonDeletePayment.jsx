@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
-import { createApi } from '../../../Auth/AuthFunction'
+import {  createApi } from '../../../Auth/AuthFunction'
 export default function ButtonDeletePayment(props) {
   const [isDeleted, setIsDeleted] = useState(props.isDeleted)
   const handleChange = (event) => {

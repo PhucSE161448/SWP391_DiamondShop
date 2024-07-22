@@ -10,15 +10,11 @@ export default function NavbarAdmin() {
 	const role = localStorage.getItem('role')
 
 	function goToCategory() {
-		navigate('/admin/category')
+		navigate('/admin/category?pageNumber=1')
 	}
 
 	function goToAccount() {
-		navigate('/admin/account')
-	}
-
-	function goToHome() {
-		navigate('/')
+		navigate('/admin/account?pageNumber=1')
 	}
 
 	function goToAdmin() {
@@ -31,23 +27,23 @@ export default function NavbarAdmin() {
 	}
 
 	function goToProduct() {
-		navigate('/admin/product')
+		navigate('/admin/product?pageNumber=1&name=&OrderBy=false')
 	}
 
 	function goToDiamond() {
-		navigate('/admin/diamond')
+		navigate('/admin/diamond?pageNumber=1&name=&OrderBy=false')
 	}
 
 	function goToDiamondCase() {
-		navigate('/admin/diamondCase')
+		navigate('/admin/diamondCase?pageNumber=1')
 	}
 
 	function goToCollections() {
-		navigate('/admin/collections')
+		navigate('/admin/collections?pageNumber=1')
 	}
 
 	function goToOrder() {
-		navigate('/admin/order')
+		navigate('/admin/order?pageNumber=1&status=Default')
 	}
 
 	function goToPayment() {
@@ -55,11 +51,15 @@ export default function NavbarAdmin() {
 	}
 
 	function goToCertificate() {
-		navigate('/admin/certificate')
+		navigate('/admin/certificate?pageNumber=1')
 	}
 
 	function goToVoucher() {
 		navigate('/admin/voucher')
+	}
+
+	function goToPromotion() {
+		navigate('/admin/promotion')
 	}
 
 	const buttonStyle = {
@@ -73,6 +73,7 @@ export default function NavbarAdmin() {
 
 	const paddingStyle = {
 		padding: 0,
+		marginBottom: '15px',
 		backgroundColor: '#001529',
 		':hover': {
 			backgroundColor: '#004085', // Adjust the color as needed
@@ -86,7 +87,7 @@ export default function NavbarAdmin() {
 				width: '10%',
 			}}>
 				<Menu.Item style={paddingStyle} key="admin">
-					<Button onClick={goToAdmin} sx={buttonStyle}>Admin</Button>
+					<Button onClick={goToAdmin} sx={buttonStyle}>Dashboard</Button>
 				</Menu.Item >
 				{role === '1' || role === '2' ? (
 					<Menu.Item style={paddingStyle} key="Account">
@@ -113,6 +114,9 @@ export default function NavbarAdmin() {
 						<Menu.Item key="Product" style={paddingStyle}>
 							<Button onClick={goToProduct} sx={buttonStyle}>Product</Button>
 						</Menu.Item>
+						<Menu.Item key="Promotion" style={paddingStyle}>
+							<Button onClick={goToPromotion} sx={buttonStyle}>Promotion</Button>
+						</Menu.Item>
 						<Menu.Item key="Payment" style={paddingStyle}>
 							<Button onClick={goToPayment} sx={buttonStyle}>Payment</Button>
 						</Menu.Item>
@@ -126,15 +130,16 @@ export default function NavbarAdmin() {
 						<Button onClick={goToOrder} sx={buttonStyle}>Order</Button>
 					</Menu.Item>
 				) : null}
-				<Menu.Item style={paddingStyle} key="Logout">
+				<Menu.Item style={{
+					...paddingStyle,
+				}} key="Logout">
 					<Button onClick={Logout} sx={{
 						color: '#fff',
 						width: '-webkit-fill-available',
-
 					}} color='error' variant="contained">Log out</Button>
 				</Menu.Item>
 			</Menu>
-			<Outlet />
+
 		</div >
 	)
 }

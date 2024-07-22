@@ -99,11 +99,11 @@ export default function CreateCertificate(props) {
       })
       .then(responseData => {
         setResponseMessage(responseData.ErrorMessage)
-
         props.onCertificateCreated()
       })
   }
   if (responseStatus === 201) {
+    window.alert('Success')
     handleClose()
   }
   return (

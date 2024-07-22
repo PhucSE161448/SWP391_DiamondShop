@@ -4,7 +4,7 @@ import { Box, Modal, TextField, Container, Select, MenuItem, InputLabel, FormCon
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { AlertTitle } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit';
-import { createApi } from '../../../Auth/AuthFunction'
+import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
 import * as Yup from 'yup'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -21,8 +21,6 @@ export default function UpdateCertificate(props) {
   const dataCut = ["Excellent", "VeryGood", "Good", "Fair", "Poor"].reverse()
   const dataOrigin = ["GIA", "IGI", "AGS", "HRD", "EGL", "CGL"]
   const [dataCertificate, setDataCertificate] = useState(null)
-  const [responseStatus, setResponseStatus] = useState(null)
-  const [responseMessage, setResponseMessage] = useState(null)
   const ITEM_HEIGHT = 120;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -38,8 +36,6 @@ export default function UpdateCertificate(props) {
   }
   const handleClose = () => {
     setOpen(false)
-    setResponseMessage(null)
-    setResponseStatus(null)
   }
 
   useEffect(() => {
@@ -82,16 +78,11 @@ export default function UpdateCertificate(props) {
     dateOfIssue: dayjs(dataCertificate?.dateOfIssue).utc().add(7, 'hours') || '',
   }
 
-
-
   const onSubmit = (values) => {
     Create(values)
-    // formik.resetForm()
   }
 
-
   function Create(Values) {
-    console.log(Values)
     const url = createApi(`Certificate/UpdateCertificate/${props.data.id}`)
     const data = {
       reportNumber: Values.reportNumber,
@@ -111,10 +102,8 @@ export default function UpdateCertificate(props) {
       },
       body: JSON.stringify(data)
     })
-      .then(response => {
-        setResponseStatus(response.status)
-      })
-      .then(responseData => {
+      .then(response => checkApiStatus(response))
+      .then(() => {
         handleClose()
         props.onCertificateUpdated()
       })

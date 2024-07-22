@@ -73,7 +73,6 @@ export default function ShowDetails(props) {
                 <p>Name: {productDetails?.name}</p>
                 <p>Gender: {productDetails?.gender ? 'Male' : 'Female'}</p>
                 <p>Category: {productDetails?.category.name}</p>
-                {console.log(productDetails)}
                 {productDetails?.productParts?.length > 0 ? (
                   productDetails.productParts.map(part => (
                     <div key={part.id}>
@@ -117,7 +116,17 @@ export default function ShowDetails(props) {
                 )}
               </div>
             </div>
-
+            <div className='formSubmit' >
+              <Button type="button"
+                value="Clear" onClick={handleClose}
+                className='submitButton'
+                variant="contained" size="large" color="error"
+                sx={{
+                  margin: '5px',
+                }}>
+                Close
+              </Button>
+            </div>
           </Box>
         </Container>
       </Modal>
