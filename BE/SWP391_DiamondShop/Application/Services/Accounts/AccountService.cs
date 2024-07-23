@@ -71,22 +71,18 @@ namespace Application.Services.Accounts
             return (await _unitOfWork.AccountRepo.GetPagedAccount(queryAccountDto)).Adapt<Pagination<AccountDTO>>();
         }
 
-
-        public async Task DeleteUserAsync(int id)
+        public async Task DeleteOrEnable(int accountId, bool isDeleted)
         {
-
-            var exist = await _unitOfWork.AccountRepo.GetByIdAsync(id);
-            if (exist == null)
+            var account = await _unitOfWork.AccountRepo.GetAsync(d => d.Id == accountId);
+            if (account is null)
             {
                 throw new NotFoundException("Account is not existed");
             }
-            if (exist.IsDeleted)
-            {
-                throw new BadRequestException("Account is already deleted");
-            }
-            _unitOfWork.AccountRepo.SoftRemove(exist);
+            account.IsDeleted = isDeleted;
             await _unitOfWork.SaveChangeAsync();
         }
+
+        
 
         public async Task<IEnumerable<AccountDTO>> GetUserAsync()
         {

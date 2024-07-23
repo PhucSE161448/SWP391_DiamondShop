@@ -56,10 +56,10 @@ namespace WebAPI.Controllers.Account
             return NoContent();
         }
         //[Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        [HttpPut("{accountId}/{isDeleted}")]
+        public async Task<IActionResult> DeleteOrEnable(int accountId, int isDeleted)
         {
-            await _accountService.DeleteUserAsync(id);
+            await _accountService.DeleteOrEnable(accountId, isDeleted > 0);
             return NoContent();
         }
     }
