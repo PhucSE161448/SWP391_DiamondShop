@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Commons;
 
 namespace Application.Interfaces.Account
 {
@@ -17,7 +18,7 @@ namespace Application.Interfaces.Account
         Task<IEnumerable<AccountDTO>> SearchUserByNameAsync(string name);
         Task<AccountDTO> CreateAccountAsync(CreatedAccountDTO createdAccountDTO);
         Task<AccountDTO> UpdateRoleForAccount(int accountId, int roleId);
-
+        Task<Pagination<AccountDTO>> GetPageAccounts(QueryAccountDTO queryAccountDto);
         
     }
 }

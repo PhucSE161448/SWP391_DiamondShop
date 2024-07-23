@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Commons;
+using Application.ViewModels.Accounts;
 
 namespace Application.IRepositories.Accounts
 {
@@ -16,5 +18,6 @@ namespace Application.IRepositories.Accounts
         Task<IEnumerable<Account>> SearchAccountByNameAsync(string name);
         Task<IEnumerable<Account>> SearchAccountByRoleNameAsync(string roleName);
         Task<IEnumerable<Account>> GetSortedAccountAsync();
+        Task<Pagination<Account>> GetPagedAccount(QueryAccountDTO queryAccountDto);
     }
 }
