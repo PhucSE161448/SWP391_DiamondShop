@@ -10,6 +10,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Commons;
 using Mapster;
 
 namespace Application.Services.Accounts
@@ -65,7 +66,10 @@ namespace Application.Services.Accounts
             return account.Adapt<AccountDTO>();
         }
 
-        
+        public async Task<Pagination<AccountDTO>> GetPageAccounts(QueryAccountDTO queryAccountDto)
+        {
+            return (await _unitOfWork.AccountRepo.GetPagedAccount(queryAccountDto)).Adapt<Pagination<AccountDTO>>();
+        }
 
 
         public async Task DeleteUserAsync(int id)

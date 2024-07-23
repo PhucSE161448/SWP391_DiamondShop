@@ -23,6 +23,11 @@ namespace WebAPI.Controllers.Account
             var findAccountUser = await _accountService.GetUserByIdAsync(id);
             return Ok(findAccountUser);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetPagedAccounts([FromQuery] QueryAccountDTO queryAccountDto)
+        {
+            return Ok(await _accountService.GetPageAccounts(queryAccountDto));
+        }
         //[Authorize(Roles = "Admin")]
         [HttpGet("{name}")]
         public async Task<IActionResult> SearchByName(string name)

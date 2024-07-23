@@ -135,6 +135,7 @@ namespace Infrastructures
             services.AddScoped<IVnPayService, VnPayService>();
 
             services.AddScoped<IRoleRepo, RoleRepo>();
+            services.AddScoped<IRoleService, RoleService>();
 
             services.AddSingleton<ICurrentTime, CurrentTime>();
             
