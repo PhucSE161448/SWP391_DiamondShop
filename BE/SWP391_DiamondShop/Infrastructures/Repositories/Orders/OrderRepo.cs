@@ -56,7 +56,7 @@ namespace Infrastructures.Repositories.Orders
             }
             if (!string.IsNullOrEmpty(status))
             {
-                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                     .Select(s => s.Status).FirstOrDefault() == status);
             }
             int totalItemsCount = await query.CountAsync();

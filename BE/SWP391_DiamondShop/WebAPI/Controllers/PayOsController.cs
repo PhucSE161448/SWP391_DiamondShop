@@ -33,11 +33,11 @@ namespace WebAPI.Controllers
                     ItemData item = new ItemData(o.Cart.Product != null ? o.Cart.Product.Name : o.Cart.Diamond.Name, (int)o.Cart.Quantity,(int) (o.Cart.TotalPrice * USD));
                     items.Add(item);
                 }
-                var baseUrl = "https://diamond-shopp.azurewebsites.net//api/" + "PayOs/Success";
+                var baseUrl = "https://diamond-shopp.azurewebsites.net/api/" + "PayOs/Success";
 
-                var successUrl = $"{baseUrl}?userId={userId}&orderId={orderId}&paymentId={paymentId}";
-                var cancelUrl = "https://deploy-swp-391.vercel.app/payment/success";
-                PaymentData paymentData = new PaymentData(orderCode, (int)(orders.TotalPrice * USD) , "Pay Order", items, cancelUrl, successUrl);
+                var url = $"{baseUrl}?userId={userId}&orderId={orderId}&paymentId={paymentId}";
+                PaymentData paymentData = new PaymentData(orderCode, (int)(orders.TotalPrice * USD), "Pay Order", items,
+                    url, url);
                 CreatePaymentResult createPayment = await _payOs.createPaymentLink(paymentData);
 
                 return Ok(new
@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
             catch (System.Exception exception)
             {
                 Console.WriteLine(exception);
-                return Redirect("https://deploy-swp-391.vercel.app/payment/cancel");
+                return Redirect("https://deploy-swp-391.vercel.app/order");
             }
         }
 
@@ -59,14 +59,14 @@ namespace WebAPI.Controllers
             if (status == "CANCELLED")
             {
                 var cancel = await _service.CreateOrderStatusAsync(orderId, "Cancelled", userId, paymentId);
-                return Redirect("https://deploy-swp-391.vercel.app/payment/cancel");
+                return Redirect("https://deploy-swp-391.vercel.app/order");
             }
             var success = await _service.CreateOrderStatusAsync(orderId, "Paid", userId, paymentId);
             if (success)
             {
                 return Redirect("https://deploy-swp-391.vercel.app/payment/success");
             }
-            return Redirect("https://deploy-swp-391.vercel.app/payment/cancel");
+            return Redirect("https://deploy-swp-391.vercel.app/order");
         }
     }
 }
