@@ -36,18 +36,18 @@ namespace Infrastructures.Repositories.Orders
 
             if (_currentRole == (int)Domain.Enums.Roles.SalesStaff)
             {
-                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                                               .Select(s => s.Status).FirstOrDefault() == StatusOrder.WaitToApprove ||
-                                          x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                          x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                                               .Select(s => s.Status).FirstOrDefault() == StatusOrder.Approved);
             }
             else if (_currentRole == (int)Domain.Enums.Roles.DeliveryStaff)
             {
-                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                                               .Select(s => s.Status).FirstOrDefault() == StatusOrder.Paid ||
-                                         x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                         x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                                              .Select(s => s.Status).FirstOrDefault() == StatusOrder.InTransit ||
-                                          x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                          x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                                               .Select(s => s.Status).FirstOrDefault() == StatusOrder.Finished);
             }
             else if (_currentRole != (int)Domain.Enums.Roles.Admin)
