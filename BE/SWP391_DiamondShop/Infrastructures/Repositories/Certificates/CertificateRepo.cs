@@ -23,6 +23,7 @@ public class CertificateRepo : GenericRepository<Certificate>, ICertificateRepo
             .Include(o => o.OrderCarts)
             .ThenInclude(oc => oc.Cart)
             .ThenInclude(c => c.Diamond)
+            .ThenInclude(d => d.Certificate)
             .Include(o => o.OrderCarts)
             .ThenInclude(oc => oc.Cart)
             .ThenInclude(c => c.Product)
