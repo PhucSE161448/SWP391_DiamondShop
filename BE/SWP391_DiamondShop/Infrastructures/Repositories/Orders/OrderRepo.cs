@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using Application.Commons;
 using Application.Interfaces;
 using Application.IRepositories.Orders;
+using Application.Ultils;
 using Application.ViewModels.Orders;
 using Domain.Enums;
 using Domain.Model;
 using Google.Apis.Storage.v1.Data;
+using MailKit.Search;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 namespace Infrastructures.Repositories.Orders
@@ -144,6 +146,7 @@ namespace Infrastructures.Repositories.Orders
                     Address = createCartDto.Address,
                     Phone = createCartDto.Phone
                 };
+
                 await _dbContext.Orders.AddAsync(order);
                 return order;
             }
@@ -277,6 +280,40 @@ namespace Infrastructures.Repositories.Orders
             }).ToList();
 
             return orderDTOs;
+        }
+
+        public async Task<QuantityResult> CheckQuantity(List<int> cartId)
+        {
+            var result = new QuantityResult();
+
+            var carts = await _dbContext.Carts
+                .Include(c => c.Diamond)
+                .Include(c => c.Product)
+                .ThenInclude(p => p.ProductSizes)
+                .Where(c => cartId.Contains(c.CartId))
+                .ToListAsync();
+
+            foreach (var cart in carts)
+            {
+                if (cart.DiamondId.HasValue)
+                {
+                    if (cart.Quantity > cart.Diamond.Quantity)
+                    {
+                        result.ErrorMessages.Add($"Diamond '{cart.Diamond.Name}' exceeds available quantity.");
+                    }
+                }
+                else if (cart.ProductId.HasValue)
+                {
+                    var productSize = await _dbContext.ProductSizes
+                        .FirstOrDefaultAsync(ps => ps.ProductId == cart.ProductId && ps.Size == cart.Size);
+
+                    if (productSize != null && cart.Quantity > productSize.Quantity)
+                    {
+                        result.ErrorMessages.Add($"Product '{cart.Product.Name}' exceeds available quantity in ProductSize.");
+                    }
+                }
+            }
+            return result;
         }
     }
 }

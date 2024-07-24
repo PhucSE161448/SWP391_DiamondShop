@@ -34,8 +34,11 @@ namespace WebAPI.Controllers.Order
         public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDTO createCartDto)
         {
             var order = await _orderService.CreateOrderAsync(createCartDto);
-            var result = await _orderService.CreateOrderCartAsync(createCartDto.CartId, order.Id);
-            return Created(nameof(CreateOrder), result);
+            if (order != null)
+            {
+                var result = await _orderService.CreateOrderCartAsync(createCartDto.CartId, order.Id);
+            }
+            return Created(nameof(CreateOrder), order);
         }
         
     }

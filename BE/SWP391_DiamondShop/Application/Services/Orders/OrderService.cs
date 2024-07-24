@@ -21,6 +21,11 @@ namespace Application.Services.Orders
         }
         public async Task<Order> CreateOrderAsync(OrderCreateDTO orderCreateDto)
         {
+            var check = await _unitOfWork.OrderRepo.CheckQuantity(orderCreateDto.CartId);
+            if (!check.IsValid)
+            {
+                throw new InvalidOperationException(string.Join("", check.ErrorMessages));
+            }
             var order = await _unitOfWork.OrderRepo.CreateOrderAsync(orderCreateDto);
             var promotionList = await _unitOfWork.PromotionRepository.GetAllPromotionAsync();
             var getAccountPoint = await _unitOfWork.AccountRepo.GetByIdAsync(order.AccountId);
@@ -36,7 +41,7 @@ namespace Application.Services.Orders
                     discount = promotion.DiscountPercentage;
                 }
             }
-            order.TotalPrice = order.TotalPrice - (order.TotalPrice * discount/100);
+            order.TotalPrice = order.TotalPrice - (order.TotalPrice * discount / 100);
             await _unitOfWork.SaveChangeAsync();
             return order;
         }

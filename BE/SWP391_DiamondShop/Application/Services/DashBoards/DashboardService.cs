@@ -23,7 +23,7 @@ public class DashboardService : IDashboardService
             NumberOfDiamonds = diamond.Count,
             NumberOfProducts = product.Count,
             TotalRevenue = profit,
-            Profit =  profit / 1.2m
+            Profit =  Math.Round(profit - profit / 1.2m, 2)
         };
     }
 
