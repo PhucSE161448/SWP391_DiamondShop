@@ -14,7 +14,7 @@ namespace WebAPI.Controllers
         private readonly IConfiguration _configuration;
         private readonly IClaimsService _claimsService;
         private readonly IOrderService _orderService;
-        private const decimal USD = 25m;
+        private const decimal USD = 25000m;
         public VnPayController(IConfiguration configuration, IClaimsService claimsService, IOrderService orderService)
         {
             _configuration = configuration;
@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
                 pay.AddRequestData("vnp_Version", "2.1.0"); 
                 pay.AddRequestData("vnp_Command", "pay"); 
                 pay.AddRequestData("vnp_TmnCode", tmnCode); 
-                pay.AddRequestData("vnp_Amount", ((int)order.TotalPrice * USD * 1000).ToString()); 
+                pay.AddRequestData("vnp_Amount", ((int)order.TotalPrice * USD * 100).ToString()); 
                 pay.AddRequestData("vnp_BankCode", ""); 
                 pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss"));
                 pay.AddRequestData("vnp_CurrCode", "VND");
