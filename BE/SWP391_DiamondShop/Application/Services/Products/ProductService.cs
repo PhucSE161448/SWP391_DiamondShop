@@ -241,6 +241,7 @@ namespace Application.Services.Products
                     if (voucher.ProductId == product.Id)
                     {
                         voucherPrice += voucher.DiscountPercentage;
+                        break;
 
                     }
                     else if (voucher.IsAllProduct == true)
