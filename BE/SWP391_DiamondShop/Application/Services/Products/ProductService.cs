@@ -238,16 +238,16 @@ namespace Application.Services.Products
                     decimal voucherPrice = 0;
                     foreach (var voucher in voucherList)
                     {
+                    if (voucher.ProductId == product.Id)
+                    {
+                        voucherPrice += voucher.DiscountPercentage;
 
-                        if (voucher.IsAllProduct == true)
+                    }
+                    else if (voucher.IsAllProduct == true)
                         {
                             voucherPrice += voucher.DiscountPercentage;
                         }
-                        if (voucher.ProductId == product.Id)
-                        {
-                            voucherPrice += voucher.DiscountPercentage;
 
-                        }
                     }
                     //Final price
                     productSize.Price -= (productSize.Price * voucherPrice / 100);
