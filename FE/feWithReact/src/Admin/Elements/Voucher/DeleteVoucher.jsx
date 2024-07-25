@@ -20,6 +20,6 @@ export default function DeleteVoucher(props) {
   }
 
   return (
-    <Button onClick={() => DeleteVoucher(props.id)} variant='contained'>Delete</Button>
+    <Button onClick={() => DeleteVoucher(props.id)} variant='contained' color='error'>Delete</Button>
   )
 }

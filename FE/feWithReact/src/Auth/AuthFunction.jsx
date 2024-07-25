@@ -7,7 +7,6 @@ export function createApi(endpointPath) {
 }
 
 export function checkApiStatus(response) {
-	console.log(response)
 	if (!response.ok) {
 		window.alert('Fail')
 	} else {

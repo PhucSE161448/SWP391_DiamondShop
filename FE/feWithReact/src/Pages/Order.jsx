@@ -51,7 +51,6 @@ export default function Order() {
     setOpenPayment(true)
     getOrderDetail(id)
     setOrderDetailId(id)
-    setPaymentId(1)
   }
 
   const handleClose = () => {
@@ -72,8 +71,22 @@ export default function Order() {
   }
 
 
-  const handlePayment = (userId, paymentId, orderDetailId) => {
+  const handlePaymentPayOs = (userId, paymentId, orderDetailId) => {
     const url = createApi(`PayOs/Checkout?userId=${userId}&orderId=${orderDetailId}&paymentId=${paymentId}`)
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(response => response.json())
+      .then(data => {
+        window.open(data.url, '_blank').focus()
+      })
+  }
+
+  const handlePaymentVNPay = (userId, paymentId, orderDetailId) => {
+    const url = createApi(`VnPay/Checkout?userId=${userId}&orderId=${orderDetailId}&paymentId=${paymentId}`)
     fetch(url, {
       method: 'POST',
       headers: {
@@ -208,6 +221,9 @@ export default function Order() {
                     <ListItemText primary={name} />
                   </MenuItem>
                 ))}
+                <MenuItem key='Default' value={null}>
+                  <ListItemText primary='Default' />
+                </MenuItem>
               </Select>
             </FormControl>
             <TableContainer component={Paper} fullWidth>
@@ -362,18 +378,41 @@ export default function Order() {
           </div>
           <div style={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
             width: '100%'
           }}>
-            <div>
-              <Button onClick={() => handlePayment(userId, paymentId, orderDetailId)}>
-                <img src="https://payos.vn/docs/img/logo.svg" alt="" style={{
-                  height: '100px',
-                }} />
-              </Button>
+            <h3>
+              Payment Method
+            </h3>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%'
+            }}>
+              <div>
+                <Button onClick={() => handlePaymentPayOs(userId, 1, orderDetailId)}>
+                  <img src="https://payos.vn/docs/img/logo.svg" alt="" style={{
+                    height: '100px',
+                    padding: '10px',
+                    border: '1px solid #000',
+                  }} />
+                </Button>
+              </div>
+              <div>
+                <Button onClick={() => handlePaymentVNPay(userId, 12, orderDetailId)}>
+                  <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-VNPAY-QR-1.png" alt="" style={{
+                    height: '100px',
+                    padding: '10px',
+                    border: '1px solid #000',
+                  }} />
+                </Button>
+              </div>
             </div>
+
           </div>
         </Box>
       </Modal>
@@ -419,7 +458,7 @@ export default function Order() {
                   {orderDetail && orderDetail.map((item, index) => (
                     <TableRow key={index}>
                       <TableCell>
-                        <img src={item.cart.product ? item.cart.product.images[0].urlPath : item.cart.diamond.images[0]?.urlPath} style={{
+                        <img src={item.cart.product ? item.cart.product.images[0]?.urlPath : item.cart.diamond.images[0]?.urlPath} style={{
                           width: '150px',
                           height: '150px',
                         }} />

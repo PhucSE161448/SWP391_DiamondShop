@@ -9,6 +9,7 @@ import {
 import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { createApi } from '../../Auth/AuthFunction'
 import CircularProgress from '@mui/material/CircularProgress';
+import './GetPageProduct.css'
 export default function GetPageProduct() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ export default function GetPageProduct() {
   const [dataCollection, setDataCollection] = useState(null)
   const [DiamondIds, setDiamondId] = useState([])
   const [dataDiamond, setDataDiamond] = useState(null)
-  const [nameProduct, setNameProduct] = useState(searchParams.get('name'))
+  const [nameProduct, setNameProduct] = useState(searchParams.get('name') || null)
   const [voucherData, setVoucherData] = useState([])
   const [triggerVoucher, setTriggerVoucher] = useState(false)
   const [saleAllProduct, setSaleAllProduct] = useState(false)
@@ -373,9 +374,9 @@ export default function GetPageProduct() {
                 onChange={(e) => handleSelectPrice(e.target.value)}
               >
                 {
-                  Array.from({ length: (100000 - 1000) / 15000 }, (_, index) => {
-                    const start = 1000 + (15000 * index);
-                    const end = start + 15000;
+                  Array.from({ length: (7000 - 1000) / 500 }, (_, index) => {
+                    const start = 1000 + (500 * index);
+                    const end = start + 500;
                     return (
                       <MenuItem key={index} value={`${start}-${end}`}>
                         ${start.toLocaleString()} - ${end.toLocaleString()}
@@ -426,6 +427,34 @@ export default function GetPageProduct() {
                       }
                     }
                   }}>
+                    {
+                      saleAllProduct ? (() => {
+                        const itemSale = salePriceProduct.find(is => is.productId === item.id)
+                        return (
+                          <div className="box" style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                          }}>
+                            <div className="ribbon-2">
+                              {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
+                            </div>
+                          </div>
+                        )
+                      })() : (() => {
+                        const itemSale = salePriceProduct.find(is => is.productId === item.id)
+                        if (!itemSale) return null
+                        return (
+                          <div className="box" style={{
+                            display: 'flex',
+                            justifyContent: 'space-around',
+                          }}>
+                            <div className="ribbon-2">
+                              {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
+                            </div>
+                          </div>
+                        )
+                      })()
+                    }
                     <Link
                       to={`/product/detail/${item.id}`}
                       style={{ textDecoration: 'none', color: 'black' }}
@@ -472,15 +501,11 @@ export default function GetPageProduct() {
                                     <h3 style={{
                                       textDecoration: 'line-through',
                                     }}>
-                                      Price: {(
+                                      {(
                                         item.productSizes[0]?.price / (1 - ((itemSale?.discountPercentage || 0) + saleAllProductPercentage) / 100)
                                       ).toLocaleString()}$
                                     </h3>
                                   </div>
-                                  <div>
-                                    {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
-                                  </div>
-
                                 </div>
                               )
                             })() : (() => {
@@ -489,27 +514,23 @@ export default function GetPageProduct() {
                               return (
                                 <div style={{
                                   display: 'flex',
-                                  justifyContent: 'space-between',
+                                  justifyContent: 'space-around',
                                 }}>
                                   <div>
                                     <h3 style={{
                                       textDecoration: 'line-through',
                                     }}>
-                                      Price: {(
+                                      {(
                                         item.productSizes[0]?.price / (1 - ((itemSale?.discountPercentage || 0)) / 100)
                                       ).toLocaleString()}$
                                     </h3>
                                   </div>
-                                  <div>
-                                    {(itemSale?.discountPercentage || 0) + saleAllProductPercentage}% off
-                                  </div>
-
                                 </div>
                               )
                             })()
                           }
                           <h3>
-                            Price: {item.productSizes[0]?.price.toLocaleString()}$
+                            {item.productSizes[0]?.price.toLocaleString()}$
                           </h3>
                         </div>
                       </CardContent>

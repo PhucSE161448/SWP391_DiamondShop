@@ -77,7 +77,7 @@ export default function UpdateDiamondCase(props) {
           bgcolor: 'background.paper',
           p: 4,
           overflow: 'auto',
-          width: '50%',
+          width: '30%',
         }}>
           <h3 className='titleOfForm'>UPDATE DIAMOND CASE</h3>
           <Formik

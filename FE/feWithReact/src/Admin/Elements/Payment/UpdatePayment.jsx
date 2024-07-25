@@ -66,7 +66,7 @@ export default function UpdatePayment(props) {
           border: '1px solid #000',
           boxShadow: 24,
           p: 4,
-          width: '50%',
+          width: '30%',
           overflow: 'auto'
 
         }}>

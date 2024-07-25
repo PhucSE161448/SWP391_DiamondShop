@@ -14,7 +14,7 @@ export default function NavbarAdmin() {
 	}
 
 	function goToAccount() {
-		navigate('/admin/account?pageNumber=1')
+		navigate('/admin/account?pageNumber=1&OrderBy=&SortBy=&RoleId=&Name=&Email=&')
 	}
 
 	function goToAdmin() {
@@ -86,13 +86,32 @@ export default function NavbarAdmin() {
 				Height: '-webkit-fill-available',
 				width: '10%',
 			}}>
-				<Menu.Item style={paddingStyle} key="admin">
-					<Button onClick={goToAdmin} sx={buttonStyle}>Dashboard</Button>
-				</Menu.Item >
-				{role === '1' || role === '2' ? (
-					<Menu.Item style={paddingStyle} key="Account">
-						<Button onClick={goToAccount} sx={buttonStyle}>Account</Button>
-					</Menu.Item>
+				{role === '1' && (
+					<Menu.Item style={paddingStyle} key="admin">
+						<Button onClick={goToAdmin} sx={buttonStyle}>Dashboard</Button>
+					</Menu.Item >
+				)}
+				{role === '2' ? (
+					<>
+						<Menu.Item key="Category" style={paddingStyle}>
+							<Button onClick={goToCategory} sx={buttonStyle}>Category</Button>
+						</Menu.Item>
+						<Menu.Item key="Certificate" style={paddingStyle}>
+							<Button onClick={goToCertificate} sx={buttonStyle}>Certificate</Button>
+						</Menu.Item>
+						<Menu.Item key="Collection" style={paddingStyle}>
+							<Button onClick={goToCollections} sx={buttonStyle}>Collection</Button>
+						</Menu.Item>
+						<Menu.Item key="Diamond" style={paddingStyle}>
+							<Button onClick={goToDiamond} sx={buttonStyle}>Diamond</Button>
+						</Menu.Item>
+						<Menu.Item key="Diamond Case" style={paddingStyle}>
+							<Button onClick={goToDiamondCase} sx={buttonStyle}>Diamond Case</Button>
+						</Menu.Item>
+						<Menu.Item key="Product" style={paddingStyle}>
+							<Button onClick={goToProduct} sx={buttonStyle}>Product</Button>
+						</Menu.Item>
+					</>
 				) : null}
 				{role === '1' && (
 					<>

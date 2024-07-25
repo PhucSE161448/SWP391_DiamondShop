@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Container, TableCell, Alert } from '@mui/material'
+import { Container, TableCell, Alert, TextField } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
 import { styled, } from '@mui/material'
 import Button from '@mui/material/Button'
@@ -10,6 +10,9 @@ import { FormControl, } from '@mui/material'
 import { createApi } from '../../Auth/AuthFunction'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useNavigate } from 'react-router-dom'
+import GppGoodIcon from '@mui/icons-material/GppGood';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 export default function DiamondDetail() {
   const navigate = useNavigate()
   const { id } = useParams()
@@ -112,7 +115,8 @@ export default function DiamondDetail() {
     <div style={{
       background: 'url(https://img.freepik.com/free-vector/blue-white-crystal-textured-background_53876-85226.jpg?w=1380&t=st=1719599020~exp=1719599620~hmac=e182c45295cca98949de853e8f72341b687ed809b89663e38e1d78cbaec7314c)',
       backgroundSize: 'cover',
-      minHeight: '100vh',
+      minHeight: '60vh',
+      paddingBottom: '50px',
     }}>
       {DiamondDetail ? (
         <Container>
@@ -202,36 +206,99 @@ export default function DiamondDetail() {
                 textAlign: 'center',
               }}>
                 <h1>{DiamondDetail?.name}</h1>
-                <TableCell>
-                  <h5>Origin: {DiamondDetail?.origin}</h5>
-                </TableCell>
-                <TableCell>
-                  <h5>Carat weight: {DiamondDetail?.caratWeight}</h5>
-                </TableCell>
-                <TableCell>
-                  <h5>Clarity: {DiamondDetail?.clarity}</h5>
-                </TableCell>
-                <TableCell>
-                  <h5>Color: {DiamondDetail?.color}</h5>
-                </TableCell>
-                <TableCell>
-                  <h5>Cut: {DiamondDetail?.cut}</h5>
-                </TableCell>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}>
+                  <TableCell sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: '25px',
+                  }}>
+                    <h5 style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>Origin </h5>
+                    <TextField value={DiamondDetail?.origin}></TextField>
+                  </TableCell>
+                  <TableCell sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: '25px',
+                  }}>
+                    <h5 style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>Carat weight</h5>
+                    <TextField value={DiamondDetail?.caratWeight}></TextField>
+                  </TableCell>
+                  <TableCell sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: '25px',
+                  }}>
+                    <h5 style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>Clarity</h5>
+                    <TextField value={DiamondDetail?.clarity}></TextField>
+                  </TableCell>
+                  <TableCell sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: '25px',
+                  }}>
+                    <h5 style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>Color</h5>
+                    <TextField value={DiamondDetail?.color}></TextField>
+                  </TableCell>
+                  <TableCell sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: '25px',
+                  }}>
+                    <h5 style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>Cut</h5>
+                    <TextField value={DiamondDetail?.cut}></TextField>
+                  </TableCell>
+                </div>
                 <br />
 
                 <FormControl sx={{
                   width: '300px',
+                  marginBottom: '20px',
                 }}>
                   <h3 style={{ color: '#183471' }}>{price.toLocaleString()} $</h3>
                   {token ? (
-                    <AddToCartButton
-                      type='submit'
-                      variant='contained'
-                      size='large'
-                      onClick={() => submitForm(data)}
-                    >
-                      Add to cart
-                    </AddToCartButton>
+                    DiamondDetail.quantity > 0 ? (
+                      <AddToCartButton
+                        type='submit'
+                        variant='contained'
+                        size='large'
+                        onClick={() => submitForm(data)}
+                      >
+                        Add to cart
+                      </AddToCartButton>
+                    ) : (
+                      <AddToCartButton
+                        type='submit'
+                        variant='contained'
+                        size='large'
+                        onClick={() => alert('Out of stock')}
+                      >
+                        Out of stock
+                      </AddToCartButton>
+                    )
                   ) : (
                     <AddToCartButton
                       type='submit'
@@ -256,7 +323,42 @@ export default function DiamondDetail() {
               <br />
             </div>
           </div>
-
+          <div className='row' style={{
+            marginTop: '150px',
+            borderTop: '1px solid black',
+          }}>
+            <div className='col'>
+              <h2>
+                <WorkspacePremiumIcon sx={{ fontSize: '2em' }}></WorkspacePremiumIcon>QUALITY COMMITMENT
+              </h2>
+              <p>
+                <GppGoodIcon></GppGoodIcon>Jewelry/Jewelry Sets are 100% accurate in gold content and weight.
+              </p>
+              <p>
+                <GppGoodIcon></GppGoodIcon>Natural diamonds are 100% imported with official certification and have world-class reputation and global value. Fully equipped with modern machinery and equipment to check quality and check diamond edge codes.
+              </p>
+            </div>
+            <div className='col'>
+              <h2>
+                <LocalShippingIcon sx={{ fontSize: '2em' }}></LocalShippingIcon>ONLINE SHOPPING GUIDE
+              </h2>
+              <p>
+                <GppGoodIcon></GppGoodIcon>You go to the product page to view the products posted on the Website
+              </p>
+              <p>
+                <GppGoodIcon></GppGoodIcon> Add to cart.
+              </p>
+              <p>
+                <GppGoodIcon></GppGoodIcon> Check order information and place an order
+              </p>
+              <p>
+                <GppGoodIcon></GppGoodIcon>Check and confirm the order
+              </p>
+              <p>
+                <GppGoodIcon></GppGoodIcon> The order will be pending approval by the system and after approval, you can pay by PayOS or VNPay. After that, your order will be handed over to the carrier.
+              </p>
+            </div>
+          </div>
         </Container>
       ) : (
         <div style={{

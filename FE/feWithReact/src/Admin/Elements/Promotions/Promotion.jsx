@@ -8,7 +8,7 @@ export default function ShowAllPromotion() {
   const role = localStorage.getItem('role')
   const [dataPromotion, setDataPromotion] = useState(null)
   const [triggerRead, setTriggerRead] = useState(false)
-  const dataRow = ['#', 'Point', 'Discount Percentage',]
+  const dataRow = ['Point', 'Discount Percentage',]
   useEffect(() => {
     if (role !== '1') {
       navigate('/admin')
@@ -64,9 +64,8 @@ export default function ShowAllPromotion() {
                   {
                     Array.isArray(dataPromotion) && dataPromotion.map((data, index) => (
                       <TableRow key={data.id}>
-                        <TableCell>{index + 1}</TableCell>
                         <TableCell>{data.point}</TableCell>
-                        <TableCell>{data.discountPercentage}</TableCell>
+                        <TableCell>{data.discountPercentage}%</TableCell>
                         <TableCell><DeletePromotion id={data.id} onPromotionDeleted={() => setTriggerRead(prev => !prev)}></DeletePromotion></TableCell>
                       </TableRow>
                     ))

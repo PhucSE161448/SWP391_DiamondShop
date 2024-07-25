@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { swiffyslider } from 'swiffy-slider';
 import "swiffy-slider/css"
 import { createApi } from '../../../Auth/AuthFunction'
-import { Card, CardContent, CardMedia } from '@mui/material';
+import { Card, } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
+import CircularProgress from '@mui/material/CircularProgress'
 export default function Collection() {
   const [data, setData] = useState([])
   const navigate = useNavigate();
@@ -42,36 +42,48 @@ export default function Collection() {
       <div>
         <h1 className>Collection</h1>
       </div>
-      <div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm'>
-        <ul className='slider-container'>
-          {data.filter(item => !item.isDeleted).map((data) => (
-            <li key={data.id}>
-              <div onClick={() => handleNavigateCollection(data.id)} style={{
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-                <Card sx={{
-                  border: '1px solid #000000',
-                  borderRadius: '50px',
-                  margin: '10px',
-                  width: '350px',
-                  height: '100px',
+      {data ? (
+        <div className='swiffy-slider slider-item-show4 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm'>
+          <ul className='slider-container'>
+            {data.filter(item => !item.isDeleted).map((data) => (
+              <li key={data.id}>
+                <div onClick={() => handleNavigateCollection(data.id)} style={{
+                  cursor: 'pointer',
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                  <h5>{data.name}</h5>
-                </Card>
-              </div>
-            </li>
-          ))}
-        </ul>
+                  <Card sx={{
+                    border: '1px solid #000000',
+                    borderRadius: '50px',
+                    margin: '10px',
+                    width: '350px',
+                    height: '100px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                    <h5>{data.name}</h5>
+                  </Card>
+                </div>
+              </li>
+            ))}
+          </ul>
 
-        <button type='button' className='slider-nav' aria-label='Go left'></button>
-        <button type='button' className='slider-nav slider-nav-next' aria-label='Go left'></button>
-      </div>
+          <button type='button' className='slider-nav' aria-label='Go left'></button>
+          <button type='button' className='slider-nav slider-nav-next' aria-label='Go left'></button>
+        </div>
+      ) : (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          width: '100%',
+        }}>
+          <CircularProgress />
+        </div>
+      )}
     </div>
   )
 }

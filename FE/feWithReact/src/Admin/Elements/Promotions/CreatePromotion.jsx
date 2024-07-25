@@ -83,9 +83,9 @@ export default function CreatePromotion(props) {
           border: '1px solid #000',
           boxShadow: 24,
           p: 4,
-          overflow: 'auto'
+          width: '30%',
         }}>
-          <h3 className='titleOfForm'>CREATE Promotion</h3>
+          <h3 className='titleOfForm'>CREATE PROMOTION</h3>
           <div>
             <Formik
               initialValues={initialValues}

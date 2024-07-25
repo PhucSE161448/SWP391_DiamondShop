@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Modal, Box, TextField, Select, InputLabel, MenuItem,  FormControl } from '@mui/material'
+import { Button, Modal, Box, TextField, Select, InputLabel, MenuItem, FormControl } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend'
 import { checkApiStatus, createApi } from '../../../Auth/AuthFunction'
 import EditIcon from '@mui/icons-material/Edit'
-export default function UpdateAccount({ onClick, ...props }) {
+export default function UpdateAccount(props) {
 	const [idAccount, setIdAccount] = useState('')
 	const [nameAccount, setnameAccount] = useState('')
 	const [emailAccount, setEmailAccount] = useState('')
@@ -54,10 +54,11 @@ export default function UpdateAccount({ onClick, ...props }) {
 				'Authorization': `Bearer ${localStorage.getItem('token')}`
 			},
 			body: JSON.stringify(data)
-		}).then(response => checkApiStatus(response))
-			.then(() => {
-				props.onAccountUpdated()
-			})
+		}).then(response => {
+			checkApiStatus(response)
+			props.onAccountUpdated()
+			handleClose()
+		})
 
 	}
 
@@ -107,7 +108,7 @@ export default function UpdateAccount({ onClick, ...props }) {
 	return (
 		<div>
 			<Button type="button" size="large"
-				onClick={() => { handleOpen(); onClick() }}
+				onClick={handleOpen}
 			>
 				<EditIcon></EditIcon>
 			</Button>
@@ -125,14 +126,8 @@ export default function UpdateAccount({ onClick, ...props }) {
 					boxShadow: 24,
 					p: 4,
 				}}>
-					<h3 className='titleOfForm'>UPDATE Account</h3>
+					<h3 className='titleOfForm'>UPDATE ACCOUNT</h3>
 					<form onSubmit={handleSubmit}>
-						<div className='row'>
-							<div className='col-12'>
-								<TextField disabled type="text" value={props.id}
-									id="outlined-basic" label="Id" variant="outlined" className='form-control' />
-							</div>
-						</div> <br />
 						<div className='row'>
 							<div className='col-6'>
 								<TextField type="text" defaultValue={props.email} onChange={handleEmailChange}
@@ -173,21 +168,21 @@ export default function UpdateAccount({ onClick, ...props }) {
 								type="submit"
 								className='submitButton'
 								value="Submit" variant="contained"
-								size="large" endIcon={<SendIcon />}
+								size="large"
 								sx={{
 									margin: '5px',
 								}}>
-								Send
+								Save
 							</Button>
 							<Button type="button"
-								value="Clear" onClick={handleClear}
+								value="Clear"
 								className='submitButton'
 								variant="contained" size="large" color="error"
-								endIcon={<CancelScheduleSendIcon />}
+								onClick={handleClose}
 								sx={{
 									margin: '5px',
 								}}>
-								Clear
+								Cancel
 							</Button>
 						</div>
 					</form>

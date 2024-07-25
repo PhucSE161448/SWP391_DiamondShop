@@ -20,6 +20,6 @@ export default function DeletePromotion(props) {
   }
 
   return (
-    <Button onClick={() => DeletePromotion(props.id)} variant='contained'>Delete</Button>
+    <Button onClick={() => DeletePromotion(props.id)} variant='contained' color='error'>Delete</Button>
   )
 }

@@ -137,6 +137,10 @@ export default function OrderAdmin() {
     createStatus(id, 'Approved')
   }
 
+  const cancelButton = (id) => {
+    createStatus(id, 'Cancelled')
+  }
+
   const handlePageChange = (event, value) => {
     navigate(`/admin/order?pageNumber=${value}&status=${status}`)
     setDataOrder(null)
@@ -144,7 +148,7 @@ export default function OrderAdmin() {
     setTriggerRead(prev => !prev)
   }
 
-  const headerTable = ['Order ID', 'Order Date', 'Customer Name', 'Order Status', 'Order Total', 'Phone', 'Address', 'Detail', '']
+  const headerTable = ['Order Date', 'Customer Name', 'Order Status', 'Order Total', 'Phone', 'Address', 'Payment method', 'Detail', '']
   const headerTableDetail = ['Image', 'Product Name', 'Quantity', 'Price']
 
   return (
@@ -200,7 +204,6 @@ export default function OrderAdmin() {
                   <TableBody>
                     {dataOrder.items?.map((order) => (
                       <TableRow key={order.id}>
-                        <TableCell>{order.id}</TableCell>
                         <TableCell>{order.createdDate}</TableCell>
                         <TableCell>{order.accountName}</TableCell>
                         <TableCell>
@@ -233,14 +236,26 @@ export default function OrderAdmin() {
                           {order.address}
                         </TableCell>
                         <TableCell>
+                          {order.paymentName}
+                        </TableCell>
+                        <TableCell>
                           <Button onClick={() => handleOpen(order.id)}>
                             Detail
                           </Button>
                         </TableCell>
                         <TableCell>
                           {(order.status === 'Wait To Approve') && (
-                            <div>
-                              <Button variant="contained" onClick={() => approveButton(order.id)}>Approve</Button>
+                            <div style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              gap: '10px',
+                            }}>
+                              <div>
+                                <Button variant="contained" onClick={() => approveButton(order.id)}>Approve</Button>
+                              </div>
+                              <div>
+                                <Button variant="contained" onClick={() => cancelButton(order.id)} color='error'>Cancel</Button>
+                              </div>
                             </div>
                           )}
                           {(order.status === 'Paid') && (

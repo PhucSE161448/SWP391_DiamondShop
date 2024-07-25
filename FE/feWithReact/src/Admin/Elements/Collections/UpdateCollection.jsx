@@ -72,7 +72,7 @@ export default function UpdateCollection(props) {
           bgcolor: 'background.paper',
           p: 4,
           overflow: 'auto',
-          width: '50%',
+          width: '30%',
         }}>
           <h3 className='titleOfForm'>UPDATE COLLECTION</h3>
           <Formik

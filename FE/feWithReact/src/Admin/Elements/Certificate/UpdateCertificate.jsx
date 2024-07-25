@@ -102,11 +102,12 @@ export default function UpdateCertificate(props) {
       },
       body: JSON.stringify(data)
     })
-      .then(response => checkApiStatus(response))
-      .then(() => {
-        handleClose()
+      .then(response => {
+        checkApiStatus(response)
         props.onCertificateUpdated()
+        handleClose()
       })
+
   }
 
   return (

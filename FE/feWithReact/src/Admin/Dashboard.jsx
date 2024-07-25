@@ -4,13 +4,24 @@ import { BarChart } from '@mui/x-charts/BarChart'
 import { FormControl, Select, MenuItem, InputLabel, Box } from '@mui/material'
 import { CircularProgress } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import Inventory2Icon from '@mui/icons-material/Inventory2'
+import DiamondIcon from '@mui/icons-material/Diamond'
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
+import LocalAtmIcon from '@mui/icons-material/LocalAtm'
 export default function Dashboard() {
   const [dataDashboard, setDataDashboard] = useState([])
   const [year, setYear] = useState(new Date().getFullYear().toString())
   const [dataDashboardStats, setDataDashboardStats] = useState(null)
   const [triggerRead, setTriggerRead] = useState(false)
   const navigate = useNavigate()
-  const years = Array.from({ length: 2034 - 2024 + 1 }, (_, index) => 2024 + index);
+  const years = Array.from({ length: 2034 - 2024 + 1 }, (_, index) => 2024 + index)
+  const role = localStorage.getItem('role')
+  if (role === '3' || role === '4') {
+    navigate('/admin/order')
+  }
+  if (role === '2') {
+    navigate('/admin/product')
+  }
   useEffect(() => {
     function getDataDashboard() {
       for (let month = 1; month <= 12; month++) {
@@ -85,6 +96,10 @@ export default function Dashboard() {
                       boxShadow: '0 0 10px 0 rgba(0,0,0,0.5)',
                     }
                   }} onClick={() => navigate('/admin/product?pageNumber=1&name=&OrderBy=false')}>
+                    <Inventory2Icon sx={{
+                      fontSize: '50px',
+                      margin: '0.5rem'
+                    }} />
                     <h4>Product </h4>
                     <h4>{dataDashboardStats.numberOfProducts}</h4>
                   </Box>
@@ -96,6 +111,10 @@ export default function Dashboard() {
                       boxShadow: '0 0 10px 0 rgba(0,0,0,0.5)',
                     }
                   }} onClick={() => navigate('/admin/diamond?pageNumber=1&name=&OrderBy=false')}>
+                    <DiamondIcon sx={{
+                      fontSize: '50px',
+                      margin: '0.5rem'
+                    }} />
                     <h4>Diamond</h4>
                     <h4>{dataDashboardStats.numberOfDiamonds}</h4>
                   </Box>
@@ -103,6 +122,10 @@ export default function Dashboard() {
                     ...styleBox,
                     backgroundColor: 'lightcoral',
                   }}>
+                    <AttachMoneyIcon sx={{
+                      fontSize: '50px',
+                      margin: '0.5rem'
+                    }} />
                     <h4>Revenue</h4>
                     <h4>${dataDashboardStats.totalRevenue?.toLocaleString()}</h4>
                   </Box>
@@ -110,6 +133,10 @@ export default function Dashboard() {
                     ...styleBox,
                     backgroundColor: 'lightgray',
                   }}>
+                    <LocalAtmIcon sx={{
+                      fontSize: '50px',
+                      margin: '0.5rem'
+                    }} />
                     <h4>Profit</h4>
                     <h4>$
                       {Number(dataDashboardStats.profit).
@@ -161,7 +188,7 @@ export default function Dashboard() {
                     }}>
                       <BarChart
                         yAxis={[{
-                          label: 'Total Orders',
+                          label: 'Total Orders Finished',
                           valueFormatter: (value) => `${value}`,
                         }]}
                         xAxis={[{ label: 'Month', scaleType: 'band', data: dataDashboard.map(item => item.month) }]}
@@ -169,7 +196,7 @@ export default function Dashboard() {
                         width={500}
                         height={300}
                       />
-                      <h4>Total Orders</h4>
+                      <h4>Total Orders Finished</h4>
                     </div>
                     <div style={{
                       display: 'flex',
