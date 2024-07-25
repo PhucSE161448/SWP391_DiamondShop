@@ -7,7 +7,7 @@ export default function Category() {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (role !== '1') {
+		if (role !== '1' && role !== '2') {
 			navigate('/admin')
 		}
 	})

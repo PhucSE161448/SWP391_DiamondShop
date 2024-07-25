@@ -38,7 +38,7 @@ export default function ShowAllProduct() {
   const role = localStorage.getItem('role')
 
   useEffect(() => {
-    if (role !== '1') {
+    if (role !== '1' && role !== '2') {
       navigate('/admin')
     }
   })
@@ -227,7 +227,7 @@ export default function ShowAllProduct() {
     ReadData()
   }, [triggerRead])
 
-  const tableHead = ['#', 'Image', 'Name', 'Status']
+  const tableHead = ['Image', 'Name', 'Status']
   return (
     <>
       <div className='contentAdminContainer'>
@@ -409,7 +409,6 @@ export default function ShowAllProduct() {
                     <TableBody>
                       {data && data.map((item, index) => (
                         <TableRow key={index}>
-                          <TableCell>{index + 1}</TableCell>
                           <TableCell>
                             <ImageList sx={{ width: 200, height: 150 }} cols={1} rowHeight={150}>
                               {item.images && item.images.map((image, index) => (

@@ -1,25 +1,30 @@
 import React from 'react'
 function Service1() {
   return (
-    <div className="container" style={{
-      padding: '20px',
+    <div style={{
+      background: 'url(https://img.freepik.com/free-vector/blue-white-crystal-textured-background_53876-85226.jpg?w=1380&t=st=1719599020~exp=1719599620~hmac=e182c45295cca98949de853e8f72341b687ed809b89663e38e1d78cbaec7314c)',
+      backgroundSize: 'cover',
+      minHeight: '100vh',
     }}>
-      <h1 style={{textAlign: 'center'}}>Ring Size Guide</h1>
+      <div className="container" style={{
+        padding: '20px',
+      }}>
+        <h1 style={{ textAlign: 'center' }}>Ring Size Guide</h1>
         <section>
           <ol>
             <li>Choose a ring with a similar width and design to the one you intend to buy.</li>
-            <li>Use a ruler to measure the inside diameter of the ring.</li>
+            <li>Use a string to measure the diameter of your finger.</li>
             <li>Compare with the Ring Size Reference Chart.</li>
             <li>Adjust the ring size before placing an online order.</li>
           </ol>
         </section>
 
         <section>
-        <img src="https://file.hstatic.net/1000381168/file/cach-do-ni-size_c01f786c8b7f4f44ae64dedf1d4e5d3a.png" alt="Ring Size Chart" style={{
-          maxWidth: '100%', // Make sure the image is responsive
-          height: '300px',
-          margin: '20px',
-        }} />
+          <img src="https://www.alexmakina.com/Data/EditorFiles/alex/Blog%20G%C3%B6rsel/Ring%20Size%20Measurement%20Using%20Thread%20or%20Floss.jpg" alt="Ring Size Chart" style={{
+            maxWidth: '100%', // Make sure the image is responsive
+            height: '300px',
+            margin: '20px',
+          }} />
         </section>
 
         <section>
@@ -31,16 +36,17 @@ function Service1() {
             <li>The ring size reference chart below is for reference only. Customers are advised to visit the DIAMOND STORE system for the most accurate ring size measurement.</li>
             <li>Customers are required to pay additional fees for making new molds, processing, and crafting when the ring size exceeds the STANDARD SIZE (Female size 15 and above, Male size 20.5 and above).</li>
           </ul>
-       </section>
+        </section>
 
-       <section>
+        <section>
           <h2>Ring Size Reference Chart</h2>
-          <img src="https://th.bing.com/th/id/R.02f6b623400e16a3f360dce55eb21fbb?rik=PcFMykFYtpW%2btQ&riu=http%3a%2f%2ffile.hstatic.net%2f1000112565%2ffile%2fbang-size-nhan-chuan.jpg&ehk=TxLgJie37cBJhKMMJVTLuIR3WGpjSThfk%2fedRtRVfcs%3d&risl=&pid=ImgRaw&r=0" alt="Ring Size Chart" style={{
+          <img src="https://ar.happyvalentinesday2020.online/pics/printablee.com/postpic/2010/10/printable-ring-size-chart_351544.png" alt="Ring Size Chart" style={{
             maxWidth: '100%', // Make sure the image is responsive
             height: 'auto',
             margin: '20px 0', // Add some margin for spacing
           }} />
-       </section>
+        </section>
+      </div>
     </div>
   )
 }

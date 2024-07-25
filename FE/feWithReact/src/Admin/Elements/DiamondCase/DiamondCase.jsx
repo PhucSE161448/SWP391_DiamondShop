@@ -7,7 +7,7 @@ export default function DiamondCase() {
 	const role = localStorage.getItem('role')
 
 	useEffect(() => {
-		if (role !== '1') {
+		if (role !== '1' && role !== '2') {
 			navigate('/admin')
 		}
 	})

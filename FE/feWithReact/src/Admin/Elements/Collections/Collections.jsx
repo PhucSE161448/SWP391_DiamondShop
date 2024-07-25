@@ -8,7 +8,7 @@ export default function DiamondCase() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (role !== '1') {
+    if (role !== '1' && role !== '2') {
       navigate('/admin')
     }
   })

@@ -98,7 +98,7 @@ export default function CreateCategory(props) {
 					boxShadow: 24,
 					p: 4,
 					overflow: 'auto',
-					width: '50%',
+					width: '30%',
 				}}>
 					<h3 className='titleOfForm'>CREATE CATEGORY</h3>
 					<div>

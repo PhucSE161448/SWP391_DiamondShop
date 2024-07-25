@@ -99,7 +99,7 @@ export default function CreateAccount(props) {
 						width: '50%	',
 						overflow: 'auto'
 					}}>
-						<h3 className='titleOfForm'>CREATE Account</h3>
+						<h3 className='titleOfForm'>CREATE ACCOUNT</h3>
 						<div>
 							<form onSubmit={handleSubmit}>
 								<div className='row'>
@@ -170,17 +170,16 @@ export default function CreateAccount(props) {
 										type="submit"
 										className='submitButton'
 										value="Submit" variant="contained"
-										size="large" endIcon={<SendIcon />}
+										size="large" 
 										sx={{
 											margin: '5px',
 										}}>
-										Send
+										Save
 									</Button>
 									<Button type="button"
 										onClick={handleClose}
 										className='submitButton'
 										variant="contained" size="large" color="error"
-										endIcon={<CancelScheduleSendIcon />}
 										sx={{
 											margin: '5px',
 										}}>

@@ -30,11 +30,11 @@ export default function ShowAllDiamond() {
   const [Price, setPrice] = useState(null)
   const role = localStorage.getItem('role')
   const navigate = useNavigate()
-  const rowsHeader = ["#", "Image", "Origin", "Color", "Carat Weight",
+  const rowsHeader = ["Image", "Origin", "Color", "Carat Weight",
     "Clarity", "Cut", "Price", "Quantity", "Status",
   ]
   useEffect(() => {
-    if (role !== '1') {
+    if (role !== '1' && role !== '2') {
       navigate('/admin')
     }
   })
@@ -454,7 +454,6 @@ export default function ShowAllDiamond() {
                       {data && data.map((item, index) => (
                         <>
                           <TableRow key={index}>
-                            <TableCell>{index + 1}</TableCell>
                             <TableCell>
                               <ImageList sx={{ width: 200, height: 150 }} cols={1} rowHeight={150}>
                                 {item.images && item.images.map((image, index) => (

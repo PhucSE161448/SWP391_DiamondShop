@@ -4,6 +4,7 @@ import { Card, CardContent, } from '@mui/material'
 import { swiffyslider } from 'swiffy-slider'
 import "swiffy-slider/css"
 import { createApi } from '../../../Auth/AuthFunction'
+import CircularProgress from '@mui/material/CircularProgress'
 export default function Category() {
 	const [CategoryData, setCategoryData] = useState([]);
 	const navigate = useNavigate();
@@ -49,35 +50,47 @@ export default function Category() {
 			<div>
 				<h1 className>CATEGORY</h1>
 			</div>
-			<div className='swiffy-slider slider-item-show6 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm'>
-				<ul className='slider-container'>
-					{CategoryData.filter(item => !item.isDeleted).map((CategoryData) => (
-						<li key={CategoryData.id}>
-							<div onClick={() => handleNavigateCategory(CategoryData.id)} style={{
-								cursor: 'pointer',
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-							}}>
-								<Card sx={{
-									border: '1px solid #000000',
-									borderRadius: '50px',
-									width: '250px',
-									height: '75px',
+			{CategoryData ? (
+				<div className='swiffy-slider slider-item-show6 slider-nav-page slider-nav-autoplay slider-nav-autopause slider-nav-dark slider-item-show2-sm'>
+					<ul className='slider-container'>
+						{CategoryData.filter(item => !item.isDeleted).map((CategoryData) => (
+							<li key={CategoryData.id}>
+								<div onClick={() => handleNavigateCategory(CategoryData.id)} style={{
+									cursor: 'pointer',
 									display: 'flex',
 									justifyContent: 'center',
 									alignItems: 'center',
 								}}>
-									<h5>{CategoryData.name}</h5>
-								</Card>
-							</div>
-						</li>
-					))}
-				</ul>
+									<Card sx={{
+										border: '1px solid #000000',
+										borderRadius: '50px',
+										width: '250px',
+										height: '75px',
+										display: 'flex',
+										justifyContent: 'center',
+										alignItems: 'center',
+									}}>
+										<h5>{CategoryData.name}</h5>
+									</Card>
+								</div>
+							</li>
+						))}
+					</ul>
 
-				<button type='button' className='slider-nav' aria-label='Go left'></button>
-				<button type='button' className='slider-nav slider-nav-next' aria-label='Go left'></button>
-			</div>
+					<button type='button' className='slider-nav' aria-label='Go left'></button>
+					<button type='button' className='slider-nav slider-nav-next' aria-label='Go left'></button>
+				</div>
+			) : (
+				<div style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: '50vh',
+					width: '100%',
+				}}>
+					<CircularProgress />
+				</div>
+			)}
 		</div>
 	)
 }

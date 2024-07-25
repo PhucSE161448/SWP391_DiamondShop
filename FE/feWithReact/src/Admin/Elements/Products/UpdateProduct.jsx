@@ -302,7 +302,7 @@ export default function UpdateProduct(props) {
           bgcolor: 'background.paper',
           p: 4,
           overflow: 'auto',
-          height: '70vh',
+          height: '50vh',
           width: '70%',
         }}>
           <h3 className='titleOfForm'>UPDATE PRODUCT</h3>

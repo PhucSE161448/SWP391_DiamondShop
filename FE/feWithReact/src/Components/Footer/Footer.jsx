@@ -13,7 +13,7 @@ export default function Footer() {
     <footer style={{
       backgroundColor: '#001529',
       color: '#fff',
-      padding: '30px 20px',
+      padding: '30px 0 0 0',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -23,52 +23,84 @@ export default function Footer() {
       <div>
         <div style={{
           width: '100%',
-          maxWidth: '1200px',
           display: 'flex',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           textAlign: 'left',
           gap: '20px',
-        }}>
+        }} className='row'>
+          <div className='col' style={{
+            display: 'flex',
+            flexDirection: 'column',
+            fontSize: '1.5em',
+            alignItems: 'center',
+          }}>
+            <div>
+              <img src="https://cdn-icons-png.flaticon.com/512/14676/14676921.png" alt="" style={{
+                width: '120px',
+                backgroundColor: '#fff',
+                borderRadius: '20px',
+              }} /> <br />
+            </div>
+            <div>
+              <p>Pure Perfection in Every Carat.</p>
+              <p>Sparkle with Every Moment.</p>
+            </div>
+            <div style={{ marginTop: '10px' }}>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', margin: '0 10px' }}>
+                <FaFacebookF size={20} />
+              </a>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', margin: '0 10px' }}>
+                <FaGithub size={20} />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', margin: '0 10px' }}>
+                <FaInstagram size={20} />
+              </a>
+            </div>
+          </div>
           {/* Diamond Policies */}
           <div style={{
             flex: '1',
             margin: '0 20px',
-            minWidth: '250px',
             display: 'flex',
             flexDirection: 'column',
-          }}>
-
-            <ul style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0,
+          }} className='col'>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}>
-              <li>
-                <h1 style={{ fontSize: '1.8em', color: '#c0954a', fontWeight: 'bold', marginBottom: '15px' }}>
-                  Terms
-                </h1>
-              </li>
-              {['Diamond Policy', 'Customer Policy', 'Refund Policy', 'Shipping Policy', 'FAQ'].map((text) => (
-                <li key={text}>
-                  <h5
-                    onClick={() => navigate(`/${text.toLowerCase().replace(' ', '')}`)}
-                    onMouseEnter={() => handleMouseEnter(text.toLowerCase())}
-                    onMouseLeave={handleMouseLeave}
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: hovered === text.toLowerCase() ? 'underline' : 'none',
-                      color: hovered === text.toLowerCase() ? '#c0954a' : '#fff',
-                      marginBottom: '10px',
-                      fontSize: '1em',
-                      transition: 'color 0.3s',
-                    }}
-                  >
-                    {text}
-                  </h5>
+              <ul style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: 0,
+              }}>
+                <li>
+                  <h1 style={{ fontSize: '2em', color: '#c0954a', fontWeight: 'bold', marginBottom: '15px' }}>
+                    Terms
+                  </h1>
                 </li>
-              ))}
-            </ul>
+                {['Diamond Policy', 'Customer Policy', 'Refund Policy', 'Shipping Policy', 'FAQ'].map((text) => (
+                  <li key={text}>
+                    <h5
+                      onClick={() => navigate(`/${text.toLowerCase().replace(' ', '')}`)}
+                      onMouseEnter={() => handleMouseEnter(text.toLowerCase())}
+                      onMouseLeave={handleMouseLeave}
+                      style={{
+                        cursor: 'pointer',
+                        textDecoration: hovered === text.toLowerCase() ? 'underline' : 'none',
+                        color: hovered === text.toLowerCase() ? '#c0954a' : '#fff',
+                        marginBottom: '10px',
+                        fontSize: '1.1em',
+                        transition: 'color 0.3s',
+                      }}
+                    >
+                      {text}
+                    </h5>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Contact Information */}
@@ -76,17 +108,17 @@ export default function Footer() {
             flex: '1',
             margin: '0 20px',
             minWidth: '250px',
-          }}>
-            <h1 style={{ fontSize: '1.8em', color: '#c0954a', fontWeight: 'bold', marginBottom: '15px' }}>Contact Us</h1>
-            <div style={{ marginBottom: '10px', fontSize: '1em' }}>
+          }} className='col'>
+            <h1 style={{ fontSize: '2em', color: '#c0954a', fontWeight: 'bold', marginBottom: '15px' }}>Contact Us</h1>
+            <div style={{ marginBottom: '10px', fontSize: '1.1em' }}>
               <FaPhoneAlt style={{ marginRight: '10px' }} />
               <span>Phone: 012 3456789 - Fax: 012 3456789</span>
             </div>
-            <div style={{ marginBottom: '10px', fontSize: '1em' }}>
+            <div style={{ marginBottom: '10px', fontSize: '1.1em' }}>
               <FaEnvelope style={{ marginRight: '10px' }} />
               <span>Email: support@example.com</span>
             </div>
-            <div style={{ marginBottom: '10px', fontSize: '1em' }}>
+            <div style={{ marginBottom: '10px', fontSize: '1.1em' }}>
               <FaMapMarkerAlt style={{ marginRight: '10px' }} />
               <span>Address: Lot E2a-7, Road D1, Long Thanh My, Thu Duc City, Ho Chi Minh City</span>
             </div>
@@ -101,51 +133,47 @@ export default function Footer() {
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
-            <div style={{ fontSize: '1em' }}>
-              <small>© {new Date().getFullYear()} Diamond Shop</small>
-            </div>
-            <div style={{ marginTop: '10px' }}>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', margin: '0 10px' }}>
-                <FaFacebookF size={20} />
-              </a>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', margin: '0 10px' }}>
-                <FaGithub size={20} />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', margin: '0 10px' }}>
-                <FaInstagram size={20} />
-              </a>
-            </div>
           </div>
 
           {/* About Us with Image */}
           <div style={{
             flex: '1',
             margin: '0 20px',
-            minWidth: '250px',
             display: 'flex',
             flexDirection: 'column',
-          }}>
-            <h1 style={{ fontSize: '1.8em', marginBottom: '15px', fontWeight: 'bold', color: '#c0954a', borderBottom: '2px solid #c0954a', paddingBottom: '10px' }}>
+          }} className='col'>
+            <h1 style={{ fontSize: '2em', marginBottom: '15px', fontWeight: 'bold', color: '#c0954a', borderBottom: '2px solid #c0954a', paddingBottom: '10px' }}>
               About Us
             </h1>
             <div style={{ fontSize: '1.5em', color: '#c0954a', fontWeight: 'bold', marginBottom: '10px' }}>
               DIAMOND STORE
             </div>
-            <div style={{ marginBottom: '10px', fontSize: '1.2em', color: '#fff' }}>
+            <div style={{ marginBottom: '10px', fontSize: '1.1em', color: '#fff' }}>
               Diamond & Jewelry
             </div>
-            <p style={{ marginBottom: '10px', lineHeight: '1.6', color: '#fff', fontSize: '1em' }}>
+            <p style={{ marginBottom: '10px', lineHeight: '1.6', color: '#fff', fontSize: '1.1em' }}>
               With their radiant beauty and unmatched elegance, diamonds and precious stones have always been the choice of the elite and the epitome of luxury.
             </p>
-            <p style={{ marginBottom: '10px', lineHeight: '1.6', color: '#fff', fontSize: '1em' }}>
+            <p style={{ marginBottom: '10px', lineHeight: '1.6', color: '#fff', fontSize: '1.1em' }}>
               Our customers can be completely assured of the quality, value, and price of each diamond when purchasing from Diamond Official Store. Integrity and responsibility in business are our foremost principles!
             </p>
-            <p style={{ color: '#fff', lineHeight: '1.6', fontSize: '1em' }}>
+            <p style={{ color: '#fff', lineHeight: '1.6', fontSize: '1.1em' }}>
               Let DIAMOND STORE elevate your life!
             </p>
           </div>
         </div>
       </div>
+      <div style={{
+        fontSize: '1em',
+        padding: '20px',
+        borderTop: '2px solid #c0954a',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+
+      }}>
+        <small>Copyright ©{new Date().getFullYear()} Diamond Shop All rights reserved</small>
+      </div>
     </footer>
-  );
+  )
 }

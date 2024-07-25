@@ -43,7 +43,7 @@ export default function CRUDCollections() {
     Read()
   }, [triggerRead])
 
-  const tableHead = ['#', 'Name', 'Status',]
+  const tableHead = ['Name', 'Status',]
   return (
     <>
       {data ? (
@@ -77,7 +77,6 @@ export default function CRUDCollections() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((data, index) => (
                       <TableRow key={data.id}>
-                        <TableCell>{index + 1 + page * rowsPerPage}</TableCell>
                         <TableCell style={{
                           maxWidth: '11vw',
                           minWidth: '11vw'

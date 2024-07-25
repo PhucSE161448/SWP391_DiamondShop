@@ -40,6 +40,7 @@ import CustomerPolicy from './Pages/CustomerPolicy'
 import FAQ from './Pages/FAQ'
 import RefundPolicy from './Pages/RefundPolicy'
 import ShippingPolicy from './Pages/ShippingPolicy'
+import GetPageDiamondPrice from './Components/Diamonds/GetPageDiamondPrice'
 export default function App() {
   const clientId = "629470625241-289cmgv2sgrusl96bhmhsnpjjbr0m98b.apps.googleusercontent.com";
   useEffect(() => {
@@ -75,6 +76,7 @@ export default function App() {
             <Route path='/faq' element={<FAQ></FAQ>}></Route>
             <Route path='/refundPolicy' element={<RefundPolicy></RefundPolicy>}></Route>
             <Route path='/shippingPolicy' element={<ShippingPolicy></ShippingPolicy>}></Route>
+            <Route path='/diamondPrice' element={<GetPageDiamondPrice></GetPageDiamondPrice>}></Route>
           </Route>
 
           <Route path='/pdfWarranty/:id' element={<PdfFileWarranty />}></Route>

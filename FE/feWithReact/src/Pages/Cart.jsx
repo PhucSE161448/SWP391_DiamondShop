@@ -204,8 +204,14 @@ export default function Cart() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify(data)
+      }).then(response => {
+        if (!response.ok) {
+          return response.json()
+        } else { navigate('/order') }
       })
-      navigate('/order')
+        .then(data => alert(data.ErrorMessage))
+
+
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error)
     }

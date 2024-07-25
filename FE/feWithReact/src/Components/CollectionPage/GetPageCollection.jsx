@@ -4,8 +4,9 @@ import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState } from 'react'
 import {
   Stack, Pagination, CardMedia, FormControl, InputLabel,
-  Select, MenuItem, 
+  Select, MenuItem,
 } from '@mui/material'
+import CircularProgress from '@mui/material/CircularProgress'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { createApi } from '../../Auth/AuthFunction'
 export default function GetPageCollection() {
@@ -74,15 +75,12 @@ export default function GetPageCollection() {
 
   useEffect(() => {
     setCollectionIds([id])
-
-    console.log(id)
   }, [id])
 
   useEffect(() => {
 
     function ReadData() {
       let queryString = new URLSearchParams();
-      console.log(params.queryDTO)
       Object.entries(params.queryDTO).forEach(([key, value]) => {
         if (key === 'CollectionIds' && Array.isArray(value)) { // Check if value is an array
           value.forEach((id) => { // Iterate over the array
@@ -134,7 +132,6 @@ export default function GetPageCollection() {
             >
               <MenuItem value={false}>Ascending</MenuItem>
               <MenuItem value={true}>Descending</MenuItem>
-              <MenuItem value={null}>Default</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -151,9 +148,9 @@ export default function GetPageCollection() {
               onChange={(e) => handleSelectPrice(e.target.value)}
             >
               {
-                Array.from({ length: (100000 - 1000) / 15000 }, (_, index) => {
-                  const start = 1000 + (15000 * index);
-                  const end = start + 15000;
+                Array.from({ length: (7000 - 1000) / 500 }, (_, index) => {
+                  const start = 1000 + (500 * index);
+                  const end = start + 500;
                   return (
                     <MenuItem key={index} value={`${start}-${end}`}>
                       ${start.toLocaleString()} - ${end.toLocaleString()}
@@ -166,67 +163,81 @@ export default function GetPageCollection() {
           </FormControl>
         </Grid>
       </Grid>
-      <Container sx={{
-        display: 'flex',
-        justifyContent: 'center',
-      }}>
-        <Box>
-          <Grid container columnSpacing={9} rowSpacing={6} sx={{ width: '80vw' }} columns={{ xs: 12, sm: 8, md: 12 }}>
-            {data && data.map((item, index) =>
-              item.isDeleted ? null : (
-                <Grid item xs={12} sm={4} md={3} key={index} sx={{
-                  width: '15vw',
-                }} >
-                  <Link
-                    to={`/product/detail/${item.id}`}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <Card>
-                      <CardContent>
-                        {item.images && item.images[0] && item.images[0].urlPath ? (
-                          <>
-                            <CardMedia
-                              component="img"
-                              image={item.images[0].urlPath}
-                              alt="Paella dish"
-                              sx={{
-                                width: '100%',
-                                borderRadius: '20px',
-                              }}
-                            />
-                          </>
+      {data ? (
+        <>
+          <Container sx={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}>
+            <Box>
+              <Grid container columnSpacing={9} rowSpacing={6} sx={{ width: '80vw' }} columns={{ xs: 12, sm: 8, md: 12 }}>
+                {data && data.map((item, index) =>
+                  item.isDeleted ? null : (
+                    <Grid item xs={12} sm={4} md={3} key={index} sx={{
+                      width: '15vw',
+                    }} >
+                      <Link
+                        to={`/product/detail/${item.id}`}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <Card>
+                          <CardContent>
+                            {item.images && item.images[0] && item.images[0].urlPath ? (
+                              <>
+                                <CardMedia
+                                  component="img"
+                                  image={item.images[0].urlPath}
+                                  alt="Paella dish"
+                                  sx={{
+                                    width: '100%',
+                                    borderRadius: '20px',
+                                  }}
+                                />
+                              </>
 
-                        ) : null}
-                        <p style={{
-                          textAlign: 'center',
-                          fontSize: '20px',
-                        }}>
-                          {item.name}
-                        </p>
-                        <p
-                          style={{
-                            textAlign: 'center',
-                            fontSize: '20px',
-                          }}>
-                          Price: {item.productSizes[0]?.price.toLocaleString()}$
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </Grid>
-              )
-            )}
-          </Grid>
-        </Box>
-      </Container><br />
-      <Stack sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+                            ) : null}
+                            <p style={{
+                              textAlign: 'center',
+                              fontSize: '20px',
+                            }}>
+                              {item.name}
+                            </p>
+                            <p
+                              style={{
+                                textAlign: 'center',
+                                fontSize: '20px',
+                              }}>
+                              Price: {item.productSizes[0]?.price.toLocaleString()}$
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    </Grid>
+                  )
+                )}
+              </Grid>
+            </Box>
+          </Container><br />
+          <Stack sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
 
-      }}>
-        <Pagination count={TotalPage} page={PageNumber} onChange={handlePageChange} size="large" />
-      </Stack>
+          }}>
+            <Pagination count={TotalPage} page={PageNumber} onChange={handlePageChange} size="large" />
+          </Stack>
+        </>
+      ) :
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          width: '100%',
+        }}>
+          <CircularProgress />
+        </div>
+      }
     </div>
   )
 }

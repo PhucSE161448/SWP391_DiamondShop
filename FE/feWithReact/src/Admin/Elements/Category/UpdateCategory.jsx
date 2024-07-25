@@ -95,7 +95,7 @@ export default function UpdateCategory(props) {
           boxShadow: 24,
           p: 4,
           overflow: 'auto',
-          width: '50%',
+          width: '30%',
         }}>
           <h3 className='titleOfForm'>UPDATE CATEGORY</h3>
           <div style={{

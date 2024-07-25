@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TextField, Button, styled } from '@mui/material'
-import SendIcon from '@mui/icons-material/Send'
-import CancelIcon from '@mui/icons-material/Cancel'
-import UpdateIcon from '@mui/icons-material/Update'
 import CreateCategory from './CreateCategory'
-import { amber } from '@mui/material/colors'
 import ButtonDeleteCategory from './ButtonDeleteCategory'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, CircularProgress } from '@mui/material'
 import { createApi } from '../../../Auth/AuthFunction'
@@ -16,7 +11,7 @@ export default function CRUDCategory() {
 	const pageNumber = searchParams.get('pageNumber') - 1 || 0
 	const [data, setData] = useState(null)
 	const [page, setPage] = useState(pageNumber)
-	const [rowsPerPage, setRowsPerPage] = useState(9)
+	const [rowsPerPage, setRowsPerPage] = useState(10)
 	const [triggerRead, setTriggerRead] = useState(false);
 
 	const handleChangePage = (event, newPage) => {
@@ -49,7 +44,7 @@ export default function CRUDCategory() {
 		Read()
 	}, [triggerRead])
 
-	const tableHead = ['#', 'Name', 'Status', 'Action']
+	const tableHead = ['Name', 'Status', 'Action']
 	return (
 		<>
 			{data ? (
@@ -75,7 +70,6 @@ export default function CRUDCategory() {
 										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map((data, index) => (
 											<TableRow key={data.id}>
-												<TableCell>{index + 1 + page * rowsPerPage}</TableCell>
 												<TableCell style={{
 													maxWidth: '11vw',
 													minWidth: '11vw'
@@ -98,7 +92,7 @@ export default function CRUDCategory() {
 						</Table>
 					</TableContainer>
 					<TablePagination
-						rowsPerPageOptions={[9]}
+						rowsPerPageOptions={[10, 20, 30]}
 						component="div"
 						count={Array.isArray(data) && (data.length)}
 						rowsPerPage={rowsPerPage}

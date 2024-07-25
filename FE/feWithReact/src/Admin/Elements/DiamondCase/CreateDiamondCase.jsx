@@ -77,7 +77,7 @@ export default function CreateDiamondCase(props) {
 					boxShadow: 24,
 					p: 4,
 					overflow: 'auto',
-					width: '50%'
+					width: '30%'
 				}}>
 					<h3 className='titleOfForm'>CREATE DIAMOND CASE</h3>
 

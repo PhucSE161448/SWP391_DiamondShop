@@ -13,6 +13,9 @@ export default function AdminNav() {
 			if (role === '5') {
 				navigate('/')
 			}
+			if (role === '3' || role === '4') {
+				navigate('/admin/order')
+			}
 		}, [role]);
 
 		if (role >= '1' && role <= '4') {

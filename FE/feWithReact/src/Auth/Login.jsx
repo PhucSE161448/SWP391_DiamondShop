@@ -51,7 +51,6 @@ export default function Login() {
           return response.json()
         })
         .then(responseJson => {
-          console.log(responseJson)
           localStorage.setItem('token', responseJson.accessToken)
           const decodedToken = jwtDecode(responseJson.accessToken)
           localStorage.setItem('role', decodedToken.Role)
@@ -117,7 +116,7 @@ export default function Login() {
   }
 
   const validationSchema = Yup.object({
-    email: Yup.string().required('Required'),
+    email: Yup.string().required('Required').email('Invalid email format'),
     password: Yup.string().required('Required'),
   })
 

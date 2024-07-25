@@ -1,23 +1,19 @@
 import { Box, Grid, Container } from '@mui/material'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
 import React, { useEffect, useState, useCallback } from 'react'
 import {
-  Stack, Pagination, CardMedia, FormControl, InputLabel,
-  Select, MenuItem, Slider, Button, TextField
+  Stack, Pagination, Table, FormControl, InputLabel,
+  Select, MenuItem, Slider, TableHead, TextField, TableContainer, TableRow, TableCell, TableBody
 } from '@mui/material'
-import { debounce, set } from 'lodash';
 import { Link } from 'react-router-dom'
 import { createApi } from '../../Auth/AuthFunction'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
-export default function GetPageDiamond() {
+export default function GetPageDiamondPrice() {
   const token = localStorage.getItem('token')
   const [searchParams] = useSearchParams()
   const [PageNumber, setPageNumber] = useState(searchParams.get('pageNumber'))
   const [nameDiamond, setNameDiamond] = useState(searchParams.get('name'))
-  const [PageSize, setPageSize] = useState(12)
+  const [PageSize, setPageSize] = useState(24)
   const [StartPrice, setStartPrice] = useState(null)
   const [EndPrice, setEndPrice] = useState(null)
   const [Price, setPrice] = useState(null)
@@ -34,11 +30,13 @@ export default function GetPageDiamond() {
   const [valueCut, setValueCut] = useState([0, dataCut.length - 1])
   const navigate = useNavigate()
   const [order, setOrder] = useState({ OrderByDesc: searchParams.get('OrderBy'), SortBy: '' })
-
+  const rowsHeader = ["Origin", "Color", "Carat Weight",
+    "Clarity", "Cut", "Price", "Quantity",
+  ]
   const handleChangeNameDiamond = (value) => {
     setData(null)
     setNameDiamond(value)
-    navigate(`/diamondPage?pageNumber=1&OrderBy=${order.OrderByDesc}&name=${value}`)
+    navigate(`/diamondPrice?pageNumber=1&OrderBy=${order.OrderByDesc}&name=${value}`)
     setTriggerRead(prev => !prev)
   }
 
@@ -56,30 +54,13 @@ export default function GetPageDiamond() {
 
   const handleChangeOrder = (value, type) => {
     setData(null)
-    navigate(`/diamondPage?pageNumber=1&OrderBy=${value}&name=${nameDiamond}`)
+    navigate(`/diamondPrice?pageNumber=1&OrderBy=${value}&name=${nameDiamond}`)
     if (value === null) {
       setOrder({ OrderByDesc: null, SortBy: '' })
     } else {
       setOrder({ OrderByDesc: value, SortBy: type })
       setTriggerRead(prev => !prev)
     }
-  }
-
-  const addToCart = async (data) => {
-    const body = {
-      id: data.id,
-      quantity: 1,
-      totalPrice: data.price
-    }
-    const url = createApi('Cart/Create?check=false')
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify(body),
-    })
   }
 
   const handleChangeColor = debounce((newValue) => {
@@ -104,7 +85,7 @@ export default function GetPageDiamond() {
   }, 500)
 
   const handlePageChange = (event, value) => {
-    navigate(`/diamondPage?pageNumber=${value}&OrderBy=${order.OrderByDesc}`)
+    navigate(`/diamondPrice?pageNumber=${value}&OrderBy=${order.OrderByDesc}`)
     setPageNumber(value)
     setTriggerRead(prev => !prev)
   }
@@ -431,82 +412,45 @@ export default function GetPageDiamond() {
         marginTop: '30px',
       }}>
         <Box sx={{
+          width: '100%',
+          border: '1px solid #000',
         }}>
-          <Grid container columnSpacing={9} rowSpacing={6} sx={{ width: '80vw' }} columns={{ xs: 12, sm: 8, md: 12 }}>
-            {data ? data.map((item, index) =>
-              item.isDeleted ? null : (
-                <Grid item xs={12} sm={4} md={3} key={index} sx={{
-                  width: '15vw',
-                }} >
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow style={{
+                  backgroundColor: '#001529',
 
-                  <Card sx={{
-                    height: '100%',
-                    '&:hover': {
-                      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
-                      cursor: 'pointer',
-                      transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out',
-                      '&:hover': {
-                        boxShadow: '0 0 10px 5px rgba(0, 0, 0, 0.8)',
-                      }
-                    }
-                  }}>
-                    <Link
-                      to={`/diamond/detail/${item.id}`}
-                      style={{
-                        textDecoration: 'none',
-                        color: 'black',
-                        height: '100%',
-                      }}
-                    >
-                      <CardContent sx={{
-                        height: '85%',
-                      }}>
-                        {item.images && item.images[0] && item.images[0].urlPath ? (
-                          <>
-                            <CardMedia
-                              component="img"
-                              image={item.images[0].urlPath}
-                              alt="Paella dish"
-                              sx={{
-                                width: '100%',
-                                borderRadius: '20px',
-                                height: 'auto',
-                                objectFit: 'cover'
-                              }}
-                            />
-                          </>
-
-                        ) : null}
-                        <p style={{
-                          textAlign: 'center',
-                          fontSize: '20px',
-                        }}>
-                          {item.name}
-                        </p>
-                        <p
-                          style={{
-                            textAlign: 'center',
-                            fontSize: '20px',
-                          }}>
-                          Price: {item.price.toLocaleString()}$
-                        </p>
-                      </CardContent>
-                    </Link>
-                  </Card>
-                </Grid>
-              )
-            ) : (
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '50vh',
-                width: '100%',
-              }}>
-                <CircularProgress />
-              </div>
-            )}
-          </Grid>
+                  fontWeight: 'bold'
+                }}>
+                  {rowsHeader.map((item, index) => (
+                    <TableCell sx={{
+                      fontWeight: 'bold',
+                      color: 'white',
+                      fontSize: '20px'
+                    }} key={index}>{item}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data && data.map((item, index) =>
+                  item.isDeleted === false && (
+                    <>
+                      <TableRow key={index}>
+                        <TableCell>{item.origin}</TableCell>
+                        <TableCell>{item.color}</TableCell>
+                        <TableCell>{item.caratWeight}</TableCell>
+                        <TableCell>{item.clarity}</TableCell>
+                        <TableCell>{item.cut}</TableCell>
+                        <TableCell>{item.price.toLocaleString()}$</TableCell>
+                        <TableCell>{item.quantity}</TableCell>
+                      </TableRow>
+                    </>
+                  ))
+                }
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Box>
       </Container><br />
       <Stack sx={{

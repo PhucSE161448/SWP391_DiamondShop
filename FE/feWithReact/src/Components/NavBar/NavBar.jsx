@@ -60,7 +60,7 @@ export default function Navbar() {
 	}
 
 	const paddingStyle = {
-		padding: 0,
+		padding: 5,
 		width: '100%',
 		height: '100%',
 		backgroundColor: '#001529',
@@ -129,6 +129,9 @@ export default function Navbar() {
 					<Button onClick={goToHome} sx={buttonStyle}>Home</Button>
 				</Menu.Item>
 				<Menu.Item style={paddingStyle}>
+					<Button onClick={() => navigate('/diamondPrice?pageNumber=1&OrderBy=false&name=')} sx={buttonStyle}>Diamond price</Button>
+				</Menu.Item>
+				<Menu.Item style={paddingStyle}>
 					<Button onClick={() => navigate('/diamondPage?pageNumber=1&OrderBy=false&name=')} sx={buttonStyle}>Diamond</Button>
 				</Menu.Item>
 				<Menu.SubMenu key='productMenu'
@@ -153,7 +156,7 @@ export default function Navbar() {
 				</Menu.SubMenu>
 				<Menu.Item style={paddingStyle}>
 					<Button onClick={() => navigate('/cart')} sx={buttonStyle}>
-						<ShoppingCartIcon sx={{ fontSize: '30px' }}></ShoppingCartIcon>
+						<ShoppingCartIcon sx={{ fontSize: '25px' }}></ShoppingCartIcon>
 					</Button>
 				</Menu.Item>
 				{token ? (
@@ -183,8 +186,10 @@ export default function Navbar() {
 
 						<Menu.Item key="logout" style={paddingStyle}>
 							<Button onClick={Logout} sx={{
-								color: '#fff',
 								width: '-webkit-fill-available',
+								borderRadius: '50px',
+								height: '100%',
+								color: '#fff',
 							}} color='error' variant="contained">Log out</Button>
 						</Menu.Item>
 					</>

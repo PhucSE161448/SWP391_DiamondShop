@@ -88,7 +88,7 @@ export default function ShowDetails(props) {
               <div className='col-6'>
                 {productDetails?.productSizes?.length > 0 ? (
                   productDetails.productSizes.map(size => (
-                    <p key={size.id}>Size: {size.size}, Price: ${size.price}</p>
+                    <p key={size.id}>Size: {size.size}, Price: ${size.price}, Quantity: {size.quantity}</p>
                   ))
                 ) : (
                   <p>No sizes available.</p>

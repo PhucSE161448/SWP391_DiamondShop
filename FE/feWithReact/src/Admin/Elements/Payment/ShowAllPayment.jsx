@@ -10,7 +10,7 @@ export default function ShowAllPayment() {
   const [dataType, setDataType] = useState(null)
   const [triggerRead, setTriggerRead] = useState(false)
 
-  const dataRow = ['#', 'Name', 'Status', 'Action']
+  const dataRow = ['Name', 'Status', 'Action']
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -64,7 +64,6 @@ export default function ShowAllPayment() {
                 {
                   Array.isArray(dataType) && dataType.map((data, index) => (
                     <TableRow key={data.id}>
-                      <TableCell>{index + 1}</TableCell>
                       <TableCell>{data.name}</TableCell>
                       <TableCell>
                         <ButtonDeletePayment id={data.id} isDeleted={data.isDeleted} onDeletePayment={() => setTriggerRead(prev => !prev)} />
