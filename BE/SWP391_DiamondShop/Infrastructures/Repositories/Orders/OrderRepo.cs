@@ -67,7 +67,6 @@ namespace Infrastructures.Repositories.Orders
                 .Include(op => op.OrderStatuses)
                 .Include(x => x.Account)
                 .Include(x => x.Payment)
-                .OrderBy(o => o.Id) 
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
