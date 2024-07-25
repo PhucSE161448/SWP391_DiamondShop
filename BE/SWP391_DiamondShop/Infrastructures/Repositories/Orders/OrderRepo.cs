@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using Application.Commons;
 using Application.Interfaces;
 using Application.IRepositories.Orders;
+using Application.Ultils;
 using Application.ViewModels.Orders;
 using Domain.Enums;
 using Domain.Model;
 using Google.Apis.Storage.v1.Data;
+using MailKit.Search;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 namespace Infrastructures.Repositories.Orders
@@ -36,18 +38,18 @@ namespace Infrastructures.Repositories.Orders
 
             if (_currentRole == (int)Domain.Enums.Roles.SalesStaff)
             {
-                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                                               .Select(s => s.Status).FirstOrDefault() == StatusOrder.WaitToApprove ||
-                                          x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                          x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                                               .Select(s => s.Status).FirstOrDefault() == StatusOrder.Approved);
             }
             else if (_currentRole == (int)Domain.Enums.Roles.DeliveryStaff)
             {
-                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                                               .Select(s => s.Status).FirstOrDefault() == StatusOrder.Paid ||
-                                         x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                         x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                                              .Select(s => s.Status).FirstOrDefault() == StatusOrder.InTransit ||
-                                          x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                                          x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                                               .Select(s => s.Status).FirstOrDefault() == StatusOrder.Finished);
             }
             else if (_currentRole != (int)Domain.Enums.Roles.Admin)
@@ -56,7 +58,7 @@ namespace Infrastructures.Repositories.Orders
             }
             if (!string.IsNullOrEmpty(status))
             {
-                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate)
+                query = query.Where(x => x.OrderStatuses.OrderByDescending(s => s.CreatedDate).ThenByDescending(p => p.Id)
                     .Select(s => s.Status).FirstOrDefault() == status);
             }
             int totalItemsCount = await query.CountAsync();
@@ -65,7 +67,6 @@ namespace Infrastructures.Repositories.Orders
                 .Include(op => op.OrderStatuses)
                 .Include(x => x.Account)
                 .Include(x => x.Payment)
-                .OrderBy(o => o.Id) 
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -144,6 +145,7 @@ namespace Infrastructures.Repositories.Orders
                     Address = createCartDto.Address,
                     Phone = createCartDto.Phone
                 };
+
                 await _dbContext.Orders.AddAsync(order);
                 return order;
             }
@@ -277,6 +279,40 @@ namespace Infrastructures.Repositories.Orders
             }).ToList();
 
             return orderDTOs;
+        }
+
+        public async Task<QuantityResult> CheckQuantity(List<int> cartId)
+        {
+            var result = new QuantityResult();
+
+            var carts = await _dbContext.Carts
+                .Include(c => c.Diamond)
+                .Include(c => c.Product)
+                .ThenInclude(p => p.ProductSizes)
+                .Where(c => cartId.Contains(c.CartId))
+                .ToListAsync();
+
+            foreach (var cart in carts)
+            {
+                if (cart.DiamondId.HasValue)
+                {
+                    if (cart.Quantity > cart.Diamond.Quantity)
+                    {
+                        result.ErrorMessages.Add($"Diamond '{cart.Diamond.Name}' exceeds available quantity.");
+                    }
+                }
+                else if (cart.ProductId.HasValue)
+                {
+                    var productSize = await _dbContext.ProductSizes
+                        .FirstOrDefaultAsync(ps => ps.ProductId == cart.ProductId && ps.Size == cart.Size);
+
+                    if (productSize != null && cart.Quantity > productSize.Quantity)
+                    {
+                        result.ErrorMessages.Add($"Product '{cart.Product.Name}' exceeds available quantity in ProductSize.");
+                    }
+                }
+            }
+            return result;
         }
     }
 }

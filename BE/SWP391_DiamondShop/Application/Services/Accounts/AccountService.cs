@@ -10,6 +10,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Commons;
 using Mapster;
 
 namespace Application.Services.Accounts
@@ -65,24 +66,23 @@ namespace Application.Services.Accounts
             return account.Adapt<AccountDTO>();
         }
 
-        
-
-
-        public async Task DeleteUserAsync(int id)
+        public async Task<Pagination<AccountDTO>> GetPageAccounts(QueryAccountDTO queryAccountDto)
         {
+            return (await _unitOfWork.AccountRepo.GetPagedAccount(queryAccountDto)).Adapt<Pagination<AccountDTO>>();
+        }
 
-            var exist = await _unitOfWork.AccountRepo.GetByIdAsync(id);
-            if (exist == null)
+        public async Task DeleteOrEnable(int accountId, bool isDeleted)
+        {
+            var account = await _unitOfWork.AccountRepo.GetAsync(d => d.Id == accountId);
+            if (account is null)
             {
                 throw new NotFoundException("Account is not existed");
             }
-            if (exist.IsDeleted)
-            {
-                throw new BadRequestException("Account is already deleted");
-            }
-            _unitOfWork.AccountRepo.SoftRemove(exist);
+            account.IsDeleted = isDeleted;
             await _unitOfWork.SaveChangeAsync();
         }
+
+        
 
         public async Task<IEnumerable<AccountDTO>> GetUserAsync()
         {

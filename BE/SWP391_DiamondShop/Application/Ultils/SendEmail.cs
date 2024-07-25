@@ -84,7 +84,7 @@ namespace Application.Ultils
                     <body>
                         <div class='content'>
                             <div class='header'>Welcome to Our Diamond Shop!</div>
-                            <p>Please click the button below to confirm your email and start exploring delicious recipes:</p>
+                            <p>Please click the button below to confirm your email and start exploring our product</p>
                             <a class='button' href='"
                 + confirmationLink
                 + @"'>Confirm Email</a>

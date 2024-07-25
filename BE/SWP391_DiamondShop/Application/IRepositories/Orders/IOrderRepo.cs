@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Commons;
+using Application.Ultils;
 using Application.ViewModels.Orders;
 using Domain.Model;
 
@@ -18,5 +19,6 @@ namespace Application.IRepositories.Orders
         Task<bool> CreateOrderCartAsync(List<int> cartId, int orderId);
         Task<bool> CreateOrderStatusAsync(int orderId, string status, int accountId = 0,int paymentId = 0);
         Task<List<OrderDTO>> GetAllOrderAsync();
+        Task<QuantityResult> CheckQuantity(List<int> cartId);
     }
 }

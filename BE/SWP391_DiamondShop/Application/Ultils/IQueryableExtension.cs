@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.ViewModels.Accounts;
 
 namespace Application.Ultils
 {
@@ -82,6 +83,28 @@ namespace Application.Ultils
             {
                 query = query.Where(p => cuts.Contains(p.Cut.ToLower()));
             }
+            return query;
+        }
+
+        public static IQueryable<Account> ApplyAccountFilter(this IQueryable<Account> query,
+            QueryAccountDTO queryAccountDto)
+        {
+            var roleId = queryAccountDto.RoleId;
+            var name = queryAccountDto.Name;
+            var email = queryAccountDto.Email;
+            if (roleId is not null)
+            {
+                query = query.Where(a => a.RoleId == roleId);
+            }
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(a => !string.IsNullOrEmpty(a.Name) && a.Name.ToLower().Contains(name.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(email))
+            {
+                query = query.Where(a => !string.IsNullOrEmpty(a.Email) && a.Email.ToLower().Contains(email.ToLower()));
+            }
+
             return query;
         }
     }

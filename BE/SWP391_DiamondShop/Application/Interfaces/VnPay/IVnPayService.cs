@@ -8,6 +8,7 @@ namespace Application.Interfaces.VnPay
 {
     public interface IVnPayService
     {
-        Task<string> GetPaymentUrl(int orderId);
+        Task<string> GetPaymentUrl(int orderId, int userId, int paymentId);
+        Task<bool> Success(int userId, int orderId, int paymentId, string responseCode);
     }
 }

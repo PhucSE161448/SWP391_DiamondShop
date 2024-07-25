@@ -23,6 +23,7 @@ public class CertificateRepo : GenericRepository<Certificate>, ICertificateRepo
             .Include(o => o.OrderCarts)
             .ThenInclude(oc => oc.Cart)
             .ThenInclude(c => c.Diamond)
+            .ThenInclude(d => d.Certificate)
             .Include(o => o.OrderCarts)
             .ThenInclude(oc => oc.Cart)
             .ThenInclude(c => c.Product)
@@ -35,7 +36,7 @@ public class CertificateRepo : GenericRepository<Certificate>, ICertificateRepo
         {
             return exportCertificate; // Return empty export certificate if order not found
         }
-
+        
         foreach (var orderCart in order.OrderCarts)
         {
             Diamond? diamond = null;
