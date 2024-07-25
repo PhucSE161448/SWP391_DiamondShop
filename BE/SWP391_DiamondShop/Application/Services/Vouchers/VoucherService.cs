@@ -51,6 +51,10 @@ namespace Application.Services.Vouchers
             var getAllVoucher = await _unitOfWork.VoucherRepository.GetAllVoucherAsync();
             foreach(var voucher in getAllVoucher)
             {
+                if(voucher.IsAllProduct == true)
+                {
+                    throw new BadRequestException("Please wait till voucher for all product expired");
+                }
                 if (voucher.IsAllProduct == true && createVoucherDTO.IsAllProduct == true)
                 {
                     throw new BadRequestException("Only one voucher for all product can exist one time");
